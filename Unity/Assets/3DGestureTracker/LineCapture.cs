@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using WinterMute;
+using VRDebugUI;
 
 public class LineCapture : MonoBehaviour {
 
@@ -30,9 +32,17 @@ public class LineCapture : MonoBehaviour {
     bool isDrawing;
 
     float nextRenderTime = 0;
-    float renderRateLimit = 10;
+    float renderRateLimit =30;
 
     TrainingDataFileWriter myDataDump;
+
+    int numInput = 33; // number features
+    int numHidden = 10;
+    int numOutput = 3; // number of classes for Y
+    NeuralNetwork nn;
+
+    // DEBUG
+    string debugString;
 
     // Use this for initialization
     void Start () {
@@ -41,8 +51,13 @@ public class LineCapture : MonoBehaviour {
 
         myDataDump = new TrainingDataFileWriter();
 
+
         rightInput = myAvatar.GetInput( VROptions.Handedness.Right);
         leftInput = myAvatar.GetInput(VROptions.Handedness.Right);
+
+        nn = new NeuralNetwork(numInput, numHidden, numOutput);
+        double[] weights = myDataDump.GetWeights();
+        nn.SetWeights(weights);
 
         isDrawing = false;
 
@@ -57,7 +72,55 @@ public class LineCapture : MonoBehaviour {
         rightLineRenderer = CreateLineRenderer( rightGo, Color.yellow, Color.red);
         leftLineRenderer = CreateLineRenderer( leftGo,Color.cyan, Color.blue);
         currentRenderer = CreateLineRenderer(currentGo, Color.magenta, Color.magenta);
+
+        //buildGallery();
     }
+
+    public void buildGallery()
+    {
+        List<GestureExample> galleryList = myDataDump.getGallery();
+
+        float x = 0;
+        foreach (GestureExample gesture in galleryList)
+        {
+            Vector3 hang = new Vector3(x, 1, x);
+            DrawPortrait(gesture.data, hang);
+            x+=.2f;
+        }
+
+
+    }
+
+    public void DrawPortrait(List<Vector3> capturedLine, Vector3 startCoords)
+    {
+
+        Debug.Log(startCoords);
+        GameObject tmpObj = new GameObject();
+        tmpObj.transform.SetParent(transform);
+        tmpObj.transform.position = startCoords;
+
+        List<Vector3> tmpArray = new List<Vector3>();
+        foreach(Vector3 currentPoint in capturedLine)
+        {
+            tmpArray.Add(tmpObj.transform.InverseTransformPoint(currentPoint));
+        }
+
+        //renderPool.Add(tmpObj);
+
+        LineRenderer lineRenderer = tmpObj.AddComponent<LineRenderer>();
+        lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
+        lineRenderer.SetColors(Color.red, Color.red);
+        lineRenderer.SetWidth(0.1F, 0.1F);
+        lineRenderer.SetVertexCount(tmpArray.Count);
+        lineRenderer.SetPositions(tmpArray.ToArray());
+
+        
+    }
+
+
+
+
+
 
     LineRenderer CreateLineRenderer(GameObject myGo, Color c1, Color c2)
     {
@@ -74,9 +137,53 @@ public class LineCapture : MonoBehaviour {
         return lineRenderer;
     }
 
+
+    public void TestNeural(List<Vector3> capturedLine)
+    {
+        //Get Weights
+        double[] input = myDataDump.FormatLine(capturedLine); ;
+        double[] output = nn.ComputeOutputs(input);
+
+        //find max index
+        int maxIndex = 0;
+        double maxVal = 0;
+        for(int i =0; i< output.Length; i++)
+        {
+            if(output[i] > maxVal)
+            {
+                maxIndex = i;
+                maxVal = output[i];
+            }
+        }
+
+        if(maxIndex == 0)
+        {
+            debugString = "RAINBOWWWWW : " + output[0] * 100 + "%";
+            Debug.Log(debugString);
+        }
+        else if(maxIndex == 1)
+        {
+            debugString = "LINE! : " + output[1] * 100 + "%";
+            Debug.Log(debugString);
+        }
+        else
+        {
+            Debug.Log("I DONT KNOW");
+        }
+
+    }
+
+
+    public void LineCaught(List<Vector3> capturedLine)
+    {
+        //DrawLine(capturedLine);
+        TestNeural(capturedLine);
+    }
+
     public void DrawLine(List<Vector3> capturedLine)
     {
         myDataDump.writeData(capturedLine);
+        Debug.Log("Captured Line Length: " + capturedLine.Count);
 
         GameObject tmpObj = new GameObject();
         tmpObj.transform.parent = transform;
@@ -97,7 +204,8 @@ public class LineCapture : MonoBehaviour {
         //draw a point.
         if (myAvatar != null)
         {
-            //Debug.Log(rightInput.GetAxis1D(InputOptions.Axis1D.Trigger1));
+            float trigger1 = rightInput.GetAxis1D(InputOptions.Axis1D.Trigger1);
+
             //create a transform that will always rotate with the head but stay perp on the Y.
             Transform currentHeadTransform = myAvatar.headTF;
             perpTransform.position = currentHeadTransform.position;
@@ -115,20 +223,20 @@ public class LineCapture : MonoBehaviour {
                 nextRenderTime = Time.time + renderRateLimit / 1000;
                 CapturePoint(rightHandPoint, rightCapturedLine);
                 CapturePoint(leftHandPoint, leftCapturedLine);
-                if (rightInput.GetAxis1D(InputOptions.Axis1D.Trigger1) >= 0.5)
+                if (trigger1 >= 0.5)
                 {
                     //add check if currentLine is empty
                     Vector3 localizedPoint = getLocalizedPoint(rightHandPoint);
                     currentCapturedLine.Add(localizedPoint);
                     currentRenderer.SetVertexCount(currentCapturedLine.Count);
-                    //currentRenderer.SetPositions(currentCapturedLine.ToArray());
+                    currentRenderer.SetPositions(currentCapturedLine.ToArray());
                 }
             }
   
             //On Release
-            if ((rightInput.GetAxis1D(InputOptions.Axis1D.Trigger1) < 0.5) && (currentCapturedLine.Count > 0))
+            if ((trigger1 < 0.5) && (currentCapturedLine.Count > 0))
             {
-                DrawLine(currentCapturedLine);
+                LineCaught(currentCapturedLine);
                 currentCapturedLine.RemoveRange(0, currentCapturedLine.Count);
             }
 
@@ -136,6 +244,10 @@ public class LineCapture : MonoBehaviour {
             RenderTrail(leftLineRenderer, leftCapturedLine);
 
         }
+
+        // VR DEBUG UI
+        DebugHud.Log(debugString);
+
 
     }
 
