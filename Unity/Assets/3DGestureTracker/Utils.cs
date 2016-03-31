@@ -120,7 +120,6 @@ namespace WinterMute
                 tmpLine.Add(cVector.z);
             }
             return tmpLine.ToArray();
-
         }
 
         public void ReadWeights()

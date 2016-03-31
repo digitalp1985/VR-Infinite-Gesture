@@ -87,6 +87,19 @@ public class GestureExample
 {
     public string name;
     public List<Vector3> data;
+
+    public double[] GetAsArray()
+    {
+        List<double> tmpLine = new List<double>();
+        //gestures.Add(JsonUtility.FromJson<GestureExample>(currentLine));
+        foreach (Vector3 currentPoint in data)
+        {
+            tmpLine.Add(currentPoint.x);
+            tmpLine.Add(currentPoint.y);
+            tmpLine.Add(currentPoint.z);
+        }
+        return tmpLine.ToArray();
+    }
 }
 
 [Serializable]

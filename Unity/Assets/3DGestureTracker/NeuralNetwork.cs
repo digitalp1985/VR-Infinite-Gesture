@@ -40,10 +40,10 @@ namespace WinterMute
 
             this.rnd = new System.Random(0);
             this.InitializeWeights(); // all weights and biases
-        } // ctor
+        }
 
-        private static double[][] MakeMatrix(int rows,
-          int cols, double v) // helper for ctor, Train
+        //Create bias/weights matrices
+        private static double[][] MakeMatrix(int rows, int cols, double v)
         {
             double[][] result = new double[rows][];
             for (int r = 0; r < result.Length; ++r)
@@ -54,22 +54,8 @@ namespace WinterMute
             return result;
         }
 
-        //private static double[][] MakeMatrixRandom(int rows,
-        //  int cols, int seed) // helper for ctor, Train
-        //{
-        //  Random rnd = new Random(seed);
-        //  double hi = 0.01;
-        //  double lo = -0.01;
-        //  double[][] result = new double[rows][];
-        //  for (int r = 0; r < result.Length; ++r)
-        //    result[r] = new double[cols];
-        //  for (int i = 0; i < rows; ++i)
-        //    for (int j = 0; j < cols; ++j)
-        //      result[i][j] = (hi - lo) * rnd.NextDouble() + lo;
-        //  return result;
-        //}
-
-        private void InitializeWeights() // helper for ctor
+        
+        private void InitializeWeights()
         {
             // initialize weights and biases to small random values
             int numWeights = (numInput * numHidden) +
