@@ -8,7 +8,7 @@ public class LineCapture : MonoBehaviour
 {
 
     public Transform vrRigAnchors;
-    Avatar myAvatar;
+    VRAvatar myAvatar;
     IInput rightInput;
     IInput leftInput;
 
@@ -73,7 +73,7 @@ public class LineCapture : MonoBehaviour
 
 
         rightInput = myAvatar.GetInput(VROptions.Handedness.Right);
-        leftInput = myAvatar.GetInput(VROptions.Handedness.Right);
+        leftInput = myAvatar.GetInput(VROptions.Handedness.Left);
 
         nn = new NeuralNetwork(numInput, numHidden, numOutput);
         double[] weights = myDataDump.GetWeights();
