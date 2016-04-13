@@ -20,6 +20,8 @@ public class GestureUIController : MonoBehaviour
     public float buttonHeight = 30f; // the distance between buttons
     [Tooltip("the label that tells people to pick a gesture in the gesture record menu")]
     public CanvasRenderer recordLabel;
+    [Tooltip("the label that tells you what gesture your recording currently")]
+    public Text nowRecordingGestureLabel;
     [Tooltip("the ui text that should be updated with a gesture detect log")]
     public Text detectLog;
 
@@ -84,6 +86,7 @@ public class GestureUIController : MonoBehaviour
     public void BeginRecordGesture(string gestureName)
     {
         Debug.Log("begin record gesture of type " + gestureName);
+        nowRecordingGestureLabel.text = gestureName;
     }
 
     // generate UI elements
