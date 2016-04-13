@@ -10,8 +10,12 @@ public class GestureUIManager : MonoBehaviour
 
 	void Start ()
     {
+        // get vr player hand and camera
         uiHand = PlayerManager.GetPlayerHand(0, handedness);
         uiCam = PlayerManager.GetPlayerCamera(0);
+
+        // initialize panels with main menu focused
+
 	}
 	
 	void Update ()

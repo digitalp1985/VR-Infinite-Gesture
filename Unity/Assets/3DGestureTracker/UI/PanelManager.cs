@@ -11,6 +11,9 @@ public class PanelManager : MonoBehaviour
     void OnEnable ()
     {
         panelAnim = GetComponent<Animator>();
+
+        // initialize with main menu focused
+        FocusPanel("Main Menu");
     }
 
     public void FocusPanel (string panelName)
