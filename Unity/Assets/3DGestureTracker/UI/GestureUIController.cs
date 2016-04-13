@@ -18,12 +18,12 @@ public class GestureUIController : MonoBehaviour
     public RectTransform recordMenu; // the top level transform of the recordMenu where we will generate gesture buttons
     public GameObject gestureButtonPrefab;
     public float buttonHeight = 30f; // the distance between buttons
-    [Tooltip ("the label that tells people to pick a gesture in the gesture record menu")]
+    [Tooltip("the label that tells people to pick a gesture in the gesture record menu")]
     public CanvasRenderer recordLabel;
     [Tooltip("the ui text that should be updated with a gesture detect log")]
     public Text detectLog;
 
-	void Start ()
+    void Start()
     {
         // get line capturer
         if (lineCapturer == null)
@@ -55,8 +55,8 @@ public class GestureUIController : MonoBehaviour
         GenerateRecordMenuButtons();
         AdjustRecordLabelPosition();
     }
-	
-	void Update ()
+
+    void Update()
     {
         Vector3 handToCamVector = uiCam.position - uiHand.position;
         transform.position = uiHand.position + (offsetZ * handToCamVector);
@@ -69,16 +69,21 @@ public class GestureUIController : MonoBehaviour
             Debug.Log("please set detect log on GestureUIController");
     }
 
-    // sends events to the gesture system ( LineCapture )
+    // events called by buttons when pressed
 
-    public void BeginRecordMode ()
+    public void BeginRecordMode()
     {
         Debug.Log("begin record mode");
     }
 
-    public void BeginDetectMode ()
+    public void BeginDetectMode()
     {
         Debug.Log("begin detect mode");
+    }
+
+    public void BeginRecordGesture(string gestureName)
+    {
+        Debug.Log("begin record gesture of type " + gestureName);
     }
 
     // generate UI elements
@@ -107,8 +112,10 @@ public class GestureUIController : MonoBehaviour
             // set the button text
             Text buttonText = button.transform.GetComponentInChildren<Text>();
             buttonText.text = gestureList[i];
-            // set the function that the button will call when pressed
-            button.GetComponent<Button>().onClick.AddListener( () => { panelManager.FocusPanel("Recording Menu"); });
+            // set the functions that the button will call when pressed
+            string gestureName = gestureList[i];
+            button.GetComponent<Button>().onClick.AddListener(() => panelManager.FocusPanel("Recording Menu"));
+            button.GetComponent<Button>().onClick.AddListener(() => BeginRecordGesture(gestureName) ); 
         }
     }
 
