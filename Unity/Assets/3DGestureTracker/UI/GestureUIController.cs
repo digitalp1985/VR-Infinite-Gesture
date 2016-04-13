@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GestureUIManager : MonoBehaviour
+public class GestureUIController : MonoBehaviour
 {
     public VROptions.Handedness handedness;
     VRHandBase uiHand;
@@ -13,9 +13,6 @@ public class GestureUIManager : MonoBehaviour
         // get vr player hand and camera
         uiHand = PlayerManager.GetPlayerHand(0, handedness);
         uiCam = PlayerManager.GetPlayerCamera(0);
-
-        // initialize panels with main menu focused
-
 	}
 	
 	void Update ()
@@ -25,4 +22,15 @@ public class GestureUIManager : MonoBehaviour
         transform.rotation = Quaternion.LookRotation(transform.position - uiCam.transform.position);
     }
 
+    // sends events to the gesture system ( LineCapture )
+
+    public void BeginRecordMode ()
+    {
+        Debug.Log("begin record mode");
+    }
+
+    public void BeginDetectMode ()
+    {
+        Debug.Log("begin detect mode");
+    }
 }

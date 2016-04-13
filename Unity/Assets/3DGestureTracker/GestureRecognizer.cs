@@ -2,11 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 
-
 namespace WinterMute
 {
     public class GestureRecognizer
     {
+
+
         List<string> outputs;
         NeuralNetwork neuralNet;
         //save the array of gestures
@@ -40,7 +41,8 @@ namespace WinterMute
                 }
             }
 
-            Debug.Log(outputs[maxIndex]+" : " + outputVector[maxIndex] * 100 + "%");
+            //Debug.Log(outputs[maxIndex]+" : " + outputVector[maxIndex] * 100 + "%");
+
             return outputs[maxIndex];
         }
 

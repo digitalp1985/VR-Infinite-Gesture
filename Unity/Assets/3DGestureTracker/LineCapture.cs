@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using WinterMute;
 using VRDebugUI;
+using UnityEngine.UI;
 
 public class LineCapture : MonoBehaviour
 {
+    public Text detectLog;
 
     public Transform vrRigAnchors;
     VRAvatar myAvatar;
@@ -51,16 +53,12 @@ public class LineCapture : MonoBehaviour
     // DEBUG
     string debugString;
 
-    // Use this for initialization
     void Start()
     {
 
         myAvatar = PlayerManager.GetPlayerAvatar(0);
 
-        DebugMethods.RecordMode += BeginRecord;
-        DebugMethods.DetectMode += BeginDetect;
         recording = "";
-
 
         List<string> gestureList = new List<string>();
         gestureList.Add("rainbow");
@@ -70,7 +68,6 @@ public class LineCapture : MonoBehaviour
         myDataDump = new TrainingDataFileWriter();
         myTrainer = new Trainer(gestureList);
         myRecognizer = new GestureRecognizer(11, gestureList);
-
 
         rightInput = myAvatar.GetInput(VROptions.Handedness.Right);
         leftInput = myAvatar.GetInput(VROptions.Handedness.Left);
@@ -247,8 +244,11 @@ public class LineCapture : MonoBehaviour
         }
 
         // VR DEBUG UI
+        // EDWON VR DEBUG LOG
         DebugHud.Log(debugString);
-
+        // EXAMPLE UI LOG
+        if (detectLog != null)
+            detectLog.text = debugString;
 
     }
 
