@@ -49,6 +49,7 @@ public class ViveControllerInput : BaseInputModule
             Instance = this;
 
             ControllerCamera = new GameObject("Controller UI Camera").AddComponent<Camera>();
+            ControllerCamera.transform.parent = this.transform;
             ControllerCamera.clearFlags = CameraClearFlags.Nothing; //CameraClearFlags.Depth;
             ControllerCamera.cullingMask = 0; // 1 << LayerMask.NameToLayer("UI"); 
             ControllerCamera.nearClipPlane = 0.0001f;
@@ -62,6 +63,7 @@ public class ViveControllerInput : BaseInputModule
             {
                 GameObject cursor = new GameObject("Cursor " + index);
                 Canvas canvas = cursor.AddComponent<Canvas>();
+                //cursor.transform.parent = this.transform;
                 cursor.AddComponent<CanvasRenderer>();
                 cursor.AddComponent<CanvasScaler>();
                 cursor.AddComponent<UIIgnoreRaycast>();
