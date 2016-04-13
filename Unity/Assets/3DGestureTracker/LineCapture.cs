@@ -7,8 +7,6 @@ using UnityEngine.UI;
 
 public class LineCapture : MonoBehaviour
 {
-    public Text detectLog;
-
     public Transform vrRigAnchors;
     VRAvatar myAvatar;
     IInput rightInput;
@@ -51,7 +49,7 @@ public class LineCapture : MonoBehaviour
     GestureRecognizer myRecognizer;
 
     // DEBUG
-    string debugString;
+    public string debugString;
 
     void Start()
     {
@@ -243,12 +241,6 @@ public class LineCapture : MonoBehaviour
 
         }
 
-        // VR DEBUG UI
-        // EDWON VR DEBUG LOG
-        DebugHud.Log(debugString);
-        // EXAMPLE UI LOG
-        if (detectLog != null)
-            detectLog.text = debugString;
 
     }
 

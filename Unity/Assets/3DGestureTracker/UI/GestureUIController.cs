@@ -20,9 +20,15 @@ public class GestureUIController : MonoBehaviour
     public float buttonHeight = 30f; // the distance between buttons
     [Tooltip ("the label that tells people to pick a gesture in the gesture record menu")]
     public CanvasRenderer recordLabel;
+    [Tooltip("the ui text that should be updated with a gesture detect log")]
+    public Text detectLog;
 
 	void Start ()
     {
+        // get line capturer
+        if (lineCapturer == null)
+            lineCapturer = GameObject.FindObjectOfType<LineCapture>();
+
         // get vr player hand and camera
         if (vrUiType == VRUIType.EdwonVR)
         {
@@ -55,6 +61,12 @@ public class GestureUIController : MonoBehaviour
         Vector3 handToCamVector = uiCam.position - uiHand.position;
         transform.position = uiHand.position + (offsetZ * handToCamVector);
         transform.rotation = Quaternion.LookRotation(transform.position - uiCam.position);
+
+        // update detect log
+        if (detectLog != null)
+            detectLog.text = lineCapturer.debugString;
+        else
+            Debug.Log("please set detect log on GestureUIController");
     }
 
     // sends events to the gesture system ( LineCapture )
