@@ -60,10 +60,10 @@ public class LineCapture : MonoBehaviour
 
         recording = "";
 
-        List<string> gestureList = new List<string>();
-        gestureList.Add("rainbow");
-        gestureList.Add("line");
-        gestureList.Add("horz");
+        //List<string> gestureList = new List<string>();
+        //gestureList.Add("rainbow");
+        //gestureList.Add("line");
+        //gestureList.Add("horz");
 
         myDataDump = new TrainingDataFileWriter();
         myTrainer = new Trainer(gestureList);

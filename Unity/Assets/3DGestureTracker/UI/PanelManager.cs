@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 public class PanelManager : MonoBehaviour
 {
-    Animator panelAnim;
+   Animator panelAnim;
 
     void OnEnable ()
     {
@@ -23,6 +23,8 @@ public class PanelManager : MonoBehaviour
         //GameObject selectableButton = FindFirstEnabledSelectable(panel);
         //SetSelected(selectableButton);
     }
+
+
 
     // UTILITY
 
