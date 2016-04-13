@@ -11,6 +11,7 @@ public class ViveControllerInput : BaseInputModule
     [Header(" [Cursor setup]")]
     public Sprite CursorSprite;
     public Material CursorMaterial;
+    public float CursorSize = 50f;
     public float NormalCursorScale = 0.00025f;
 
     [Space(10)]
@@ -68,6 +69,10 @@ public class ViveControllerInput : BaseInputModule
                 cursor.AddComponent<CanvasScaler>();
                 cursor.AddComponent<UIIgnoreRaycast>();
                 cursor.AddComponent<GraphicRaycaster>();
+
+                // set cursor size
+                cursor.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, CursorSize);
+                cursor.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, CursorSize);
 
                 canvas.renderMode = RenderMode.WorldSpace;
                 canvas.sortingOrder = 1000; //set to be on top of everything
