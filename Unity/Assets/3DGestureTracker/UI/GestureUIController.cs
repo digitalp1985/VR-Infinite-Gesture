@@ -5,10 +5,13 @@ using UnityEngine.UI;
 
 public class GestureUIController : MonoBehaviour
 {
+    public enum VRUIType { SteamVR, EdwonVR };
+    public VRUIType vrUiType;
+
     public VROptions.Handedness handedness;
     private PanelManager panelManager;
-    VRHandBase uiHand;
-    Camera uiCam;
+    Transform uiHand;
+    Transform uiCam;
     public float offsetZ;
 
     public LineCapture lineCapturer; // the LineCapture script we want to interact with
@@ -21,8 +24,25 @@ public class GestureUIController : MonoBehaviour
 	void Start ()
     {
         // get vr player hand and camera
-        uiHand = PlayerManager.GetPlayerHand(0, handedness);
-        uiCam = PlayerManager.GetPlayerCamera(0);
+        if (vrUiType == VRUIType.EdwonVR)
+        {
+            uiHand = PlayerManager.GetPlayerHand(0, handedness).transform;
+            uiCam = PlayerManager.GetPlayerCamera(0).transform;
+        }
+        else if (vrUiType == VRUIType.SteamVR)
+        {
+            SteamVR_ControllerManager ControllerManager;
+            ControllerManager = GameObject.FindObjectOfType<SteamVR_ControllerManager>();
+            if (handedness == VROptions.Handedness.Left)
+            {
+                uiHand = ControllerManager.left.GetComponent<SteamVR_TrackedObject>().transform;
+            }
+            else
+            {
+                uiHand = ControllerManager.right.GetComponent<SteamVR_TrackedObject>().transform;
+            }
+            uiCam = GameObject.FindObjectOfType<SteamVR_Camera>().transform;
+        }
 
         panelManager = transform.GetComponentInChildren<PanelManager>();
 
@@ -32,9 +52,9 @@ public class GestureUIController : MonoBehaviour
 	
 	void Update ()
     {
-        Vector3 handToCamVector = uiCam.transform.position - uiHand.transform.position;
-        transform.position = uiHand.transform.position + (offsetZ * handToCamVector);
-        transform.rotation = Quaternion.LookRotation(transform.position - uiCam.transform.position);
+        Vector3 handToCamVector = uiCam.position - uiHand.position;
+        transform.position = uiHand.position + (offsetZ * handToCamVector);
+        transform.rotation = Quaternion.LookRotation(transform.position - uiCam.position);
     }
 
     // sends events to the gesture system ( LineCapture )

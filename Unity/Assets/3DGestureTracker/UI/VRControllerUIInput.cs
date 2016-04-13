@@ -4,9 +4,11 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
-public class ViveControllerInput : BaseInputModule
+[RequireComponent (typeof (GestureUIController))]
+public class VRControllerUIInput : BaseInputModule
 {
-    public static ViveControllerInput Instance;
+    private GestureUIController.VRUIType vrUiType;
+    public static VRControllerUIInput Instance;
 
     [Header(" [Cursor setup]")]
     public Sprite CursorSprite;
@@ -38,12 +40,15 @@ public class ViveControllerInput : BaseInputModule
     public Camera ControllerCamera;
 
     private SteamVR_ControllerManager ControllerManager;
-    private SteamVR_TrackedObject[] Controllers;
+    private Transform[] Controllers;
+    private SteamVR_TrackedObject[] SteamVRControllers;
     private SteamVR_Controller.Device[] ControllerDevices;
 
     protected override void Start()
     {
         base.Start();
+
+        vrUiType = GetComponent<GestureUIController>().vrUiType;
 
         if (Initialized == false)
         {
@@ -55,10 +60,20 @@ public class ViveControllerInput : BaseInputModule
             ControllerCamera.cullingMask = 0; // 1 << LayerMask.NameToLayer("UI"); 
             ControllerCamera.nearClipPlane = 0.0001f;
 
-            ControllerManager = GameObject.FindObjectOfType<SteamVR_ControllerManager>();
-            Controllers = new SteamVR_TrackedObject[] { ControllerManager.left.GetComponent<SteamVR_TrackedObject>(), ControllerManager.right.GetComponent<SteamVR_TrackedObject>() };
-            ControllerDevices = new SteamVR_Controller.Device[Controllers.Length];
-            Cursors = new RectTransform[Controllers.Length];
+            if (vrUiType == GestureUIController.VRUIType.SteamVR)
+            {
+                ControllerManager = GameObject.FindObjectOfType<SteamVR_ControllerManager>();
+                Controllers = new Transform[] { ControllerManager.left.GetComponent<SteamVR_TrackedObject>().transform, ControllerManager.right.GetComponent<SteamVR_TrackedObject>().transform };
+                SteamVRControllers = new SteamVR_TrackedObject[] { ControllerManager.left.GetComponent<SteamVR_TrackedObject>(), ControllerManager.right.GetComponent<SteamVR_TrackedObject>() };
+                ControllerDevices = new SteamVR_Controller.Device[Controllers.Length];
+                Cursors = new RectTransform[Controllers.Length];
+            }
+            else if (vrUiType == GestureUIController.VRUIType.EdwonVR)
+            {
+                Controllers = new Transform[] { PlayerManager.GetPlayerHand(0, VROptions.Handedness.Left).transform, PlayerManager.GetPlayerHand(0, VROptions.Handedness.Right).transform };
+                Cursors = new RectTransform[2];
+            }
+
 
             for (int index = 0; index < Cursors.Length; index++)
             {
@@ -202,13 +217,13 @@ public class ViveControllerInput : BaseInputModule
         ControllerCamera.transform.forward = Controllers[index].transform.forward;
     }
 
-    private void InitializeControllers()
+    private void InitializeSteamVRControllers()
     {
-        for (int index = 0; index < Controllers.Length; index++)
+        for (int index = 0; index < SteamVRControllers.Length; index++)
         {
-            if (Controllers[index] != null && Controllers[index].index != SteamVR_TrackedObject.EIndex.None)
+            if (SteamVRControllers[index] != null && SteamVRControllers[index].index != SteamVR_TrackedObject.EIndex.None)
             {
-                ControllerDevices[index] = SteamVR_Controller.Input((int)Controllers[index].index);
+                ControllerDevices[index] = SteamVR_Controller.Input((int)SteamVRControllers[index].index);
             }
             else
             {
@@ -220,7 +235,8 @@ public class ViveControllerInput : BaseInputModule
     // Process is called by UI system to process events
     public override void Process()
     {
-        InitializeControllers();
+        if (vrUiType == GestureUIController.VRUIType.SteamVR)
+            InitializeSteamVRControllers();
 
         GuiHit = false;
         ButtonUsed = false;
@@ -334,11 +350,31 @@ public class ViveControllerInput : BaseInputModule
 
     private bool ButtonDown(int index)
     {
-        return (ControllerDevices[index] != null && ControllerDevices[index].GetPressDown(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger) == true);
+        if (vrUiType == GestureUIController.VRUIType.SteamVR)
+        {
+            return (ControllerDevices[index] != null && ControllerDevices[index].GetPressDown(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger) == true);
+        }
+        else
+        {
+            if (index == 0)
+                return PlayerManager.GetPlayerInput(0, VROptions.Handedness.Left).GetButtonDown(InputOptions.Button.Trigger1);
+            else
+                return PlayerManager.GetPlayerInput(0, VROptions.Handedness.Right).GetButtonDown(InputOptions.Button.Trigger1);
+        }
     }
 
     private bool ButtonUp(int index)
     {
-        return (ControllerDevices[index] != null && ControllerDevices[index].GetPressUp(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger) == true);
+        if (vrUiType == GestureUIController.VRUIType.SteamVR)
+        {
+            return (ControllerDevices[index] != null && ControllerDevices[index].GetPressUp(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger) == true);
+        }
+        else
+        {
+            if (index == 0)
+                return PlayerManager.GetPlayerInput(0, VROptions.Handedness.Left).GetButtonUp(InputOptions.Button.Trigger1);
+            else
+                return PlayerManager.GetPlayerInput(0, VROptions.Handedness.Right).GetButtonUp(InputOptions.Button.Trigger1);
+        }
     }
 }
