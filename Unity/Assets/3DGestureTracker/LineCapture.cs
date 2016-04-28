@@ -48,6 +48,8 @@ public class LineCapture : MonoBehaviour
     Trainer myTrainer;
     GestureRecognizer myRecognizer;
 
+    GestureUIController uiController;
+
     // DEBUG
     public string debugString;
 
@@ -55,6 +57,12 @@ public class LineCapture : MonoBehaviour
     {
 
         myAvatar = PlayerManager.GetPlayerAvatar(0);
+
+        if (uiController == null)
+            uiController = GameObject.FindObjectOfType<GestureUIController>();
+
+        //uiController.BeginDetectMode += BeginDetect;
+        //uiController.BeginRecordMode += BeginRecord;
 
         recording = "";
 
@@ -91,8 +99,22 @@ public class LineCapture : MonoBehaviour
         //buildGallery();
     }
 
+    void OnEnable()
+    {
+        Debug.Log("On Enable inside of LineCapture");
+        EventManager.StartListening("Record", BeginRecord);
+        EventManager.StartListening("Detect", BeginDetect);
+    }
+
+    void OnDisable()
+    {
+        EventManager.StopListening("Record", BeginRecord);
+        EventManager.StopListening("Detect", BeginDetect);
+    }
+
     void BeginRecord(string gesture)
     {
+        Debug.Log("Actually Recording");
         recording = gesture;
     }
 
