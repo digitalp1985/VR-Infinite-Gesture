@@ -10,40 +10,26 @@ public class LineCapture : MonoBehaviour
     public Transform vrRigAnchors;
     VRAvatar myAvatar;
     IInput rightInput;
-    IInput leftInput;
 
     GameObject rightGo;
-    GameObject leftGo;
     GameObject currentGo;
 
-    public LineRenderer rightLineRenderer;
-    public LineRenderer leftLineRenderer;
-    public LineRenderer currentRenderer;
-
-    public int lengthOfLineRenderer = 50;
-    public int lastPos = 0;
-
-    public List<Vector3> rightCapturedLine;
-    public List<Vector3> leftCapturedLine;
-    public List<Vector3> currentCapturedLine;
+    int lengthOfLineRenderer = 50;
+    LineRenderer rightLineRenderer;
+    List<Vector3> rightCapturedLine;
+    LineRenderer currentRenderer;
+    List<Vector3> currentCapturedLine;
 
     public List<string> gestureList;
 
-    public List<GameObject> renderPool;
     Transform perpTransform;
 
-    bool isDrawing;
     string recording;
 
     float nextRenderTime = 0;
     float renderRateLimit = 30;
-
-    TrainingDataFileWriter myDataDump;
-
-    int numInput = 33; // number features
-    int numHidden = 10;
-    int numOutput = 3; // number of classes for Y
-    NeuralNetwork nn;
+    float nextTestTime = 0;
+    float testRateLimit = 500;
 
     Trainer myTrainer;
     GestureRecognizer myRecognizer;
@@ -53,46 +39,48 @@ public class LineCapture : MonoBehaviour
 
     void Start()
     {
-
         myAvatar = PlayerManager.GetPlayerAvatar(0);
-
         recording = "";
 
-        //List<string> gestureList = new List<string>();
-        //gestureList.Add("rainbow");
-        //gestureList.Add("line");
-        //gestureList.Add("horz");
+        //create a new Trainer
+        myTrainer = new Trainer(gestureList, "puni");
 
-        myDataDump = new TrainingDataFileWriter();
-        myTrainer = new Trainer(gestureList);
-        myRecognizer = new GestureRecognizer(11, gestureList);
+        //Train different gestures.
+        //Save it.
+
+        myRecognizer = new GestureRecognizer("puni");
 
         rightInput = myAvatar.GetInput(VROptions.Handedness.Right);
-        leftInput = myAvatar.GetInput(VROptions.Handedness.Left);
-
-        nn = new NeuralNetwork(numInput, numHidden, numOutput);
-        double[] weights = myDataDump.GetWeights();
-        nn.SetWeights(weights);
-
-        isDrawing = false;
-
-        renderPool = new List<GameObject>();
 
         rightCapturedLine = new List<Vector3>();
-        leftCapturedLine = new List<Vector3>();
+        currentCapturedLine = new List<Vector3>();
 
         perpTransform = new GameObject("Perpindicular Head").transform;
         perpTransform.parent = this.transform;
 
         rightLineRenderer = CreateLineRenderer(rightGo, Color.yellow, Color.red);
-        leftLineRenderer = CreateLineRenderer(leftGo, Color.cyan, Color.blue);
         currentRenderer = CreateLineRenderer(currentGo, Color.magenta, Color.magenta);
+    }
 
-        //buildGallery();
+    //IMPORTANT SET UP LISTENERS FOR UI
+    void OnEnable()
+    {
+        Debug.Log("On Enable inside of LineCapture");
+        EventManager.StartListening("Record", BeginRecord);
+        EventManager.StartListening("Detect", BeginDetect);
+        //load a trainor
+        //load a recognizer
+    }
+
+    void OnDisable()
+    {
+        EventManager.StopListening("Record", BeginRecord);
+        EventManager.StopListening("Detect", BeginDetect);
     }
 
     void BeginRecord(string gesture)
     {
+        Debug.Log("Actually Recording");
         recording = gesture;
     }
 
@@ -101,42 +89,8 @@ public class LineCapture : MonoBehaviour
         recording = "";
     }
 
-    public void buildGallery()
-    {
-        List<GestureExample> galleryList = myDataDump.getGallery();
 
-        float x = 0;
-        foreach (GestureExample gesture in galleryList)
-        {
-            Vector3 hang = new Vector3(x, 1, x);
-            DrawPortrait(gesture.data, hang);
-            x += .2f;
-        }
-    }
 
-    public void DrawPortrait(List<Vector3> capturedLine, Vector3 startCoords)
-    {
-        Debug.Log(startCoords);
-        GameObject tmpObj = new GameObject();
-        tmpObj.transform.SetParent(transform);
-        tmpObj.transform.position = startCoords;
-
-        List<Vector3> tmpArray = new List<Vector3>();
-        foreach (Vector3 currentPoint in capturedLine)
-        {
-            tmpArray.Add(tmpObj.transform.InverseTransformPoint(currentPoint));
-        }
-
-        //renderPool.Add(tmpObj);
-
-        LineRenderer lineRenderer = tmpObj.AddComponent<LineRenderer>();
-        lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
-        lineRenderer.SetColors(Color.red, Color.red);
-        lineRenderer.SetWidth(0.1F, 0.1F);
-        lineRenderer.SetVertexCount(tmpArray.Count);
-        lineRenderer.SetPositions(tmpArray.ToArray());
-
-    }
 
     LineRenderer CreateLineRenderer(GameObject myGo, Color c1, Color c2)
     {
@@ -153,21 +107,8 @@ public class LineCapture : MonoBehaviour
         return lineRenderer;
     }
 
-
-    public void TestNeural(List<Vector3> capturedLine)
-    {
-        //Get Weights
-        double[] input = Utils.Instance.FormatLine(capturedLine); ;
-        double[] output = nn.ComputeOutputs(input);
-
-        string gesture = myRecognizer.GetGestureFromVector(output);
-        debugString = gesture;
-    }
-
-
     public void LineCaught(List<Vector3> capturedLine)
     {
-        //DrawLine(capturedLine);
         if (recording != "")
         {
             TrainLine(recording, capturedLine);
@@ -184,20 +125,14 @@ public class LineCapture : MonoBehaviour
         debugString = "trained : " + gesture;
     }
 
-    public void DrawLine(List<Vector3> capturedLine)
+    public void TestNeural(List<Vector3> capturedLine)
     {
-        GameObject tmpObj = new GameObject();
-        tmpObj.transform.parent = transform;
-        tmpObj.transform.localPosition = Vector3.zero;
-        renderPool.Add(tmpObj);
-
-        LineRenderer lineRenderer = tmpObj.AddComponent<LineRenderer>();
-        lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
-        lineRenderer.SetColors(Color.red, Color.red);
-        lineRenderer.SetWidth(0.01F, 0.05F);
-        lineRenderer.SetVertexCount(capturedLine.Count);
-        lineRenderer.SetPositions(capturedLine.ToArray());
+        double[] input = Utils.Instance.FormatLine(capturedLine);
+        string gesture = myRecognizer.GetGesture(input);
+        debugString = gesture;
     }
+
+
 
     // Update is called once per frame
     void Update()
@@ -206,44 +141,77 @@ public class LineCapture : MonoBehaviour
         //draw a point.
         if (myAvatar != null)
         {
-            float trigger1 = rightInput.GetAxis1D(InputOptions.Axis1D.Trigger1);
-
-            //create a transform that will always rotate with the head but stay perp on the Y.
-            UpdatePerpTransform();
-
-            if (Time.time > nextRenderTime)
-            {
-                Vector3 rightHandPoint = myAvatar.vrRigAnchors.rHandAnchor.position;
-                Vector3 leftHandPoint = myAvatar.vrRigAnchors.lHandAnchor.position;
-
-                nextRenderTime = Time.time + renderRateLimit / 1000;
-                CapturePoint(rightHandPoint, rightCapturedLine);
-                CapturePoint(leftHandPoint, leftCapturedLine);
-                if (trigger1 >= 0.5)
-                {
-                    //add check if currentLine is empty
-                    Vector3 localizedPoint = getLocalizedPoint(rightHandPoint);
-                    currentCapturedLine.Add(localizedPoint);
-                    currentRenderer.SetVertexCount(currentCapturedLine.Count);
-                    currentRenderer.SetPositions(currentCapturedLine.ToArray());
-                }
-            }
-
-            //On Release
-            if ((trigger1 < 0.5) && (currentCapturedLine.Count > 0))
-            {
-                LineCaught(currentCapturedLine);
-                currentCapturedLine.RemoveRange(0, currentCapturedLine.Count);
-            }
-
-            RenderTrail(rightLineRenderer, rightCapturedLine);
-            RenderTrail(leftLineRenderer, leftCapturedLine);
-
+            ////create a transform that will always rotate with the head but stay perp on the Y.
+            //UpdatePerpTransform();
+            ////UpdateWithButtons();
+            //UpdateContinual();
         }
-
-
     }
 
+    void UpdateWithButtons()
+    {
+        float trigger1 = rightInput.GetAxis1D(InputOptions.Axis1D.Trigger1);
+
+        if (Time.time > nextRenderTime)
+        {
+            Vector3 rightHandPoint = myAvatar.vrRigAnchors.rHandAnchor.position;
+            Vector3 leftHandPoint = myAvatar.vrRigAnchors.lHandAnchor.position;
+
+            nextRenderTime = Time.time + renderRateLimit / 1000;
+            CapturePoint(rightHandPoint, rightCapturedLine, lengthOfLineRenderer);
+            if (trigger1 >= 0.5)
+            {
+                //add check if currentLine is empty
+                Vector3 localizedPoint = getLocalizedPoint(rightHandPoint);
+                currentCapturedLine.Add(localizedPoint);
+                currentRenderer.SetVertexCount(currentCapturedLine.Count);
+                currentRenderer.SetPositions(currentCapturedLine.ToArray());
+            }
+        }
+
+        //On Release
+        if ((trigger1 < 0.5) && (currentCapturedLine.Count > 0))
+        {
+            LineCaught(currentCapturedLine);
+            currentCapturedLine.RemoveRange(0, currentCapturedLine.Count);
+        }
+
+        RenderTrail(rightLineRenderer, rightCapturedLine);
+    }
+
+    void UpdateContinual()
+    {
+        if (Time.time > nextRenderTime)
+        {
+            Vector3 rightHandPoint = myAvatar.vrRigAnchors.rHandAnchor.position;
+
+            nextRenderTime = Time.time + renderRateLimit / 1000;
+            CapturePoint(rightHandPoint, rightCapturedLine, lengthOfLineRenderer);
+
+            //IF currentCapturedLine is length greater than renderRateLimit v testRateLimit
+            //  30 / 1000 = every 0.03 seconds
+            // 100 / 1000 = every 0.10 seconds this will have only logged 3 points of data.
+            // 500 / 1000 = every 0.5 second this will always have 16 points of data. 
+            int maxLineLength = (int)testRateLimit / (int)renderRateLimit;
+            CapturePoint(getLocalizedPoint(rightHandPoint), currentCapturedLine, maxLineLength);
+        }
+        RenderTrail(rightLineRenderer, rightCapturedLine);
+
+        //On Release
+        //@TODO: fix this magic number 14.
+        if (Time.time > nextTestTime && currentCapturedLine.Count > 14)
+        {
+            nextTestTime = Time.time + testRateLimit / 1000;
+            LineCaught(currentCapturedLine);
+            currentRenderer.SetVertexCount(currentCapturedLine.Count);
+            currentRenderer.SetPositions(currentCapturedLine.ToArray());
+        }
+
+        
+    }
+
+
+    //This is important
     public void UpdatePerpTransform()
     {
         Transform currentHeadTransform = myAvatar.headTF;
@@ -255,20 +223,22 @@ public class LineCapture : MonoBehaviour
         Debug.DrawRay(perpTransform.position, perpTransform.forward, Color.blue);
     }
 
+    //Important
     public Vector3 getLocalizedPoint(Vector3 myDumbPoint)
     {
         return perpTransform.InverseTransformPoint(myDumbPoint);
     }
 
-    public void CapturePoint(Vector3 myVector, List<Vector3> capturedLine)
+    public void CapturePoint(Vector3 myVector, List<Vector3> capturedLine, int maxLineLength)
     {
-        if (capturedLine.Count >= lengthOfLineRenderer)
+        if (capturedLine.Count >= maxLineLength)
         {
             capturedLine.RemoveAt(0);
         }
         capturedLine.Add(myVector);
     }
 
+    //Render Trails
     void RenderTrail(LineRenderer lineRenderer, List<Vector3> capturedLine)
     {
         //LineRenderer lineRenderer = GetComponent<LineRenderer>();

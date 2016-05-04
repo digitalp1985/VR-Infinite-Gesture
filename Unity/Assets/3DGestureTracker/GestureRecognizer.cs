@@ -6,24 +6,28 @@ namespace WinterMute
 {
     public class GestureRecognizer
     {
-
-
         List<string> outputs;
         NeuralNetwork neuralNet;
         //save the array of gestures
-
-        public GestureRecognizer(int gestureLength, List<string> gestureList)
+        //This should always require a name to load.
+        public GestureRecognizer(string filename)
         {
-            int numInputs = gestureLength * 3;
-            outputs = gestureList;
-
-            int numOutputs = outputs.Count;
+            Load(filename);
         }
 
         //Load a SavedRecognizer from a file
-        public void Load()
+        public void Load(string filename)
         {
+            NeuralNetworkStub stub = Utils.Instance.ReadNeuralNetworkStub(filename);
+            outputs = stub.gestures;
+            neuralNet = new NeuralNetwork(stub.numInput, stub.numHidden, stub.numOutput);
+            neuralNet.SetWeights(stub.weights);
+        }
 
+        public string GetGesture(double[] input)
+        {
+            double[] output = neuralNet.ComputeOutputs(input);
+            return GetGestureFromVector(output);
         }
 
 
@@ -40,9 +44,6 @@ namespace WinterMute
                     maxVal = outputVector[i];
                 }
             }
-
-            //Debug.Log(outputs[maxIndex]+" : " + outputVector[maxIndex] * 100 + "%");
-
             return outputs[maxIndex];
         }
 

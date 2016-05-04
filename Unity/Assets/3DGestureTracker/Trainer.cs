@@ -22,24 +22,16 @@ namespace WinterMute
 
         string filePath = "Assets/3DGestureTracker/TrainingData/";
         string examplesFileName = "trainingExamples.txt";
+        //WriteLines is my initial training file.
 
-        public Trainer(List<string> gestureList)
+        public Trainer(List<string> gestureList, string name)
         {
             numInput = 33;
-            numHidden = 5;
+            numHidden = 10;
             numOutput = 3;
-            recognizerName = "puni";
+            recognizerName = name;
 
             outputs = gestureList;
-
-            //Create a neural Network
-
-            //Write Weights to file//
-            //Save Neural Network  //
-            //Give each Neural Network a name
-
-            //Outputs on a NeuralNetwork should be a list of Strings. This list gets converted to double arrays.
-
         }
 
         //Just Capture Data
@@ -51,17 +43,15 @@ namespace WinterMute
                 capturedLine = Utils.Instance.SubDivideLine(capturedLine);
                 capturedLine = Utils.Instance.DownResLine(capturedLine);
 
-                GestureExample test = new GestureExample();
-                test.name = gestureName;
-                test.data = capturedLine;
+                GestureExample saveMe = new GestureExample();
+                saveMe.name = gestureName;
+                saveMe.data = capturedLine;
                 using (System.IO.StreamWriter file = new System.IO.StreamWriter(filePath + examplesFileName, true))
                 {
-                    //file.WriteLine(dumbString);
-                    file.WriteLine(JsonUtility.ToJson(test));
+                    file.WriteLine(JsonUtility.ToJson(saveMe));
                 }
             }
         }
-
 
         //Then Actually Train
         public void TrainRecognizer()
@@ -82,9 +72,7 @@ namespace WinterMute
             double learnRate = 0.05;
             double momentum = 0.01;
 
-
             //Does this still weight properly if I train A SINGLE example at a time.
-
             double[] weights = neuralNetwork.Train(trainData, maxEpochs, learnRate, momentum);
             SaveNeuralNetwork(weights);
         }
@@ -164,6 +152,7 @@ namespace WinterMute
             stub.numInput = numInput;
             stub.numHidden = numHidden;
             stub.numOutput = numOutput;
+            stub.gestures = outputs;
             stub.weights = weights;
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(filePath + recognizerName+".txt", true))
             {

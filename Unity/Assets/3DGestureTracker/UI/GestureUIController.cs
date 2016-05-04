@@ -76,17 +76,20 @@ public class GestureUIController : MonoBehaviour
     public void BeginRecordMode()
     {
         Debug.Log("begin record mode");
+        //EventManager.TriggerEvent("Record");
     }
 
     public void BeginDetectMode()
     {
         Debug.Log("begin detect mode");
+        EventManager.TriggerEvent("Detect");
     }
 
     public void BeginRecordGesture(string gestureName)
     {
         Debug.Log("begin record gesture of type " + gestureName);
         nowRecordingGestureLabel.text = gestureName;
+        EventManager.TriggerEvent("Record", gestureName);
     }
 
     // generate UI elements

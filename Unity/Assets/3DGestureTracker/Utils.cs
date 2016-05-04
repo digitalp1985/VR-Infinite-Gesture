@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 
 namespace WinterMute
 {
@@ -145,10 +147,58 @@ namespace WinterMute
             //We should save the entire Neural Network, Inputs, hidden layer, outputs.
         }
 
+        public NeuralNetworkStub ReadNeuralNetworkStub(string networkName)
+        {
+            string[] lines = System.IO.File.ReadAllLines(filePath + networkName + ".txt");
+            ////System.IO.File.
+            string inputLine = lines[0];
+
+            NeuralNetworkStub stub = JsonUtility.FromJson<NeuralNetworkStub>(inputLine);
+            return stub;
+        }
+
 
 
     }
 
+}
+
+
+
+[Serializable]
+public class GestureExample
+{
+    public string name;
+    public List<Vector3> data;
+
+    public double[] GetAsArray()
+    {
+        List<double> tmpLine = new List<double>();
+        //gestures.Add(JsonUtility.FromJson<GestureExample>(currentLine));
+        foreach (Vector3 currentPoint in data)
+        {
+            tmpLine.Add(currentPoint.x);
+            tmpLine.Add(currentPoint.y);
+            tmpLine.Add(currentPoint.z);
+        }
+        return tmpLine.ToArray();
+    }
+}
+
+[Serializable]
+public class WeightWrap
+{
+    public double[] data;
+}
+
+[Serializable]
+public class NeuralNetworkStub
+{
+    public int numInput;
+    public int numHidden;
+    public int numOutput;
+    public List<string> gestures;
+    public double[] weights;
 }
 
 
