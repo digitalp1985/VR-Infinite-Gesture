@@ -20,6 +20,7 @@ public class LineCapture : MonoBehaviour
     LineRenderer currentRenderer;
     List<Vector3> currentCapturedLine;
 
+    public List<string> neuralNetList;
     public List<string> gestureList;
 
     Transform perpTransform;

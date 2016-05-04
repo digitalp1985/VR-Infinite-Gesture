@@ -6,14 +6,15 @@ using System.Collections.Generic;
 
 public class PanelManager : MonoBehaviour
 {
-   Animator panelAnim;
+    Animator panelAnim;
+    public string initialPanel;
 
     void OnEnable ()
     {
         panelAnim = GetComponent<Animator>();
 
         // initialize with main menu focused
-        FocusPanel("Main Menu");
+        FocusPanel(initialPanel);
     }
 
     public void FocusPanel (string panelName)
