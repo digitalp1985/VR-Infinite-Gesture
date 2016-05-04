@@ -20,10 +20,14 @@ public class GestureUIController : MonoBehaviour
     public GameObject buttonPrefab;
     [Tooltip("the label that tells people to pick a gesture in the gesture record menu")]
     public CanvasRenderer recordLabel;
+    [Tooltip("the title of the gesture list on the record menu")]
+    public CanvasRenderer gestureListTitle;
     [Tooltip("the label that tells you what gesture your recording currently")]
-    public Text nowRecordingGestureLabel;
+    public Text gestureTitle;
     [Tooltip("the ui text that should be updated with a gesture detect log")]
     public Text detectLog;
+    [Tooltip("the panel of the Select Neural Net Menu")]
+    public RectTransform neuralNetTitle;
 
     // default settings
     private Vector3 buttonRectScale; // new Vector3(0.6666f, 1, 0.2f);
@@ -93,15 +97,20 @@ public class GestureUIController : MonoBehaviour
     public void BeginRecordGesture(string gestureName)
     {
         Debug.Log("begin record gesture of type " + gestureName);
-        nowRecordingGestureLabel.text = gestureName;
+        gestureTitle.text = gestureName;
         EventManager.TriggerEvent("Record", gestureName);
+    }
+
+    public void SelectNeuralNet (string neuralNetName)
+    {
+        Debug.Log("selected neural net " + neuralNetName);
     }
 
     // generate UI elements
 
     void GenerateRecordMenuButtons()
     {
-        int recordMenuButtonHeight = 30;
+        float recordMenuButtonHeight = 30;
 
         List<Button> buttons = GenerateButtonsFromList(lineCapturer.gestureList, recordMenu.transform, buttonPrefab, recordMenuButtonHeight);
 
@@ -113,7 +122,7 @@ public class GestureUIController : MonoBehaviour
             buttons[i].onClick.AddListener(() => BeginRecordGesture(gestureName));
         }
 
-        AdjustRecordLabelPosition(recordMenuButtonHeight);
+        AdjustListTitlePosition(gestureListTitle.transform, buttons.Count, recordMenuButtonHeight);
     }
 
     void GenerateNeuralNetMenuButtons()
@@ -122,10 +131,18 @@ public class GestureUIController : MonoBehaviour
 
         List<Button> buttons = GenerateButtonsFromList(lineCapturer.neuralNetList, selectNeuralNetMenu.transform, buttonPrefab, neuralNetMenuButtonHeight);
 
+        // set the functions that the button will call when pressed
+        for (int i = 0; i < buttons.Count; i++)
+        {
+            string neuralNetName = lineCapturer.gestureList[i];
+            buttons[i].onClick.AddListener(() => panelManager.FocusPanel("Main Menu"));
+            buttons[i].onClick.AddListener(() => SelectNeuralNet(neuralNetName));
+        }
 
+        AdjustListTitlePosition(neuralNetTitle.transform, buttons.Count, neuralNetMenuButtonHeight);
     }
 
-    List<Button> GenerateButtonsFromList (List<string> list, Transform parent, GameObject prefab, int buttonHeight)
+    List<Button> GenerateButtonsFromList (List<string> list, Transform parent, GameObject prefab, float buttonHeight)
     {
         List<Button> buttons = new List<Button>();
         for (int i = 0; i < list.Count; i++)
@@ -154,13 +171,17 @@ public class GestureUIController : MonoBehaviour
         return buttons;
     }
 
-    void AdjustRecordLabelPosition (int buttonHeight)
+    void AdjustListTitlePosition (Transform title, int totalButtons, float buttonHeight)
     {
-        if (recordLabel != null)
+        if (title != null)
         {
-            float totalHeight = lineCapturer.gestureList.Count * buttonHeight;
+            float totalHeight = totalButtons * buttonHeight;
             float y = (totalHeight / 2) + buttonHeight;
-            recordLabel.transform.localPosition = new Vector3(0, y, 0);
+            title.localPosition = new Vector3(0, y, 0);
+        }
+        else
+        {
+            Debug.Log("the title is null, can' adjust position");
         }
     }
 
