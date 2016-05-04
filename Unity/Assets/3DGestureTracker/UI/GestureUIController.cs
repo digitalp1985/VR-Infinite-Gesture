@@ -85,12 +85,6 @@ public class GestureUIController : MonoBehaviour
 
     // events called by buttons when pressed
 
-    public void BeginRecordMode()
-    {
-        Debug.Log("begin record mode");
-        //EventManager.TriggerEvent("Record");
-    }
-
     public void BeginDetectMode()
     {
         Debug.Log("begin detect mode");
