@@ -78,7 +78,11 @@ public class GestureUIController : MonoBehaviour
             detectLog.text = lineCapturer.debugString;
         else
             Debug.Log("please set detect log on GestureUIController");
+
+        UpdateCurrentNeuralNetworkTitle();
+
     }
+
 
     // events called by buttons when pressed
 
@@ -101,9 +105,12 @@ public class GestureUIController : MonoBehaviour
         EventManager.TriggerEvent("Record", gestureName);
     }
 
-    public void SelectNeuralNet (string neuralNetName)
+    public void SelectNeuralNet(string neuralNetName)
     {
-        Debug.Log("selected neural net " + neuralNetName);
+        //Debug.Log("selected neural net " + neuralNetName);
+
+        // set the neural net to use on the line capturer
+        lineCapturer.neuralNetUsing = neuralNetName;
     }
 
     // generate UI elements
@@ -134,7 +141,7 @@ public class GestureUIController : MonoBehaviour
         // set the functions that the button will call when pressed
         for (int i = 0; i < buttons.Count; i++)
         {
-            string neuralNetName = lineCapturer.gestureList[i];
+            string neuralNetName = lineCapturer.neuralNetList[i];
             buttons[i].onClick.AddListener(() => panelManager.FocusPanel("Main Menu"));
             buttons[i].onClick.AddListener(() => SelectNeuralNet(neuralNetName));
         }
@@ -142,7 +149,7 @@ public class GestureUIController : MonoBehaviour
         AdjustListTitlePosition(neuralNetTitle.transform, buttons.Count, neuralNetMenuButtonHeight);
     }
 
-    List<Button> GenerateButtonsFromList (List<string> list, Transform parent, GameObject prefab, float buttonHeight)
+    List<Button> GenerateButtonsFromList(List<string> list, Transform parent, GameObject prefab, float buttonHeight)
     {
         List<Button> buttons = new List<Button>();
         for (int i = 0; i < list.Count; i++)
@@ -171,7 +178,7 @@ public class GestureUIController : MonoBehaviour
         return buttons;
     }
 
-    void AdjustListTitlePosition (Transform title, int totalButtons, float buttonHeight)
+    void AdjustListTitlePosition(Transform title, int totalButtons, float buttonHeight)
     {
         if (title != null)
         {
@@ -181,8 +188,44 @@ public class GestureUIController : MonoBehaviour
         }
         else
         {
-            Debug.Log("the title is null, can' adjust position");
+            //Debug.Log("the title is null, can't adjust position");
         }
     }
 
+    void OnEnable()
+    {
+        PanelManager.OnPanelFocusChanged += PanelFocusChanged;
+    }
+
+    void OnDisable()
+    {
+        PanelManager.OnPanelFocusChanged -= PanelFocusChanged;
+    }
+
+    void PanelFocusChanged (string panelName)
+    {
+        //Debug.Log("panel focus changed to: " + panelName);
+    }
+
+    void UpdateCurrentNeuralNetworkTitle()
+    {
+        // update current neural network name on each currentNeuralNetworkTitle UI thingy
+        if (panelManager == null)
+            return;
+        if (transform.Find("Panels") == null)
+            return;
+        Transform panelsParent = transform.Find("Panels");
+        if (panelsParent.Find(panelManager.currentPanel) == null)
+            return;
+        Transform currentPanelParent = panelsParent.Find(panelManager.currentPanel);
+        if (currentPanelParent == null)
+            return;
+        Transform currentNeuralNetworkTitle = currentPanelParent.FindChild("Current Neural Network");
+        if (currentNeuralNetworkTitle == null)
+            return;
+
+        Debug.Log("updated title");
+        Text title = currentNeuralNetworkTitle.FindChild("neural network name").GetComponent<Text>();
+        title.text = lineCapturer.neuralNetUsing;
+    }
 }

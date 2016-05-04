@@ -20,6 +20,8 @@ public class LineCapture : MonoBehaviour
     LineRenderer currentRenderer;
     List<Vector3> currentCapturedLine;
 
+    [Tooltip ("the neural net that I am using")]
+    public string neuralNetUsing;
     public List<string> neuralNetList;
     public List<string> gestureList;
 

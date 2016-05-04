@@ -8,24 +8,28 @@ public class PanelManager : MonoBehaviour
 {
     Animator panelAnim;
     public string initialPanel;
+    public string currentPanel;
 
-    void OnEnable ()
+    public delegate void PanelFocusChanged(string panelName);
+    public static event PanelFocusChanged OnPanelFocusChanged;
+
+    void Start ()
     {
         panelAnim = GetComponent<Animator>();
-
         // initialize with main menu focused
         FocusPanel(initialPanel);
     }
 
     public void FocusPanel (string panelName)
     {
+        OnPanelFocusChanged(panelName);
         panelAnim.SetTrigger(panelName);
+        currentPanel = panelName;
+
         //GameObject panel = transform.FindChild(panelName).gameObject;
         //GameObject selectableButton = FindFirstEnabledSelectable(panel);
         //SetSelected(selectableButton);
     }
-
-
 
     // UTILITY
 
@@ -52,4 +56,5 @@ public class PanelManager : MonoBehaviour
 
 		EventSystem.current.SetSelectedGameObject(null);
 	}
+
 }
