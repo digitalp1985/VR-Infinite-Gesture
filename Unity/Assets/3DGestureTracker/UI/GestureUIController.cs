@@ -79,10 +79,9 @@ public class GestureUIController : MonoBehaviour
         else
             Debug.Log("please set detect log on GestureUIController");
 
-        UpdateCurrentNeuralNetworkTitle();
+        UpdateCurrentNeuralNetworkText();
 
     }
-
 
     // events called by buttons when pressed
 
@@ -207,25 +206,33 @@ public class GestureUIController : MonoBehaviour
         //Debug.Log("panel focus changed to: " + panelName);
     }
 
-    void UpdateCurrentNeuralNetworkTitle()
+    void UpdateCurrentNeuralNetworkText()
+    {
+        if (GetCurrentNeuralNetworkText() == null)
+            return;
+
+        Text title = GetCurrentNeuralNetworkText();
+        title.text = lineCapturer.neuralNetUsing;
+    }
+
+    Text GetCurrentNeuralNetworkText()
     {
         // update current neural network name on each currentNeuralNetworkTitle UI thingy
         if (panelManager == null)
-            return;
+            return null;
         if (transform.Find("Panels") == null)
-            return;
+            return null;
         Transform panelsParent = transform.Find("Panels");
         if (panelsParent.Find(panelManager.currentPanel) == null)
-            return;
+            return null;
         Transform currentPanelParent = panelsParent.Find(panelManager.currentPanel);
         if (currentPanelParent == null)
-            return;
+            return null;
         Transform currentNeuralNetworkTitle = currentPanelParent.FindChild("Current Neural Network");
         if (currentNeuralNetworkTitle == null)
-            return;
+            return null;
 
-        Debug.Log("updated title");
         Text title = currentNeuralNetworkTitle.FindChild("neural network name").GetComponent<Text>();
-        title.text = lineCapturer.neuralNetUsing;
+        return title;
     }
 }
