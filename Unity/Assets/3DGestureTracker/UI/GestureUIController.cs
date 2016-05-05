@@ -22,6 +22,7 @@ public class GestureUIController : MonoBehaviour
     public CanvasRenderer recordLabel;
     [Tooltip("the title of the gesture list on the record menu")]
     public CanvasRenderer gestureListTitle;
+    public CanvasRenderer newGestureButton;
     [Tooltip("the label that tells you what gesture your recording currently")]
     public Text gestureTitle;
     [Tooltip("the ui text that should be updated with a gesture detect log")]
@@ -123,6 +124,12 @@ public class GestureUIController : MonoBehaviour
         }
 
         AdjustListTitlePosition(gestureListTitle.transform, buttons.Count, recordMenuButtonHeight);
+
+        // adjust new gesture button position
+        float totalHeight = buttons.Count * recordMenuButtonHeight;
+        float y = -(totalHeight / 2);
+        newGestureButton.transform.localPosition = new Vector3(0, y, 0);
+        
     }
 
     void GenerateNeuralNetMenuButtons()
