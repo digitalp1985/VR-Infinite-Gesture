@@ -170,6 +170,7 @@ public class GestureExample
 {
     public string name;
     public List<Vector3> data;
+    public bool trained;
 
     public double[] GetAsArray()
     {

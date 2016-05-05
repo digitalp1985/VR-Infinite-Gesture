@@ -11,6 +11,9 @@ public class LineCapture : MonoBehaviour
     VRAvatar myAvatar;
     IInput rightInput;
 
+    public Transform playerHead;
+    public Transform playerHand;
+
     GameObject rightGo;
     GameObject currentGo;
 
@@ -42,6 +45,9 @@ public class LineCapture : MonoBehaviour
     {
         myAvatar = PlayerManager.GetPlayerAvatar(0);
         recording = "";
+
+        playerHead = myAvatar.headTF;
+        playerHand = myAvatar.vrRigAnchors.rHandAnchor;
 
         //create a new Trainer
         myTrainer = new Trainer(gestureList, "puni");
@@ -85,10 +91,12 @@ public class LineCapture : MonoBehaviour
         recording = gesture;
     }
 
-    void BeginDetect(string gesture)
+    void BeginDetect(string recognizer)
     {
         recording = "";
+        myRecognizer = new GestureRecognizer(recognizer);
     }
+
 
 
 
@@ -155,8 +163,7 @@ public class LineCapture : MonoBehaviour
 
         if (Time.time > nextRenderTime)
         {
-            Vector3 rightHandPoint = myAvatar.vrRigAnchors.rHandAnchor.position;
-            Vector3 leftHandPoint = myAvatar.vrRigAnchors.lHandAnchor.position;
+            Vector3 rightHandPoint = playerHand.position;
 
             nextRenderTime = Time.time + renderRateLimit / 1000;
             CapturePoint(rightHandPoint, rightCapturedLine, lengthOfLineRenderer);
@@ -184,7 +191,7 @@ public class LineCapture : MonoBehaviour
     {
         if (Time.time > nextRenderTime)
         {
-            Vector3 rightHandPoint = myAvatar.vrRigAnchors.rHandAnchor.position;
+            Vector3 rightHandPoint = playerHand.position;
 
             nextRenderTime = Time.time + renderRateLimit / 1000;
             CapturePoint(rightHandPoint, rightCapturedLine, lengthOfLineRenderer);
@@ -211,22 +218,12 @@ public class LineCapture : MonoBehaviour
         
     }
 
-
-    //This is important
-    public void UpdatePerpTransform()
-    {
-        Transform currentHeadTransform = myAvatar.headTF;
-        perpTransform.position = currentHeadTransform.position;
-        perpTransform.rotation = Quaternion.Euler(0, currentHeadTransform.eulerAngles.y, 0);
-
-        Debug.DrawRay(perpTransform.position, perpTransform.up, Color.green);
-        Debug.DrawRay(perpTransform.position, perpTransform.right, Color.red);
-        Debug.DrawRay(perpTransform.position, perpTransform.forward, Color.blue);
-    }
-
     //Important
+    //This will get points in relation to a users head.
     public Vector3 getLocalizedPoint(Vector3 myDumbPoint)
     {
+        perpTransform.position = playerHead.position;
+        perpTransform.rotation = Quaternion.Euler(0, playerHead.eulerAngles.y, 0);
         return perpTransform.InverseTransformPoint(myDumbPoint);
     }
 
@@ -239,7 +236,7 @@ public class LineCapture : MonoBehaviour
         capturedLine.Add(myVector);
     }
 
-    //Render Trails
+    //Render Trails, maybe this is an optional feature of a line capture.
     void RenderTrail(LineRenderer lineRenderer, List<Vector3> capturedLine)
     {
         //LineRenderer lineRenderer = GetComponent<LineRenderer>();
