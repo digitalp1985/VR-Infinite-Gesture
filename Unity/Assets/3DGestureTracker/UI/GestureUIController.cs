@@ -20,6 +20,7 @@ public class GestureUIController : MonoBehaviour
     public GameObject buttonPrefab;
     [Tooltip("the label that tells people to pick a gesture in the gesture record menu")]
     public CanvasRenderer recordLabel;
+    private List<Button> gestureButtons;
     [Tooltip("the title of the gesture list on the record menu")]
     public CanvasRenderer gestureListTitle;
     public CanvasRenderer newGestureButton;
@@ -88,7 +89,7 @@ public class GestureUIController : MonoBehaviour
 
     public void BeginDetectMode()
     {
-        Debug.Log("begin detect mode");
+        //Debug.Log("begin detect mode");
         EventManager.TriggerEvent("Detect");
     }
 
@@ -107,26 +108,47 @@ public class GestureUIController : MonoBehaviour
         lineCapturer.neuralNetUsing = neuralNetName;
     }
 
+    public void CreateNewGesture()
+    {
+        Debug.Log("called create new gesture");
+        string newGestureName = "Gesture " + (lineCapturer.gestureList.Count + 1);
+        lineCapturer.gestureList.Add(newGestureName);
+        GenerateRecordMenuButtons();
+    }
+
     // generate UI elements
 
     void GenerateRecordMenuButtons()
     {
-        float recordMenuButtonHeight = 30;
-
-        List<Button> buttons = GenerateButtonsFromList(lineCapturer.gestureList, recordMenu.transform, buttonPrefab, recordMenuButtonHeight);
-
-        // set the functions that the button will call when pressed
-        for (int i = 0; i < buttons.Count; i++)
+        // first destroy the old gesture buttons if they are there
+        if (gestureButtons != null)
         {
-            string gestureName = lineCapturer.gestureList[i];
-            buttons[i].onClick.AddListener(() => panelManager.FocusPanel("Recording Menu"));
-            buttons[i].onClick.AddListener(() => BeginRecordGesture(gestureName));
+            if (gestureButtons.Count > 0)
+            {
+                foreach (Button button in gestureButtons)
+                {
+                    Destroy(button.gameObject);
+                }
+                gestureButtons.Clear();
+            }
         }
 
-        AdjustListTitlePosition(gestureListTitle.transform, buttons.Count, recordMenuButtonHeight);
+        float recordMenuButtonHeight = 30;
+
+        gestureButtons = GenerateButtonsFromList(lineCapturer.gestureList, recordMenu.transform, buttonPrefab, recordMenuButtonHeight);
+
+        // set the functions that the button will call when pressed
+        for (int i = 0; i < gestureButtons.Count; i++)
+        {
+            string gestureName = lineCapturer.gestureList[i];
+            gestureButtons[i].onClick.AddListener(() => panelManager.FocusPanel("Recording Menu"));
+            gestureButtons[i].onClick.AddListener(() => BeginRecordGesture(gestureName));
+        }
+
+        AdjustListTitlePosition(gestureListTitle.transform, gestureButtons.Count, recordMenuButtonHeight);
 
         // adjust new gesture button position
-        float totalHeight = buttons.Count * recordMenuButtonHeight;
+        float totalHeight = gestureButtons.Count * recordMenuButtonHeight;
         float y = -(totalHeight / 2);
         newGestureButton.transform.localPosition = new Vector3(0, y, 0);
         
@@ -157,7 +179,8 @@ public class GestureUIController : MonoBehaviour
             // instantiate the button
             GameObject button = GameObject.Instantiate(prefab);
             button.transform.parent = parent;
-            button.transform.position = Vector3.zero;
+            button.transform.localPosition = Vector3.zero;
+            button.transform.localRotation = Quaternion.identity;
             RectTransform buttonRect = button.GetComponent<RectTransform>();
             buttonRect.localScale = buttonRectScale;
             button.transform.name = list[i] + " Button";
