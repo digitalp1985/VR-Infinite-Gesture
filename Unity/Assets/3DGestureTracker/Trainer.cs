@@ -34,6 +34,11 @@ namespace WinterMute
             outputs = gestureList;
         }
 
+        public void Load()
+        {
+
+        }
+
         //Just Capture Data
         //Pass in an array for data points.
         public void AddGestureToTrainingExamples(string gestureName, List<Vector3> capturedLine)

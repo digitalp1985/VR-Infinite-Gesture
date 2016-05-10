@@ -14,7 +14,7 @@ public class GestureUIController : MonoBehaviour
     Transform uiCam;
     public float offsetZ;
 
-    public LineCapture lineCapturer; // the LineCapture script we want to interact with
+    public VRGestureManager lineCapturer; // the VRGestureManager script we want to interact with
     public RectTransform recordMenu; // the top level transform of the recordMenu where we will generate gesture buttons
     public RectTransform selectNeuralNetMenu; // the top level transform of the select neural net menu where we will generate buttons
     public GameObject buttonPrefab;
@@ -40,7 +40,7 @@ public class GestureUIController : MonoBehaviour
 
         // get line capturer
         if (lineCapturer == null)
-            lineCapturer = GameObject.FindObjectOfType<LineCapture>();
+            lineCapturer = GameObject.FindObjectOfType<VRGestureManager>();
 
         // get vr player hand and camera
         if (vrUiType == VRUIType.EdwonVR)

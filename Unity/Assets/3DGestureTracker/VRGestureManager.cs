@@ -5,7 +5,7 @@ using WinterMute;
 using VRDebugUI;
 using UnityEngine.UI;
 
-public class LineCapture : MonoBehaviour
+public class VRGestureManager : MonoBehaviour
 {
     public Transform vrRigAnchors;
     VRAvatar myAvatar;
@@ -74,7 +74,7 @@ public class LineCapture : MonoBehaviour
     //IMPORTANT SET UP LISTENERS FOR UI
     void OnEnable()
     {
-        Debug.Log("On Enable inside of LineCapture");
+        Debug.Log("On Enable inside of VRGestureManager");
         EventManager.StartListening("Record", BeginRecord);
         EventManager.StartListening("Detect", BeginDetect);
         //load a trainor
@@ -96,7 +96,13 @@ public class LineCapture : MonoBehaviour
     void BeginDetect(string recognizer)
     {
         recording = "";
-        myRecognizer = new GestureRecognizer(recognizer);
+        myRecognizer = new GestureRecognizer(neuralNetUsing);
+    }
+
+    public void TestMe()
+    {
+
+        Debug.Log("BUTTON CLICKED");
     }
 
 
