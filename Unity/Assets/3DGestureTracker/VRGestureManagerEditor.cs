@@ -239,10 +239,10 @@ public class VRGestureManagerEditor : Editor
 	
 	void ShowTrainButton()
 	{
-		EventType eventType = Event.current.type;
-		if (GUILayout.Button(trainButtonContent, GUILayout.Height(40f)));
+		if (GUILayout.Button(trainButtonContent, GUILayout.Height(40f)))
 		{
-			if (eventType == EventType.mouseDown)
+			EventType eventType = Event.current.type;
+			if (eventType == EventType.used)
 			{
 				vrGestureManager.BeginTraining(OnFinishedTraining);
 			}
@@ -256,7 +256,11 @@ public class VRGestureManagerEditor : Editor
 		GUILayout.Label(trainingInfo, EditorStyles.centeredGreyMiniLabel, GUILayout.Height(50f));
 		if (GUILayout.Button("QUIT TRAINING"))
 		{
-			vrGestureManager.EndTraining(OnQuitTraining);
+			EventType eventType = Event.current.type;
+			if (eventType == EventType.used)
+			{
+				vrGestureManager.EndTraining(OnQuitTraining);
+			}
 		}
 	}
 
