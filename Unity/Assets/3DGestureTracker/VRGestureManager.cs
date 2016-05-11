@@ -25,8 +25,9 @@ public class VRGestureManager : MonoBehaviour
 
     [Tooltip ("the neural net that I am using")]
     public string currentNeuralNet;
+	[SerializeField]
 	public List<string> neuralNets;
-    public List<string> gestures;
+	public List<string> gestures;
 
     Transform perpTransform;
 

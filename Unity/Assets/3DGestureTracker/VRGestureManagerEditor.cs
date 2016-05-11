@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEditor;
 
 [CustomEditor(typeof(VRGestureManager)), CanEditMultipleObjects]
@@ -35,13 +36,52 @@ public class VRGestureManagerEditor : Editor
 		EditorGUILayout.PropertyField(serializedObject.FindProperty("vrRigAnchors"));
 		EditorGUILayout.PropertyField(serializedObject.FindProperty("playerHead"));
 		EditorGUILayout.PropertyField(serializedObject.FindProperty("playerHand"));
+		ShowNeuralNets();
 		ShowList(serializedObject.FindProperty("neuralNets"), EditorListOption.ListLabelButtons);
+		EditorGUILayout.Separator();
 		ShowList(serializedObject.FindProperty("gestures"), EditorListOption.ListLabelButtons);
 
 		EditGesturesButtonUpdate();
 
 		serializedObject.ApplyModifiedProperties();
     }
+
+	int selectedNeuralNetIndex = 0;
+
+	void ShowNeuralNets()
+	{
+		EditorGUILayout.LabelField("Current Neural Network");
+		string[] neuralNetsArray = ConvertStringListPropertyToStringArray("neuralNets");
+		selectedNeuralNetIndex = EditorGUILayout.Popup(selectedNeuralNetIndex, neuralNetsArray); 
+	}
+
+	string[] ConvertStringListPropertyToStringArray (string listName)
+	{
+		SerializedProperty sp = serializedObject.FindProperty(listName).Copy();
+		if (sp.isArray)
+		{
+			int arrayLength = 0;
+			sp.Next(true); // skip generic field
+			sp.Next(true); // advance to array size field
+
+			// get array size
+			arrayLength = sp.intValue;
+
+			sp.Next(true); // advance to first array index
+
+			// write values to list
+			string[] values = new string[arrayLength];
+			int lastIndex = arrayLength - 1;
+			for (int i = 0; i < arrayLength; i++)
+			{
+				values[i] = sp.stringValue; // copy the value to the array
+				if (i < lastIndex) 
+					sp.Next(false); // advance without drilling into children
+			}
+			return values;
+		}
+		return null;
+	}
 
 	string editGesturesButtonText;
 	bool editGestures = true;
@@ -121,7 +161,7 @@ public class VRGestureManagerEditor : Editor
 		// use button
 		if (GUILayout.Toggle(false, useToggleContent, miniButtonWidth))
 		{
-			Debug.Log("do ssomething toggle");
+//			Debug.Log("do ssomething toggle");
 		}
 		// plus button
 		if (GUILayout.Button(duplicateButtonContent, EditorStyles.miniButtonMid, miniButtonWidth))
