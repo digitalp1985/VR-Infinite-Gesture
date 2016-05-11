@@ -252,8 +252,16 @@ public class VRGestureManager : MonoBehaviour
 	}
 
 	[ExecuteInEditMode]
+	public void CreateNewNeuralNet(string neuralNetName)
+	{
+		neuralNets.Add(neuralNetName);
+		Debug.Log("creating new neural net: " + neuralNetName);
+	}
+
+	[ExecuteInEditMode]
 	public void DeleteNeuralNet(string neuralNetName)
 	{
+		neuralNets.Remove(neuralNetName);
 		Debug.Log("deleting neural network: " + neuralNetName);
 	}
 

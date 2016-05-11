@@ -58,33 +58,88 @@ public class VRGestureManagerEditor : Editor
 	{
 		
 		EditorGUILayout.LabelField("NEURAL NETWORK");
-		GUILayout.BeginHorizontal();
 		string[] neuralNetsArray = ConvertStringListPropertyToStringArray("neuralNets");
-		if (neuralNetsArray.Length == 0) // if the neural nets list is empty show a big + button
-		{
-			if (GUILayout.Button("+"))
-			{
 
-			}
+
+		// STATE CONTROL
+		if (neuralNetGUIMode == NeuralNetGUIMode.EnterNewNetName)
+		{
+			ShowNeuralNetCreateNewOptions();
+		}
+		else if (neuralNetsArray.Length == 0) // if the neural nets list is empty show a big + button
+		{
+			neuralNetGUIMode = NeuralNetGUIMode.None;
 		}
 		else // draw the popup and little plus and minus buttons
 		{
-			selectedNeuralNetIndex = EditorGUILayout.Popup(selectedNeuralNetIndex, neuralNetsArray);
-			if (GUILayout.Button(duplicateButtonContent, EditorStyles.miniButtonMid, miniButtonWidth))
-			{
-
-			}
-			if (GUILayout.Button(deleteButtonContent, EditorStyles.miniButtonRight, miniButtonWidth))
-			{
-				vrGestureManager.DeleteNeuralNet(neuralNetsArray[selectedNeuralNetIndex]);
-			}
-			GUILayout.EndHorizontal();
+			neuralNetGUIMode = NeuralNetGUIMode.ShowPopup;
 		}
+
+		// RENDER
+		GUILayout.BeginHorizontal();
+		switch (neuralNetGUIMode)
+		{
+			case (NeuralNetGUIMode.None):
+				// show big + button
+				if (GUILayout.Button("+"))
+				{
+					neuralNetGUIMode = NeuralNetGUIMode.EnterNewNetName;
+				}
+			break;
+			case (NeuralNetGUIMode.ShowPopup):
+				ShowNeuralNetPopup(neuralNetsArray);
+			break;
+		}
+		GUILayout.EndHorizontal();
+
+		// TEMP
 
 		// DEBUG ONLY
 //		ShowList(serializedObject.FindProperty("neuralNets"), EditorListOption.ListLabelButtons);
 
 
+	}
+
+	enum NeuralNetGUIMode { None, EnterNewNetName, ShowPopup };
+	NeuralNetGUIMode neuralNetGUIMode;
+
+	string newNeuralNetName;
+
+	void ShowNeuralNetCreateNewOptions ()
+	{
+		newNeuralNetName = EditorGUILayout.TextField(newNeuralNetName);
+		if (GUILayout.Button("Create Network"))
+		{
+			vrGestureManager.CreateNewNeuralNet(newNeuralNetName);
+			neuralNetGUIMode = NeuralNetGUIMode.ShowPopup;
+		}
+
+	}
+
+	void ShowNeuralNetPopup (string[] neuralNetsArray)
+	{
+		selectedNeuralNetIndex = EditorGUILayout.Popup(selectedNeuralNetIndex, neuralNetsArray);
+		string selectedNeuralNetName = "";
+		if (neuralNetsArray.Length > 0)
+			selectedNeuralNetName = neuralNetsArray[selectedNeuralNetIndex];
+		if (GUILayout.Button(duplicateButtonContent, EditorStyles.miniButtonMid, miniButtonWidth))
+		{
+
+		}
+		if (GUILayout.Button(deleteButtonContent, EditorStyles.miniButtonRight, miniButtonWidth))
+		{
+			if (ShowNeuralNetDeleteDialog(selectedNeuralNetName))
+				vrGestureManager.DeleteNeuralNet(selectedNeuralNetName);
+		}
+	}
+
+	bool ShowNeuralNetDeleteDialog (string neuralNetName)
+	{
+		return EditorUtility.DisplayDialog("Delete the " + neuralNetName + " neural network?", 
+			"This cannot be undone.",
+			"ok",
+			"cancel"
+		);
 	}
 
 	void ShowGestures()
