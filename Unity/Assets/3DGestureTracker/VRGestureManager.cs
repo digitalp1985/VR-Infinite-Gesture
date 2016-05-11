@@ -284,7 +284,7 @@ public class VRGestureManager : MonoBehaviour
 	public void SelectNeuralNet (string neuralNetName)
 	{
 
-		Debug.Log("selecting neural net: " + neuralNetName);
+//		Debug.Log("selecting neural net: " + neuralNetName);
 		// set the current neural net
 		currentNeuralNet = neuralNetName;
 
