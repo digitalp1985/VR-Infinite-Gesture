@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using WinterMute;
@@ -24,9 +25,12 @@ public class VRGestureManager : MonoBehaviour
     List<Vector3> currentCapturedLine;
 
     [Tooltip ("the neural net that I am using")]
-    public string neuralNetUsing;
-    public List<string> neuralNetList;
-    public List<string> gestureList;
+    public string currentNeuralNet;
+	[SerializeField]
+	public List<string> neuralNets;
+	public List<string> gestures;
+	[SerializeField]
+	public Dictionary< string, List<string> > allGestures;
 
     Transform perpTransform;
 
@@ -52,7 +56,7 @@ public class VRGestureManager : MonoBehaviour
         playerHand = myAvatar.vrRigAnchors.rHandAnchor;
 
         //create a new Trainer
-        myTrainer = new Trainer(gestureList, "grobbler");
+        myTrainer = new Trainer(gestures, "grobbler");
 
 
         List<Vector3> testor = new List<Vector3>();
@@ -71,9 +75,7 @@ public class VRGestureManager : MonoBehaviour
 
         myTrainer.AddGestureToTrainingExamples("dipe", testor);
 
-
         //double[][] fart = myTrainer.ReadAllData();
-
         //Train different gestures.
         //Save it.
 
@@ -106,28 +108,6 @@ public class VRGestureManager : MonoBehaviour
         EventManager.StopListening("Record", BeginRecord);
         EventManager.StopListening("Detect", BeginDetect);
     }
-
-    void BeginRecord(string gesture)
-    {
-        Debug.Log("Actually Recording");
-        recording = gesture;
-    }
-
-    void BeginDetect(string recognizer)
-    {
-        recording = "";
-        myRecognizer = new GestureRecognizer(neuralNetUsing);
-    }
-
-    public void TestMe()
-    {
-
-        Debug.Log("BUTTON CLICKED");
-    }
-
-
-
-
 
     LineRenderer CreateLineRenderer(GameObject myGo, Color c1, Color c2)
     {
@@ -168,8 +148,6 @@ public class VRGestureManager : MonoBehaviour
         string gesture = myRecognizer.GetGesture(input);
         debugString = gesture;
     }
-
-
 
     // Update is called once per frame
     void Update()
@@ -275,5 +253,128 @@ public class VRGestureManager : MonoBehaviour
         }
     }
 
+
+	// below here is new custom editor stuff that edwon's making
+	// mostly dummy stuff that doesn't do anything yet
+	// needs connecting to real stuff by Tyler
+
+	public bool readyToTrain
+	{
+		get
+		{
+			if (gestures.Count > 0)
+				return true;
+			else
+				return false;
+		}
+	}
+
+	public bool isTraining = false;
+
+	void BeginRecord(string gesture)
+	{
+		Debug.Log("Actually Recording");
+		recording = gesture;
+	}
+
+	void BeginDetect(string recognizer)
+	{
+		recording = "";
+		myRecognizer = new GestureRecognizer(currentNeuralNet);
+	}
+
+	[ExecuteInEditMode]
+	public void SaveGestures()
+	{
+//		Debug.Log("save gestures");
+	}
+
+	[ExecuteInEditMode]
+	public void BeginTraining (Action<string> callback)
+	{
+		Debug.Log("Begin Training " + currentNeuralNet );
+		isTraining = true;
+		callback(currentNeuralNet);
+	}
+
+	[ExecuteInEditMode]
+	public void EndTraining (Action<string> callback)
+	{
+		Debug.Log("Quit Training " + currentNeuralNet );
+		isTraining = false;
+		callback(currentNeuralNet);
+	}
+
+	[ExecuteInEditMode]
+	public bool CheckForDuplicateNeuralNetName(string neuralNetName)
+	{
+		// if neuralNetName already exists return true
+		if (neuralNets.Contains(neuralNetName))
+			return true;
+		else
+			return false;
+	}
+
+	[ExecuteInEditMode]
+	public void CreateNewNeuralNet(string neuralNetName)
+	{
+		neuralNets.Add(neuralNetName);
+		AddGestureListToAllGestures(neuralNetName);
+		Debug.Log("creating new neural net: " + neuralNetName);
+	}
+
+	[ExecuteInEditMode]
+	public void DeleteNeuralNet(string neuralNetName)
+	{
+		neuralNets.Remove(neuralNetName);
+		RemoveGestureListFromAllGestures(neuralNetName);
+		if (allGestures == null)
+			return;
+		
+		if (allGestures.ContainsKey(neuralNetName))
+		{
+			allGestures.Remove(neuralNetName);
+			Debug.Log("deleting neural network: " + neuralNetName);
+		}
+	}
+
+	[ExecuteInEditMode]
+	public void SelectNeuralNet (string neuralNetName)
+	{
+
+//		Debug.Log("selecting neural net: " + neuralNetName);
+		// set the current neural net
+		currentNeuralNet = neuralNetName;
+
+		// set the current gestures list
+//		if (allGestures.ContainsKey(neuralNetName))
+//		{
+//			gestures = allGestures[neuralNetName];
+//		}
+
+	}
+
+	// all gestures list utilities
+
+	void AddGestureListToAllGestures (string neuralNetName)
+	{
+		if (allGestures == null)
+			InitializeAllGestures(neuralNetName);
+		else
+			allGestures.Add(neuralNetName, new List<string>());
+	}
+
+	void RemoveGestureListFromAllGestures (string neuralnetName)
+	{
+//		allGestures.Remove(neuralnetName);
+	}
+
+	void InitializeAllGestures (string neuralNetName)
+	{
+		allGestures = new Dictionary<string, List<string>>()
+		{
+			{neuralNetName, new List<string>() }
+		};
+	}
 
 }
