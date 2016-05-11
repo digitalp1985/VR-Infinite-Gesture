@@ -310,6 +310,9 @@ public class VRGestureManager : MonoBehaviour
 	{
 		neuralNets.Remove(neuralNetName);
 		RemoveGestureListFromAllGestures(neuralNetName);
+		if (allGestures == null)
+			return;
+		
 		if (allGestures.ContainsKey(neuralNetName))
 		{
 			allGestures.Remove(neuralNetName);

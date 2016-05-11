@@ -216,6 +216,30 @@ public class VRGestureManagerEditor : Editor
 		
 	}
 
+	void EditGesturesButtonUpdate ()
+	{
+		editGesturesButtonText = editGestures ? "Edit Gestures" : editGesturesButtonText = "Save Gestures";
+		
+		VRGestureManager script = (VRGestureManager)target;
+		if (GUILayout.Button(editGesturesButtonText))
+		{
+			if (editGesturesButtonText == "Edit Gestures")
+			{
+				if (EditorUtility.DisplayDialog("Are you sure you want to edit gestures?", 
+					"If you edit any gestures, you will need to re-train your neural net", "ok"))
+				{
+					editGestures = !editGestures;
+				}
+			}
+			if (editGesturesButtonText == "Save Gestures")
+			{
+				vrGestureManager.SaveGestures();
+				editGestures = !editGestures;
+
+			}
+		}
+	}
+	
 	void ShowTrainButton()
 	{
 		EventType eventType = Event.current.type;
@@ -371,19 +395,4 @@ public class VRGestureManagerEditor : Editor
 		}
 	}
 		
-	void EditGesturesButtonUpdate ()
-	{
-		editGesturesButtonText = editGestures ? "Edit Gestures" : editGesturesButtonText = "Save Gestures";
-
-		VRGestureManager script = (VRGestureManager)target;
-		if (GUILayout.Button(editGesturesButtonText))
-		{
-			if (editGesturesButtonText == "Save Gestures")
-				vrGestureManager.SaveGestures();
-			
-			editGestures = !editGestures;
-			//            script.TestMe();
-		}
-	}
-
 }
