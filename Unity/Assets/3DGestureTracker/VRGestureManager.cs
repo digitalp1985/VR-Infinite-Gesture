@@ -252,6 +252,16 @@ public class VRGestureManager : MonoBehaviour
 	}
 
 	[ExecuteInEditMode]
+	public bool CheckForDuplicateNeuralNetName(string neuralNetName)
+	{
+		// if neuralNetName already exists return true
+		if (neuralNets.Contains(neuralNetName))
+			return true;
+		else
+			return false;
+	}
+
+	[ExecuteInEditMode]
 	public void CreateNewNeuralNet(string neuralNetName)
 	{
 		neuralNets.Add(neuralNetName);

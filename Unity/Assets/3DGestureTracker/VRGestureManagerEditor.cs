@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
+using System;
 
 [CustomEditor(typeof(VRGestureManager)), CanEditMultipleObjects]
 public class VRGestureManagerEditor : Editor
@@ -86,7 +87,9 @@ public class VRGestureManagerEditor : Editor
 				if (GUILayout.Button("+"))
 				{
 					newNeuralNetName = "";
+					GUI.FocusControl("Clear"); 
 					neuralNetGUIMode = NeuralNetGUIMode.EnterNewNetName;
+					newNeuralNetName = "";
 				}
 			break;
 			case (NeuralNetGUIMode.ShowPopup):
@@ -113,9 +116,16 @@ public class VRGestureManagerEditor : Editor
 		newNeuralNetName = EditorGUILayout.TextField(newNeuralNetName);
 		if (GUILayout.Button("Create Network"))
 		{
-			if (newNeuralNetName == "")
+			if (string.IsNullOrEmpty(newNeuralNetName))
 			{
 				EditorUtility.DisplayDialog("Please give the new neural network a name", " ", "ok");
+			}
+			else if (vrGestureManager.CheckForDuplicateNeuralNetName(newNeuralNetName))
+			{
+				EditorUtility.DisplayDialog(
+					"The name " + newNeuralNetName + " is already being used, " +
+					"please name it something else.", " ", "ok"
+				);
 			}
 			else 
 			{
@@ -138,8 +148,8 @@ public class VRGestureManagerEditor : Editor
 		if (GUILayout.Button(duplicateButtonContent, EditorStyles.miniButtonMid, miniButtonWidth))
 		{
 			newNeuralNetName = "";
+			GUI.FocusControl("Clear");
 			neuralNetGUIMode = NeuralNetGUIMode.EnterNewNetName;
-			newNeuralNetName = "";
 
 		}
 
@@ -147,7 +157,11 @@ public class VRGestureManagerEditor : Editor
 		if (GUILayout.Button(deleteButtonContent, EditorStyles.miniButtonRight, miniButtonWidth))
 		{
 			if (ShowNeuralNetDeleteDialog(selectedNeuralNetName))
+			{
 				vrGestureManager.DeleteNeuralNet(selectedNeuralNetName);
+				if (vrGestureManager.neuralNets.Count > 0)
+					selectedNeuralNetIndex = 0;
+			}
 		}
 	}
 
