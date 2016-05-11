@@ -251,7 +251,10 @@ public class VRGestureManager : MonoBehaviour
 		myRecognizer = new GestureRecognizer(currentNeuralNet);
 	}
 
-	
-
+	[ExecuteInEditMode]
+	public void DeleteNeuralNet(string neuralNetName)
+	{
+		Debug.Log("deleting neural network: " + neuralNetName);
+	}
 
 }

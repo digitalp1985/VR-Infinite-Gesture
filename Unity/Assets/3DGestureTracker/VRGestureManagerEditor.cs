@@ -6,6 +6,8 @@ using UnityEditor;
 [CustomEditor(typeof(VRGestureManager)), CanEditMultipleObjects]
 public class VRGestureManagerEditor : Editor
 {
+	VRGestureManager vrGestureManager;
+
 	public enum EditorListOption 
 	{
 		None = 0,
@@ -31,6 +33,8 @@ public class VRGestureManagerEditor : Editor
     public override void OnInspectorGUI()
     {
 //        DrawDefaultInspector();
+
+		vrGestureManager = (VRGestureManager)target;
 
 		serializedObject.Update();
 
@@ -72,7 +76,7 @@ public class VRGestureManagerEditor : Editor
 			}
 			if (GUILayout.Button(deleteButtonContent, EditorStyles.miniButtonRight, miniButtonWidth))
 			{
-
+				vrGestureManager.DeleteNeuralNet(neuralNetsArray[selectedNeuralNetIndex]);
 			}
 			GUILayout.EndHorizontal();
 		}
