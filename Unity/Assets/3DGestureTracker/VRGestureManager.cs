@@ -28,6 +28,8 @@ public class VRGestureManager : MonoBehaviour
 	[SerializeField]
 	public List<string> neuralNets;
 	public List<string> gestures;
+	[SerializeField]
+	public Dictionary< string, List<string> > allGestures;
 
     Transform perpTransform;
 
@@ -265,6 +267,7 @@ public class VRGestureManager : MonoBehaviour
 	public void CreateNewNeuralNet(string neuralNetName)
 	{
 		neuralNets.Add(neuralNetName);
+		AddGestureListToAllGestures(neuralNetName);
 		Debug.Log("creating new neural net: " + neuralNetName);
 	}
 
@@ -272,7 +275,48 @@ public class VRGestureManager : MonoBehaviour
 	public void DeleteNeuralNet(string neuralNetName)
 	{
 		neuralNets.Remove(neuralNetName);
+		RemoveGestureListFromAllGestures(neuralNetName);
+		allGestures.Remove(neuralNetName);
 		Debug.Log("deleting neural network: " + neuralNetName);
+	}
+
+	[ExecuteInEditMode]
+	public void SelectNeuralNet (string neuralNetName)
+	{
+
+		Debug.Log("selecting neural net: " + neuralNetName);
+		// set the current neural net
+		currentNeuralNet = neuralNetName;
+
+		// set the current gestures list
+//		if (allGestures.ContainsKey(neuralNetName))
+//		{
+//			gestures = allGestures[neuralNetName];
+//		}
+
+	}
+
+	// all gestures list utilities
+
+	void AddGestureListToAllGestures (string neuralNetName)
+	{
+		if (allGestures == null)
+			InitializeAllGestures(neuralNetName);
+		else
+			allGestures.Add(neuralNetName, new List<string>());
+	}
+
+	void RemoveGestureListFromAllGestures (string neuralnetName)
+	{
+		allGestures.Remove(neuralnetName);
+	}
+
+	void InitializeAllGestures (string neuralNetName)
+	{
+		allGestures = new Dictionary<string, List<string>>()
+		{
+			{neuralNetName, new List<string>() }
+		};
 	}
 
 }

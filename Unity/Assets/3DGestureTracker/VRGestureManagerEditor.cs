@@ -9,6 +9,14 @@ public class VRGestureManagerEditor : Editor
 {
 	VRGestureManager vrGestureManager;
 
+	// neural net gui helpers
+	int selectedNeuralNetIndex = 0;
+	string newNeuralNetName;
+
+	// gestures gui helpers
+	string editGesturesButtonText;
+	bool editGestures = true;
+
 	public enum EditorListOption 
 	{
 		None = 0,
@@ -41,7 +49,9 @@ public class VRGestureManagerEditor : Editor
 
 		ShowTransforms();
 		ShowNeuralNets();
-		ShowGestures();
+		// if a neural net is selected
+		if (neuralNetGUIMode == NeuralNetGUIMode.ShowPopup)
+			ShowGestures();
 
 		serializedObject.ApplyModifiedProperties();
     }
@@ -52,8 +62,6 @@ public class VRGestureManagerEditor : Editor
 		EditorGUILayout.PropertyField(serializedObject.FindProperty("playerHead"));
 		EditorGUILayout.PropertyField(serializedObject.FindProperty("playerHand"));
 	}
-
-	int selectedNeuralNetIndex = 0;
 
 	void ShowNeuralNets()
 	{
@@ -109,8 +117,6 @@ public class VRGestureManagerEditor : Editor
 	enum NeuralNetGUIMode { None, EnterNewNetName, ShowPopup };
 	NeuralNetGUIMode neuralNetGUIMode;
 
-	string newNeuralNetName;
-
 	void ShowNeuralNetCreateNewOptions ()
 	{
 		newNeuralNetName = EditorGUILayout.TextField(newNeuralNetName);
@@ -143,7 +149,9 @@ public class VRGestureManagerEditor : Editor
 		string selectedNeuralNetName = "";
 		if (selectedNeuralNetIndex < neuralNetsArray.Length)
 			selectedNeuralNetName = neuralNetsArray[selectedNeuralNetIndex];
-		
+
+		vrGestureManager.SelectNeuralNet(selectedNeuralNetName);
+
 		// + button
 		if (GUILayout.Button(duplicateButtonContent, EditorStyles.miniButtonMid, miniButtonWidth))
 		{
@@ -208,9 +216,6 @@ public class VRGestureManagerEditor : Editor
 		}
 		return null;
 	}
-
-	string editGesturesButtonText;
-	bool editGestures = true;
 
 	void ShowList (SerializedProperty list, EditorListOption options = EditorListOption.Default)
 	{
