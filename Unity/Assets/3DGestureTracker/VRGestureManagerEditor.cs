@@ -58,7 +58,9 @@ public class VRGestureManagerEditor : Editor
 	{
 		
 		EditorGUILayout.LabelField("NEURAL NETWORK");
-		string[] neuralNetsArray = ConvertStringListPropertyToStringArray("neuralNets");
+		string[] neuralNetsArray = new string[0];
+		if (vrGestureManager.neuralNets.Count > 0)
+			neuralNetsArray = ConvertStringListPropertyToStringArray("neuralNets");
 
 
 		// STATE CONTROL
@@ -83,6 +85,7 @@ public class VRGestureManagerEditor : Editor
 				// show big + button
 				if (GUILayout.Button("+"))
 				{
+					newNeuralNetName = "";
 					neuralNetGUIMode = NeuralNetGUIMode.EnterNewNetName;
 				}
 			break;
@@ -117,6 +120,7 @@ public class VRGestureManagerEditor : Editor
 			else 
 			{
 				vrGestureManager.CreateNewNeuralNet(newNeuralNetName);
+				selectedNeuralNetIndex = vrGestureManager.neuralNets.IndexOf(newNeuralNetName);
 				neuralNetGUIMode = NeuralNetGUIMode.ShowPopup;
 			}
 		}
@@ -127,12 +131,19 @@ public class VRGestureManagerEditor : Editor
 	{
 		selectedNeuralNetIndex = EditorGUILayout.Popup(selectedNeuralNetIndex, neuralNetsArray);
 		string selectedNeuralNetName = "";
-		if (neuralNetsArray.Length > 0)
+		if (selectedNeuralNetIndex < neuralNetsArray.Length)
 			selectedNeuralNetName = neuralNetsArray[selectedNeuralNetIndex];
+		
+		// + button
 		if (GUILayout.Button(duplicateButtonContent, EditorStyles.miniButtonMid, miniButtonWidth))
 		{
+			newNeuralNetName = "";
+			neuralNetGUIMode = NeuralNetGUIMode.EnterNewNetName;
+			newNeuralNetName = "";
 
 		}
+
+		// - button
 		if (GUILayout.Button(deleteButtonContent, EditorStyles.miniButtonRight, miniButtonWidth))
 		{
 			if (ShowNeuralNetDeleteDialog(selectedNeuralNetName))
