@@ -131,8 +131,6 @@ public class VRGestureManager : MonoBehaviour
         debugString = gesture;
     }
 
-
-
     // Update is called once per frame
     void Update()
     {
@@ -253,7 +251,7 @@ public class VRGestureManager : MonoBehaviour
 		}
 	}
 
-	public bool isTraining;
+	public bool isTraining = false;
 
 	void BeginRecord(string gesture)
 	{
@@ -281,9 +279,11 @@ public class VRGestureManager : MonoBehaviour
 		callback(currentNeuralNet);
 	}
 
+	[ExecuteInEditMode]
 	public void EndTraining (Action<string> callback)
 	{
 		Debug.Log("Quit Training " + currentNeuralNet );
+		isTraining = false;
 		callback(currentNeuralNet);
 	}
 

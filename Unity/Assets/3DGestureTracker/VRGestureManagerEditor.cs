@@ -13,9 +13,6 @@ public class VRGestureManagerEditor : Editor
 	int selectedNeuralNetIndex = 0;
 	string newNeuralNetName;
 
-	// training mode helpers
-	bool trainingMode = false;
-
 	// gestures gui helpers
 	string editGesturesButtonText;
 	bool editGestures = true;
@@ -52,7 +49,7 @@ public class VRGestureManagerEditor : Editor
 
 		// NORMAL UI
 		ShowTransforms();
-		if (!trainingMode) 
+		if (!vrGestureManager.isTraining) 
 		{
 
 			ShowNeuralNets();
@@ -248,7 +245,6 @@ public class VRGestureManagerEditor : Editor
 			if (eventType == EventType.mouseDown)
 			{
 				vrGestureManager.BeginTraining(OnFinishedTraining);
-				trainingMode = true;
 			}
 		}
 	}
@@ -267,12 +263,12 @@ public class VRGestureManagerEditor : Editor
 	// callback that VRGestureManager should call upon training finished
 	void OnFinishedTraining (string neuralNetName)
 	{
-//		trainingMode = false;
+
 	}
 
 	void OnQuitTraining (string neuralNetName)
 	{
-		trainingMode = false;
+		
 	}
 
 	string[] ConvertStringListPropertyToStringArray (string listName)
