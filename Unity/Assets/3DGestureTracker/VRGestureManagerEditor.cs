@@ -37,7 +37,8 @@ public class VRGestureManagerEditor : Editor
 	moveButtonContent = new GUIContent("\u21b4", "move down"),
 	duplicateButtonContent = new GUIContent("+", "duplicate"),
 	deleteButtonContent = new GUIContent("-", "delete"),
-	addButtonContent = new GUIContent("+", "add element");
+	addButtonContent = new GUIContent("+", "add element"),
+	trainButtonContent = new GUIContent("TRAIN", "press to train the neural network with the recorded gesture data");
 
     public override void OnInspectorGUI()
     {
@@ -52,7 +53,10 @@ public class VRGestureManagerEditor : Editor
 		// if a neural net is selected
 		if (neuralNetGUIMode == NeuralNetGUIMode.ShowPopup)
 			ShowGestures();
-		ShowTrainButton();
+
+		if (vrGestureManager.readyToTrain && neuralNetGUIMode == NeuralNetGUIMode.ShowPopup)
+			ShowTrainButton();
+
 		serializedObject.ApplyModifiedProperties();
     }
 
@@ -191,7 +195,7 @@ public class VRGestureManagerEditor : Editor
 
 	void ShowTrainButton()
 	{
-		if (GUILayout.Button("Train"))
+		if (GUILayout.Button(trainButtonContent, GUILayout.Height(40f)));
 		{
 			vrGestureManager.BeginTraining();
 		}

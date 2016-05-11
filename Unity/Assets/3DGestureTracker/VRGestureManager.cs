@@ -241,6 +241,17 @@ public class VRGestureManager : MonoBehaviour
 	// mostly dummy stuff that doesn't do anything yet
 	// needs connecting to real stuff by Tyler
 
+	public bool readyToTrain
+	{
+		get
+		{
+			if (gestures.Count > 0)
+				return true;
+			else
+				return false;
+		}
+	}
+
 	void BeginRecord(string gesture)
 	{
 		Debug.Log("Actually Recording");
