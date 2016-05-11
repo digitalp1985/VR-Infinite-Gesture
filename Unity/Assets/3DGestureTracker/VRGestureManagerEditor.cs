@@ -5,14 +5,20 @@ using UnityEditor;
 [CustomEditor(typeof(VRGestureManager))]
 public class VRGestureManagerEditor : Editor
 {
+	string editGesturesButtonText;
+	bool editGestures = true;
+
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
 
-        VRGestureManager myScript = (VRGestureManager)target;
-        if (GUILayout.Button("Save Changes"))
+		editGesturesButtonText = editGestures ? "Edit Gestures" : editGesturesButtonText = "Save Gestures";
+
+        VRGestureManager script = (VRGestureManager)target;
+		if (GUILayout.Button(editGesturesButtonText))
         {
-            myScript.TestMe();
+			editGestures = !editGestures;
+//            script.TestMe();
         }
     }
 }

@@ -24,9 +24,9 @@ public class VRGestureManager : MonoBehaviour
     List<Vector3> currentCapturedLine;
 
     [Tooltip ("the neural net that I am using")]
-    public string neuralNetUsing;
-    public List<string> neuralNetList;
-    public List<string> gestureList;
+    public string currentNeuralNet;
+    public List<string> neuralNets;
+    public List<string> gestures;
 
     Transform perpTransform;
 
@@ -52,7 +52,7 @@ public class VRGestureManager : MonoBehaviour
         playerHand = myAvatar.vrRigAnchors.rHandAnchor;
 
         //create a new Trainer
-        myTrainer = new Trainer(gestureList, "puni");
+        myTrainer = new Trainer(gestures, "puni");
 
         //Train different gestures.
         //Save it.
@@ -86,28 +86,6 @@ public class VRGestureManager : MonoBehaviour
         EventManager.StopListening("Record", BeginRecord);
         EventManager.StopListening("Detect", BeginDetect);
     }
-
-    void BeginRecord(string gesture)
-    {
-        Debug.Log("Actually Recording");
-        recording = gesture;
-    }
-
-    void BeginDetect(string recognizer)
-    {
-        recording = "";
-        myRecognizer = new GestureRecognizer(neuralNetUsing);
-    }
-
-    public void TestMe()
-    {
-
-        Debug.Log("BUTTON CLICKED");
-    }
-
-
-
-
 
     LineRenderer CreateLineRenderer(GameObject myGo, Color c1, Color c2)
     {
@@ -254,6 +232,29 @@ public class VRGestureManager : MonoBehaviour
             lineRenderer.SetPositions(capturedLine.ToArray());
         }
     }
+
+
+	// below here is new custom editor stuff that edwon's making
+	// mostly dummy stuff that doesn't do anything yet
+	// needs connecting to real stuff by Tyler
+
+	void BeginRecord(string gesture)
+	{
+		Debug.Log("Actually Recording");
+		recording = gesture;
+	}
+
+	void BeginDetect(string recognizer)
+	{
+		recording = "";
+		myRecognizer = new GestureRecognizer(currentNeuralNet);
+	}
+
+	public void TestMe()
+	{
+
+		Debug.Log("BUTTON CLICKED");
+	}
 
 
 }

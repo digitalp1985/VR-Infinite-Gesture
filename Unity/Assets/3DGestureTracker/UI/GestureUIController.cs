@@ -105,14 +105,14 @@ public class GestureUIController : MonoBehaviour
         //Debug.Log("selected neural net " + neuralNetName);
 
         // set the neural net to use on the line capturer
-        lineCapturer.neuralNetUsing = neuralNetName;
+        lineCapturer.currentNeuralNet = neuralNetName;
     }
 
     public void CreateNewGesture()
     {
         Debug.Log("called create new gesture");
-        string newGestureName = "Gesture " + (lineCapturer.gestureList.Count + 1);
-        lineCapturer.gestureList.Add(newGestureName);
+        string newGestureName = "Gesture " + (lineCapturer.gestures.Count + 1);
+        lineCapturer.gestures.Add(newGestureName);
         GenerateRecordMenuButtons();
     }
 
@@ -135,12 +135,12 @@ public class GestureUIController : MonoBehaviour
 
         float recordMenuButtonHeight = 30;
 
-        gestureButtons = GenerateButtonsFromList(lineCapturer.gestureList, recordMenu.transform, buttonPrefab, recordMenuButtonHeight);
+        gestureButtons = GenerateButtonsFromList(lineCapturer.gestures, recordMenu.transform, buttonPrefab, recordMenuButtonHeight);
 
         // set the functions that the button will call when pressed
         for (int i = 0; i < gestureButtons.Count; i++)
         {
-            string gestureName = lineCapturer.gestureList[i];
+            string gestureName = lineCapturer.gestures[i];
             gestureButtons[i].onClick.AddListener(() => panelManager.FocusPanel("Recording Menu"));
             gestureButtons[i].onClick.AddListener(() => BeginRecordGesture(gestureName));
         }
@@ -158,12 +158,12 @@ public class GestureUIController : MonoBehaviour
     {
         int neuralNetMenuButtonHeight = 30;
 
-        List<Button> buttons = GenerateButtonsFromList(lineCapturer.neuralNetList, selectNeuralNetMenu.transform, buttonPrefab, neuralNetMenuButtonHeight);
+        List<Button> buttons = GenerateButtonsFromList(lineCapturer.neuralNets, selectNeuralNetMenu.transform, buttonPrefab, neuralNetMenuButtonHeight);
 
         // set the functions that the button will call when pressed
         for (int i = 0; i < buttons.Count; i++)
         {
-            string neuralNetName = lineCapturer.neuralNetList[i];
+            string neuralNetName = lineCapturer.neuralNets[i];
             buttons[i].onClick.AddListener(() => panelManager.FocusPanel("Main Menu"));
             buttons[i].onClick.AddListener(() => SelectNeuralNet(neuralNetName));
         }
@@ -236,7 +236,7 @@ public class GestureUIController : MonoBehaviour
             return;
 
         Text title = GetCurrentNeuralNetworkText();
-        title.text = lineCapturer.neuralNetUsing;
+        title.text = lineCapturer.currentNeuralNet;
     }
 
     Text GetCurrentNeuralNetworkText()
