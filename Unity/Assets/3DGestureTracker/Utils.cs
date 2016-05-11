@@ -9,7 +9,6 @@ namespace WinterMute
     public class Utils
     {
         private static Utils instance;
-        string filePath = "Assets/3DGestureTracker/TrainingData/";
 
         //constructor
         private Utils() { }
@@ -134,31 +133,15 @@ namespace WinterMute
 
         }
 
-        public double[] GetWeights()
-        {
-            string[] lines = System.IO.File.ReadAllLines(filePath + "Weights.txt");
-            ////System.IO.File.
-            string inputLine = lines[0];
-
-            WeightWrap fool = JsonUtility.FromJson<WeightWrap>(inputLine);
-            double[] weights = fool.data;
-            return weights;
-
-            //We should save the entire Neural Network, Inputs, hidden layer, outputs.
-        }
-
         public NeuralNetworkStub ReadNeuralNetworkStub(string networkName)
         {
-            string[] lines = System.IO.File.ReadAllLines(filePath + networkName + ".txt");
+            string[] lines = System.IO.File.ReadAllLines(Config.SAVE_FILE_PATH + networkName + "/" + networkName + ".txt");
             ////System.IO.File.
             string inputLine = lines[0];
 
             NeuralNetworkStub stub = JsonUtility.FromJson<NeuralNetworkStub>(inputLine);
             return stub;
         }
-
-
-
     }
 
 }
@@ -184,12 +167,6 @@ public class GestureExample
         }
         return tmpLine.ToArray();
     }
-}
-
-[Serializable]
-public class WeightWrap
-{
-    public double[] data;
 }
 
 [Serializable]

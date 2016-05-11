@@ -20,7 +20,8 @@ namespace WinterMute
 
         NeuralNetwork neuralNetwork;
 
-        string filePath = "Assets/3DGestureTracker/TrainingData/";
+
+        //This should be a CONST
         string examplesFileName = "trainingExamples.txt";
         //WriteLines is my initial training file.
 
@@ -43,6 +44,12 @@ namespace WinterMute
         //Pass in an array for data points.
         public void AddGestureToTrainingExamples(string gestureName, List<Vector3> capturedLine)
         {
+            string gestureFileLocation = Config.SAVE_FILE_PATH + recognizerName + "/gestures/";
+            //we need to check if this directory exists.
+            //if not we need to create the directory and file.
+            System.IO.Directory.CreateDirectory(gestureFileLocation);
+
+
             if (capturedLine.Count >= 11)
             {
                 capturedLine = Utils.Instance.SubDivideLine(capturedLine);
@@ -51,7 +58,7 @@ namespace WinterMute
                 GestureExample saveMe = new GestureExample();
                 saveMe.name = gestureName;
                 saveMe.data = capturedLine;
-                using (System.IO.StreamWriter file = new System.IO.StreamWriter(filePath + examplesFileName, true))
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(gestureFileLocation + gestureName + ".txt", true))
                 {
                     file.WriteLine(JsonUtility.ToJson(saveMe));
                 }
@@ -65,7 +72,7 @@ namespace WinterMute
             numOutput = outputs.Count;
             int seed = 1; // gives nice demo
 
-            double[][] allData = ReadAllData(numInput, numHidden, numOutput, seed);
+            double[][] allData = ReadAllData();
 
             double[][] trainData;
             double[][] testData;
@@ -83,11 +90,18 @@ namespace WinterMute
         }
 
 
-        public double[][] ReadAllData(int numInput, int numHidden, int numOutput, int seed)
+        public double[][] ReadAllData()
         {
             //read in the file
-
-            string[] lines = System.IO.File.ReadAllLines(filePath + examplesFileName);
+            string[] files = System.IO.Directory.GetFiles(Config.SAVE_FILE_PATH + recognizerName+ "/gestures/", "*.txt");
+            List<string> tmpLines = new List<string>();
+            foreach (string fileLocation in files)
+            {
+                tmpLines.AddRange(System.IO.File.ReadAllLines(fileLocation));
+            }
+            string[] lines = tmpLines.ToArray();
+            //This need to read every file inside of gestures.
+            //string[] lines = System.IO.File.ReadAllLines(Config.SAVE_FILE_PATH + examplesFileName);
 
             double[][] readData = new double[lines.Length][];
             List<double[]> tmpAllData = new List<double[]>();
@@ -159,7 +173,7 @@ namespace WinterMute
             stub.numOutput = numOutput;
             stub.gestures = outputs;
             stub.weights = weights;
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(filePath + recognizerName+".txt", true))
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(Config.SAVE_FILE_PATH + recognizerName + "/" + recognizerName+".txt", true))
             {
                 //file.WriteLine(dumbString);
                 file.WriteLine(JsonUtility.ToJson(stub));

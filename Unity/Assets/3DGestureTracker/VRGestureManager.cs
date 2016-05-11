@@ -52,12 +52,32 @@ public class VRGestureManager : MonoBehaviour
         playerHand = myAvatar.vrRigAnchors.rHandAnchor;
 
         //create a new Trainer
-        myTrainer = new Trainer(gestureList, "puni");
+        myTrainer = new Trainer(gestureList, "grobbler");
+
+
+        List<Vector3> testor = new List<Vector3>();
+        testor.Add(Vector3.zero);
+        testor.Add(Vector3.zero);
+        testor.Add(Vector3.up);
+        testor.Add(Vector3.zero);
+        testor.Add(Vector3.zero);
+        testor.Add(Vector3.up);
+        testor.Add(Vector3.zero);
+        testor.Add(Vector3.zero);
+        testor.Add(Vector3.up);
+        testor.Add(Vector3.zero);
+        testor.Add(Vector3.zero);
+        testor.Add(Vector3.up);
+
+        myTrainer.AddGestureToTrainingExamples("dipe", testor);
+
+
+        //double[][] fart = myTrainer.ReadAllData();
 
         //Train different gestures.
         //Save it.
 
-        myRecognizer = new GestureRecognizer("puni");
+        //myRecognizer = new GestureRecognizer("puni");
 
         rightInput = myAvatar.GetInput(VROptions.Handedness.Right);
 
