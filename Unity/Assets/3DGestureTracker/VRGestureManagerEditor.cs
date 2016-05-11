@@ -21,6 +21,7 @@ public class VRGestureManagerEditor : Editor
 	private static GUILayoutOption miniButtonWidth = GUILayout.Width(20f);
 
 	private static GUIContent
+	useToggleContent = new GUIContent("", "use this gesture"),
 	moveButtonContent = new GUIContent("\u21b4", "move down"),
 	duplicateButtonContent = new GUIContent("+", "duplicate"),
 	deleteButtonContent = new GUIContent("-", "delete"),
@@ -117,14 +118,17 @@ public class VRGestureManagerEditor : Editor
 
 	private static void ShowButtons (SerializedProperty list, int index)
 	{
-		if (GUILayout.Button(moveButtonContent, EditorStyles.miniButtonLeft, miniButtonWidth))
+		// use button
+		if (GUILayout.Toggle(false, useToggleContent, miniButtonWidth))
 		{
-			list.MoveArrayElement(index, index + 1);
+			Debug.Log("do ssomething toggle");
 		}
+		// plus button
 		if (GUILayout.Button(duplicateButtonContent, EditorStyles.miniButtonMid, miniButtonWidth))
 		{
 			list.InsertArrayElementAtIndex(index);
 		}
+		// minus button
 		if (GUILayout.Button(deleteButtonContent, EditorStyles.miniButtonRight, miniButtonWidth))
 		{
 			int oldSize = list.arraySize;
