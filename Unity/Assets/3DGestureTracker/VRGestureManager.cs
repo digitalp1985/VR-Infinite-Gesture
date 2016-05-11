@@ -25,7 +25,7 @@ public class VRGestureManager : MonoBehaviour
 
     [Tooltip ("the neural net that I am using")]
     public string currentNeuralNet;
-    public List<string> neuralNets;
+	public List<string> neuralNets;
     public List<string> gestures;
 
     Transform perpTransform;
@@ -250,11 +250,7 @@ public class VRGestureManager : MonoBehaviour
 		myRecognizer = new GestureRecognizer(currentNeuralNet);
 	}
 
-	public void TestMe()
-	{
-
-		Debug.Log("BUTTON CLICKED");
-	}
+	
 
 
 }
