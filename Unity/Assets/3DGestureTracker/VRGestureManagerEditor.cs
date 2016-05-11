@@ -33,26 +33,61 @@ public class VRGestureManagerEditor : Editor
 //        DrawDefaultInspector();
 
 		serializedObject.Update();
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("vrRigAnchors"));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("playerHead"));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("playerHand"));
-		ShowNeuralNets();
-		ShowList(serializedObject.FindProperty("neuralNets"), EditorListOption.ListLabelButtons);
-		EditorGUILayout.Separator();
-		ShowList(serializedObject.FindProperty("gestures"), EditorListOption.ListLabelButtons);
 
-		EditGesturesButtonUpdate();
+		ShowTransforms();
+		ShowNeuralNets();
+		ShowGestures();
 
 		serializedObject.ApplyModifiedProperties();
     }
+
+	void ShowTransforms ()
+	{
+		EditorGUILayout.PropertyField(serializedObject.FindProperty("vrRigAnchors"));
+		EditorGUILayout.PropertyField(serializedObject.FindProperty("playerHead"));
+		EditorGUILayout.PropertyField(serializedObject.FindProperty("playerHand"));
+	}
 
 	int selectedNeuralNetIndex = 0;
 
 	void ShowNeuralNets()
 	{
-		EditorGUILayout.LabelField("Current Neural Network");
+		
+		EditorGUILayout.LabelField("NEURAL NETWORK");
+		GUILayout.BeginHorizontal();
 		string[] neuralNetsArray = ConvertStringListPropertyToStringArray("neuralNets");
-		selectedNeuralNetIndex = EditorGUILayout.Popup(selectedNeuralNetIndex, neuralNetsArray); 
+		if (neuralNetsArray.Length == 0) // if the neural nets list is empty show a big + button
+		{
+			if (GUILayout.Button("+"))
+			{
+
+			}
+		}
+		else // draw the popup and little plus and minus buttons
+		{
+			selectedNeuralNetIndex = EditorGUILayout.Popup(selectedNeuralNetIndex, neuralNetsArray);
+			if (GUILayout.Button(duplicateButtonContent, EditorStyles.miniButtonMid, miniButtonWidth))
+			{
+
+			}
+			if (GUILayout.Button(deleteButtonContent, EditorStyles.miniButtonRight, miniButtonWidth))
+			{
+
+			}
+			GUILayout.EndHorizontal();
+		}
+
+		// DEBUG ONLY
+//		ShowList(serializedObject.FindProperty("neuralNets"), EditorListOption.ListLabelButtons);
+
+
+	}
+
+	void ShowGestures()
+	{
+		EditorGUILayout.LabelField("GESTURES IN THIS NETWORK");
+		ShowList(serializedObject.FindProperty("gestures"), EditorListOption.Buttons);
+		EditGesturesButtonUpdate();
 	}
 
 	string[] ConvertStringListPropertyToStringArray (string listName)
@@ -177,7 +212,7 @@ public class VRGestureManagerEditor : Editor
 				list.DeleteArrayElementAtIndex(index);
 		}
 	}
-
+		
 	void EditGesturesButtonUpdate ()
 	{
 		editGesturesButtonText = editGestures ? "Edit Gestures" : editGesturesButtonText = "Save Gestures";
