@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using WinterMute;
@@ -252,6 +253,8 @@ public class VRGestureManager : MonoBehaviour
 		}
 	}
 
+	public bool isTraining;
+
 	void BeginRecord(string gesture)
 	{
 		Debug.Log("Actually Recording");
@@ -271,12 +274,17 @@ public class VRGestureManager : MonoBehaviour
 	}
 
 	[ExecuteInEditMode]
-	public void BeginTraining ()
+	public void BeginTraining (Action<string> callback)
 	{
-		// THIS METHOD IS GETTING CALLED CONSTANTLY FROM THE CUSTOM EDITOR
-		// I DON'T KNOW WHY
-		// PLEASE HELP TYLER
-//		Debug.Log("Begin Training " + currentNeuralNet );
+		Debug.Log("Begin Training " + currentNeuralNet );
+		isTraining = true;
+		callback(currentNeuralNet);
+	}
+
+	public void EndTraining (Action<string> callback)
+	{
+		Debug.Log("Quit Training " + currentNeuralNet );
+		callback(currentNeuralNet);
 	}
 
 	[ExecuteInEditMode]
@@ -302,8 +310,11 @@ public class VRGestureManager : MonoBehaviour
 	{
 		neuralNets.Remove(neuralNetName);
 		RemoveGestureListFromAllGestures(neuralNetName);
-		allGestures.Remove(neuralNetName);
-		Debug.Log("deleting neural network: " + neuralNetName);
+		if (allGestures.ContainsKey(neuralNetName))
+		{
+			allGestures.Remove(neuralNetName);
+			Debug.Log("deleting neural network: " + neuralNetName);
+		}
 	}
 
 	[ExecuteInEditMode]

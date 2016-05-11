@@ -13,6 +13,9 @@ public class VRGestureManagerEditor : Editor
 	int selectedNeuralNetIndex = 0;
 	string newNeuralNetName;
 
+	// training mode helpers
+	bool trainingMode = false;
+
 	// gestures gui helpers
 	string editGesturesButtonText;
 	bool editGestures = true;
@@ -44,19 +47,27 @@ public class VRGestureManagerEditor : Editor
     public override void OnInspectorGUI()
     {
 //        DrawDefaultInspector();
-
 		vrGestureManager = (VRGestureManager)target;
-
 		serializedObject.Update();
 
+		// NORMAL UI
 		ShowTransforms();
-		ShowNeuralNets();
-		// if a neural net is selected
-		if (neuralNetGUIMode == NeuralNetGUIMode.ShowPopup)
-			ShowGestures();
+		if (!trainingMode) 
+		{
 
-		if (vrGestureManager.readyToTrain && editGestures && neuralNetGUIMode == NeuralNetGUIMode.ShowPopup)
-			ShowTrainButton();
+			ShowNeuralNets();
+			// if a neural net is selected
+			if (neuralNetGUIMode == NeuralNetGUIMode.ShowPopup)
+				ShowGestures();
+
+			if (vrGestureManager.readyToTrain && editGestures && neuralNetGUIMode == NeuralNetGUIMode.ShowPopup)
+				ShowTrainButton();
+		}
+		// TRAINING IS PROCESSING UI
+		else
+		{
+			ShowTrainingMode();
+		}
 
 		serializedObject.ApplyModifiedProperties();
     }
@@ -202,14 +213,42 @@ public class VRGestureManagerEditor : Editor
 			EditorGUI.EndDisabledGroup();
 		if (size.intValue > 0)
 			EditGesturesButtonUpdate();
+		
 	}
 
 	void ShowTrainButton()
 	{
+		EventType eventType = Event.current.type;
 		if (GUILayout.Button(trainButtonContent, GUILayout.Height(40f)));
 		{
-			vrGestureManager.BeginTraining();
+			if (eventType == EventType.mouseDown)
+			{
+				vrGestureManager.BeginTraining(OnFinishedTraining);
+				trainingMode = true;
+			}
 		}
+	}
+
+	void ShowTrainingMode()
+	{
+		string trainingInfo = "Training " + vrGestureManager.currentNeuralNet + " is in progress. \n HOLD ON TO YOUR BUTS";
+
+		GUILayout.Label(trainingInfo, EditorStyles.centeredGreyMiniLabel, GUILayout.Height(50f));
+		if (GUILayout.Button("QUIT TRAINING"))
+		{
+			vrGestureManager.EndTraining(OnQuitTraining);
+		}
+	}
+
+	// callback that VRGestureManager should call upon training finished
+	void OnFinishedTraining (string neuralNetName)
+	{
+//		trainingMode = false;
+	}
+
+	void OnQuitTraining (string neuralNetName)
+	{
+		trainingMode = false;
 	}
 
 	string[] ConvertStringListPropertyToStringArray (string listName)
