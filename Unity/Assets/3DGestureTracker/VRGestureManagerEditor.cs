@@ -189,12 +189,17 @@ public class VRGestureManagerEditor : Editor
 
 	void ShowGestures()
 	{
+//		if (vrGestureManager.gestures.Count == 0)
+//			editGestures = true;
 		EditorGUILayout.LabelField("GESTURES IN THIS NETWORK");
 		EditorGUI.BeginDisabledGroup(editGestures);
 		SerializedProperty gesturesList = serializedObject.FindProperty("gestures");
 		SerializedProperty size = gesturesList.FindPropertyRelative("Array.size");
+		if (size.intValue == 0)
+			EditorGUI.EndDisabledGroup();
 		ShowList(gesturesList, EditorListOption.Buttons);
-		EditorGUI.EndDisabledGroup();
+		if (size.intValue > 0)
+			EditorGUI.EndDisabledGroup();
 		if (size.intValue > 0)
 			EditGesturesButtonUpdate();
 	}
@@ -297,7 +302,7 @@ public class VRGestureManagerEditor : Editor
 				EditorGUILayout.EndHorizontal();
 			}
 		}
-
+			
 		// if the list is empty show the plus button
 		if (showButtons && list.arraySize == 0 && GUILayout.Button(addButtonContent, EditorStyles.miniButton))
 		{
