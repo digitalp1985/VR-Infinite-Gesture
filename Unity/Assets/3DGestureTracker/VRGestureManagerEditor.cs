@@ -38,6 +38,7 @@ public class VRGestureManagerEditor : Editor
 	duplicateButtonContent = new GUIContent("+", "duplicate"),
 	deleteButtonContent = new GUIContent("-", "delete"),
 	addButtonContent = new GUIContent("+", "add element"),
+	neuralNetNoneButtonContent = new GUIContent("+", "click to create a new neural net"),
 	trainButtonContent = new GUIContent("TRAIN", "press to train the neural network with the recorded gesture data");
 
     public override void OnInspectorGUI()
@@ -54,7 +55,7 @@ public class VRGestureManagerEditor : Editor
 		if (neuralNetGUIMode == NeuralNetGUIMode.ShowPopup)
 			ShowGestures();
 
-		if (vrGestureManager.readyToTrain && neuralNetGUIMode == NeuralNetGUIMode.ShowPopup)
+		if (vrGestureManager.readyToTrain && editGestures && neuralNetGUIMode == NeuralNetGUIMode.ShowPopup)
 			ShowTrainButton();
 
 		serializedObject.ApplyModifiedProperties();
@@ -96,7 +97,7 @@ public class VRGestureManagerEditor : Editor
 		{
 			case (NeuralNetGUIMode.None):
 				// show big + button
-				if (GUILayout.Button("+"))
+			if (GUILayout.Button(neuralNetNoneButtonContent))
 				{
 					newNeuralNetName = "";
 					GUI.FocusControl("Clear"); 
@@ -189,8 +190,13 @@ public class VRGestureManagerEditor : Editor
 	void ShowGestures()
 	{
 		EditorGUILayout.LabelField("GESTURES IN THIS NETWORK");
-		ShowList(serializedObject.FindProperty("gestures"), EditorListOption.Buttons);
-		EditGesturesButtonUpdate();
+		EditorGUI.BeginDisabledGroup(editGestures);
+		SerializedProperty gesturesList = serializedObject.FindProperty("gestures");
+		SerializedProperty size = gesturesList.FindPropertyRelative("Array.size");
+		ShowList(gesturesList, EditorListOption.Buttons);
+		EditorGUI.EndDisabledGroup();
+		if (size.intValue > 0)
+			EditGesturesButtonUpdate();
 	}
 
 	void ShowTrainButton()
@@ -328,6 +334,9 @@ public class VRGestureManagerEditor : Editor
 		VRGestureManager script = (VRGestureManager)target;
 		if (GUILayout.Button(editGesturesButtonText))
 		{
+			if (editGesturesButtonText == "Save Gestures")
+				vrGestureManager.SaveGestures();
+			
 			editGestures = !editGestures;
 			//            script.TestMe();
 		}

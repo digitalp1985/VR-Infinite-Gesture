@@ -265,9 +265,18 @@ public class VRGestureManager : MonoBehaviour
 	}
 
 	[ExecuteInEditMode]
+	public void SaveGestures()
+	{
+//		Debug.Log("save gestures");
+	}
+
+	[ExecuteInEditMode]
 	public void BeginTraining ()
 	{
-		Debug.Log("Begin Training " + currentNeuralNet );
+		// THIS METHOD IS GETTING CALLED CONSTANTLY FROM THE CUSTOM EDITOR
+		// I DON'T KNOW WHY
+		// PLEASE HELP TYLER
+//		Debug.Log("Begin Training " + currentNeuralNet );
 	}
 
 	[ExecuteInEditMode]
@@ -325,7 +334,7 @@ public class VRGestureManager : MonoBehaviour
 
 	void RemoveGestureListFromAllGestures (string neuralnetName)
 	{
-		allGestures.Remove(neuralnetName);
+//		allGestures.Remove(neuralnetName);
 	}
 
 	void InitializeAllGestures (string neuralNetName)
