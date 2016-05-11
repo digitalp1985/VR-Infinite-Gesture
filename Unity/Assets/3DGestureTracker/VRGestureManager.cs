@@ -254,6 +254,12 @@ public class VRGestureManager : MonoBehaviour
 	}
 
 	[ExecuteInEditMode]
+	public void BeginTraining ()
+	{
+		Debug.Log("Begin Training " + currentNeuralNet );
+	}
+
+	[ExecuteInEditMode]
 	public bool CheckForDuplicateNeuralNetName(string neuralNetName)
 	{
 		// if neuralNetName already exists return true

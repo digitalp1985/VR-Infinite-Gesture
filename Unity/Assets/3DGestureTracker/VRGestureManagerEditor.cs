@@ -52,7 +52,7 @@ public class VRGestureManagerEditor : Editor
 		// if a neural net is selected
 		if (neuralNetGUIMode == NeuralNetGUIMode.ShowPopup)
 			ShowGestures();
-
+		ShowTrainButton();
 		serializedObject.ApplyModifiedProperties();
     }
 
@@ -187,6 +187,14 @@ public class VRGestureManagerEditor : Editor
 		EditorGUILayout.LabelField("GESTURES IN THIS NETWORK");
 		ShowList(serializedObject.FindProperty("gestures"), EditorListOption.Buttons);
 		EditGesturesButtonUpdate();
+	}
+
+	void ShowTrainButton()
+	{
+		if (GUILayout.Button("Train"))
+		{
+			vrGestureManager.BeginTraining();
+		}
 	}
 
 	string[] ConvertStringListPropertyToStringArray (string listName)
