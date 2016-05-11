@@ -110,8 +110,15 @@ public class VRGestureManagerEditor : Editor
 		newNeuralNetName = EditorGUILayout.TextField(newNeuralNetName);
 		if (GUILayout.Button("Create Network"))
 		{
-			vrGestureManager.CreateNewNeuralNet(newNeuralNetName);
-			neuralNetGUIMode = NeuralNetGUIMode.ShowPopup;
+			if (newNeuralNetName == "")
+			{
+				EditorUtility.DisplayDialog("Please give the new neural network a name", " ", "ok");
+			}
+			else 
+			{
+				vrGestureManager.CreateNewNeuralNet(newNeuralNetName);
+				neuralNetGUIMode = NeuralNetGUIMode.ShowPopup;
+			}
 		}
 
 	}
