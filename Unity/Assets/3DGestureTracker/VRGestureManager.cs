@@ -66,7 +66,7 @@ public class VRGestureManager : MonoBehaviour
         //double[][] fart = myTrainer.ReadAllData();
         //Train different gestures.
         //Save it.
-        currentRecognizer = new GestureRecognizer("grobbler");
+        //currentRecognizer = new GestureRecognizer("grobbler");
 
         rightInput = myAvatar.GetInput(VROptions.Handedness.Right);
 
@@ -270,7 +270,7 @@ public class VRGestureManager : MonoBehaviour
 		Debug.Log("begin detecting from this recognizer: " + recognizer);
         recording = "";
 		state = VRGestureManagerState.Detecting;
-        currentRecognizer = new GestureRecognizer(currentNeuralNet);
+        currentRecognizer = new GestureRecognizer(recognizer);
     }
 
     [ExecuteInEditMode]

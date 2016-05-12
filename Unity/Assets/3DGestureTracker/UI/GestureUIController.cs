@@ -14,7 +14,7 @@ public class GestureUIController : MonoBehaviour
     Transform uiCam;
     public float offsetZ;
 
-    public VRGestureManager lineCapturer; // the VRGestureManager script we want to interact with
+    public VRGestureManager vrGestureManager; // the VRGestureManager script we want to interact with
     public RectTransform recordMenu; // the top level transform of the recordMenu where we will generate gesture buttons
     public RectTransform selectNeuralNetMenu; // the top level transform of the select neural net menu where we will generate buttons
     public GameObject buttonPrefab;
@@ -39,8 +39,8 @@ public class GestureUIController : MonoBehaviour
         buttonRectScale = new Vector3(0.6666f, 1, 0.2f);
 
         // get line capturer
-        if (lineCapturer == null)
-            lineCapturer = GameObject.FindObjectOfType<VRGestureManager>();
+        if (vrGestureManager == null)
+            vrGestureManager = GameObject.FindObjectOfType<VRGestureManager>();
 
         // get vr player hand and camera
         if (vrUiType == VRUIType.EdwonVR)
@@ -77,7 +77,7 @@ public class GestureUIController : MonoBehaviour
 
         // update detect log
         if (detectLog != null)
-            detectLog.text = lineCapturer.debugString;
+            detectLog.text = vrGestureManager.debugString;
         else
             Debug.Log("please set detect log on GestureUIController");
 
@@ -90,7 +90,7 @@ public class GestureUIController : MonoBehaviour
     public void BeginDetectMode()
     {
         //Debug.Log("begin detect mode");
-        EventManager.TriggerEvent("Detect");
+        EventManager.TriggerEvent("Detect", vrGestureManager.currentNeuralNet );
     }
 
     public void BeginRecordGesture(string gestureName)
@@ -105,14 +105,14 @@ public class GestureUIController : MonoBehaviour
         //Debug.Log("selected neural net " + neuralNetName);
 
         // set the neural net to use on the line capturer
-        lineCapturer.currentNeuralNet = neuralNetName;
+        vrGestureManager.currentNeuralNet = neuralNetName;
     }
 
     public void CreateNewGesture()
     {
         Debug.Log("called create new gesture");
-        string newGestureName = "Gesture " + (lineCapturer.gestures.Count + 1);
-        lineCapturer.gestures.Add(newGestureName);
+        string newGestureName = "Gesture " + (vrGestureManager.gestures.Count + 1);
+        vrGestureManager.gestureBank.Add(newGestureName);
         GenerateRecordMenuButtons();
     }
 
@@ -135,12 +135,12 @@ public class GestureUIController : MonoBehaviour
 
         float recordMenuButtonHeight = 30;
 
-        gestureButtons = GenerateButtonsFromList(lineCapturer.gestures, recordMenu.transform, buttonPrefab, recordMenuButtonHeight);
+        gestureButtons = GenerateButtonsFromList(vrGestureManager.gestureBank, recordMenu.transform, buttonPrefab, recordMenuButtonHeight);
 
         // set the functions that the button will call when pressed
         for (int i = 0; i < gestureButtons.Count; i++)
         {
-            string gestureName = lineCapturer.gestures[i];
+            string gestureName = vrGestureManager.gestureBank[i];
             gestureButtons[i].onClick.AddListener(() => panelManager.FocusPanel("Recording Menu"));
             gestureButtons[i].onClick.AddListener(() => BeginRecordGesture(gestureName));
         }
@@ -158,12 +158,12 @@ public class GestureUIController : MonoBehaviour
     {
         int neuralNetMenuButtonHeight = 30;
 
-        List<Button> buttons = GenerateButtonsFromList(lineCapturer.neuralNets, selectNeuralNetMenu.transform, buttonPrefab, neuralNetMenuButtonHeight);
+        List<Button> buttons = GenerateButtonsFromList(vrGestureManager.neuralNets, selectNeuralNetMenu.transform, buttonPrefab, neuralNetMenuButtonHeight);
 
         // set the functions that the button will call when pressed
         for (int i = 0; i < buttons.Count; i++)
         {
-            string neuralNetName = lineCapturer.neuralNets[i];
+            string neuralNetName = vrGestureManager.neuralNets[i];
             buttons[i].onClick.AddListener(() => panelManager.FocusPanel("Main Menu"));
             buttons[i].onClick.AddListener(() => SelectNeuralNet(neuralNetName));
         }
@@ -236,7 +236,7 @@ public class GestureUIController : MonoBehaviour
             return;
 
         Text title = GetCurrentNeuralNetworkText();
-        title.text = lineCapturer.currentNeuralNet;
+        title.text = vrGestureManager.currentNeuralNet;
     }
 
     Text GetCurrentNeuralNetworkText()
