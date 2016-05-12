@@ -41,24 +41,60 @@ public class VRGestureManagerEditor : Editor
 	neuralNetNoneButtonContent = new GUIContent("+", "click to create a new neural net"),
 	trainButtonContent = new GUIContent("TRAIN", "press to train the neural network with the recorded gesture data");
 
+	// TEXTURES
+	string bg1TexturePath = "Assets/3DGestureTracker/UI/Textures/Resources/bg1.png";
+	string bg2TexturePath = "Assets/3DGestureTracker/UI/Textures/Resources/bg2.png";
+
+	Texture2D bg1;
+	Texture2D bg2;
+
     public override void OnInspectorGUI()
     {
+		// TEXTURE SETUP
+		bg1 = AssetDatabase.LoadAssetAtPath<Texture2D>(bg1TexturePath);
+		bg2 = AssetDatabase.LoadAssetAtPath<Texture2D>(bg2TexturePath);
+
 //        DrawDefaultInspector();
 		vrGestureManager = (VRGestureManager)target;
 		serializedObject.Update();
 
-		// NORMAL UI
 		ShowTransforms();
+
+		// NORMAL UI
 		if (!vrGestureManager.isTraining) 
 		{
+			// BACKGROUND / STYLE SETUP
+			GUIStyle neuralSectionStyle = new GUIStyle();
+			neuralSectionStyle.normal.background = bg2;
+			GUIStyle gesturesSectionStyle = new GUIStyle();
+			gesturesSectionStyle.normal.background = bg2;
+			GUIStyle separatorStyle = new GUIStyle();
+			separatorStyle.normal.background = bg1;
 
+
+			// NEURAL NET SECTION
+			GUILayout.BeginVertical(neuralSectionStyle);
 			ShowNeuralNets();
+			GUILayout.EndVertical();
+
+			// SEPARATOR
+			GUILayout.BeginVertical();
+			EditorGUILayout.Separator(); // a little space between sections
+			GUILayout.EndVertical();
+
+			// GESTURE SECTION
+			GUILayout.BeginVertical(gesturesSectionStyle);
 			// if a neural net is selected
 			if (neuralNetGUIMode == NeuralNetGUIMode.ShowPopup)
 				ShowGestures();
+			GUILayout.EndVertical();
 
+			EditorGUILayout.Separator(); // a little space between sections
+
+			// TRAIN BUTTON
 			if (vrGestureManager.readyToTrain && editGestures && neuralNetGUIMode == NeuralNetGUIMode.ShowPopup)
 				ShowTrainButton();
+
 		}
 		// TRAINING IS PROCESSING UI
 		else
