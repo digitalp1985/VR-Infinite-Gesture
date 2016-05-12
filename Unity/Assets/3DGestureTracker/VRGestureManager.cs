@@ -25,7 +25,7 @@ public class VRGestureManager : MonoBehaviour
     GameObject currentGo;
 
     int lengthOfLineRenderer = 50;
-    LineRenderer rightLineRenderer;
+    //LineRenderer rightLineRenderer;
     List<Vector3> rightCapturedLine;
     LineRenderer currentRenderer;
     List<Vector3> currentCapturedLine;
@@ -88,7 +88,7 @@ public class VRGestureManager : MonoBehaviour
         perpTransform = new GameObject("Perpindicular Head").transform;
         perpTransform.parent = this.transform;
 
-        rightLineRenderer = CreateLineRenderer(rightGo, Color.yellow, Color.red);
+        //rightLineRenderer = CreateLineRenderer(rightGo, Color.yellow, Color.red);
         currentRenderer = CreateLineRenderer(currentGo, Color.magenta, Color.magenta);
     }
 
@@ -188,15 +188,16 @@ public class VRGestureManager : MonoBehaviour
                 currentRenderer.SetPositions(currentCapturedLine.ToArray());
             }
         }
+        //RenderTrail(rightLineRenderer, rightCapturedLine);
 
         //On Release
         if ((trigger1 < 0.5) && (currentCapturedLine.Count > 0))
         {
             LineCaught(currentCapturedLine);
             currentCapturedLine.RemoveRange(0, currentCapturedLine.Count);
+            currentCapturedLine.Clear();
         }
 
-        RenderTrail(rightLineRenderer, rightCapturedLine);
     }
 
     void UpdateContinual()
@@ -215,7 +216,7 @@ public class VRGestureManager : MonoBehaviour
             int maxLineLength = (int)testRateLimit / (int)renderRateLimit;
             CapturePoint(getLocalizedPoint(rightHandPoint), currentCapturedLine, maxLineLength);
         }
-        RenderTrail(rightLineRenderer, rightCapturedLine);
+        //RenderTrail(rightLineRenderer, rightCapturedLine);
 
         //On Release
         //@TODO: fix this magic number 14.
@@ -251,7 +252,6 @@ public class VRGestureManager : MonoBehaviour
     //Render Trails, maybe this is an optional feature of a line capture.
     void RenderTrail(LineRenderer lineRenderer, List<Vector3> capturedLine)
     {
-        //LineRenderer lineRenderer = GetComponent<LineRenderer>();
         if (capturedLine.Count == lengthOfLineRenderer)
         {
             lineRenderer.SetVertexCount(lengthOfLineRenderer);
