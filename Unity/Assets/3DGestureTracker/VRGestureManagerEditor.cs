@@ -41,24 +41,60 @@ public class VRGestureManagerEditor : Editor
 	neuralNetNoneButtonContent = new GUIContent("+", "click to create a new neural net"),
 	trainButtonContent = new GUIContent("TRAIN", "press to train the neural network with the recorded gesture data");
 
+	// TEXTURES
+	string bg1TexturePath = "Assets/3DGestureTracker/UI/Textures/Resources/bg1.png";
+	string bg2TexturePath = "Assets/3DGestureTracker/UI/Textures/Resources/bg2.png";
+
+	Texture2D bg1;
+	Texture2D bg2;
+
     public override void OnInspectorGUI()
     {
+		// TEXTURE SETUP
+		bg1 = AssetDatabase.LoadAssetAtPath<Texture2D>(bg1TexturePath);
+		bg2 = AssetDatabase.LoadAssetAtPath<Texture2D>(bg2TexturePath);
+
 //        DrawDefaultInspector();
 		vrGestureManager = (VRGestureManager)target;
 		serializedObject.Update();
 
-		// NORMAL UI
 		ShowTransforms();
+
+		// NORMAL UI
 		if (!vrGestureManager.isTraining) 
 		{
+			// BACKGROUND / STYLE SETUP
+			GUIStyle neuralSectionStyle = new GUIStyle();
+			neuralSectionStyle.normal.background = bg2;
+			GUIStyle gesturesSectionStyle = new GUIStyle();
+			gesturesSectionStyle.normal.background = bg2;
+			GUIStyle separatorStyle = new GUIStyle();
+			separatorStyle.normal.background = bg1;
 
+
+			// NEURAL NET SECTION
+			GUILayout.BeginVertical(neuralSectionStyle);
 			ShowNeuralNets();
+			GUILayout.EndVertical();
+
+			// SEPARATOR
+			GUILayout.BeginVertical();
+			EditorGUILayout.Separator(); // a little space between sections
+			GUILayout.EndVertical();
+
+			// GESTURE SECTION
+			GUILayout.BeginVertical(gesturesSectionStyle);
 			// if a neural net is selected
 			if (neuralNetGUIMode == NeuralNetGUIMode.ShowPopup)
 				ShowGestures();
+			GUILayout.EndVertical();
 
+			EditorGUILayout.Separator(); // a little space between sections
+
+			// TRAIN BUTTON
 			if (vrGestureManager.readyToTrain && editGestures && neuralNetGUIMode == NeuralNetGUIMode.ShowPopup)
 				ShowTrainButton();
+
 		}
 		// TRAINING IS PROCESSING UI
 		else
@@ -80,6 +116,7 @@ public class VRGestureManagerEditor : Editor
 	{
 		
 		EditorGUILayout.LabelField("NEURAL NETWORK");
+
 		string[] neuralNetsArray = new string[0];
 		if (vrGestureManager.neuralNets.Count > 0)
 			neuralNetsArray = ConvertStringListPropertyToStringArray("neuralNets");
@@ -104,7 +141,7 @@ public class VRGestureManagerEditor : Editor
 		switch (neuralNetGUIMode)
 		{
 			case (NeuralNetGUIMode.None):
-				// show big + button
+			// PLUS + BUTTON
 			if (GUILayout.Button(neuralNetNoneButtonContent))
 				{
 					newNeuralNetName = "";
@@ -113,8 +150,10 @@ public class VRGestureManagerEditor : Editor
 					newNeuralNetName = "";
 				}
 			break;
+			// NEURAL NET POPUP
 			case (NeuralNetGUIMode.ShowPopup):
 				ShowNeuralNetPopup(neuralNetsArray);
+				ShowNeuralNetData();
 			break;
 		}
 		GUILayout.EndHorizontal();
@@ -123,7 +162,6 @@ public class VRGestureManagerEditor : Editor
 
 		// DEBUG ONLY
 //		ShowList(serializedObject.FindProperty("neuralNets"), EditorListOption.ListLabelButtons);
-
 
 	}
 
@@ -194,6 +232,22 @@ public class VRGestureManagerEditor : Editor
 		}
 	}
 
+	void ShowNeuralNetData ()
+	{
+		// show list of trained gestures
+//		SerializedProperty gesturesTrained = new SerializedProperty (typeof(string[]));
+//		gesturesTrained[0] = "gesture1";
+//		SerializedProperty size = gesturesTrained.FindPropertyRelative("Array.size");
+//
+//		for (int i = 0; i < size; i++)
+//		{
+//			EditorGUILayout.PropertyField(gesturesTrained.GetArrayElementAtIndex(i));
+//
+//		}
+
+
+	}
+
 	bool ShowNeuralNetDeleteDialog (string neuralNetName)
 	{
 		return EditorUtility.DisplayDialog("Delete the " + neuralNetName + " neural network?", 
@@ -207,7 +261,7 @@ public class VRGestureManagerEditor : Editor
 	{
 //		if (vrGestureManager.gestures.Count == 0)
 //			editGestures = true;
-		EditorGUILayout.LabelField("GESTURES IN THIS NETWORK");
+		EditorGUILayout.LabelField("RECORDED GESTURES");
 		EditorGUI.BeginDisabledGroup(editGestures);
 		SerializedProperty gesturesList = serializedObject.FindProperty("gestures");
 		SerializedProperty size = gesturesList.FindPropertyRelative("Array.size");
