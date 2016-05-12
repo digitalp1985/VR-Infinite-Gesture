@@ -104,7 +104,7 @@ public class VRGestureManagerEditor : Editor
 				ShowTrainButton();
 
 			// DETECT BUTTON
-			ShowDetectButton();
+			//ShowDetectButton();
 
 		}
 		else if (vrGestureManager.state == VRGestureManagerState.Detecting)// DETECT UI
