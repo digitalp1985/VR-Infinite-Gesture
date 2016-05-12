@@ -305,7 +305,8 @@ public class VRGestureManager : MonoBehaviour
     public void CreateNewNeuralNet(string neuralNetName)
     {
         neuralNets.Add(neuralNetName);
-        AddGestureListToAllGestures(neuralNetName);
+        gestures = new List<string>();
+        //AddGestureListToAllGestures(neuralNetName);
         Debug.Log("creating new neural net: " + neuralNetName);
     }
 
@@ -331,7 +332,7 @@ public class VRGestureManager : MonoBehaviour
         Debug.Log("selecting neural net: " + neuralNetName);
         // set the current neural net
         currentNeuralNet = neuralNetName;
-        //WE LOAD OUT NEURAL NETWORK
+        //WE LOAD OUR NEURAL NETWORK
         NeuralNetworkStub stub = Utils.Instance.ReadNeuralNetworkStub(neuralNetName);
         gestures = stub.gestures;
 
@@ -344,7 +345,7 @@ public class VRGestureManager : MonoBehaviour
     }
 
     // all gestures list utilities
-
+    //@deprecated : I don't think we are going to need this. tjh
     void AddGestureListToAllGestures (string neuralNetName)
     {
         if (allGestures == null)
