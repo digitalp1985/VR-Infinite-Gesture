@@ -65,6 +65,12 @@ public class GestureUIController : MonoBehaviour
 
         panelManager = transform.GetComponentInChildren<PanelManager>();
 
+        // start inside a specific neural net if one is chosen on vrGestureManager;
+        if (vrGestureManager.currentNeuralNet != null)
+        {
+            panelManager.FocusPanel("Main Menu");
+        }
+
         GenerateRecordMenuButtons();
         GenerateNeuralNetMenuButtons();
     }
