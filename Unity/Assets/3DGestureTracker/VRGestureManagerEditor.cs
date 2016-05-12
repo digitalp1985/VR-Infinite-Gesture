@@ -129,6 +129,7 @@ public class VRGestureManagerEditor : Editor
 
 	enum NeuralNetGUIMode { None, EnterNewNetName, ShowPopup };
 	NeuralNetGUIMode neuralNetGUIMode;
+	int selectedNeuralNetIndexLast;
 
 	void ShowNeuralNetCreateNewOptions ()
 	{
@@ -161,9 +162,16 @@ public class VRGestureManagerEditor : Editor
 		selectedNeuralNetIndex = EditorGUILayout.Popup(selectedNeuralNetIndex, neuralNetsArray);
 		string selectedNeuralNetName = "";
 		if (selectedNeuralNetIndex < neuralNetsArray.Length)
+		{
 			selectedNeuralNetName = neuralNetsArray[selectedNeuralNetIndex];
 
-		vrGestureManager.SelectNeuralNet(selectedNeuralNetName);
+			if (selectedNeuralNetIndex != selectedNeuralNetIndexLast)
+			{
+				selectedNeuralNetIndexLast = selectedNeuralNetIndex;
+
+				vrGestureManager.SelectNeuralNet(selectedNeuralNetName);
+			}
+		}
 
 		// + button
 		if (GUILayout.Button(duplicateButtonContent, EditorStyles.miniButtonMid, miniButtonWidth))
@@ -375,11 +383,11 @@ public class VRGestureManagerEditor : Editor
 
 	private static void ShowButtons (SerializedProperty list, int index)
 	{
-		// use button
-		if (GUILayout.Toggle(false, useToggleContent, miniButtonWidth))
-		{
-//			Debug.Log("do ssomething toggle");
-		}
+		// use toggle
+//		if (GUILayout.Toggle(false, useToggleContent, miniButtonWidth))
+//		{
+////			Debug.Log("do ssomething toggle");
+//		}
 		// plus button
 		if (GUILayout.Button(duplicateButtonContent, EditorStyles.miniButtonMid, miniButtonWidth))
 		{
