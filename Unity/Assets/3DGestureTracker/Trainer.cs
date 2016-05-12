@@ -28,8 +28,12 @@ namespace WinterMute
         public Trainer(List<string> gestureList, string name)
         {
             numInput = 33;
-            numHidden = 10;
-            numOutput = 3;
+            //This should be a number between input and output.
+            //numHidden = 10;
+            //AbsVal of numInput-numOutput + min of numInput/numOutput
+            numHidden = Mathf.Abs(numInput - numOutput) / 3 + System.Math.Min(numInput, numOutput);
+            //numOutput = 3;
+            numOutput = gestureList.Count;
             recognizerName = name;
 
             outputs = gestureList;
@@ -93,6 +97,8 @@ namespace WinterMute
         public double[][] ReadAllData()
         {
             //read in the file
+            //technically this should only read files that are also in the gestures list.
+            //@TODO - compare files in gestures folder to  ones in list.
             string[] files = System.IO.Directory.GetFiles(Config.SAVE_FILE_PATH + recognizerName+ "/gestures/", "*.txt");
             List<string> tmpLines = new List<string>();
             foreach (string fileLocation in files)
