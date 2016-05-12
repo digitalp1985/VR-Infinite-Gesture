@@ -277,6 +277,9 @@ public class VRGestureManager : MonoBehaviour
         isTraining = true;
         currentTrainer = new Trainer(gestures, currentNeuralNet);
         currentTrainer.TrainRecognizer();
+        Debug.Log("done training");
+        // finish training
+        isTraining = false;
         callback(currentNeuralNet);
     }
 

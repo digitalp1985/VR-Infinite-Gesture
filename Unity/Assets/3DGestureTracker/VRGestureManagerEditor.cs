@@ -275,7 +275,7 @@ public class VRGestureManagerEditor : Editor
 	// callback that VRGestureManager should call upon training finished
 	void OnFinishedTraining (string neuralNetName)
 	{
-
+        Debug.Log("on finished training callback for: " + neuralNetName);
 	}
 
 	void OnQuitTraining (string neuralNetName)
