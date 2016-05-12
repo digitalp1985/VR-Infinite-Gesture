@@ -6,6 +6,8 @@ using WinterMute;
 using VRDebugUI;
 using UnityEngine.UI;
 
+public enum VRGestureManagerState { Idle, Recording, Training, Detecting };
+
 public class VRGestureManager : MonoBehaviour
 {
     public Transform vrRigAnchors;
@@ -49,6 +51,8 @@ public class VRGestureManager : MonoBehaviour
 
     void Start()
     {
+		state = VRGestureManagerState.Idle;
+
         myAvatar = PlayerManager.GetPlayerAvatar(0);
         recording = "";
 
@@ -250,17 +254,21 @@ public class VRGestureManager : MonoBehaviour
         }
     }
 
-    public bool isTraining = false;
+	public VRGestureManagerState state;
 
-    void BeginRecord(string gesture)
+    public void BeginRecord(string gesture)
     {
         Debug.Log("Actually Recording");
+		state = VRGestureManagerState.Recording;
+
         recording = gesture;
     }
 
-    void BeginDetect(string recognizer)
+    public void BeginDetect(string recognizer)
     {
+		Debug.Log("begin detecting from this recognizer: " + recognizer);
         recording = "";
+		state = VRGestureManagerState.Detecting;
         currentRecognizer = new GestureRecognizer(currentNeuralNet);
     }
 
@@ -274,12 +282,12 @@ public class VRGestureManager : MonoBehaviour
     public void BeginTraining (Action<string> callback)
     {
         Debug.Log("Begin Training " + currentNeuralNet );
-        isTraining = true;
+		state = VRGestureManagerState.Training;
         currentTrainer = new Trainer(gestures, currentNeuralNet);
         currentTrainer.TrainRecognizer();
         Debug.Log("done training");
         // finish training
-        isTraining = false;
+		state = VRGestureManagerState.Idle;
         callback(currentNeuralNet);
     }
 
@@ -287,7 +295,7 @@ public class VRGestureManager : MonoBehaviour
     public void EndTraining (Action<string> callback)
     {
         Debug.Log("Quit Training " + currentNeuralNet );
-        isTraining = false;
+		state = VRGestureManagerState.Idle;
         callback(currentNeuralNet);
     }
 

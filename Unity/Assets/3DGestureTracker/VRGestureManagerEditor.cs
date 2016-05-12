@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using System;
+using WinterMute;
 
 [CustomEditor(typeof(VRGestureManager)), CanEditMultipleObjects]
 public class VRGestureManagerEditor : Editor
@@ -39,7 +40,8 @@ public class VRGestureManagerEditor : Editor
 	deleteButtonContent = new GUIContent("-", "delete"),
 	addButtonContent = new GUIContent("+", "add element"),
 	neuralNetNoneButtonContent = new GUIContent("+", "click to create a new neural net"),
-	trainButtonContent = new GUIContent("TRAIN", "press to train the neural network with the recorded gesture data");
+	trainButtonContent = new GUIContent("TRAIN", "press to train the neural network with the recorded gesture data"),
+	detectButtonContent = new GUIContent("DETECT", "press to begin detecting gestures");
 
 	// TEXTURES
 	string bg1TexturePath = "Assets/3DGestureTracker/UI/Textures/Resources/bg1.png";
@@ -61,7 +63,7 @@ public class VRGestureManagerEditor : Editor
 		ShowTransforms();
 
 		// NORMAL UI
-		if (!vrGestureManager.isTraining) 
+		if (vrGestureManager.state != VRGestureManagerState.Training) 
 		{
 			// BACKGROUND / STYLE SETUP
 			GUIStyle neuralSectionStyle = new GUIStyle();
@@ -95,9 +97,16 @@ public class VRGestureManagerEditor : Editor
 			if (vrGestureManager.readyToTrain && editGestures && neuralNetGUIMode == NeuralNetGUIMode.ShowPopup)
 				ShowTrainButton();
 
+			// DETECT BUTTON
+			ShowDetectButton();
+
+		}
+		else if (vrGestureManager.state == VRGestureManagerState.Detecting)// DETECT UI
+		{
+			ShowDetectMode();
 		}
 		// TRAINING IS PROCESSING UI
-		else
+		else if (vrGestureManager.state == VRGestureManagerState.Training)
 		{
 			ShowTrainingMode();
 		}
@@ -324,6 +333,23 @@ public class VRGestureManagerEditor : Editor
 				vrGestureManager.EndTraining(OnQuitTraining);
 			}
 		}
+	}
+
+	void ShowDetectButton()
+	{
+		if (GUILayout.Button(detectButtonContent, GUILayout.Height(40f)))
+		{
+			EventType eventType = Event.current.type;
+			if (eventType == EventType.used)
+			{
+				vrGestureManager.BeginDetect("I don't know what");
+			}
+		}
+	}
+
+	void ShowDetectMode()
+	{
+
 	}
 
 	// callback that VRGestureManager should call upon training finished
