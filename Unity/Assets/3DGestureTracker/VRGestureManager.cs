@@ -118,11 +118,11 @@ public class VRGestureManager : MonoBehaviour
 
     public void LineCaught(List<Vector3> capturedLine)
     {
-        if (recording != "")
+        if (recording != "" && state == VRGestureManagerState.Recording)
         {
             TrainLine(recording, capturedLine);
         }
-        else
+        else if (state == VRGestureManagerState.Detecting)
         {
             TestNeural(capturedLine);
         }
@@ -150,7 +150,8 @@ public class VRGestureManager : MonoBehaviour
         {
             ////create a transform that will always rotate with the head but stay perp on the Y.
             //UpdatePerpTransform();
-            UpdateWithButtons();
+            if (state == VRGestureManagerState.Recording || state == VRGestureManagerState.Detecting)
+                UpdateWithButtons();
             //UpdateContinual();
         }
     }
