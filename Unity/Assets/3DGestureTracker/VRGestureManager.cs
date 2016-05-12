@@ -31,6 +31,7 @@ public class VRGestureManager : MonoBehaviour
     [SerializeField]
     public List<string> neuralNets;
     public List<string> gestures;
+    public List<string> gestureBank;
     [SerializeField]
     public Dictionary< string, List<string> > allGestures;
 
@@ -343,6 +344,7 @@ public class VRGestureManager : MonoBehaviour
         //WE LOAD OUR NEURAL NETWORK
         NeuralNetworkStub stub = Utils.Instance.ReadNeuralNetworkStub(neuralNetName);
         gestures = stub.gestures;
+        gestureBank = Utils.Instance.GetGestureBank(neuralNetName);
 
         // set the current gestures list
 //		if (allGestures.ContainsKey(neuralNetName))

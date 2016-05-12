@@ -154,6 +154,26 @@ namespace WinterMute
                 return stub;
             }
         }
+
+        public List<string> GetGestureBank(string networkName)
+        {
+            List<string> gestureBank = new List<string>();
+            string[] files = System.IO.Directory.GetFiles(Config.SAVE_FILE_PATH + networkName + "/gestures/", "*.txt");
+            foreach(string path in files)
+            {
+                //paramschar[] sep = { '/'};
+                char[] stringSeparators = new char[] { '/' };
+                string[] exploded = path.Split(stringSeparators);
+                string iCareAbout = exploded[exploded.Length - 1];
+                //scrub file extension
+                int substrIndex = iCareAbout.LastIndexOf('.');
+                string finalString = iCareAbout.Substring(0, substrIndex);
+                Debug.Log(finalString);
+                gestureBank.Add(finalString);
+            }
+
+            return gestureBank;
+        }
     }
 
 }
