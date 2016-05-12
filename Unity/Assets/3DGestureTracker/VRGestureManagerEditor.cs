@@ -116,6 +116,7 @@ public class VRGestureManagerEditor : Editor
 	{
 		
 		EditorGUILayout.LabelField("NEURAL NETWORK");
+
 		string[] neuralNetsArray = new string[0];
 		if (vrGestureManager.neuralNets.Count > 0)
 			neuralNetsArray = ConvertStringListPropertyToStringArray("neuralNets");
@@ -140,7 +141,7 @@ public class VRGestureManagerEditor : Editor
 		switch (neuralNetGUIMode)
 		{
 			case (NeuralNetGUIMode.None):
-				// show big + button
+			// PLUS + BUTTON
 			if (GUILayout.Button(neuralNetNoneButtonContent))
 				{
 					newNeuralNetName = "";
@@ -149,8 +150,10 @@ public class VRGestureManagerEditor : Editor
 					newNeuralNetName = "";
 				}
 			break;
+			// NEURAL NET POPUP
 			case (NeuralNetGUIMode.ShowPopup):
 				ShowNeuralNetPopup(neuralNetsArray);
+				ShowNeuralNetData();
 			break;
 		}
 		GUILayout.EndHorizontal();
@@ -159,7 +162,6 @@ public class VRGestureManagerEditor : Editor
 
 		// DEBUG ONLY
 //		ShowList(serializedObject.FindProperty("neuralNets"), EditorListOption.ListLabelButtons);
-
 
 	}
 
@@ -230,6 +232,22 @@ public class VRGestureManagerEditor : Editor
 		}
 	}
 
+	void ShowNeuralNetData ()
+	{
+		// show list of trained gestures
+//		SerializedProperty gesturesTrained = new SerializedProperty (typeof(string[]));
+//		gesturesTrained[0] = "gesture1";
+//		SerializedProperty size = gesturesTrained.FindPropertyRelative("Array.size");
+//
+//		for (int i = 0; i < size; i++)
+//		{
+//			EditorGUILayout.PropertyField(gesturesTrained.GetArrayElementAtIndex(i));
+//
+//		}
+
+
+	}
+
 	bool ShowNeuralNetDeleteDialog (string neuralNetName)
 	{
 		return EditorUtility.DisplayDialog("Delete the " + neuralNetName + " neural network?", 
@@ -243,7 +261,7 @@ public class VRGestureManagerEditor : Editor
 	{
 //		if (vrGestureManager.gestures.Count == 0)
 //			editGestures = true;
-		EditorGUILayout.LabelField("GESTURES IN THIS NETWORK");
+		EditorGUILayout.LabelField("RECORDED GESTURES");
 		EditorGUI.BeginDisabledGroup(editGestures);
 		SerializedProperty gesturesList = serializedObject.FindProperty("gestures");
 		SerializedProperty size = gesturesList.FindPropertyRelative("Array.size");
