@@ -66,7 +66,7 @@ public class VRGestureManager : MonoBehaviour
         //double[][] fart = myTrainer.ReadAllData();
         //Train different gestures.
         //Save it.
-        //myRecognizer = new GestureRecognizer("puni");
+        currentRecognizer = new GestureRecognizer("grobbler");
 
         rightInput = myAvatar.GetInput(VROptions.Handedness.Right);
 
@@ -145,7 +145,7 @@ public class VRGestureManager : MonoBehaviour
         {
             ////create a transform that will always rotate with the head but stay perp on the Y.
             //UpdatePerpTransform();
-            ////UpdateWithButtons();
+            UpdateWithButtons();
             //UpdateContinual();
         }
     }
