@@ -168,7 +168,7 @@ namespace WinterMute
                 //scrub file extension
                 int substrIndex = iCareAbout.LastIndexOf('.');
                 string finalString = iCareAbout.Substring(0, substrIndex);
-                Debug.Log(finalString);
+                //Debug.Log(finalString);
                 gestureBank.Add(finalString);
             }
 
