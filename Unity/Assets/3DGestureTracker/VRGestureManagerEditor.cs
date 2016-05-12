@@ -67,20 +67,24 @@ public class VRGestureManagerEditor : Editor
 		{
 			// BACKGROUND / STYLE SETUP
 			GUIStyle neuralSectionStyle = new GUIStyle();
-			neuralSectionStyle.normal.background = bg2;
+			neuralSectionStyle.normal.background = bg1;
 			GUIStyle gesturesSectionStyle = new GUIStyle();
-			gesturesSectionStyle.normal.background = bg2;
+			gesturesSectionStyle.normal.background = bg1;
 			GUIStyle separatorStyle = new GUIStyle();
-			separatorStyle.normal.background = bg1;
+			//separatorStyle.normal.background = bg2;
 
+            // SEPARATOR
+            GUILayout.BeginHorizontal(separatorStyle);
+            EditorGUILayout.Separator(); // a little space between sections
+            GUILayout.EndHorizontal();
 
-			// NEURAL NET SECTION
-			GUILayout.BeginVertical(neuralSectionStyle);
+            // NEURAL NET SECTION
+            GUILayout.BeginVertical(neuralSectionStyle);
 			ShowNeuralNets();
 			GUILayout.EndVertical();
 
 			// SEPARATOR
-			GUILayout.BeginVertical();
+			GUILayout.BeginVertical(separatorStyle);
 			EditorGUILayout.Separator(); // a little space between sections
 			GUILayout.EndVertical();
 
@@ -91,7 +95,9 @@ public class VRGestureManagerEditor : Editor
 				ShowGestures();
 			GUILayout.EndVertical();
 
+            GUILayout.BeginHorizontal(separatorStyle);
 			EditorGUILayout.Separator(); // a little space between sections
+            GUILayout.EndHorizontal();
 
 			// TRAIN BUTTON
 			if (vrGestureManager.readyToTrain && editGestures && neuralNetGUIMode == NeuralNetGUIMode.ShowPopup)
