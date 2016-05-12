@@ -61,12 +61,16 @@ public class VRGestureManager : MonoBehaviour
         playerHand = myAvatar.vrRigAnchors.rHandAnchor;
 
         //create a new Trainer
-        currentTrainer = new Trainer(gestures, "grobbler");
+        currentTrainer = new Trainer(gestures, currentNeuralNet);
+
+
 
         //double[][] fart = myTrainer.ReadAllData();
         //Train different gestures.
         //Save it.
         //currentRecognizer = new GestureRecognizer("grobbler");
+        Debug.Log("CURRENT NEURAL NET IS: " + currentNeuralNet);
+        currentRecognizer = new GestureRecognizer(currentNeuralNet);
 
         rightInput = myAvatar.GetInput(VROptions.Handedness.Right);
 
@@ -248,7 +252,7 @@ public class VRGestureManager : MonoBehaviour
     {
         get
         {
-            if (gestures.Count > 0)
+            if (gestureBank.Count > 0)
                 return true;
             else
                 return false;
@@ -284,7 +288,7 @@ public class VRGestureManager : MonoBehaviour
     {
         Debug.Log("Begin Training " + currentNeuralNet );
 		state = VRGestureManagerState.Training;
-        currentTrainer = new Trainer(gestures, currentNeuralNet);
+        currentTrainer = new Trainer(gestureBank, currentNeuralNet);
         currentTrainer.TrainRecognizer();
         Debug.Log("done training");
         // finish training
@@ -313,6 +317,10 @@ public class VRGestureManager : MonoBehaviour
     [ExecuteInEditMode]
     public void CreateNewNeuralNet(string neuralNetName)
     {
+        // Create Neural Net Folder
+        string gestureFileLocation = Config.SAVE_FILE_PATH + neuralNetName;
+        System.IO.Directory.CreateDirectory(gestureFileLocation);
+
         neuralNets.Add(neuralNetName);
         gestures = new List<string>();
 		gestureBank = new List<string>();

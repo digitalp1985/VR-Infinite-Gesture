@@ -111,7 +111,7 @@ public class GestureUIController : MonoBehaviour
     public void CreateNewGesture()
     {
         Debug.Log("called create new gesture");
-        string newGestureName = "Gesture " + (vrGestureManager.gestures.Count + 1);
+        string newGestureName = "Gesture " + (vrGestureManager.gestureBank.Count + 1);
         vrGestureManager.gestureBank.Add(newGestureName);
         GenerateRecordMenuButtons();
     }
