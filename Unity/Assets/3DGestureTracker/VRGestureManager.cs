@@ -381,7 +381,9 @@ public class VRGestureManager : MonoBehaviour
             NeuralNetworkStub stub = Utils.Instance.ReadNeuralNetworkStub(neuralNetName);
             gestures = stub.gestures;
             if (Utils.Instance.GetGestureBank(neuralNetName) != null)
+            {
                 gestureBank = Utils.Instance.GetGestureBank(neuralNetName);
+            }
         }
 
     }

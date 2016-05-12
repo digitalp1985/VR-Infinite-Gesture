@@ -101,8 +101,8 @@ public class GestureUIController : MonoBehaviour
     {
         Debug.Log("begin record gesture of type " + gestureName);
         gestureTitle.text = gestureName;
-        deleteGestureButton.onClick.AddListener(() => this.DeleteGesture(gestureName) );
-        deleteGestureButton.onClick.AddListener(() => this.panelManager.FocusPanel("Record Menu"));
+        deleteGestureButton.onClick.AddListener(() => DeleteGesture(gestureName) );
+        deleteGestureButton.onClick.AddListener(() => panelManager.FocusPanel("Record Menu"));
         EventManager.TriggerEvent("Record", gestureName);
     }
 
