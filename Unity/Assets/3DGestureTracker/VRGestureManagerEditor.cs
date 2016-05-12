@@ -486,11 +486,17 @@ public class VRGestureManagerEditor : Editor
 		// minus button
 		if (GUILayout.Button(deleteButtonContent, EditorStyles.miniButtonRight, miniButtonWidth))
 		{
-			int oldSize = list.arraySize;
-			list.DeleteArrayElementAtIndex(index);
-			if (list.arraySize == oldSize)
-				list.DeleteArrayElementAtIndex(index);
-		}
+            // new way to delete using vrGestureManager directly
+            //string gestureName = list.GetArrayElementAtIndex(index).stringValue;
+            //vrGestureManager.DeleteGesture(gestureName);
+
+            // old way to delete from property
+            int oldSize = list.arraySize;
+            list.DeleteArrayElementAtIndex(index);
+            if (list.arraySize == oldSize)
+                list.DeleteArrayElementAtIndex(index);
+        }
 	}
+
 		
 }

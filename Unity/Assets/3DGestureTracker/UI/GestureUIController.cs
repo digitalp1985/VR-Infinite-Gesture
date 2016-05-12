@@ -26,10 +26,14 @@ public class GestureUIController : MonoBehaviour
     public CanvasRenderer newGestureButton;
     [Tooltip("the label that tells you what gesture your recording currently")]
     public Text gestureTitle;
+    [Tooltip("the button that deletes gestures in the Recording Menu")]
+    public Button deleteGestureButton;
     [Tooltip("the ui text that should be updated with a gesture detect log")]
     public Text detectLog;
     [Tooltip("the panel of the Select Neural Net Menu")]
     public RectTransform neuralNetTitle;
+    [Tooltip("the text feedback for the currently training neural net")]
+    public Text neuralNetTraining;
 
     // default settings
     private Vector3 buttonRectScale; // new Vector3(0.6666f, 1, 0.2f);
@@ -97,6 +101,8 @@ public class GestureUIController : MonoBehaviour
     {
         Debug.Log("begin record gesture of type " + gestureName);
         gestureTitle.text = gestureName;
+        deleteGestureButton.onClick.AddListener(() => this.DeleteGesture(gestureName) );
+        deleteGestureButton.onClick.AddListener(() => this.panelManager.FocusPanel("Record Menu"));
         EventManager.TriggerEvent("Record", gestureName);
     }
 
@@ -115,12 +121,36 @@ public class GestureUIController : MonoBehaviour
 
     public void BeginTraining()
     {
+        panelManager.FocusPanel("Training Menu");
+        neuralNetTraining.text = vrGestureManager.currentNeuralNet;
         vrGestureManager.BeginTraining(OnFinishedTraining);
+    }
+
+    public void QuitTraining()
+    {
+        vrGestureManager.EndTraining(OnQuitTraining);
     }
 
     void OnFinishedTraining (string neuralNetName)
     {
-        Debug.Log("VR UI RECEIVED FINISHE TRAINING CALLBACK FOR: " + neuralNetName);
+        StartCoroutine(TrainingMenuDelay(1f));
+    }
+
+    void OnQuitTraining(string neuralNetName)
+    {
+        StartCoroutine(TrainingMenuDelay(1f));
+    }
+
+    public void DeleteGesture(string gestureName)
+    {
+        vrGestureManager.DeleteGesture(gestureName);
+    }
+
+    IEnumerator TrainingMenuDelay(float delay)
+    {
+        // after training complete and a short delay go back to main menu
+        yield return new WaitForSeconds(delay);
+        panelManager.FocusPanel("Main Menu");
     }
 
     // generate UI elements
@@ -242,7 +272,9 @@ public class GestureUIController : MonoBehaviour
             GenerateRecordMenuButtons();
         }
         if (panelName == "Recording Menu")
+        {
             vrGestureManager.state = VRGestureManagerState.Recording;
+        }
     }
 
     void UpdateCurrentNeuralNetworkText()

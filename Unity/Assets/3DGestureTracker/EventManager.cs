@@ -56,7 +56,6 @@ public class EventManager
 
     public static void TriggerEvent(string eventName, string args = "")
     {
-        Debug.Log("TRIGGER EVENT IS CALLED");
         Action<string> thisEvent = null;
         if (instance.eventDictionary.TryGetValue(eventName, out thisEvent))
         {

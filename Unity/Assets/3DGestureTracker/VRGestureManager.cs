@@ -276,7 +276,7 @@ public class VRGestureManager : MonoBehaviour
 
     public void BeginRecord(string gesture)
     {
-        Debug.Log("Actually Recording");
+        //Debug.Log("BeginRecord: " + gesture);
 		state = VRGestureManagerState.Recording;
 
         recording = gesture;
@@ -352,6 +352,16 @@ public class VRGestureManager : MonoBehaviour
         neuralNets.Remove(neuralNetName);
         Debug.Log("deleting neural net: " + neuralNetName);
         gestureBank.Clear();
+    }
+
+    [ExecuteInEditMode]
+    public void DeleteGesture(string gestureName)
+    {
+        Debug.Log("deleting gesture: " + gestureName);
+        gestureBank.Remove(gestureName);
+        string gestureFileLocation = Config.SAVE_FILE_PATH + currentNeuralNet + "/Gestures/" + gestureName + ".txt";
+        if (System.IO.Directory.Exists(gestureFileLocation))
+            System.IO.Directory.Delete(gestureFileLocation);
     }
 
     [ExecuteInEditMode]
