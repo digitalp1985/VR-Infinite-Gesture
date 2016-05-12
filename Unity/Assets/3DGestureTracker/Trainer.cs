@@ -53,7 +53,6 @@ namespace WinterMute
             //if not we need to create the directory and file.
             System.IO.Directory.CreateDirectory(gestureFileLocation);
 
-
             if (capturedLine.Count >= 11)
             {
                 capturedLine = Utils.Instance.SubDivideLine(capturedLine);
@@ -99,7 +98,14 @@ namespace WinterMute
             //read in the file
             //technically this should only read files that are also in the gestures list.
             //@TODO - compare files in gestures folder to  ones in list.
-            string[] files = System.IO.Directory.GetFiles(Config.SAVE_FILE_PATH + recognizerName+ "/gestures/", "*.txt");
+            string gesturesFilePath = Config.SAVE_FILE_PATH + recognizerName + "/gestures/";
+            if (!System.IO.Directory.Exists(gesturesFilePath))
+            {
+                Debug.Log("No recorded gestures. Please record some gestures in VR.");
+                return null;
+            }
+            string[] files = System.IO.Directory.GetFiles(gesturesFilePath, "*.txt");
+
             List<string> tmpLines = new List<string>();
             foreach (string fileLocation in files)
             {
