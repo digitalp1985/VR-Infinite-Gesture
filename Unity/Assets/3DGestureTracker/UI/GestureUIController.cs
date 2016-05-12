@@ -65,12 +65,6 @@ public class GestureUIController : MonoBehaviour
 
         panelManager = transform.GetComponentInChildren<PanelManager>();
 
-        // start inside a specific neural net if one is chosen on vrGestureManager;
-        if (vrGestureManager.currentNeuralNet != null)
-        {
-            panelManager.FocusPanel("Main Menu");
-        }
-
         GenerateRecordMenuButtons();
         GenerateNeuralNetMenuButtons();
     }
@@ -108,10 +102,7 @@ public class GestureUIController : MonoBehaviour
 
     public void SelectNeuralNet(string neuralNetName)
     {
-        //Debug.Log("selected neural net " + neuralNetName);
-
-        // set the neural net to use on the line capturer
-        vrGestureManager.currentNeuralNet = neuralNetName;
+        vrGestureManager.SelectNeuralNet(neuralNetName);
     }
 
     public void CreateNewGesture()
@@ -120,6 +111,16 @@ public class GestureUIController : MonoBehaviour
         string newGestureName = "Gesture " + (vrGestureManager.gestureBank.Count + 1);
         vrGestureManager.gestureBank.Add(newGestureName);
         GenerateRecordMenuButtons();
+    }
+
+    public void BeginTraining()
+    {
+        vrGestureManager.BeginTraining(OnFinishedTraining);
+    }
+
+    void OnFinishedTraining (string neuralNetName)
+    {
+        Debug.Log("VR UI RECEIVED FINISHE TRAINING CALLBACK FOR: " + neuralNetName);
     }
 
     // generate UI elements
@@ -231,9 +232,17 @@ public class GestureUIController : MonoBehaviour
         PanelManager.OnPanelFocusChanged -= PanelFocusChanged;
     }
 
-    void PanelFocusChanged (string panelName)
+    void PanelFocusChanged(string panelName)
     {
-        //Debug.Log("panel focus changed to: " + panelName);
+        if (panelName == "Main Menu")
+            vrGestureManager.state = VRGestureManagerState.Idle;
+        if (panelName == "Record Menu")
+        {
+            vrGestureManager.state = VRGestureManagerState.Idle;
+            GenerateRecordMenuButtons();
+        }
+        if (panelName == "Recording Menu")
+            vrGestureManager.state = VRGestureManagerState.Recording;
     }
 
     void UpdateCurrentNeuralNetworkText()

@@ -158,7 +158,13 @@ namespace WinterMute
         public List<string> GetGestureBank(string networkName)
         {
             List<string> gestureBank = new List<string>();
-            string[] files = System.IO.Directory.GetFiles(Config.SAVE_FILE_PATH + networkName + "/gestures/", "*.txt");
+            string gesturesPath = Config.SAVE_FILE_PATH + networkName + "/gestures/";
+            string[] files = System.IO.Directory.GetFiles(gesturesPath, "*.txt");
+            if (files.Length == 0)
+            {
+                Debug.Log("no gestures files (recorded data) yet");
+                return null;
+            }
             foreach(string path in files)
             {
                 //paramschar[] sep = { '/'};

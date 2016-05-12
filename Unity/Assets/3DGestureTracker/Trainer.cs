@@ -48,7 +48,7 @@ namespace WinterMute
         //Pass in an array for data points.
         public void AddGestureToTrainingExamples(string gestureName, List<Vector3> capturedLine)
         {
-            string gestureFileLocation = Config.SAVE_FILE_PATH + recognizerName + "/gestures/";
+            string gestureFileLocation = Config.SAVE_FILE_PATH + recognizerName + "/Gestures/";
             //we need to check if this directory exists.
             //if not we need to create the directory and file.
             System.IO.Directory.CreateDirectory(gestureFileLocation);

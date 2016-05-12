@@ -13,7 +13,7 @@ public class PanelManager : MonoBehaviour
     public delegate void PanelFocusChanged(string panelName);
     public static event PanelFocusChanged OnPanelFocusChanged;
 
-    void Awake ()
+    void Start ()
     {
         panelAnim = GetComponent<Animator>();
         // initialize with main menu focused

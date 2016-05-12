@@ -210,18 +210,19 @@ public class VRGestureManagerEditor : Editor
 
 	}
 
-	void ShowNeuralNetPopup (string[] neuralNetsArray)
+    string selectedNeuralNetName = "";
+
+    void ShowNeuralNetPopup (string[] neuralNetsArray)
 	{
 		selectedNeuralNetIndex = EditorGUILayout.Popup(selectedNeuralNetIndex, neuralNetsArray);
         EventType eventType = Event.current.type;
-        string selectedNeuralNetName = "";
 		if (selectedNeuralNetIndex < neuralNetsArray.Length && eventType == EventType.used)
 		{
 			selectedNeuralNetName = neuralNetsArray[selectedNeuralNetIndex];
 
             //Debug.Log(eventType + " " + selectedNeuralNetIndex + " " + neuralNetsArray.Length + " " + selectedNeuralNetName);
 
-			if (neuralNetsArray.Length == 1 || selectedNeuralNetIndex != selectedNeuralNetIndexLast)
+            if (neuralNetsArray.Length == 1 || selectedNeuralNetIndex != selectedNeuralNetIndexLast)
 			{
 				selectedNeuralNetIndexLast = selectedNeuralNetIndex;
 
