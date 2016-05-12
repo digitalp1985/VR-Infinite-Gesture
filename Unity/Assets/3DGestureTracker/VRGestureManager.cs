@@ -27,6 +27,7 @@ public class VRGestureManager : MonoBehaviour
     List<Vector3> currentCapturedLine;
 
     [Tooltip ("the neural net that I am using")]
+    [SerializeField]
     public string currentNeuralNet;
     [SerializeField]
     public List<string> neuralNets;
