@@ -135,12 +135,24 @@ namespace WinterMute
 
         public NeuralNetworkStub ReadNeuralNetworkStub(string networkName)
         {
-            string[] lines = System.IO.File.ReadAllLines(Config.SAVE_FILE_PATH + networkName + "/" + networkName + ".txt");
-            ////System.IO.File.
-            string inputLine = lines[0];
+            string path = Config.SAVE_FILE_PATH + networkName + "/" + networkName + ".txt";
+            if (System.IO.File.Exists(path))
+            {
+                string[] lines = System.IO.File.ReadAllLines(path);
+                ////System.IO.File.
+                string inputLine = lines[0];
 
-            NeuralNetworkStub stub = JsonUtility.FromJson<NeuralNetworkStub>(inputLine);
-            return stub;
+                
+
+                NeuralNetworkStub stub = JsonUtility.FromJson<NeuralNetworkStub>(inputLine);
+                return stub;
+            }
+            else
+            {
+                NeuralNetworkStub stub = new NeuralNetworkStub();
+                stub.gestures = new List<string>();
+                return stub;
+            }
         }
     }
 
