@@ -30,8 +30,8 @@ public class VRGestureManager : MonoBehaviour
     public string currentNeuralNet;
     [SerializeField]
     public List<string> neuralNets;
-    public List<string> gestures;
-    public List<string> gestureBank;
+    public List<string> gestures; // list of gestures already trained in currentNeuralNet
+    public List<string> gestureBank; // list of untrained + trained gestures for currentNeuralNet
     [SerializeField]
     public Dictionary< string, List<string> > allGestures;
 
@@ -315,6 +315,7 @@ public class VRGestureManager : MonoBehaviour
     {
         neuralNets.Add(neuralNetName);
         gestures = new List<string>();
+		gestureBank = new List<string>();
         //AddGestureListToAllGestures(neuralNetName);
         Debug.Log("creating new neural net: " + neuralNetName);
     }

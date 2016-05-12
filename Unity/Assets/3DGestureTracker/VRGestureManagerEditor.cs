@@ -272,7 +272,7 @@ public class VRGestureManagerEditor : Editor
 //			editGestures = true;
 		EditorGUILayout.LabelField("RECORDED GESTURES");
 		EditorGUI.BeginDisabledGroup(editGestures);
-		SerializedProperty gesturesList = serializedObject.FindProperty("gestures");
+		SerializedProperty gesturesList = serializedObject.FindProperty("gestureBank");
 		SerializedProperty size = gesturesList.FindPropertyRelative("Array.size");
 		if (size.intValue == 0)
 			EditorGUI.EndDisabledGroup();
