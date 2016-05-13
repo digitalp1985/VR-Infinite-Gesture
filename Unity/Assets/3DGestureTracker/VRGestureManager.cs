@@ -366,18 +366,45 @@ public class VRGestureManager : MonoBehaviour
 		gestureBank = new List<string>();
 
         // select the new neural net
-		SelectNeuralNet(neuralNetName, false);
+		SelectNeuralNet(neuralNetName);
         Debug.Log("creating new neural net: " + neuralNetName);
     }
 
     [ExecuteInEditMode]
     public void DeleteNeuralNet(string neuralNetName)
     {
-        neuralNets.Remove(neuralNetName);
-        Debug.Log("deleting neural net: " + neuralNetName);
-        gestureBank.Clear();
-		Utils.Instance.DeleteNeuralNetFiles(neuralNetName);
+		// get this neural nets index so we know which net to select next
+		int deletedNetIndex = neuralNets.IndexOf(neuralNetName);
+
+		// delete the net and gestures
+		Debug.Log("deleting neural net: " + neuralNetName);
+        neuralNets.Remove(neuralNetName); // remove from list
+        gestureBank.Clear(); // clear the gestures list
+		Utils.Instance.DeleteNeuralNetFiles(neuralNetName); // delete all the files
+
+		if (neuralNets.Count > 0)
+			SelectNeuralNet(neuralNets[neuralNets.Count - 1]);
     }
+
+	[ExecuteInEditMode]
+	public void SelectNeuralNet(string neuralNetName)
+	{
+		Debug.Log("SELECT NET: " + neuralNetName);
+		
+		// Load the neural net and gestures into gesture bank
+		Debug.Log("selecting neural net: " + neuralNetName);
+		currentNeuralNet = neuralNetName;
+		
+		if (Utils.Instance.GetGestureBank(neuralNetName) != null)
+		{
+			gestureBank = Utils.Instance.GetGestureBank(neuralNetName);
+		}
+		else
+		{
+			gestureBank = new List<string>();
+		}
+		
+	}
 
     [ExecuteInEditMode]
     public void CreateGesture(string gestureName)
@@ -395,31 +422,4 @@ public class VRGestureManager : MonoBehaviour
 		Utils.Instance.DeleteGestureFile(gestureName, currentNeuralNet);
     }
 
-    [ExecuteInEditMode]
-	public void SelectNeuralNet(string neuralNetName, bool isNull)
-    {
-        Debug.Log("SELECT NET: " + neuralNetName);
-		if (isNull)
-        {
-            // set the current neural net to null
-            Debug.Log("set the current neural net to null");
-            currentNeuralNet = null;
-        }
-        else
-        {
-            // Load the neural net and gestures into gesture bank
-            Debug.Log("selecting neural net: " + neuralNetName);
-            currentNeuralNet = neuralNetName;
-
-            if (Utils.Instance.GetGestureBank(neuralNetName) != null)
-            {
-                gestureBank = Utils.Instance.GetGestureBank(neuralNetName);
-            }
-            else
-            {
-                gestureBank = new List<string>();
-            }
-        }
-
-    }
 }

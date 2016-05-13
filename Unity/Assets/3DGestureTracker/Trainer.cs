@@ -193,6 +193,7 @@ namespace WinterMute
                 //file.WriteLine(dumbString);
                 file.WriteLine(JsonUtility.ToJson(stub));
             }
+			AssetDatabase.ImportAsset(filePath);
         }
 
 

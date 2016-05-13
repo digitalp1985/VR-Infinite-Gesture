@@ -120,7 +120,7 @@ public class GestureUIController : MonoBehaviour
 
     public void SelectNeuralNet(string neuralNetName)
     {
-		vrGestureManager.SelectNeuralNet(neuralNetName, false);
+		vrGestureManager.SelectNeuralNet(neuralNetName);
     }
 
     public void BeginTraining()

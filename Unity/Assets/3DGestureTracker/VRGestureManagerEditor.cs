@@ -238,7 +238,7 @@ public class VRGestureManagerEditor : Editor
 			{
 				selectedNeuralNetIndexLast = selectedNeuralNetIndex;
 
-				vrGestureManager.SelectNeuralNet(selectedNeuralNetName, false);
+				vrGestureManager.SelectNeuralNet(selectedNeuralNetName);
 			}
 		}
 		else
