@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -186,12 +187,13 @@ namespace WinterMute
             stub.numOutput = numOutput;
             stub.gestures = outputs;
             stub.weights = weights;
-			using (System.IO.StreamWriter file = new System.IO.StreamWriter(Config.SAVE_FILE_PATH + recognizerName + "/" + recognizerName+".txt", false))
+			string filePath = Config.SAVE_FILE_PATH + recognizerName + "/" + recognizerName+".txt";
+			using (System.IO.StreamWriter file = new System.IO.StreamWriter(filePath, false))
             {
                 //file.WriteLine(dumbString);
                 file.WriteLine(JsonUtility.ToJson(stub));
             }
-            
+			AssetDatabase.ImportAsset(filePath);
         }
 
 
