@@ -53,8 +53,10 @@ public class VRGestureManagerEditor : Editor
     public override void OnInspectorGUI()
     {
 		// TEXTURE SETUP
-		bg1 = AssetDatabase.LoadAssetAtPath<Texture2D>(bg1TexturePath);
-		bg2 = AssetDatabase.LoadAssetAtPath<Texture2D>(bg2TexturePath);
+//		bg1 = AssetDatabase.LoadAssetAtPath<Texture2D>(bg1TexturePath);
+		bg1 = AssetDatabase.LoadAssetAtPath<Texture2D>("");
+//		bg2 = AssetDatabase.LoadAssetAtPath<Texture2D>(bg2TexturePath);
+		bg2 = AssetDatabase.LoadAssetAtPath<Texture2D>("");
 
 //        DrawDefaultInspector();
 		vrGestureManager = (VRGestureManager)target;
