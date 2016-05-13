@@ -467,7 +467,7 @@ public class VRGestureManagerEditor : Editor
 		// if the list is empty show the plus + button
 		if (showButtons && list.arraySize == 0 && GUILayout.Button(addButtonContent, EditorStyles.miniButton))
 		{
-            vrGestureManager.CreateGesture("gesture 1");
+            vrGestureManager.CreateGesture("Gesture 1");
 		}
 	}
 
@@ -482,8 +482,8 @@ public class VRGestureManagerEditor : Editor
 		if (GUILayout.Button(duplicateButtonContent, EditorStyles.miniButtonMid, miniButtonWidth))
 		{
             //list.InsertArrayElementAtIndex(index);
-            int size = list.arraySize;
-            vrGestureManager.CreateGesture("gesture " + size);
+            int size = list.arraySize + 1;
+            vrGestureManager.CreateGesture("Gesture " + size);
 		}
 		// minus button
 		if (GUILayout.Button(deleteButtonContent, EditorStyles.miniButtonRight, miniButtonWidth))

@@ -61,6 +61,7 @@ namespace WinterMute
                 GestureExample saveMe = new GestureExample();
                 saveMe.name = gestureName;
                 saveMe.data = capturedLine;
+                //System.IO.StreamWriter file = new System.IO.StreamWriter(gestureFileLocation + gestureName + ".txt", true);
                 using (System.IO.StreamWriter file = new System.IO.StreamWriter(gestureFileLocation + gestureName + ".txt", true))
                 {
                     file.WriteLine(JsonUtility.ToJson(saveMe));

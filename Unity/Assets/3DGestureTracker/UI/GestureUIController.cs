@@ -108,7 +108,8 @@ public class GestureUIController : MonoBehaviour
         EventManager.TriggerEvent("BeginDetect");
     }
 
-    public void BeingReadyToRecordGesture(string gestureName)
+    // called when entering recording menu
+    public void BeginReadyToRecordGesture(string gestureName)
     {
         Debug.Log("begin ready to record gesture of type " + gestureName);
         gestureTitle.text = gestureName;
@@ -191,7 +192,7 @@ public class GestureUIController : MonoBehaviour
         {
             string gestureName = vrGestureManager.gestureBank[i];
             gestureButtons[i].onClick.AddListener(() => panelManager.FocusPanel("Recording Menu"));
-            gestureButtons[i].onClick.AddListener(() => BeingReadyToRecordGesture(gestureName));
+            gestureButtons[i].onClick.AddListener(() => BeginReadyToRecordGesture(gestureName));
         }
 
         AdjustListTitlePosition(gestureListTitle.transform, gestureButtons.Count, recordMenuButtonHeight);

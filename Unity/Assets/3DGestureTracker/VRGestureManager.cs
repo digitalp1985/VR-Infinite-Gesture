@@ -125,7 +125,8 @@ public class VRGestureManager : MonoBehaviour
 
     public void LineCaught(List<Vector3> capturedLine)
     {
-        if (recording != "" && state == VRGestureManagerState.Recording)
+        //if (recording != "" && state == VRGestureManagerState.Recording)
+        if (state == VRGestureManagerState.Recording)
         {
             TrainLine(recording, capturedLine);
         }
@@ -185,6 +186,7 @@ public class VRGestureManager : MonoBehaviour
             {
                 if (state == VRGestureManagerState.ReadyToRecord)
                     state = VRGestureManagerState.Recording;
+
                 //add check if currentLine is empty
                 Vector3 localizedPoint = getLocalizedPoint(rightHandPoint);
                 currentCapturedLine.Add(localizedPoint);
@@ -197,12 +199,14 @@ public class VRGestureManager : MonoBehaviour
         //On Release
         if ((trigger1 < 0.5) && (currentCapturedLine.Count > 0))
         {
-            if (state == VRGestureManagerState.Recording)
-                state = VRGestureManagerState.ReadyToRecord;
+
 
             LineCaught(currentCapturedLine);
             currentCapturedLine.RemoveRange(0, currentCapturedLine.Count);
             currentCapturedLine.Clear();
+
+            if (state == VRGestureManagerState.Recording)
+                state = VRGestureManagerState.ReadyToRecord;
         }
 
     }
@@ -364,7 +368,9 @@ public class VRGestureManager : MonoBehaviour
     [ExecuteInEditMode]
     public void CreateGesture(string gestureName)
     {
+        Debug.Log("Create Gesture: " + gestureName);
         gestureBank.Add(gestureName);
+        Utils.Instance.CreateGestureFile(gestureName, currentNeuralNet);
     }
 
     [ExecuteInEditMode]
