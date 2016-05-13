@@ -18,20 +18,31 @@ public class GestureUIController : MonoBehaviour
     public RectTransform recordMenu; // the top level transform of the recordMenu where we will generate gesture buttons
     public RectTransform selectNeuralNetMenu; // the top level transform of the select neural net menu where we will generate buttons
     public GameObject buttonPrefab;
-    [Tooltip("the label that tells people to pick a gesture in the gesture record menu")]
-    public CanvasRenderer recordLabel;
+
+    // RECORD MENU
     private List<Button> gestureButtons;
     [Tooltip("the title of the gesture list on the record menu")]
     public CanvasRenderer gestureListTitle;
     public CanvasRenderer newGestureButton;
+
+    // RECORDING MENU
+    [Tooltip("the now recording indicator in the recording menu")]
+    public Text nowRecordingLabel;
+    public Image nowRecordingBackground;
     [Tooltip("the label that tells you what gesture your recording currently")]
     public Text gestureTitle;
     [Tooltip("the button that deletes gestures in the Recording Menu")]
     public Button deleteGestureButton;
+
+    // DETECT MENU
     [Tooltip("the ui text that should be updated with a gesture detect log")]
     public Text detectLog;
+
+    // SELECT NEURAL NET MENU
     [Tooltip("the panel of the Select Neural Net Menu")]
     public RectTransform neuralNetTitle;
+
+    // TRAINING MENU
     [Tooltip("the text feedback for the currently training neural net")]
     public Text neuralNetTraining;
 
@@ -86,7 +97,7 @@ public class GestureUIController : MonoBehaviour
             Debug.Log("please set detect log on GestureUIController");
 
         UpdateCurrentNeuralNetworkText();
-
+        UpdateNowRecordingStatus();
     }
 
     // events called by buttons when pressed
@@ -284,6 +295,20 @@ public class GestureUIController : MonoBehaviour
 
         Text title = GetCurrentNeuralNetworkText();
         title.text = vrGestureManager.currentNeuralNet;
+    }
+
+    void UpdateNowRecordingStatus()
+    {
+        if (vrGestureManager.state == VRGestureManagerState.ReadyToRecord)
+        {
+            nowRecordingBackground.color = Color.grey;
+            nowRecordingLabel.text = "ready to record";
+        }
+        else if (vrGestureManager.state == VRGestureManagerState.Recording)
+        {
+            nowRecordingBackground.color = Color.red;
+            nowRecordingLabel.text = "RECORDING";
+        }
     }
 
     Text GetCurrentNeuralNetworkText()
