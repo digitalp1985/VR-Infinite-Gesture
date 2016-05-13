@@ -97,13 +97,13 @@ public class GestureUIController : MonoBehaviour
         EventManager.TriggerEvent("Detect", vrGestureManager.currentNeuralNet );
     }
 
-    public void BeginRecordGesture(string gestureName)
+    public void BeingReadyToRecordGesture(string gestureName)
     {
-        Debug.Log("begin record gesture of type " + gestureName);
+        Debug.Log("begin ready to record gesture of type " + gestureName);
         gestureTitle.text = gestureName;
         deleteGestureButton.onClick.AddListener(() => DeleteGesture(gestureName) );
         deleteGestureButton.onClick.AddListener(() => panelManager.FocusPanel("Record Menu"));
-        EventManager.TriggerEvent("Record", gestureName);
+        EventManager.TriggerEvent("ReadyToRecord", gestureName);
     }
 
     public void SelectNeuralNet(string neuralNetName)
@@ -179,7 +179,7 @@ public class GestureUIController : MonoBehaviour
         {
             string gestureName = vrGestureManager.gestureBank[i];
             gestureButtons[i].onClick.AddListener(() => panelManager.FocusPanel("Recording Menu"));
-            gestureButtons[i].onClick.AddListener(() => BeginRecordGesture(gestureName));
+            gestureButtons[i].onClick.AddListener(() => BeingReadyToRecordGesture(gestureName));
         }
 
         AdjustListTitlePosition(gestureListTitle.transform, gestureButtons.Count, recordMenuButtonHeight);
@@ -273,7 +273,7 @@ public class GestureUIController : MonoBehaviour
         }
         if (panelName == "Recording Menu")
         {
-            vrGestureManager.state = VRGestureManagerState.Recording;
+            vrGestureManager.state = VRGestureManagerState.ReadyToRecord;
         }
     }
 

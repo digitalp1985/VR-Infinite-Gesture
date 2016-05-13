@@ -6,7 +6,7 @@ using WinterMute;
 using VRDebugUI;
 using UnityEngine.UI;
 
-public enum VRGestureManagerState { Idle, Recording, Training, Detecting };
+public enum VRGestureManagerState { Idle, ReadyToRecord, Recording, Training, Detecting };
 
 public class VRGestureManager : MonoBehaviour
 {
@@ -96,7 +96,7 @@ public class VRGestureManager : MonoBehaviour
     void OnEnable()
     {
         Debug.Log("On Enable inside of VRGestureManager");
-        EventManager.StartListening("Record", BeginRecord);
+        EventManager.StartListening("ReadyToRecord", BeginReadyToRecord);
         EventManager.StartListening("Detect", BeginDetect);
         //load a trainor
         //load a recognizer
@@ -104,7 +104,7 @@ public class VRGestureManager : MonoBehaviour
 
     void OnDisable()
     {
-        EventManager.StopListening("Record", BeginRecord);
+        EventManager.StopListening("Record", BeginReadyToRecord);
         EventManager.StopListening("Detect", BeginDetect);
     }
 
@@ -163,7 +163,9 @@ public class VRGestureManager : MonoBehaviour
         {
             ////create a transform that will always rotate with the head but stay perp on the Y.
             //UpdatePerpTransform();
-            if (state == VRGestureManagerState.Recording || state == VRGestureManagerState.Detecting)
+            if (state == VRGestureManagerState.ReadyToRecord || 
+                state == VRGestureManagerState.Detecting ||
+                state == VRGestureManagerState.Recording )
                 UpdateWithButtons();
             //UpdateContinual();
         }
@@ -181,6 +183,7 @@ public class VRGestureManager : MonoBehaviour
             CapturePoint(rightHandPoint, rightCapturedLine, lengthOfLineRenderer);
             if (trigger1 >= 0.5)
             {
+                state = VRGestureManagerState.Recording;
                 //add check if currentLine is empty
                 Vector3 localizedPoint = getLocalizedPoint(rightHandPoint);
                 currentCapturedLine.Add(localizedPoint);
@@ -193,6 +196,7 @@ public class VRGestureManager : MonoBehaviour
         //On Release
         if ((trigger1 < 0.5) && (currentCapturedLine.Count > 0))
         {
+            state = VRGestureManagerState.ReadyToRecord;
             LineCaught(currentCapturedLine);
             currentCapturedLine.RemoveRange(0, currentCapturedLine.Count);
             currentCapturedLine.Clear();
@@ -202,6 +206,7 @@ public class VRGestureManager : MonoBehaviour
 
     void UpdateContinual()
     {
+        state = VRGestureManagerState.Recording;
         if (Time.time > nextRenderTime)
         {
             Vector3 rightHandPoint = playerHand.position;
@@ -274,10 +279,10 @@ public class VRGestureManager : MonoBehaviour
         }
     }
 
-    public void BeginRecord(string gesture)
+    public void BeginReadyToRecord(string gesture)
     {
-        //Debug.Log("BeginRecord: " + gesture);
-		state = VRGestureManagerState.Recording;
+        Debug.Log("BeginReadyToRecord in VRGestureManager: " + gesture);
+        state = VRGestureManagerState.ReadyToRecord;
 
         recording = gesture;
     }
