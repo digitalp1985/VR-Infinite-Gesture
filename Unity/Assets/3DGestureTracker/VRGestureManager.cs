@@ -97,7 +97,7 @@ public class VRGestureManager : MonoBehaviour
     {
         Debug.Log("On Enable inside of VRGestureManager");
         EventManager.StartListening("ReadyToRecord", BeginReadyToRecord);
-        EventManager.StartListening("Detect", BeginDetect);
+        EventManager.StartListening("BeginDetect", BeginDetect);
         //load a trainor
         //load a recognizer
     }
@@ -105,7 +105,7 @@ public class VRGestureManager : MonoBehaviour
     void OnDisable()
     {
         EventManager.StopListening("Record", BeginReadyToRecord);
-        EventManager.StopListening("Detect", BeginDetect);
+        EventManager.StopListening("BeginDetect", BeginDetect);
     }
 
     LineRenderer CreateLineRenderer(GameObject myGo, Color c1, Color c2)
@@ -183,7 +183,8 @@ public class VRGestureManager : MonoBehaviour
             CapturePoint(rightHandPoint, rightCapturedLine, lengthOfLineRenderer);
             if (trigger1 >= 0.5)
             {
-                state = VRGestureManagerState.Recording;
+                if (state == VRGestureManagerState.ReadyToRecord)
+                    state = VRGestureManagerState.Recording;
                 //add check if currentLine is empty
                 Vector3 localizedPoint = getLocalizedPoint(rightHandPoint);
                 currentCapturedLine.Add(localizedPoint);
@@ -196,7 +197,9 @@ public class VRGestureManager : MonoBehaviour
         //On Release
         if ((trigger1 < 0.5) && (currentCapturedLine.Count > 0))
         {
-            state = VRGestureManagerState.ReadyToRecord;
+            if (state == VRGestureManagerState.Recording)
+                state = VRGestureManagerState.ReadyToRecord;
+
             LineCaught(currentCapturedLine);
             currentCapturedLine.RemoveRange(0, currentCapturedLine.Count);
             currentCapturedLine.Clear();
@@ -287,12 +290,12 @@ public class VRGestureManager : MonoBehaviour
         recording = gesture;
     }
 
-    public void BeginDetect(string recognizer)
+    public void BeginDetect(string ignoreThisString)
     {
-		Debug.Log("begin detecting from this recognizer: " + recognizer);
+		Debug.Log("begin detecting from this recognizer: " + currentNeuralNet);
         recording = "";
 		state = VRGestureManagerState.Detecting;
-        currentRecognizer = new GestureRecognizer(recognizer);
+        currentRecognizer = new GestureRecognizer(currentNeuralNet);
     }
 
     [ExecuteInEditMode]
@@ -336,11 +339,10 @@ public class VRGestureManager : MonoBehaviour
     public void CreateNewNeuralNet(string neuralNetName)
     {
         // create new neural net folder
-        string neuralNetFolderLocation = Config.SAVE_FILE_PATH + neuralNetName;
-        System.IO.Directory.CreateDirectory(neuralNetFolderLocation);
+        //System.IO.Directory.CreateDirectory(neuralNetFolderLocation);
+        Utils.Instance.CreateFolder(neuralNetName);
         // create a gestures folder
-        string gesturesFolderLocation = Config.SAVE_FILE_PATH + neuralNetName + "/Gestures/";
-        System.IO.Directory.CreateDirectory(gesturesFolderLocation);
+        Utils.Instance.CreateFolder(neuralNetName + "/Gestures/");
 
         neuralNets.Add(neuralNetName);
         gestures = new List<string>();

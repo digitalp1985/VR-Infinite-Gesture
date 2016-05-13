@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEditor;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -179,6 +180,16 @@ namespace WinterMute
             }
 
             return gestureBank;
+        }
+
+        // create a folder in the save file path
+        // return true if successful, false if not
+        public bool CreateFolder (string path)
+        {
+            string folderPathNew = Config.SAVE_FILE_PATH + path;
+            System.IO.Directory.CreateDirectory(folderPathNew);
+            AssetDatabase.ImportAsset(folderPathNew);
+            return true;
         }
     }
 

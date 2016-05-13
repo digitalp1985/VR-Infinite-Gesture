@@ -105,7 +105,7 @@ public class GestureUIController : MonoBehaviour
     public void BeginDetectMode()
     {
         //Debug.Log("begin detect mode");
-        EventManager.TriggerEvent("Detect", vrGestureManager.currentNeuralNet );
+        EventManager.TriggerEvent("BeginDetect");
     }
 
     public void BeingReadyToRecordGesture(string gestureName)
