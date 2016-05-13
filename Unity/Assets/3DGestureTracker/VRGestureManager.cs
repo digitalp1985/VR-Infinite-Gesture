@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEditor;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -365,7 +366,7 @@ public class VRGestureManager : MonoBehaviour
 		gestureBank = new List<string>();
 
         // select the new neural net
-        SelectNeuralNet(neuralNetName);
+		SelectNeuralNet(neuralNetName, false);
         Debug.Log("creating new neural net: " + neuralNetName);
     }
 
@@ -375,6 +376,7 @@ public class VRGestureManager : MonoBehaviour
         neuralNets.Remove(neuralNetName);
         Debug.Log("deleting neural net: " + neuralNetName);
         gestureBank.Clear();
+		Utils.Instance.DeleteNeuralNetFiles(neuralNetName);
     }
 
     [ExecuteInEditMode]
@@ -394,10 +396,10 @@ public class VRGestureManager : MonoBehaviour
     }
 
     [ExecuteInEditMode]
-    public void SelectNeuralNet(string neuralNetName)
+	public void SelectNeuralNet(string neuralNetName, bool isNull)
     {
         Debug.Log("SELECT NET: " + neuralNetName);
-        if (neuralNetName == null)
+		if (isNull)
         {
             // set the current neural net to null
             Debug.Log("set the current neural net to null");

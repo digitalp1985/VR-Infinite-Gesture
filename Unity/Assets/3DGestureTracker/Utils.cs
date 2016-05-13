@@ -203,6 +203,17 @@ namespace WinterMute
 			FileUtil.DeleteFileOrDirectory(gestureFileLocation);
 		}
 
+		public void DeleteNeuralNetFiles(string networkName)
+		{
+			string path = Config.SAVE_FILE_PATH + networkName + "/";
+			if (System.IO.Directory.Exists(path))
+			{
+				Debug.Log("Deleting Neural Net Files: " + networkName);
+				System.IO.Directory.Delete(path, true);
+			}
+			AssetDatabase.Refresh();
+		}
+
         // create a folder in the save file path
         // return true if successful, false if not
         public bool CreateFolder (string path)

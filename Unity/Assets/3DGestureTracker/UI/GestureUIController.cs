@@ -120,7 +120,7 @@ public class GestureUIController : MonoBehaviour
 
     public void SelectNeuralNet(string neuralNetName)
     {
-        vrGestureManager.SelectNeuralNet(neuralNetName);
+		vrGestureManager.SelectNeuralNet(neuralNetName, false);
     }
 
     public void BeginTraining()
@@ -215,7 +215,7 @@ public class GestureUIController : MonoBehaviour
         {
             string neuralNetName = vrGestureManager.neuralNets[i];
             buttons[i].onClick.AddListener(() => panelManager.FocusPanel("Main Menu"));
-            buttons[i].onClick.AddListener(() => SelectNeuralNet(neuralNetName));
+			buttons[i].onClick.AddListener(() => SelectNeuralNet(neuralNetName));
         }
 
         AdjustListTitlePosition(neuralNetTitle.transform, buttons.Count, neuralNetMenuButtonHeight);
