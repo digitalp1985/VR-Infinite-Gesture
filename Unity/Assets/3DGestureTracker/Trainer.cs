@@ -104,8 +104,8 @@ namespace WinterMute
             {
                 Debug.Log("No recorded gestures. Please record some gestures in VR.");
                 return null;
-            }
-            string[] files = System.IO.Directory.GetFiles(gesturesFilePath, "*.txt");
+			}
+            string[] files = System.IO.Directory.GetFiles(gesturesFilePath, ".txt");
 
             List<string> tmpLines = new List<string>();
             foreach (string fileLocation in files)
