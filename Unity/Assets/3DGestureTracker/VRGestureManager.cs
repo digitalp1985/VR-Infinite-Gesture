@@ -362,6 +362,12 @@ public class VRGestureManager : MonoBehaviour
     }
 
     [ExecuteInEditMode]
+    public void CreateGesture(string gestureName)
+    {
+        gestureBank.Add(gestureName);
+    }
+
+    [ExecuteInEditMode]
     public void DeleteGesture(string gestureName)
     {
         Debug.Log("deleting gesture: " + gestureName);
@@ -374,6 +380,7 @@ public class VRGestureManager : MonoBehaviour
     [ExecuteInEditMode]
     public void SelectNeuralNet(string neuralNetName)
     {
+        Debug.Log("SELECT NET: " + neuralNetName);
         if (neuralNetName == null)
         {
             // set the current neural net to null
@@ -390,6 +397,10 @@ public class VRGestureManager : MonoBehaviour
             if (Utils.Instance.GetGestureBank(neuralNetName) != null)
             {
                 gestureBank = Utils.Instance.GetGestureBank(neuralNetName);
+            }
+            else
+            {
+                gestureBank = new List<string>();
             }
         }
 

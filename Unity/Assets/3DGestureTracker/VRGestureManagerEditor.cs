@@ -8,7 +8,7 @@ using WinterMute;
 [CustomEditor(typeof(VRGestureManager)), CanEditMultipleObjects]
 public class VRGestureManagerEditor : Editor
 {
-	VRGestureManager vrGestureManager;
+	static VRGestureManager vrGestureManager;
 
 	// neural net gui helpers
 	int selectedNeuralNetIndex = 0;
@@ -464,10 +464,10 @@ public class VRGestureManagerEditor : Editor
 			}
 		}
 			
-		// if the list is empty show the plus button
+		// if the list is empty show the plus + button
 		if (showButtons && list.arraySize == 0 && GUILayout.Button(addButtonContent, EditorStyles.miniButton))
 		{
-			list.arraySize += 1;
+            vrGestureManager.CreateGesture("gesture 1");
 		}
 	}
 
@@ -481,20 +481,22 @@ public class VRGestureManagerEditor : Editor
 		// plus button
 		if (GUILayout.Button(duplicateButtonContent, EditorStyles.miniButtonMid, miniButtonWidth))
 		{
-			list.InsertArrayElementAtIndex(index);
+            //list.InsertArrayElementAtIndex(index);
+            int size = list.arraySize;
+            vrGestureManager.CreateGesture("gesture " + size);
 		}
 		// minus button
 		if (GUILayout.Button(deleteButtonContent, EditorStyles.miniButtonRight, miniButtonWidth))
 		{
             // new way to delete using vrGestureManager directly
-            //string gestureName = list.GetArrayElementAtIndex(index).stringValue;
-            //vrGestureManager.DeleteGesture(gestureName);
+            string gestureName = list.GetArrayElementAtIndex(index).stringValue;
+            vrGestureManager.DeleteGesture(gestureName);
 
             // old way to delete from property
-            int oldSize = list.arraySize;
-            list.DeleteArrayElementAtIndex(index);
-            if (list.arraySize == oldSize)
-                list.DeleteArrayElementAtIndex(index);
+            //int oldSize = list.arraySize;
+            //list.DeleteArrayElementAtIndex(index);
+            //if (list.arraySize == oldSize)
+            //    list.DeleteArrayElementAtIndex(index);
         }
 	}
 

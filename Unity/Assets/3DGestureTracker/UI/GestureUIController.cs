@@ -122,14 +122,6 @@ public class GestureUIController : MonoBehaviour
         vrGestureManager.SelectNeuralNet(neuralNetName);
     }
 
-    public void CreateNewGesture()
-    {
-        Debug.Log("called create new gesture");
-        string newGestureName = "Gesture " + (vrGestureManager.gestureBank.Count + 1);
-        vrGestureManager.gestureBank.Add(newGestureName);
-        GenerateRecordMenuButtons();
-    }
-
     public void BeginTraining()
     {
         panelManager.FocusPanel("Training Menu");
@@ -151,6 +143,15 @@ public class GestureUIController : MonoBehaviour
     {
         StartCoroutine(TrainingMenuDelay(1f));
     }
+
+    public void CreateGesture()
+    {
+        Debug.Log("called create new gesture");
+        string newGestureName = "Gesture " + (vrGestureManager.gestureBank.Count + 1);
+        vrGestureManager.CreateGesture(newGestureName);
+        GenerateRecordMenuButtons();
+    }
+
 
     public void DeleteGesture(string gestureName)
     {

@@ -108,7 +108,6 @@ namespace WinterMute
             return output;
         }
 
-
         //Format line for NeuralNetwork
         public double[] FormatLine(List<Vector3> capturedLine)
         {
