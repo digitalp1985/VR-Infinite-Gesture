@@ -184,6 +184,9 @@ public class VRGestureManagerEditor : Editor
 	void ShowNeuralNetTrainedGestures()
 	{
 		GUIStyle style = EditorStyles.whiteLabel;
+		GUILayout.BeginVertical();
+			EditorGUILayout.LabelField("TRAINED GESTURES");
+		GUILayout.EndVertical();
 		GUILayout.BeginVertical(style);
 		foreach(string gesture in vrGestureManager.Gestures)
 		{
