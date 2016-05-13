@@ -35,7 +35,19 @@ public class VRGestureManager : MonoBehaviour
     public string currentNeuralNet;
     [SerializeField]
     public List<string> neuralNets;
-    public List<string> gestures; // list of gestures already trained in currentNeuralNet
+	private List<string> gestures; 	// list of gestures already trained in currentNeuralNet
+	public List<string> Gestures
+	{
+		get
+		{
+			NeuralNetworkStub stub = Utils.Instance.ReadNeuralNetworkStub (currentNeuralNet);
+			return stub.gestures;
+		}
+		set
+		{
+			value = gestures;
+		}
+	}
     public List<string> gestureBank; // list of untrained + trained gestures for currentNeuralNet
 
     Transform perpTransform;
@@ -70,7 +82,7 @@ public class VRGestureManager : MonoBehaviour
         playerHand = myAvatar.vrRigAnchors.rHandAnchor;
 
         //create a new Trainer
-        currentTrainer = new Trainer(gestures, currentNeuralNet);
+        currentTrainer = new Trainer(Gestures, currentNeuralNet);
 
 
 
@@ -349,7 +361,7 @@ public class VRGestureManager : MonoBehaviour
         Utils.Instance.CreateFolder(neuralNetName + "/Gestures/");
 
         neuralNets.Add(neuralNetName);
-        gestures = new List<string>();
+		gestures = new List<string>();
 		gestureBank = new List<string>();
 
         // select the new neural net
@@ -378,9 +390,7 @@ public class VRGestureManager : MonoBehaviour
     {
         Debug.Log("deleting gesture: " + gestureName);
         gestureBank.Remove(gestureName);
-        string gestureFileLocation = Config.SAVE_FILE_PATH + currentNeuralNet + "/Gestures/" + gestureName + ".txt";
-        if (System.IO.Directory.Exists(gestureFileLocation))
-            System.IO.Directory.Delete(gestureFileLocation);
+		Utils.Instance.DeleteGestureFile(gestureName, currentNeuralNet);
     }
 
     [ExecuteInEditMode]
@@ -398,8 +408,7 @@ public class VRGestureManager : MonoBehaviour
             // Load the neural net and gestures into gesture bank
             Debug.Log("selecting neural net: " + neuralNetName);
             currentNeuralNet = neuralNetName;
-            NeuralNetworkStub stub = Utils.Instance.ReadNeuralNetworkStub(neuralNetName);
-            gestures = stub.gestures;
+
             if (Utils.Instance.GetGestureBank(neuralNetName) != null)
             {
                 gestureBank = Utils.Instance.GetGestureBank(neuralNetName);
@@ -411,5 +420,4 @@ public class VRGestureManager : MonoBehaviour
         }
 
     }
-
 }

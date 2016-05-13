@@ -184,10 +184,24 @@ namespace WinterMute
         public void CreateGestureFile(string gestureName, string networkName)
         {
             string gestureFileLocation = Config.SAVE_FILE_PATH + networkName + "/Gestures/";
+			// if no gestures folder already
+			if (!System.IO.Directory.Exists(gestureFileLocation))
+			{
+				// create gestures folder
+				System.IO.Directory.CreateDirectory(gestureFileLocation);
+			}
+
+			// create the gesture file
             string fullPath = gestureFileLocation + gestureName + ".txt";
-            System.IO.StreamWriter file = new System.IO.StreamWriter(fullPath, true);
+        	System.IO.StreamWriter file = new System.IO.StreamWriter(fullPath, true);
             AssetDatabase.ImportAsset(fullPath);
         }
+
+		public void DeleteGestureFile(string gestureName, string networkName)
+		{
+			string gestureFileLocation = Config.SAVE_FILE_PATH + networkName + "/Gestures/" + gestureName + ".txt";
+			FileUtil.DeleteFileOrDirectory(gestureFileLocation);
+		}
 
         // create a folder in the save file path
         // return true if successful, false if not

@@ -105,9 +105,6 @@ public class VRGestureManagerEditor : Editor
 			if (vrGestureManager.readyToTrain && editGestures && neuralNetGUIMode == NeuralNetGUIMode.ShowPopup)
 				ShowTrainButton();
 
-			// DETECT BUTTON
-			//ShowDetectButton();
-
 		}
 		else if (vrGestureManager.state == VRGestureManagerState.Detecting)// DETECT UI
 		{
@@ -165,21 +162,34 @@ public class VRGestureManagerEditor : Editor
 					GUI.FocusControl("Clear"); 
 					neuralNetGUIMode = NeuralNetGUIMode.EnterNewNetName;
 					newNeuralNetName = "";
+					GUILayout.EndHorizontal();
+
 				}
 			break;
 			// NEURAL NET POPUP
 			case (NeuralNetGUIMode.ShowPopup):
 				ShowNeuralNetPopup(neuralNetsArray);
-				ShowNeuralNetData();
+				GUILayout.EndHorizontal();
+				ShowNeuralNetTrainedGestures();
 			break;
 		}
-		GUILayout.EndHorizontal();
 
 		// TEMP
 
 		// DEBUG ONLY
 //		ShowList(serializedObject.FindProperty("neuralNets"), EditorListOption.ListLabelButtons);
 
+	}
+
+	void ShowNeuralNetTrainedGestures()
+	{
+		GUIStyle style = EditorStyles.whiteLabel;
+		GUILayout.BeginVertical(style);
+		foreach(string gesture in vrGestureManager.Gestures)
+		{
+			EditorGUILayout.LabelField(gesture, style);
+		}
+		GUILayout.EndVertical();
 	}
 
 	enum NeuralNetGUIMode { None, EnterNewNetName, ShowPopup };
@@ -251,22 +261,6 @@ public class VRGestureManagerEditor : Editor
 					selectedNeuralNetIndex = 0;
 			}
 		}
-	}
-
-	void ShowNeuralNetData ()
-	{
-		// show list of trained gestures
-//		SerializedProperty gesturesTrained = new SerializedProperty (typeof(string[]));
-//		gesturesTrained[0] = "gesture1";
-//		SerializedProperty size = gesturesTrained.FindPropertyRelative("Array.size");
-//
-//		for (int i = 0; i < size; i++)
-//		{
-//			EditorGUILayout.PropertyField(gesturesTrained.GetArrayElementAtIndex(i));
-//
-//		}
-
-
 	}
 
 	bool ShowNeuralNetDeleteDialog (string neuralNetName)

@@ -99,7 +99,7 @@ namespace WinterMute
             //read in the file
             //technically this should only read files that are also in the gestures list.
             //@TODO - compare files in gestures folder to  ones in list.
-            string gesturesFilePath = Config.SAVE_FILE_PATH + recognizerName + "/gestures/";
+            string gesturesFilePath = Config.SAVE_FILE_PATH + recognizerName + "/Gestures/";
             if (!System.IO.Directory.Exists(gesturesFilePath))
             {
                 Debug.Log("No recorded gestures. Please record some gestures in VR.");
@@ -186,7 +186,7 @@ namespace WinterMute
             stub.numOutput = numOutput;
             stub.gestures = outputs;
             stub.weights = weights;
-            using (System.IO.StreamWriter file = new System.IO.StreamWriter(Config.SAVE_FILE_PATH + recognizerName + "/" + recognizerName+".txt", true))
+			using (System.IO.StreamWriter file = new System.IO.StreamWriter(Config.SAVE_FILE_PATH + recognizerName + "/" + recognizerName+".txt", false))
             {
                 //file.WriteLine(dumbString);
                 file.WriteLine(JsonUtility.ToJson(stub));
