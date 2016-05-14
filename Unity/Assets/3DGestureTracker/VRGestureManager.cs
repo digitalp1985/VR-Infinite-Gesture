@@ -49,7 +49,7 @@ public class VRGestureManager : MonoBehaviour
 			value = gestures;
 		}
 	}
-    public List<string> gestureBank; // list of untrained + trained gestures for currentNeuralNet
+    public List<string> gestureBank; // list of recorded gesture for current neural net
 
     Transform perpTransform;
 
@@ -419,14 +419,33 @@ public class VRGestureManager : MonoBehaviour
     [ExecuteInEditMode]
     public void SaveGestures()
     {
-        List<string> gestureFiles = Utils.Instance.GetGestureFiles(currentNeuralNet);
+		// check gesture files, compare to current gestureBank
+
+		// if any gesture files are missing make them again
+		for (int i = 0; i < gestureBank.Count; i++)
+		{
+			string path = Config.SAVE_FILE_PATH + currentNeuralNet + "/Gestures/" + gestureBank[i] + ".txt";
+			// if file doesn't exist
+			if (!System.IO.File.Exists(path))
+			{
+				Utils.Instance.CreateGestureFile(gestureBank[i], currentNeuralNet);
+			}
+		}
+			
+		// if any names are different change the files to match gestureBank
+		List<string> gestureFiles = new List<string>();
+		gestureFiles = Utils.Instance.GetGestureFiles(currentNeuralNet);
+		gestureFiles.Sort();
         for (int i = 0; i < gestureFiles.Count; i++)
         {
-            string fileName = System.IO.Path.GetFileNameWithoutExtension(gestureFiles[i]);
+			Debug.Log(gestureFiles[i]);
+            string gestureNameOld = System.IO.Path.GetFileNameWithoutExtension(gestureFiles[i]);
+			string gestureNameNew = gestureBank[i];
 
-            if (fileName != gestureBank[i])
+			if (gestureNameOld != gestureNameNew)
             {
-                Debug.Log(fileName + " is not equal to " + gestureBank[i]);
+				Debug.Log(gestureNameOld + " is not equal to " + gestureNameNew);
+				Utils.Instance.ChangeGestureName(gestureNameOld, gestureNameNew, currentNeuralNet);
             }
         }
     }

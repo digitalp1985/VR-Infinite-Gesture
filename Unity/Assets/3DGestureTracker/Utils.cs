@@ -203,6 +203,13 @@ namespace WinterMute
 			FileUtil.DeleteFileOrDirectory(gestureFileLocation);
 		}
 
+		public void ChangeGestureName(string gestureNameOld, string gestureNameNew, string networkName)
+		{
+			FileInfo file = new FileInfo( Config.SAVE_FILE_PATH + networkName + "/Gestures/" + gestureNameOld + ".txt" );
+			string path = Config.SAVE_FILE_PATH + networkName + "/Gestures/";
+			file.MoveTo(path + gestureNameNew + ".txt");
+		}
+
         public List<string> GetGestureFiles(string networkName)
         {
             string gesturesFilePath = Config.SAVE_FILE_PATH + networkName + "/Gestures/";
