@@ -201,6 +201,7 @@ namespace WinterMute
 		{
 			string gestureFileLocation = Config.SAVE_FILE_PATH + networkName + "/Gestures/" + gestureName + ".txt";
 			FileUtil.DeleteFileOrDirectory(gestureFileLocation);
+			AssetDatabase.Refresh();
 		}
 
 		public void ChangeGestureName(string gestureNameOld, string gestureNameNew, string networkName)

@@ -436,17 +436,25 @@ public class VRGestureManager : MonoBehaviour
 		List<string> gestureFiles = new List<string>();
 		gestureFiles = Utils.Instance.GetGestureFiles(currentNeuralNet);
 		gestureFiles.Sort();
+		gestureBank.Sort();
+
+		// if a gesture was deleted from the gesture bank, delete the corresponding file
+		if (gestureBank.Count < gestureFiles.Count)
+		{
+			for (int i = 0; i < gestureFiles.Count; i++)
+			{
+				string gestureInFile = System.IO.Path.GetFileNameWithoutExtension(gestureFiles[i]);
+				// if the gesture file is not in the gesture bank
+				if (!gestureBank.Contains(gestureInFile))
+				{
+					Utils.Instance.DeleteGestureFile(gestureInFile, currentNeuralNet);
+				}
+			}
+		}
+
         for (int i = 0; i < gestureFiles.Count; i++)
         {
-			Debug.Log(gestureFiles[i]);
-            string gestureNameOld = System.IO.Path.GetFileNameWithoutExtension(gestureFiles[i]);
-			string gestureNameNew = gestureBank[i];
-
-			if (gestureNameOld != gestureNameNew)
-            {
-				Debug.Log(gestureNameOld + " is not equal to " + gestureNameNew);
-				Utils.Instance.ChangeGestureName(gestureNameOld, gestureNameNew, currentNeuralNet);
-            }
+//			Utils.Instance.ChangeGestureName(gestureNameOld, gestureNameNew, currentNeuralNet);
         }
     }
 
