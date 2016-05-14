@@ -125,15 +125,6 @@ public class VRGestureManagerEditor : Editor
 			EditorGUILayout.Separator(); // a little space between sections
 			GUILayout.EndVertical();
 
-			// TRAIN BUTTON
-			if (vrGestureManager.readyToTrain && editGestures && neuralNetGUIMode == NeuralNetGUIMode.ShowPopup)
-				ShowTrainButton();
-
-			// SEPARATOR
-			GUILayout.BeginVertical(separatorStyle);
-			EditorGUILayout.Separator(); // a little space between sections
-			GUILayout.EndVertical();
-
 			// GESTURE SECTION
 			GUILayout.BeginVertical(gesturesSectionStyle);
 			// if a neural net is selected
@@ -141,9 +132,14 @@ public class VRGestureManagerEditor : Editor
 				ShowGestures();
 			GUILayout.EndVertical();
 
+			// SEPARATOR
 			GUILayout.BeginHorizontal(separatorStyle);
 			EditorGUILayout.Separator(); // a little space between sections
 			GUILayout.EndHorizontal();
+
+			// TRAIN BUTTON
+			if (vrGestureManager.readyToTrain && editGestures && neuralNetGUIMode == NeuralNetGUIMode.ShowPopup)
+				ShowTrainButton();
 
 		}
 		// TRAINING IS PROCESSING UI
