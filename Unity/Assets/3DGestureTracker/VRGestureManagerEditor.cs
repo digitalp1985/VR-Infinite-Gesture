@@ -50,6 +50,14 @@ public class VRGestureManagerEditor : Editor
 	Texture2D bg1;
 	Texture2D bg2;
 
+	// NEURAL NET STUFF
+	int selectedNeuralNetIndexLast;
+	string selectedNeuralNetName = "";
+
+	// GUI MODES
+	enum NeuralNetGUIMode { None, EnterNewNetName, ShowPopup };
+	NeuralNetGUIMode neuralNetGUIMode;
+
     public override void OnInspectorGUI()
     {
 		// TEXTURE SETUP
@@ -62,9 +70,36 @@ public class VRGestureManagerEditor : Editor
 		vrGestureManager = (VRGestureManager)target;
 		serializedObject.Update();
 
-		ShowTransforms();
+		GUILayout.BeginHorizontal();
 
-		// NORMAL UI
+		if (GUILayout.Button("Train"))
+			vrGestureManager.stateInitial = VRGestureManagerState.Idle;
+
+		if (GUILayout.Button("Detect"))
+			vrGestureManager.stateInitial = VRGestureManagerState.Detecting;
+		
+		GUILayout.EndHorizontal();
+
+		if (vrGestureManager.stateInitial != VRGestureManagerState.Detecting)
+			ShowTrain();
+		if (vrGestureManager.stateInitial == VRGestureManagerState.Detecting)
+			ShowDetect();
+
+		serializedObject.ApplyModifiedProperties();
+    }
+
+	void ShowDetect ()
+	{
+		EditorGUILayout.PropertyField(serializedObject.FindProperty("vrRigAnchors"));
+		EditorGUILayout.PropertyField(serializedObject.FindProperty("playerHead"));
+		EditorGUILayout.PropertyField(serializedObject.FindProperty("playerHand"));
+		EditorGUILayout.Separator();
+		EditorGUILayout.PropertyField(serializedObject.FindProperty("vrGestureDetectType"));
+	}
+	
+	void ShowTrain ()
+	{
+		// TRAINING SETUP UI
 		if (vrGestureManager.state != VRGestureManagerState.Training) 
 		{
 			// BACKGROUND / STYLE SETUP
@@ -75,13 +110,13 @@ public class VRGestureManagerEditor : Editor
 			GUIStyle separatorStyle = new GUIStyle();
 			//separatorStyle.normal.background = bg2;
 
-            // SEPARATOR
-            GUILayout.BeginHorizontal(separatorStyle);
-            EditorGUILayout.Separator(); // a little space between sections
-            GUILayout.EndHorizontal();
+			// SEPARATOR
+			GUILayout.BeginHorizontal(separatorStyle);
+			EditorGUILayout.Separator(); // a little space between sections
+			GUILayout.EndHorizontal();
 
-            // NEURAL NET SECTION
-            GUILayout.BeginVertical(neuralSectionStyle);
+			// NEURAL NET SECTION
+			GUILayout.BeginVertical(neuralSectionStyle);
 			ShowNeuralNets();
 			GUILayout.EndVertical();
 
@@ -89,7 +124,7 @@ public class VRGestureManagerEditor : Editor
 			GUILayout.BeginVertical(separatorStyle);
 			EditorGUILayout.Separator(); // a little space between sections
 			GUILayout.EndVertical();
-			
+
 			// TRAIN BUTTON
 			if (vrGestureManager.readyToTrain && editGestures && neuralNetGUIMode == NeuralNetGUIMode.ShowPopup)
 				ShowTrainButton();
@@ -106,31 +141,18 @@ public class VRGestureManagerEditor : Editor
 				ShowGestures();
 			GUILayout.EndVertical();
 
-            GUILayout.BeginHorizontal(separatorStyle);
+			GUILayout.BeginHorizontal(separatorStyle);
 			EditorGUILayout.Separator(); // a little space between sections
-            GUILayout.EndHorizontal();
+			GUILayout.EndHorizontal();
 
-		}
-		else if (vrGestureManager.state == VRGestureManagerState.Detecting)// DETECT UI
-		{
-			ShowDetectMode();
 		}
 		// TRAINING IS PROCESSING UI
 		else if (vrGestureManager.state == VRGestureManagerState.Training)
 		{
 			ShowTrainingMode();
 		}
-
-		serializedObject.ApplyModifiedProperties();
-    }
-
-	void ShowTransforms ()
-	{
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("vrRigAnchors"));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("playerHead"));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("playerHand"));
 	}
-
+		
 	void ShowNeuralNets()
 	{
 		
@@ -200,10 +222,6 @@ public class VRGestureManagerEditor : Editor
 		GUILayout.EndVertical();
 	}
 
-	enum NeuralNetGUIMode { None, EnterNewNetName, ShowPopup };
-	NeuralNetGUIMode neuralNetGUIMode;
-	int selectedNeuralNetIndexLast;
-
 	void ShowNeuralNetCreateNewOptions ()
 	{
 		newNeuralNetName = EditorGUILayout.TextField(newNeuralNetName);
@@ -229,8 +247,6 @@ public class VRGestureManagerEditor : Editor
 		}
 
 	}
-
-    string selectedNeuralNetName = "";
 
     void ShowNeuralNetPopup (string[] neuralNetsArray)
 	{
@@ -352,23 +368,6 @@ public class VRGestureManagerEditor : Editor
 				vrGestureManager.EndTraining(OnQuitTraining);
 			}
 		}
-	}
-
-	void ShowDetectButton()
-	{
-		if (GUILayout.Button(detectButtonContent, GUILayout.Height(40f)))
-		{
-			EventType eventType = Event.current.type;
-			if (eventType == EventType.used)
-			{
-				vrGestureManager.BeginDetect("I don't know what");
-			}
-		}
-	}
-
-	void ShowDetectMode()
-	{
-
 	}
 
 	// callback that VRGestureManager should call upon training finished

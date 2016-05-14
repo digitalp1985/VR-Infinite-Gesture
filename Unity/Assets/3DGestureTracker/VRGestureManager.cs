@@ -8,11 +8,16 @@ using VRDebugUI;
 using UnityEngine.UI;
 
 public enum VRGestureManagerState { Idle, ReadyToRecord, Recording, Training, Detecting };
+public enum VRGestureDetectType { Button, Continious };
 
 public class VRGestureManager : MonoBehaviour
 {
+	public VRGestureDetectType vrGestureDetectType;
+
     [HideInInspector]
     public VRGestureManagerState state;
+	[HideInInspector]
+	public VRGestureManagerState stateInitial;
     private VRGestureManagerState stateLast;
 
     public Transform vrRigAnchors;
@@ -68,7 +73,8 @@ public class VRGestureManager : MonoBehaviour
 
     void Start()
     {
-        state = VRGestureManagerState.Idle;
+		Debug.Log("initial state is: " + stateInitial);
+		state = stateInitial;
         Debug.Log(state);
         stateLast = state;
 
@@ -180,8 +186,10 @@ public class VRGestureManager : MonoBehaviour
             if (state == VRGestureManagerState.ReadyToRecord || 
                 state == VRGestureManagerState.Detecting ||
                 state == VRGestureManagerState.Recording )
+			{
                 UpdateWithButtons();
-            //UpdateContinual();
+            	UpdateContinual();
+			}
         }
     }
 
@@ -226,7 +234,7 @@ public class VRGestureManager : MonoBehaviour
 
     void UpdateContinual()
     {
-        state = VRGestureManagerState.Recording;
+//		state = VRGestureManagerState.Detecting;
         if (Time.time > nextRenderTime)
         {
             Vector3 rightHandPoint = playerHand.position;
@@ -383,10 +391,10 @@ public class VRGestureManager : MonoBehaviour
 	[ExecuteInEditMode]
 	public void SelectNeuralNet(string neuralNetName)
 	{
-		Debug.Log("SELECT NET: " + neuralNetName);
+//		Debug.Log("SELECT NET: " + neuralNetName);
 		
 		// Load the neural net and gestures into gesture bank
-		Debug.Log("selecting neural net: " + neuralNetName);
+//		Debug.Log("selecting neural net: " + neuralNetName);
 		currentNeuralNet = neuralNetName;
 		
 		if (Utils.Instance.GetGestureBank(neuralNetName) != null)
