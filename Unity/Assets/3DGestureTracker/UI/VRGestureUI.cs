@@ -51,6 +51,7 @@ public class VRGestureUI : MonoBehaviour
 
     void Start()
     {
+
         buttonRectScale = new Vector3(0.6666f, 1, 0.2f);
 
         // get line capturer
@@ -278,7 +279,13 @@ public class VRGestureUI : MonoBehaviour
     void PanelFocusChanged(string panelName)
     {
         if (panelName == "Main Menu")
+		{
             vrGestureManager.state = VRGestureManagerState.Idle;
+		}
+		if (panelName == "Select Neural Net Menu")
+		{
+			vrGestureManager.state = VRGestureManagerState.Idle;
+		}
         if (panelName == "Record Menu")
         {
             vrGestureManager.state = VRGestureManagerState.Idle;
