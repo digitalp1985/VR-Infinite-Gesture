@@ -306,12 +306,12 @@ public class VRGestureManagerEditor : Editor
 		{
 			if (editGesturesButtonText == "Edit Gestures")
 			{
-				if (EditorUtility.DisplayDialog("Are you sure you want to edit gestures?", 
-					"If you edit any gestures, you will need to re-train your neural net", "ok"))
-				{
-					editGestures = !editGestures;
-				}
-			}
+                if (EditorUtility.DisplayDialog("Are you sure you want to edit gestures?",
+                    "If you edit any gestures, you will need to re-train your neural net", "ok"))
+                {
+                    editGestures = !editGestures;
+                }
+            }
 			if (editGesturesButtonText == "Save Gestures")
 			{
 				vrGestureManager.SaveGestures();

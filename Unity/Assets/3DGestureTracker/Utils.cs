@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace WinterMute
 {
@@ -25,7 +26,6 @@ namespace WinterMute
                 return instance;
             }
         }
-
 
         public List<Vector3> DownResLine(List<Vector3> capturedLine)
         {
@@ -202,6 +202,13 @@ namespace WinterMute
 			string gestureFileLocation = Config.SAVE_FILE_PATH + networkName + "/Gestures/" + gestureName + ".txt";
 			FileUtil.DeleteFileOrDirectory(gestureFileLocation);
 		}
+
+        public List<string> GetGestureFiles(string networkName)
+        {
+            string gesturesFilePath = Config.SAVE_FILE_PATH + networkName + "/Gestures/";
+            string[] files = System.IO.Directory.GetFiles(gesturesFilePath, "*.txt");
+            return files.ToList<string>();
+        }
 
 		public void DeleteNeuralNetFiles(string networkName)
 		{

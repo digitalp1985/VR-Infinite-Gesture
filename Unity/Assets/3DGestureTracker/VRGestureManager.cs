@@ -316,12 +316,6 @@ public class VRGestureManager : MonoBehaviour
     }
 
     [ExecuteInEditMode]
-    public void SaveGestures()
-    {
-//		Debug.Log("save gestures");
-    }
-
-    [ExecuteInEditMode]
     public void BeginTraining (Action<string> callback)
     {
         Debug.Log("Begin Training " + currentNeuralNet );
@@ -421,5 +415,21 @@ public class VRGestureManager : MonoBehaviour
         gestureBank.Remove(gestureName);
 		Utils.Instance.DeleteGestureFile(gestureName, currentNeuralNet);
     }
+
+    [ExecuteInEditMode]
+    public void SaveGestures()
+    {
+        List<string> gestureFiles = Utils.Instance.GetGestureFiles(currentNeuralNet);
+        for (int i = 0; i < gestureFiles.Count; i++)
+        {
+            string fileName = System.IO.Path.GetFileNameWithoutExtension(gestureFiles[i]);
+
+            if (fileName != gestureBank[i])
+            {
+                Debug.Log(fileName + " is not equal to " + gestureBank[i]);
+            }
+        }
+    }
+
 
 }
