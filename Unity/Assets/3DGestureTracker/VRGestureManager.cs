@@ -406,6 +406,7 @@ public class VRGestureManager : MonoBehaviour
         Debug.Log("Create Gesture: " + gestureName);
         gestureBank.Add(gestureName);
         Utils.Instance.CreateGestureFile(gestureName, currentNeuralNet);
+		gestureBankPreEdit = new List<string>(gestureBank);
     }
 
     [ExecuteInEditMode]
@@ -414,6 +415,7 @@ public class VRGestureManager : MonoBehaviour
         Debug.Log("deleting gesture: " + gestureName);
         gestureBank.Remove(gestureName);
 		Utils.Instance.DeleteGestureFile(gestureName, currentNeuralNet);
+		gestureBankPreEdit = new List<string>(gestureBank);
     }
 
 	List<string> gestureBankPreEdit;
@@ -470,6 +472,18 @@ public class VRGestureManager : MonoBehaviour
 			foreach (string gesture in gestureBankPostEdit)
 			{
 				Utils.Instance.CreateGestureFile(gesture, currentNeuralNet);
+			}
+		}
+
+		// if gesture files are less than the edited gestures list
+		if (gestureFilesSorted.Count < gestureBankPostEdit.Count)
+		{
+			foreach(string gesturePostEdit in gestureBankPostEdit)
+			{
+				if (!gestureFilesSorted.Contains(gesturePostEdit))
+				{
+					Utils.Instance.CreateGestureFile(gesturePostEdit, currentNeuralNet);
+				}
 			}
 		}
 
