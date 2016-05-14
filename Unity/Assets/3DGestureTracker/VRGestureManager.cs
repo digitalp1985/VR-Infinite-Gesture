@@ -416,45 +416,117 @@ public class VRGestureManager : MonoBehaviour
 		Utils.Instance.DeleteGestureFile(gestureName, currentNeuralNet);
     }
 
+	List<string> gestureBankPreEdit;
+
+	[ExecuteInEditMode]
+	public void EditGestures()
+	{
+		Debug.Log("edit gestures");
+		gestureBankPreEdit = new List<string>(gestureBank);
+	}
+
     [ExecuteInEditMode]
     public void SaveGestures()
     {
-		// check gesture files, compare to current gestureBank
-
-		// if any gesture files are missing make them again
-		for (int i = 0; i < gestureBank.Count; i++)
-		{
-			string path = Config.SAVE_FILE_PATH + currentNeuralNet + "/Gestures/" + gestureBank[i] + ".txt";
-			// if file doesn't exist
-			if (!System.IO.File.Exists(path))
-			{
-				Utils.Instance.CreateGestureFile(gestureBank[i], currentNeuralNet);
-			}
-		}
-			
-		// if any names are different change the files to match gestureBank
+		Debug.Log("save gestures");
+		// make sorted lists of gestureFiles and gestureBank to make easier to compare
 		List<string> gestureFilesSorted = new List<string>();
 		gestureFilesSorted = Utils.Instance.GetGestureFiles(currentNeuralNet);
 		gestureFilesSorted.Sort();
-		List<string> gestureBankSorted = new List<string>(gestureBank);
-		gestureBankSorted.Sort();
+		List<string> gestureBankPostEdit = new List<string>(gestureBank);
+//		gestureBankPostEdit.Sort();
+//		gestureBankPreEdit.Sort();
 
-		// if a gesture was deleted from the gesture bank, delete the corresponding file
-		if (gestureBankSorted.Count < gestureFilesSorted.Count)
+		// if gestures were added to gestureBank
+//		if (gestureBankPostEdit.Count > gestureBankPreEdit.Count)
+//		{
+
+		// compare the pre-edited list to the post-edited list
+//		for(int i = 0; i < gestureBankPreEdit.Count; i++)
+//		{
+//			string gesture = gestureBankPreEdit[i];
+//			// if the user has deleted a gesture or changed its name
+//			if (!gestureBankPostEdit.Contains(gesture))
+//			{
+//				Debug.Log("doesn't contain");
+//				// find the file to update
+//				string fileToUpdate = Config.SAVE_FILE_PATH + currentNeuralNet + "/Gestures/" + gesture + ".txt";
+//				// if file exists
+//				if (System.IO.File.Exists(fileToUpdate))
+//				{
+//					// change its name
+//					Utils.Instance.ChangeGestureName(gesture, gestureBankPostEdit[i], currentNeuralNet);
+//				}
+//				else // if file doesn't exist
+//				{
+//					Utils.Instance.DeleteGestureFile(gesture, currentNeuralNet);
+//				}
+//			}
+//		}
+
+		// if no gesture files create from list
+		if (gestureFilesSorted.Count <= 0)
 		{
-			for (int i = 0; i < gestureFilesSorted.Count; i++)
+			foreach (string gesture in gestureBankPostEdit)
 			{
-				string gestureInFile = System.IO.Path.GetFileNameWithoutExtension(gestureFilesSorted[i]);
-				// if the gesture file is not in the gesture bank
-				if (!gestureBankSorted.Contains(gestureInFile))
-				{
-					Utils.Instance.DeleteGestureFile(gestureInFile, currentNeuralNet);
-				}
+				Utils.Instance.CreateGestureFile(gesture, currentNeuralNet);
 			}
 		}
 
+		// now compare the gesture files to the post-edited list
+//		for(int i = 0; i < gestureFilesSorted.Count; i++)
+//		{
+//			string path = gestureFilesSorted[i];
+//			string gestureFile = System.IO.Path.GetFileNameWithoutExtension(path);
+//
+//			// if the user has deleted a gesture or changed its name
+//			if (!gestureBankPostEdit.Contains(gestureFile))
+//			{
+//				int index = gestureBankPostEdit.IndexOf(gestureFile);
+//				Utils.Instance.ChangeGestureName(gestureFile, gestureBankPostEdit[index], currentNeuralNet);
+//			}
+//		}
+
+		// now compare the post-edited list to the gesture files
+		for (int i = 0; i < gestureBankPostEdit.Count; i++)
+		{
+			if (!gestureFilesSorted.Contains(gestureBankPostEdit[i]))
+			{
+				string gestureNamePreEdit = gestureBankPreEdit[i];
+				string gestureNamePostEdit = gestureBankPostEdit[i];
+				Utils.Instance.ChangeGestureName(gestureNamePreEdit, gestureNamePostEdit, currentNeuralNet);
+			}
+		}
+
+		// if any gesture files are missing (compared to gestureBank) make them again
+//		for (int i = 0; i < gestureBankPostEdit.Count; i++)
+//		{
+//			string path = Config.SAVE_FILE_PATH + currentNeuralNet + "/Gestures/" + gestureBankPostEdit[i] + ".txt";
+//			// if file doesn't exist
+//			if (!System.IO.File.Exists(path))
+//			{
+//				Utils.Instance.CreateGestureFile(gestureBankPostEdit[i], currentNeuralNet);
+//			}
+//		}
+
+		// if a gesture was deleted from the gesture bank, delete the corresponding file
+//		if (gestureBankPostEdit.Count < gestureFilesSorted.Count)
+//		{
+//			for (int i = 0; i < gestureFilesSorted.Count; i++)
+//			{
+//				string gestureInFile = System.IO.Path.GetFileNameWithoutExtension(gestureFilesSorted[i]);
+//				// if the gesture file is not in the gesture bank
+//				if (!gestureBankPostEdit.Contains(gestureInFile))
+//				{
+//					Utils.Instance.DeleteGestureFile(gestureInFile, currentNeuralNet);
+//				}
+//			}
+//		}
+
+		// if gesture bank name changed
         for (int i = 0; i < gestureFilesSorted.Count; i++)
         {
+			// find the file and change it's name
 //			Utils.Instance.ChangeGestureName(gestureNameOld, gestureNameNew, currentNeuralNet);
         }
     }

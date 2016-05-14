@@ -314,6 +314,7 @@ public class VRGestureManagerEditor : Editor
                 if (EditorUtility.DisplayDialog("Are you sure you want to edit gestures?",
                     "If you edit any gestures, you will need to re-train your neural net", "ok"))
                 {
+					vrGestureManager.EditGestures();
                     editGestures = !editGestures;
                 }
             }

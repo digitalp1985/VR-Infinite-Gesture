@@ -206,9 +206,12 @@ namespace WinterMute
 
 		public void ChangeGestureName(string gestureNameOld, string gestureNameNew, string networkName)
 		{
-			FileInfo file = new FileInfo( Config.SAVE_FILE_PATH + networkName + "/Gestures/" + gestureNameOld + ".txt" );
-			string path = Config.SAVE_FILE_PATH + networkName + "/Gestures/";
-			file.MoveTo(path + gestureNameNew + ".txt");
+			Debug.Log("change: " + gestureNameOld + " : name to: " + gestureNameNew);
+			string path = Config.SAVE_FILE_PATH + networkName + "/Gestures/" + gestureNameOld + ".txt";
+			AssetDatabase.RenameAsset(path, gestureNameNew);
+			string pathUpdated = Config.SAVE_FILE_PATH + networkName + "/Gestures/" + gestureNameNew + ".txt";
+//			AssetDatabase.ImportAsset(pathUpdated);
+			AssetDatabase.Refresh();
 		}
 
         public List<string> GetGestureFiles(string networkName)
