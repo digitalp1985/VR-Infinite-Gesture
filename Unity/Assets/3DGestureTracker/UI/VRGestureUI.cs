@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-public class GestureUIController : MonoBehaviour
+public class VRGestureUI : MonoBehaviour
 {
     public enum VRUIType { SteamVR, EdwonVR };
     public VRUIType vrUiType;

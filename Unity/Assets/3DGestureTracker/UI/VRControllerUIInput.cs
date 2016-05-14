@@ -4,10 +4,10 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 
-[RequireComponent (typeof (GestureUIController))]
+[RequireComponent (typeof (VRGestureUI))]
 public class VRControllerUIInput : BaseInputModule
 {
-    private GestureUIController.VRUIType vrUiType;
+    private VRGestureUI.VRUIType vrUiType;
     public static VRControllerUIInput Instance;
 
     [Header(" [Cursor setup]")]
@@ -48,7 +48,7 @@ public class VRControllerUIInput : BaseInputModule
     {
         base.Start();
 
-        vrUiType = GetComponent<GestureUIController>().vrUiType;
+        vrUiType = GetComponent<VRGestureUI>().vrUiType;
 
         if (Initialized == false)
         {
@@ -60,7 +60,7 @@ public class VRControllerUIInput : BaseInputModule
             ControllerCamera.cullingMask = 0; // 1 << LayerMask.NameToLayer("UI"); 
             ControllerCamera.nearClipPlane = 0.0001f;
 
-            if (vrUiType == GestureUIController.VRUIType.SteamVR)
+            if (vrUiType == VRGestureUI.VRUIType.SteamVR)
             {
                 ControllerManager = GameObject.FindObjectOfType<SteamVR_ControllerManager>();
                 Controllers = new Transform[] { ControllerManager.left.GetComponent<SteamVR_TrackedObject>().transform, ControllerManager.right.GetComponent<SteamVR_TrackedObject>().transform };
@@ -68,7 +68,7 @@ public class VRControllerUIInput : BaseInputModule
                 ControllerDevices = new SteamVR_Controller.Device[Controllers.Length];
                 Cursors = new RectTransform[Controllers.Length];
             }
-            else if (vrUiType == GestureUIController.VRUIType.EdwonVR)
+            else if (vrUiType == VRGestureUI.VRUIType.EdwonVR)
             {
                 Controllers = new Transform[] { PlayerManager.GetPlayerHand(0, VROptions.Handedness.Left).transform, PlayerManager.GetPlayerHand(0, VROptions.Handedness.Right).transform };
                 Cursors = new RectTransform[2];
@@ -235,7 +235,7 @@ public class VRControllerUIInput : BaseInputModule
     // Process is called by UI system to process events
     public override void Process()
     {
-        if (vrUiType == GestureUIController.VRUIType.SteamVR)
+        if (vrUiType == VRGestureUI.VRUIType.SteamVR)
             InitializeSteamVRControllers();
 
         GuiHit = false;
@@ -350,7 +350,7 @@ public class VRControllerUIInput : BaseInputModule
 
     private bool ButtonDown(int index)
     {
-        if (vrUiType == GestureUIController.VRUIType.SteamVR)
+        if (vrUiType == VRGestureUI.VRUIType.SteamVR)
         {
             return (ControllerDevices[index] != null && ControllerDevices[index].GetPressDown(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger) == true);
         }
@@ -365,7 +365,7 @@ public class VRControllerUIInput : BaseInputModule
 
     private bool ButtonUp(int index)
     {
-        if (vrUiType == GestureUIController.VRUIType.SteamVR)
+        if (vrUiType == VRGestureUI.VRUIType.SteamVR)
         {
             return (ControllerDevices[index] != null && ControllerDevices[index].GetPressUp(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger) == true);
         }
