@@ -89,6 +89,15 @@ public class VRGestureManagerEditor : Editor
 			GUILayout.BeginVertical(separatorStyle);
 			EditorGUILayout.Separator(); // a little space between sections
 			GUILayout.EndVertical();
+			
+			// TRAIN BUTTON
+			if (vrGestureManager.readyToTrain && editGestures && neuralNetGUIMode == NeuralNetGUIMode.ShowPopup)
+				ShowTrainButton();
+
+			// SEPARATOR
+			GUILayout.BeginVertical(separatorStyle);
+			EditorGUILayout.Separator(); // a little space between sections
+			GUILayout.EndVertical();
 
 			// GESTURE SECTION
 			GUILayout.BeginVertical(gesturesSectionStyle);
@@ -100,10 +109,6 @@ public class VRGestureManagerEditor : Editor
             GUILayout.BeginHorizontal(separatorStyle);
 			EditorGUILayout.Separator(); // a little space between sections
             GUILayout.EndHorizontal();
-
-			// TRAIN BUTTON
-			if (vrGestureManager.readyToTrain && editGestures && neuralNetGUIMode == NeuralNetGUIMode.ShowPopup)
-				ShowTrainButton();
 
 		}
 		else if (vrGestureManager.state == VRGestureManagerState.Detecting)// DETECT UI
@@ -323,7 +328,7 @@ public class VRGestureManagerEditor : Editor
 	
 	void ShowTrainButton()
 	{
-		if (GUILayout.Button(trainButtonContent, GUILayout.Height(40f)))
+		if (GUILayout.Button("TRAIN \n" + vrGestureManager.currentNeuralNet, GUILayout.Height(40f)))
 		{
 			EventType eventType = Event.current.type;
 			if (eventType == EventType.used)
