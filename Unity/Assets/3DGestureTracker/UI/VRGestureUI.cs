@@ -49,14 +49,17 @@ public class VRGestureUI : MonoBehaviour
     // default settings
     private Vector3 buttonRectScale; // new Vector3(0.6666f, 1, 0.2f);
 
+    void Awake()
+    {
+        if (vrGestureManager == null)
+            vrGestureManager = GameObject.FindObjectOfType<VRGestureManager>();
+    }
+
     void Start()
     {
 
         buttonRectScale = new Vector3(0.6666f, 1, 0.2f);
 
-        // get line capturer
-        if (vrGestureManager == null)
-            vrGestureManager = GameObject.FindObjectOfType<VRGestureManager>();
 
         // get vr player hand and camera
         if (vrUiType == VRUIType.EdwonVR)
