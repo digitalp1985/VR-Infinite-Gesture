@@ -32,9 +32,10 @@ namespace WinterMute
             //This should be a number between input and output.
             //numHidden = 10;
             //AbsVal of numInput-numOutput + min of numInput/numOutput
-            numHidden = Mathf.Abs(numInput - numOutput) / 3 + System.Math.Min(numInput, numOutput);
-            //numOutput = 3;
-            numOutput = gestureList.Count;
+            numHidden = 10;
+            //numHidden = Mathf.Abs(numInput - numOutput) / 3 + System.Math.Min(numInput, numOutput);
+            numOutput = 3;
+            //numOutput = gestureList.Count;
             recognizerName = name;
 
             outputs = gestureList;
@@ -105,8 +106,9 @@ namespace WinterMute
             {
                 Debug.Log("No recorded gestures. Please record some gestures in VR.");
                 return null;
-			}
-            string[] files = System.IO.Directory.GetFiles(gesturesFilePath, ".txt");
+            }
+            string[] files = System.IO.Directory.GetFiles(gesturesFilePath, "*.txt");
+            string[] files2 = System.IO.Directory.GetFiles(gesturesFilePath);
 
             List<string> tmpLines = new List<string>();
             foreach (string fileLocation in files)
@@ -187,13 +189,13 @@ namespace WinterMute
             stub.numOutput = numOutput;
             stub.gestures = outputs;
             stub.weights = weights;
-			string filePath = Config.SAVE_FILE_PATH + recognizerName + "/" + recognizerName+".txt";
-			using (System.IO.StreamWriter file = new System.IO.StreamWriter(filePath, false))
+            string filePath = Config.SAVE_FILE_PATH + recognizerName + "/" + recognizerName+".txt";
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(filePath, false))
             {
                 //file.WriteLine(dumbString);
                 file.WriteLine(JsonUtility.ToJson(stub));
             }
-			AssetDatabase.ImportAsset(filePath);
+            AssetDatabase.ImportAsset(filePath);
         }
 
 
