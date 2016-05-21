@@ -31,8 +31,9 @@ public class VRGestureManager : MonoBehaviour
     GameObject currentGo;
 
     int lengthOfLineRenderer = 50;
-    //LineRenderer rightLineRenderer;
+    LineRenderer rightLineRenderer;
     List<Vector3> rightCapturedLine;
+    List<Vector3> displayLine;
     LineRenderer currentRenderer;
     List<Vector3> currentCapturedLine;
 
@@ -102,12 +103,13 @@ public class VRGestureManager : MonoBehaviour
         rightInput = myAvatar.GetInput(VROptions.Handedness.Right);
 
         rightCapturedLine = new List<Vector3>();
+        displayLine = new List<Vector3>();
         currentCapturedLine = new List<Vector3>();
 
         perpTransform = new GameObject("Perpindicular Head").transform;
         perpTransform.parent = this.transform;
 
-        //rightLineRenderer = CreateLineRenderer(rightGo, Color.yellow, Color.red);
+        rightLineRenderer = CreateLineRenderer(rightGo, Color.yellow, Color.red);
         currentRenderer = CreateLineRenderer(currentGo, Color.magenta, Color.magenta);
     }
 
@@ -188,8 +190,21 @@ public class VRGestureManager : MonoBehaviour
                 state == VRGestureManagerState.Recording )
 			{
                 UpdateWithButtons();
-            	UpdateContinual();
+            	//UpdateContinual();
 			}
+        }
+    }
+
+    void UpdateWithButtons2()
+    {
+        if (rightInput.GetButtonUp(InputOptions.Button.Trigger1))
+        {
+            state = VRGestureManagerState.ReadyToRecord;
+        }
+
+        if (rightInput.GetButtonDown(InputOptions.Button.Trigger1))
+        {
+            state = VRGestureManagerState.Recording;
         }
     }
 
@@ -197,39 +212,60 @@ public class VRGestureManager : MonoBehaviour
     {
         float trigger1 = rightInput.GetAxis1D(InputOptions.Axis1D.Trigger1);
 
-        if (Time.time > nextRenderTime)
+        if (trigger1 < 0.5 && state == VRGestureManagerState.Recording)
         {
-            Vector3 rightHandPoint = playerHand.position;
-
-            nextRenderTime = Time.time + renderRateLimit / 1000;
-            CapturePoint(rightHandPoint, rightCapturedLine, lengthOfLineRenderer);
-            if (trigger1 >= 0.5)
+            state = VRGestureManagerState.ReadyToRecord;
+            //StopRecording();
+            if (currentCapturedLine.Count > 0)
             {
-                if (state == VRGestureManagerState.ReadyToRecord)
-                    state = VRGestureManagerState.Recording;
-
-                //add check if currentLine is empty
-                Vector3 localizedPoint = getLocalizedPoint(rightHandPoint);
-                currentCapturedLine.Add(localizedPoint);
-                currentRenderer.SetVertexCount(currentCapturedLine.Count);
-                currentRenderer.SetPositions(currentCapturedLine.ToArray());
+                StopRecording();
             }
         }
-        //RenderTrail(rightLineRenderer, rightCapturedLine);
-
-        //On Release
-        if ((trigger1 < 0.5) && (currentCapturedLine.Count > 0))
+        else if(trigger1 >= 0.5 && state == VRGestureManagerState.ReadyToRecord)
         {
-
-
-            LineCaught(currentCapturedLine);
-            currentCapturedLine.RemoveRange(0, currentCapturedLine.Count);
-            currentCapturedLine.Clear();
-
-            if (state == VRGestureManagerState.Recording)
-                state = VRGestureManagerState.ReadyToRecord;
+            state = VRGestureManagerState.Recording;
+            StartRecording();
+            
         }
 
+        if (Time.time > nextRenderTime)
+        {
+            nextRenderTime = Time.time + renderRateLimit / 1000;
+            if (state == VRGestureManagerState.Recording)
+            {
+                CapturePoint();
+            }
+        }
+    }
+
+
+    void StartRecording()
+    {
+        nextRenderTime = Time.time + renderRateLimit / 1000;
+        currentRenderer.SetColors(Color.magenta, Color.magenta);
+        displayLine.Clear();
+
+        CapturePoint();
+
+    }
+
+    void CapturePoint()
+    {
+        Vector3 rightHandPoint = playerHand.position;
+        Vector3 localizedPoint = getLocalizedPoint(rightHandPoint);
+        currentCapturedLine.Add(localizedPoint);
+        displayLine.Add(rightHandPoint);
+        currentRenderer.SetVertexCount(displayLine.Count);
+        currentRenderer.SetPositions(displayLine.ToArray());
+    }
+
+    void StopRecording()
+    {
+        LineCaught(currentCapturedLine);
+        currentCapturedLine.RemoveRange(0, currentCapturedLine.Count);
+        currentCapturedLine.Clear();
+
+        currentRenderer.SetColors(Color.blue, Color.cyan);
     }
 
     void UpdateContinual()
@@ -249,7 +285,7 @@ public class VRGestureManager : MonoBehaviour
             int maxLineLength = (int)testRateLimit / (int)renderRateLimit;
             CapturePoint(getLocalizedPoint(rightHandPoint), currentCapturedLine, maxLineLength);
         }
-        //RenderTrail(rightLineRenderer, rightCapturedLine);
+        RenderTrail(rightLineRenderer, rightCapturedLine);
 
         //On Release
         //@TODO: fix this magic number 14.
@@ -310,9 +346,16 @@ public class VRGestureManager : MonoBehaviour
     public void BeginReadyToRecord(string gesture)
     {
         Debug.Log("BeginReadyToRecord in VRGestureManager: " + gesture);
-        state = VRGestureManagerState.ReadyToRecord;
+        //Put a one second delay on this.
+        //state = VRGestureManagerState.ReadyToRecord;
+        Invoke("UnlockReadyToRecord", 1);
 
         recording = gesture;
+    }
+
+    public void UnlockReadyToRecord()
+    {
+        state = VRGestureManagerState.ReadyToRecord;
     }
 
     public void BeginDetect(string ignoreThisString)
