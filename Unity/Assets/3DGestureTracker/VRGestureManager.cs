@@ -7,7 +7,7 @@ using WinterMute;
 using VRDebugUI;
 using UnityEngine.UI;
 
-public enum VRGestureManagerState { Idle, ReadyToRecord, Recording, Training, Detecting };
+public enum VRGestureManagerState { Idle, EnteringRecord, ReadyToRecord, Recording, Training, ReadyToDetect, Detecting };
 public enum VRGestureDetectType { Button, Continious };
 
 public class VRGestureManager : MonoBehaviour
@@ -147,11 +147,11 @@ public class VRGestureManager : MonoBehaviour
     public void LineCaught(List<Vector3> capturedLine)
     {
         //if (recording != "" && state == VRGestureManagerState.Recording)
-        if (state == VRGestureManagerState.Recording)
+        if (state == VRGestureManagerState.Recording || state == VRGestureManagerState.ReadyToRecord)
         {
             TrainLine(recording, capturedLine);
         }
-        else if (state == VRGestureManagerState.Detecting)
+        else if (state == VRGestureManagerState.Detecting || state == VRGestureManagerState.ReadyToDetect)
         {
             TestNeural(capturedLine);
         }
@@ -186,25 +186,61 @@ public class VRGestureManager : MonoBehaviour
             ////create a transform that will always rotate with the head but stay perp on the Y.
             //UpdatePerpTransform();
             if (state == VRGestureManagerState.ReadyToRecord || 
-                state == VRGestureManagerState.Detecting ||
+                state == VRGestureManagerState.EnteringRecord ||
                 state == VRGestureManagerState.Recording )
 			{
-                UpdateWithButtons();
+                UpdateRecord();
             	//UpdateContinual();
 			}
+            else if (state == VRGestureManagerState.Detecting ||
+                        state == VRGestureManagerState.ReadyToDetect)
+            {
+                UpdateDetectWithButtons();
+            }
         }
     }
 
-    void UpdateWithButtons2()
+    void UpdateRecord()
     {
         if (rightInput.GetButtonUp(InputOptions.Button.Trigger1))
         {
             state = VRGestureManagerState.ReadyToRecord;
+            StopRecording();
+            Debug.Log("BUTTON UP $$$$$$$$$$$$$$$$");
+        }
+
+        if (rightInput.GetButtonDown(InputOptions.Button.Trigger1) && state == VRGestureManagerState.ReadyToRecord)
+        {
+            state = VRGestureManagerState.Recording;
+            StartRecording();
+            Debug.Log("BUTTON DOWN $$$$$$$$$$$$$$$$");
+        }
+
+        if(state == VRGestureManagerState.Recording)
+        {
+            CapturePoint();
+        }
+    }
+
+    void UpdateDetectWithButtons()
+    {
+        if (rightInput.GetButtonUp(InputOptions.Button.Trigger1))
+        {
+            state = VRGestureManagerState.ReadyToDetect;
+            StopRecording();
+            Debug.Log("BUTTON DOWN $$$$$$$$$$$$$$$$");
         }
 
         if (rightInput.GetButtonDown(InputOptions.Button.Trigger1))
         {
-            state = VRGestureManagerState.Recording;
+            state = VRGestureManagerState.Detecting;
+            StartRecording();
+            Debug.Log("BUTTON DOWN $$$$$$$$$$$$$$$$");
+        }
+
+        if (state == VRGestureManagerState.Detecting)
+        {
+            CapturePoint();
         }
     }
 
@@ -261,11 +297,15 @@ public class VRGestureManager : MonoBehaviour
 
     void StopRecording()
     {
-        LineCaught(currentCapturedLine);
-        currentCapturedLine.RemoveRange(0, currentCapturedLine.Count);
-        currentCapturedLine.Clear();
+        if(currentCapturedLine.Count > 0)
+        {
+            LineCaught(currentCapturedLine);
+            currentCapturedLine.RemoveRange(0, currentCapturedLine.Count);
+            currentCapturedLine.Clear();
 
-        currentRenderer.SetColors(Color.blue, Color.cyan);
+            currentRenderer.SetColors(Color.blue, Color.cyan);
+        }
+
     }
 
     void UpdateContinual()
@@ -347,16 +387,11 @@ public class VRGestureManager : MonoBehaviour
     {
         Debug.Log("BeginReadyToRecord in VRGestureManager: " + gesture);
         //Put a one second delay on this.
-        //state = VRGestureManagerState.ReadyToRecord;
-        Invoke("UnlockReadyToRecord", 1);
+        state = VRGestureManagerState.EnteringRecord;
 
         recording = gesture;
     }
 
-    public void UnlockReadyToRecord()
-    {
-        state = VRGestureManagerState.ReadyToRecord;
-    }
 
     public void BeginDetect(string ignoreThisString)
     {
