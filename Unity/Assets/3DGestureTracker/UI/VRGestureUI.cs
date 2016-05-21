@@ -117,6 +117,7 @@ public class VRGestureUI : MonoBehaviour
     {
         Debug.Log("begin ready to record gesture of type " + gestureName);
         gestureTitle.text = gestureName;
+        deleteGestureButton.onClick.RemoveAllListeners();
         deleteGestureButton.onClick.AddListener(() => DeleteGesture(gestureName) );
         deleteGestureButton.onClick.AddListener(() => panelManager.FocusPanel("Record Menu"));
         EventManager.TriggerEvent("ReadyToRecord", gestureName);
@@ -156,7 +157,6 @@ public class VRGestureUI : MonoBehaviour
         vrGestureManager.CreateGesture(newGestureName);
         GenerateRecordMenuButtons();
     }
-
 
     public void DeleteGesture(string gestureName)
     {
