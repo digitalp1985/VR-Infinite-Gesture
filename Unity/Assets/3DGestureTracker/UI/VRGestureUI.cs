@@ -287,6 +287,7 @@ public class VRGestureUI : MonoBehaviour
 		}
 		if (panelName == "Select Neural Net Menu")
 		{
+            vrGestureManager.RefreshNeuralNetList();
 			vrGestureManager.state = VRGestureManagerState.Idle;
 		}
         if (panelName == "Record Menu")
