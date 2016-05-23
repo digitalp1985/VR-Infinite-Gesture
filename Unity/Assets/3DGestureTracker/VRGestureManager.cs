@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using WinterMute;
@@ -392,7 +393,6 @@ public class VRGestureManager : MonoBehaviour
         recording = gesture;
     }
 
-
     public void BeginDetect(string ignoreThisString)
     {
 		Debug.Log("begin detecting from this recognizer: " + currentNeuralNet);
@@ -448,6 +448,20 @@ public class VRGestureManager : MonoBehaviour
         // select the new neural net
 		SelectNeuralNet(neuralNetName);
         Debug.Log("creating new neural net: " + neuralNetName);
+    }
+
+    [ExecuteInEditMode]
+    public void RefreshNeuralNetList()
+    {
+        string path = Config.SAVE_FILE_PATH;
+        foreach (string directoryPath in System.IO.Directory.GetDirectories(path))
+        {
+            string directoryName = Path.GetFileName(directoryPath);
+            if (!neuralNets.Contains(directoryName))
+            {
+                neuralNets.Add(directoryName);
+            }
+        }
     }
 
     [ExecuteInEditMode]
