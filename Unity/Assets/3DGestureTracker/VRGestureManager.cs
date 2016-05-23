@@ -80,7 +80,7 @@ public class VRGestureManager : MonoBehaviour
         Debug.Log(state);
         stateLast = state;
 
-        Debug.Log("CURRENT NEURAL NET IS: " + currentNeuralNet);
+        //Debug.Log("CURRENT NEURAL NET IS: " + currentNeuralNet);
         // get current neural net from inspector
         //currentNeuralNet = 
 
@@ -207,14 +207,12 @@ public class VRGestureManager : MonoBehaviour
         {
             state = VRGestureManagerState.ReadyToRecord;
             StopRecording();
-            Debug.Log("BUTTON UP $$$$$$$$$$$$$$$$");
         }
 
         if (rightInput.GetButtonDown(InputOptions.Button.Trigger1) && state == VRGestureManagerState.ReadyToRecord)
         {
             state = VRGestureManagerState.Recording;
             StartRecording();
-            Debug.Log("BUTTON DOWN $$$$$$$$$$$$$$$$");
         }
 
         if(state == VRGestureManagerState.Recording)
@@ -386,7 +384,7 @@ public class VRGestureManager : MonoBehaviour
 
     public void BeginReadyToRecord(string gesture)
     {
-        Debug.Log("BeginReadyToRecord in VRGestureManager: " + gesture);
+        //Debug.Log("BeginReadyToRecord in VRGestureManager: " + gesture);
         //Put a one second delay on this.
         state = VRGestureManagerState.EnteringRecord;
 

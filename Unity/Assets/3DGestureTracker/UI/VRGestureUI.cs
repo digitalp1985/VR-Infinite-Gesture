@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
+[RequireComponent (typeof(CanvasRenderer))]
+[RequireComponent (typeof(VRControllerUIInput))]
 public class VRGestureUI : MonoBehaviour
 {
     public enum VRUIType { SteamVR, EdwonVR };
@@ -18,6 +20,10 @@ public class VRGestureUI : MonoBehaviour
     public RectTransform recordMenu; // the top level transform of the recordMenu where we will generate gesture buttons
     public RectTransform selectNeuralNetMenu; // the top level transform of the select neural net menu where we will generate buttons
     public GameObject buttonPrefab;
+
+    // PARENT
+    Canvas rootCanvas; // the canvas on the main VRGestureUI object
+    VRControllerUIInput vrInput;
 
     // RECORD MENU
     private List<Button> gestureButtons;
@@ -57,9 +63,10 @@ public class VRGestureUI : MonoBehaviour
 
     void Start()
     {
+        rootCanvas = GetComponent<Canvas>();
+        vrInput = GetComponent<VRControllerUIInput>();
 
         buttonRectScale = new Vector3(0.6666f, 1, 0.2f);
-
 
         // get vr player hand and camera
         if (vrUiType == VRUIType.EdwonVR)
@@ -115,7 +122,7 @@ public class VRGestureUI : MonoBehaviour
     // called when entering recording menu
     public void BeginReadyToRecordGesture(string gestureName)
     {
-        Debug.Log("begin ready to record gesture of type " + gestureName);
+        //Debug.Log("begin ready to record gesture of type " + gestureName);
         gestureTitle.text = gestureName;
         deleteGestureButton.onClick.RemoveAllListeners();
         deleteGestureButton.onClick.AddListener(() => DeleteGesture(gestureName) );
@@ -272,11 +279,53 @@ public class VRGestureUI : MonoBehaviour
     void OnEnable()
     {
         PanelManager.OnPanelFocusChanged += PanelFocusChanged;
+        EventManager.StartListening("VRGuiHitChanged", VRGuiHitChanged);
     }
 
     void OnDisable()
     {
         PanelManager.OnPanelFocusChanged -= PanelFocusChanged;
+        EventManager.StopListening("VRGuiHitChanged", VRGuiHitChanged);
+    }
+
+    void VRGuiHitChanged (string hitBool)
+    {
+        if (hitBool == "True")
+        {
+            if (vrGestureManager.state == VRGestureManagerState.ReadyToRecord)
+            {
+                TogglePanelAlpha("Recording Menu", 1f);
+                TogglePanelInteractivity("Recording Menu", true);
+            }
+        }
+        else if (hitBool == "False")
+        {
+            if (vrGestureManager.state == VRGestureManagerState.ReadyToRecord || vrGestureManager.state == VRGestureManagerState.Recording)
+            {
+                TogglePanelAlpha("Recording Menu", .35f);
+                TogglePanelInteractivity("Recording Menu", false);
+            }
+        }
+    }
+
+    void TogglePanelAlpha(string panelName, float toAlpha)
+    {
+        CanvasRenderer[] canvasRenderers = rootCanvas.GetComponentsInChildren<CanvasRenderer>();
+        foreach (CanvasRenderer cr in canvasRenderers)
+        {
+            cr.SetAlpha(toAlpha);
+            //float startAlpha = cr.GetAlpha();
+            //StartCoroutine(TweenAlpha(cr, startAlpha, toAlpha, 1f));
+        }
+    }
+
+    void TogglePanelInteractivity(string panelName, bool interactive)
+    {
+        Button[] buttons = rootCanvas.GetComponentsInChildren<Button>();
+        foreach (Button button in buttons)
+        {
+            button.interactable = interactive;
+        }
     }
 
     void PanelFocusChanged(string panelName)
@@ -343,5 +392,19 @@ public class VRGestureUI : MonoBehaviour
 
         Text title = currentNeuralNetworkTitle.FindChild("neural network name").GetComponent<Text>();
         return title;
+    }
+
+    IEnumerator TweenAlpha (CanvasRenderer cr, float alphaFrom, float alphaTo, float time)
+    {
+        float timer = 0f;
+
+        while (timer < time)
+        {
+            float percent = timer / time;
+            float alpha = percent.Remap(0, 1, alphaFrom, alphaTo);
+            cr.SetAlpha(alpha);
+            timer += Time.fixedDeltaTime;
+            yield return new WaitForSeconds(Time.fixedDeltaTime);
+        }
     }
 }
