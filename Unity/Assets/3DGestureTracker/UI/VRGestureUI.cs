@@ -98,6 +98,7 @@ namespace WinterMute
             panelManager = transform.GetComponentInChildren<PanelManager>();
 
             GenerateRecordMenuButtons();
+            GenerateEditMenuButtons();
             GenerateNeuralNetMenuButtons();
         }
 
@@ -190,6 +191,50 @@ namespace WinterMute
 
         void GenerateRecordMenuButtons()
         {
+            GenerateGestureButtons(vrGestureManager.gestureBank, GestureButtonsType.Record);
+            //    // first destroy the old gesture buttons if they are there
+            //    if (gestureButtons != null)
+            //    {
+            //        if (gestureButtons.Count > 0)
+            //        {
+            //            foreach (Button button in gestureButtons)
+            //            {
+            //                Destroy(button.gameObject);
+            //            }
+            //            gestureButtons.Clear();
+            //        }
+            //    }
+
+            //    float recordMenuButtonHeight = 30;
+
+            //    gestureButtons = GenerateButtonsFromList(vrGestureManager.gestureBank, recordMenu.transform, buttonPrefab, recordMenuButtonHeight);
+
+            //    // set the functions that the button will call when pressed
+            //    for (int i = 0; i < gestureButtons.Count; i++)
+            //    {
+            //        string gestureName = vrGestureManager.gestureBank[i];
+            //        gestureButtons[i].onClick.AddListener(() => BeginReadyToRecordGesture(gestureName));
+            //        gestureButtons[i].onClick.AddListener(() => panelManager.FocusPanel("Recording Menu"));
+            //    }
+
+            //    AdjustListTitlePosition(gestureListTitle.transform, gestureButtons.Count, recordMenuButtonHeight);
+
+            //    // adjust new gesture button position
+            //    float totalHeight = gestureButtons.Count * recordMenuButtonHeight;
+            //    float y = -(totalHeight / 2);
+            //    newGestureButton.transform.localPosition = new Vector3(0, y, 0);
+
+        }
+
+        void GenerateEditMenuButtons()
+        {
+            GenerateGestureButtons(vrGestureManager.gestureBank, GestureButtonsType.Edit);
+        }
+
+        enum GestureButtonsType { Record, Edit };
+
+        void GenerateGestureButtons(List<string> gesturesToGenerate, GestureButtonsType gestureButtonsType)
+        {
             // first destroy the old gesture buttons if they are there
             if (gestureButtons != null)
             {
@@ -203,25 +248,34 @@ namespace WinterMute
                 }
             }
 
-            float recordMenuButtonHeight = 30;
+            float gestureButtonHeight = 30;
 
-            gestureButtons = GenerateButtonsFromList(vrGestureManager.gestureBank, recordMenu.transform, buttonPrefab, recordMenuButtonHeight);
+            gestureButtons = GenerateButtonsFromList(gesturesToGenerate, recordMenu.transform, buttonPrefab, gestureButtonHeight);
 
             // set the functions that the button will call when pressed
             for (int i = 0; i < gestureButtons.Count; i++)
             {
                 string gestureName = vrGestureManager.gestureBank[i];
-                gestureButtons[i].onClick.AddListener(() => BeginReadyToRecordGesture(gestureName));
-                gestureButtons[i].onClick.AddListener(() => panelManager.FocusPanel("Recording Menu"));
+                if (gestureButtonsType == GestureButtonsType.Record)
+                {
+                    gestureButtons[i].onClick.AddListener(() => BeginReadyToRecordGesture(gestureName));
+                    gestureButtons[i].onClick.AddListener(() => panelManager.FocusPanel("Recording Menu"));
+                }
+                else if (gestureButtonsType == GestureButtonsType.Edit)
+                {
+                    gestureButtons[i].onClick.AddListener(() => panelManager.FocusPanel("Editing Menu"));
+                }
             }
 
-            AdjustListTitlePosition(gestureListTitle.transform, gestureButtons.Count, recordMenuButtonHeight);
+            AdjustListTitlePosition(gestureListTitle.transform, gestureButtons.Count, gestureButtonHeight);
 
-            // adjust new gesture button position
-            float totalHeight = gestureButtons.Count * recordMenuButtonHeight;
-            float y = -(totalHeight / 2);
-            newGestureButton.transform.localPosition = new Vector3(0, y, 0);
-
+            if (gestureButtonsType == GestureButtonsType.Record)
+            {
+                // adjust new gesture button position
+                float totalHeight = gestureButtons.Count * gestureButtonHeight;
+                float y = -(totalHeight / 2);
+                newGestureButton.transform.localPosition = new Vector3(0, y, 0);
+            }
         }
 
         void GenerateNeuralNetMenuButtons()
@@ -319,7 +373,7 @@ namespace WinterMute
 
         void TogglePanelAlpha(string panelName, float toAlpha)
         {
-            CanvasRenderer[] canvasRenderers = rootCanvas.GetComponentsInChildren<CanvasRenderer>();
+            CanvasRenderer[] canvasRenderers = vrHandUI.GetComponentsInChildren<CanvasRenderer>();
             foreach (CanvasRenderer cr in canvasRenderers)
             {
                 cr.SetAlpha(toAlpha);
@@ -330,7 +384,7 @@ namespace WinterMute
 
         void TogglePanelInteractivity(string panelName, bool interactive)
         {
-            Button[] buttons = rootCanvas.GetComponentsInChildren<Button>();
+            Button[] buttons = vrHandUI.GetComponentsInChildren<Button>();
             foreach (Button button in buttons)
             {
                 button.interactable = interactive;
@@ -356,6 +410,15 @@ namespace WinterMute
             if (panelName == "Recording Menu")
             {
                 vrGestureManager.state = VRGestureManagerState.ReadyToRecord;
+            }
+            if (panelName == "Edit Menu")
+            {
+                vrGestureManager.state = VRGestureManagerState.Edit;
+                GenerateEditMenuButtons();
+            }
+            if (panelName == "Edit Menu")
+            {
+                vrGestureManager.state = VRGestureManagerState.Editing;
             }
         }
 

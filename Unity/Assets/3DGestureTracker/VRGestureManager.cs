@@ -8,7 +8,7 @@ using WinterMute;
 using VRDebugUI;
 using UnityEngine.UI;
 
-public enum VRGestureManagerState { Idle, EnteringRecord, ReadyToRecord, Recording, Training, ReadyToDetect, Detecting };
+public enum VRGestureManagerState { Idle, Edit, Editing, EnteringRecord, ReadyToRecord, Recording, Training, ReadyToDetect, Detecting };
 public enum VRGestureDetectType { Button, Continious };
 
 public class VRGestureManager : MonoBehaviour
