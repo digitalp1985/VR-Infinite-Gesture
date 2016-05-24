@@ -246,6 +246,8 @@ public class VRGestureManagerEditor : Editor
 
     void ShowNeuralNetPopup (string[] neuralNetsArray)
 	{
+        vrGestureManager.RefreshNeuralNetList();
+
 		selectedNeuralNetIndex = EditorGUILayout.Popup(selectedNeuralNetIndex, neuralNetsArray);
         EventType eventType = Event.current.type;
 		if (selectedNeuralNetIndex < neuralNetsArray.Length && eventType == EventType.used)

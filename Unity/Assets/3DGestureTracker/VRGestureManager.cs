@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using System;
+using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using WinterMute;
@@ -79,7 +80,7 @@ public class VRGestureManager : MonoBehaviour
         Debug.Log(state);
         stateLast = state;
 
-        Debug.Log("CURRENT NEURAL NET IS: " + currentNeuralNet);
+        //Debug.Log("CURRENT NEURAL NET IS: " + currentNeuralNet);
         // get current neural net from inspector
         //currentNeuralNet = 
 
@@ -381,13 +382,12 @@ public class VRGestureManager : MonoBehaviour
 
     public void BeginReadyToRecord(string gesture)
     {
-        Debug.Log("BeginReadyToRecord in VRGestureManager: " + gesture);
+        //Debug.Log("BeginReadyToRecord in VRGestureManager: " + gesture);
         //Put a one second delay on this.
         state = VRGestureManagerState.EnteringRecord;
 
         recording = gesture;
     }
-
 
     public void BeginDetect(string ignoreThisString)
     {
@@ -444,6 +444,20 @@ public class VRGestureManager : MonoBehaviour
         // select the new neural net
 		SelectNeuralNet(neuralNetName);
         Debug.Log("creating new neural net: " + neuralNetName);
+    }
+
+    [ExecuteInEditMode]
+    public void RefreshNeuralNetList()
+    {
+        string path = Config.SAVE_FILE_PATH;
+        foreach (string directoryPath in System.IO.Directory.GetDirectories(path))
+        {
+            string directoryName = Path.GetFileName(directoryPath);
+            if (!neuralNets.Contains(directoryName))
+            {
+                neuralNets.Add(directoryName);
+            }
+        }
     }
 
     [ExecuteInEditMode]

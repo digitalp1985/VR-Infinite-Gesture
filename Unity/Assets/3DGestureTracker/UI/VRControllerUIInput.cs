@@ -21,6 +21,7 @@ public class VRControllerUIInput : BaseInputModule
     [Header(" [Runtime variables]")]
     [Tooltip("Indicates whether or not the gui was hit by any controller this frame")]
     public bool GuiHit;
+    private bool GuiHitLast;
 
     [Tooltip("Indicates whether or not a button was used this frame")]
     public bool ButtonUsed;
@@ -259,6 +260,7 @@ public class VRControllerUIInput : BaseInputModule
             UpdateCameraPosition(index);
 
             bool hit = GetLookPointerEventData(index);
+
             if (hit == false)
                 continue;
 
@@ -346,6 +348,12 @@ public class VRControllerUIInput : BaseInputModule
                 }
             }
         }
+
+        //Debug.Log("GuiHit: " + GuiHit + "GuiHitLast: " + GuiHitLast);
+
+        if (GuiHitLast != GuiHit)
+            EventManager.TriggerEvent("VRGuiHitChanged", GuiHit.ToString());
+        GuiHitLast = GuiHit;
     }
 
     private bool ButtonDown(int index)
