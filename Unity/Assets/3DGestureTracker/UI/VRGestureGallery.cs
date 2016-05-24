@@ -23,25 +23,8 @@ namespace WinterMute
         {
             vrGestureManager = FindObjectOfType<VRGestureManager>();
             frameOffset = new Vector3(gridUnitSize / 4, gridUnitSize / 4, -(gridUnitSize / 2));
-        }
 
-        // Update is called once per frame
-        void Update()
-        {
-            if (Input.GetButtonDown("Jump"))
-            {
-                // this returns the amount of takes recorded for one gesture
-                //List<GestureExample> examples = GetGallery();
-                //foreach(GestureExample example in examples)
-                //{
-                //    Debug.Log(example.name);
-                //}
-
-                GenerateGestureGallery();
-            }
-
-            //transform.position = galleryPosition;
-            //transform.rotation = Quaternion.identity;
+            GenerateGestureGallery();
         }
 
         public List<GestureExample> GetGestureExamples()
@@ -86,10 +69,10 @@ namespace WinterMute
                 // draw the frame
                 Vector3 framePos = localPos + frameOffset;
                 GameObject frame = GameObject.Instantiate(framePrefab) as GameObject;
+                frame.transform.parent = transform;
                 frame.transform.localPosition = framePos;
                 frame.transform.localRotation = Quaternion.identity;
                 frame.name = "Frame " + i;
-                frame.transform.parent = transform;
                 frame.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, gridUnitSize);
                 frame.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, gridUnitSize);
 

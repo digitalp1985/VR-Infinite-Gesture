@@ -12,8 +12,9 @@ public class VRGestureUI : MonoBehaviour
 
     public VROptions.Handedness handedness;
     private PanelManager panelManager;
-    Transform uiHand;
-    Transform uiCam;
+    Transform vrHand; // the hand to attach the hand ui to
+    Transform vrHandUI; // the actual ui
+    Transform vrCam;
     public float offsetZ;
 
     public VRGestureManager vrGestureManager; // the VRGestureManager script we want to interact with
@@ -65,14 +66,15 @@ public class VRGestureUI : MonoBehaviour
     {
         rootCanvas = GetComponent<Canvas>();
         vrInput = GetComponent<VRControllerUIInput>();
+        vrHandUI = transform.Find("Panels");
 
         buttonRectScale = new Vector3(0.6666f, 1, 0.2f);
 
         // get vr player hand and camera
         if (vrUiType == VRUIType.EdwonVR)
         {
-            uiHand = PlayerManager.GetPlayerHand(0, handedness).transform;
-            uiCam = PlayerManager.GetPlayerCamera(0).transform;
+            vrHand = PlayerManager.GetPlayerHand(0, handedness).transform;
+            vrCam = PlayerManager.GetPlayerCamera(0).transform;
         }
         else if (vrUiType == VRUIType.SteamVR)
         {
@@ -80,13 +82,13 @@ public class VRGestureUI : MonoBehaviour
             ControllerManager = GameObject.FindObjectOfType<SteamVR_ControllerManager>();
             if (handedness == VROptions.Handedness.Left)
             {
-                uiHand = ControllerManager.left.GetComponent<SteamVR_TrackedObject>().transform;
+                vrHand = ControllerManager.left.GetComponent<SteamVR_TrackedObject>().transform;
             }
             else
             {
-                uiHand = ControllerManager.right.GetComponent<SteamVR_TrackedObject>().transform;
+                vrHand = ControllerManager.right.GetComponent<SteamVR_TrackedObject>().transform;
             }
-            uiCam = GameObject.FindObjectOfType<SteamVR_Camera>().transform;
+            vrCam = GameObject.FindObjectOfType<SteamVR_Camera>().transform;
         }
 
         panelManager = transform.GetComponentInChildren<PanelManager>();
@@ -97,9 +99,12 @@ public class VRGestureUI : MonoBehaviour
 
     void Update()
     {
-        Vector3 handToCamVector = uiCam.position - uiHand.position;
-        transform.position = uiHand.position + (offsetZ * handToCamVector);
-        transform.rotation = Quaternion.LookRotation(transform.position - uiCam.position);
+        Vector3 handToCamVector = vrCam.position - vrHand.position;
+        Debug.DrawRay(vrHand.position, handToCamVector);
+        //transform.position = vrHand.position + (offsetZ * handToCamVector);
+        //transform.rotation = Quaternion.LookRotation(transform.position - vrCam.position);
+        vrHandUI.position = vrHand.position + (offsetZ * handToCamVector);
+        vrHandUI.rotation = Quaternion.LookRotation(transform.position - vrCam.position);
 
         // update detect log
         if (detectLog != null)
@@ -378,12 +383,11 @@ public class VRGestureUI : MonoBehaviour
         // update current neural network name on each currentNeuralNetworkTitle UI thingy
         if (panelManager == null)
             return null;
-        if (transform.Find("Panels") == null)
+        if (vrHandUI == null)
             return null;
-        Transform panelsParent = transform.Find("Panels");
-        if (panelsParent.Find(panelManager.currentPanel) == null)
+        if (vrHandUI.Find(panelManager.currentPanel) == null)
             return null;
-        Transform currentPanelParent = panelsParent.Find(panelManager.currentPanel);
+        Transform currentPanelParent = vrHandUI.Find(panelManager.currentPanel);
         if (currentPanelParent == null)
             return null;
         Transform currentNeuralNetworkTitle = currentPanelParent.FindChild("Current Neural Network");

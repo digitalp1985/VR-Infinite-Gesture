@@ -270,7 +270,6 @@ public class VRGestureManager : MonoBehaviour
         }
     }
 
-
     void StartRecording()
     {
         nextRenderTime = Time.time + renderRateLimit / 1000;
