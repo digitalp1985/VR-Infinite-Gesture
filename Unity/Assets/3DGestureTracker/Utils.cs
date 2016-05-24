@@ -295,6 +295,17 @@ namespace WinterMute
 			AssetDatabase.Refresh();
 		}
 
+        public void DeleteGestureExample(string neuralNetwork, string gesture, int lineNumber)
+        {
+            string gestureFileLocation = Config.SAVE_FILE_PATH + neuralNetwork + "/Gestures/" + gesture + ".txt"; ;
+            List<string> tmpLines = new List<string>();
+            tmpLines.AddRange(System.IO.File.ReadAllLines(gestureFileLocation));
+            tmpLines.RemoveAt(lineNumber);
+            string[] lines = tmpLines.ToArray();
+
+            System.IO.File.WriteAllLines(gestureFileLocation, lines);
+        }
+
 		public void ChangeGestureName(string gestureNameOld, string gestureNameNew, string networkName)
 		{
 			Debug.Log("change: " + gestureNameOld + " : name to: " + gestureNameNew);

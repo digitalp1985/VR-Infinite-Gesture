@@ -117,7 +117,6 @@ namespace WinterMute
                 return null;
             }
             string[] files = System.IO.Directory.GetFiles(gesturesFilePath, "*.txt");
-            string[] files2 = System.IO.Directory.GetFiles(gesturesFilePath);
 
             List<string> tmpLines = new List<string>();
             foreach (string fileLocation in files)
