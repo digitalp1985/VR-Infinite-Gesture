@@ -27,21 +27,7 @@ namespace WinterMute
             frameOffset = new Vector3(gridUnitSize / 4, gridUnitSize / 4, -(gridUnitSize / 2));
         }
 
-        public List<GestureExample> GetGestureExamples()
-        {
-            //read in the file
-            string filePath = Config.SAVE_FILE_PATH + vrGestureManager.currentNeuralNet + "/Gestures/";
-            string fileName = currentGesture + ".txt";
-            string[] lines = System.IO.File.ReadAllLines(filePath + fileName);
-            List<GestureExample> gestures = new List<GestureExample>();
-            foreach (string currentLine in lines)
-            {
-                gestures.Add(JsonUtility.FromJson<GestureExample>(currentLine));
-            }
-            return gestures;
-        }
-
-        public void GenerateGestureGallery()
+        void GenerateGestureGallery()
         {
             List<GestureExample> examples = GetGestureExamples();
 
@@ -94,7 +80,21 @@ namespace WinterMute
             }
         }
 
-        public void DestroyGestureGallery()
+        List<GestureExample> GetGestureExamples()
+        {
+            //read in the file
+            string filePath = Config.SAVE_FILE_PATH + vrGestureManager.currentNeuralNet + "/Gestures/";
+            string fileName = currentGesture + ".txt";
+            string[] lines = System.IO.File.ReadAllLines(filePath + fileName);
+            List<GestureExample> gestures = new List<GestureExample>();
+            foreach (string currentLine in lines)
+            {
+                gestures.Add(JsonUtility.FromJson<GestureExample>(currentLine));
+            }
+            return gestures;
+        }
+
+        void DestroyGestureGallery()
         {
             Debug.Log("destroy gesture gallery");
             var children = new List<GameObject>();
@@ -102,7 +102,7 @@ namespace WinterMute
             children.ForEach(child => Destroy(child));
         }
 
-        public void DrawGesture(List<Vector3> capturedLine, Vector3 startCoords, int gestureExampleNumber)
+        void DrawGesture(List<Vector3> capturedLine, Vector3 startCoords, int gestureExampleNumber)
         {
             // create a game object
             //Debug.Log(startCoords);
@@ -143,7 +143,10 @@ namespace WinterMute
         void PanelFocusChanged (string panelName)
         {
             if (panelName == "Recording Menu")
-                Debug.Log("welcome to recording menu you dufus");
+            {
+                GenerateGestureGallery();
+                Debug.Log("recording: " + vrGestureManager.gestureToRecord);
+            }
         }
     }
 }

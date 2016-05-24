@@ -60,7 +60,7 @@ public class VRGestureManager : MonoBehaviour
 
     Transform perpTransform;
 
-    string recording;
+    public string gestureToRecord;
 
     float nextRenderTime = 0;
     float renderRateLimit = 30;
@@ -85,7 +85,7 @@ public class VRGestureManager : MonoBehaviour
         //currentNeuralNet = 
 
         myAvatar = PlayerManager.GetPlayerAvatar(0);
-        recording = "";
+        gestureToRecord = "";
 
         playerHead = myAvatar.headTF;
         playerHand = myAvatar.vrRigAnchors.rHandAnchor;
@@ -148,7 +148,7 @@ public class VRGestureManager : MonoBehaviour
         //if (recording != "" && state == VRGestureManagerState.Recording)
         if (state == VRGestureManagerState.Recording || state == VRGestureManagerState.ReadyToRecord)
         {
-            TrainLine(recording, capturedLine);
+            TrainLine(gestureToRecord, capturedLine);
         }
         else if (state == VRGestureManagerState.Detecting || state == VRGestureManagerState.ReadyToDetect)
         {
@@ -384,13 +384,13 @@ public class VRGestureManager : MonoBehaviour
         //Put a one second delay on this.
         state = VRGestureManagerState.EnteringRecord;
 
-        recording = gesture;
+        gestureToRecord = gesture;
     }
 
     public void BeginDetect(string ignoreThisString)
     {
 		Debug.Log("begin detecting from this recognizer: " + currentNeuralNet);
-        recording = "";
+        gestureToRecord = "";
 		state = VRGestureManagerState.Detecting;
         currentRecognizer = new GestureRecognizer(currentNeuralNet);
     }
