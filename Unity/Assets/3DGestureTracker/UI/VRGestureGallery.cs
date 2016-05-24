@@ -142,14 +142,14 @@ namespace WinterMute
 
         void PanelFocusChanged (string panelName)
         {
-            if (panelName == "Recording Menu")
+            if (panelName == "Editing Menu")
             {
                 currentGesture = vrGestureManager.gestureToRecord;
-                Debug.Log("recording: " + currentGesture);
                 GenerateGestureGallery();
             }
-            else if (panelName == "Record Menu")
+            else if (panelName == "Edit Menu")
             {
+                Debug.Log("EDIT MENUIEJIFJ");
                 DestroyGestureGallery();
             }
 

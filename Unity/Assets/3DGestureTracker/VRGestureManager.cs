@@ -387,6 +387,11 @@ public class VRGestureManager : MonoBehaviour
 
     }
 
+    public void BeginEditing(string gesture)
+    {
+        gestureToRecord = gesture;
+    }
+
     public void BeginDetect(string ignoreThisString)
     {
 		Debug.Log("begin detecting from this recognizer: " + currentNeuralNet);
