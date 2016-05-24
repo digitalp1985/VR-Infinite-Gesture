@@ -93,8 +93,6 @@ public class VRGestureManager : MonoBehaviour
         //create a new Trainer
         currentTrainer = new Trainer(Gestures, currentNeuralNet);
 
-
-
         //double[][] fart = myTrainer.ReadAllData();
         //Train different gestures.
         //Save it.

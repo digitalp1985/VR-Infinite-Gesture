@@ -14,12 +14,14 @@ namespace WinterMute
         public float gestureDrawSize;
         public float gridUnitSize;
         public int gridMaxColumns;
-        public Vector3 frameOffset;
+        private Vector3 frameOffset;
+        public float lineWidth;
 
         // Use this for initialization
         void Start()
         {
             vrGestureManager = FindObjectOfType<VRGestureManager>();
+            frameOffset = new Vector3(gridUnitSize / 4, gridUnitSize / 4, -(gridUnitSize / 2));
         }
 
         // Update is called once per frame
@@ -120,7 +122,7 @@ namespace WinterMute
             lineRenderer.useWorldSpace = false;
             lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
             lineRenderer.SetColors(Color.red, Color.red);
-            lineRenderer.SetWidth(0.1F, 0.1F);
+            lineRenderer.SetWidth(lineWidth, lineWidth);
             lineRenderer.SetVertexCount(capturedLineAdjusted.Count);
             lineRenderer.SetPositions(capturedLineAdjusted.ToArray());
 
