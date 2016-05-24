@@ -166,7 +166,8 @@ public class VRGestureManager : MonoBehaviour
     {
         double[] input = Utils.Instance.FormatLine(capturedLine);
         string gesture = currentRecognizer.GetGesture(input);
-        debugString = gesture;
+        string confidenceValue = currentRecognizer.currentConfidenceValue.ToString();
+        debugString = gesture + " " + confidenceValue;
     }
 
     // Update is called once per frame

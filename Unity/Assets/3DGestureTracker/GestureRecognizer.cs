@@ -6,6 +6,8 @@ namespace WinterMute
 {
     public class GestureRecognizer
     {
+        public double currentConfidenceValue;
+
         List<string> outputs;
         NeuralNetwork neuralNet;
         //save the array of gestures
@@ -37,10 +39,9 @@ namespace WinterMute
             actualDebugOutput = actualDebugOutput.Substring(0, actualDebugOutput.Length - 2);
             actualDebugOutput += "]";
 
-            Debug.Log(actualDebugOutput);
+            //Debug.Log(actualDebugOutput);
             return GetGestureFromVector(output);
         }
-
 
         public string GetGestureFromVector(double[] outputVector)
         {
@@ -56,11 +57,10 @@ namespace WinterMute
                 }
             }
             //maxVal is the confidence value.
-            Debug.Log("Confidence Value: "+ maxVal);
-
+            //Debug.Log("Confidence Value: "+ maxVal);
+            currentConfidenceValue = maxVal;
             return outputs[maxIndex];
         }
-
 
         public double[] ConvertGestureToVector(string gestureName)
         {

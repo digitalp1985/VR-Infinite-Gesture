@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace WinterMute
 {
-    public class Gallery : MonoBehaviour
+    public class VRGestureGallery : MonoBehaviour
     {
         VRGestureManager vrGestureManager;
 
@@ -16,6 +16,7 @@ namespace WinterMute
         public int gridMaxColumns;
         private Vector3 frameOffset;
         public float lineWidth;
+        public Vector3 galleryPosition;
 
         // Use this for initialization
         void Start()
@@ -38,6 +39,9 @@ namespace WinterMute
 
                 GenerateGestureGallery();
             }
+
+            //transform.position = galleryPosition;
+            //transform.rotation = Quaternion.identity;
         }
 
         public List<GestureExample> GetGestureExamples()
@@ -81,7 +85,9 @@ namespace WinterMute
 
                 // draw the frame
                 Vector3 framePos = localPos + frameOffset;
-                GameObject frame = GameObject.Instantiate(framePrefab, framePos, Quaternion.identity) as GameObject;
+                GameObject frame = GameObject.Instantiate(framePrefab) as GameObject;
+                frame.transform.localPosition = framePos;
+                frame.transform.localRotation = Quaternion.identity;
                 frame.name = "Frame " + i;
                 frame.transform.parent = transform;
                 frame.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, gridUnitSize);
@@ -109,6 +115,7 @@ namespace WinterMute
             tmpObj.name = "Gesture Example " + gestureExampleNumber;
             tmpObj.transform.SetParent(transform);
             tmpObj.transform.localPosition = startCoords;
+            tmpObj.transform.localRotation = Quaternion.identity;
 
             // get the list of points in capturedLine and modify positions based on gestureDrawSize
             List<Vector3> capturedLineAdjusted = new List<Vector3>();
