@@ -148,6 +148,11 @@ namespace WinterMute
                 Debug.Log("recording: " + currentGesture);
                 GenerateGestureGallery();
             }
+            else if (panelName == "Record Menu")
+            {
+                DestroyGestureGallery();
+            }
+
         }
     }
 }
