@@ -62,9 +62,7 @@ namespace WinterMute
                 frame.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, gridUnitSize);
                 frame.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, gridUnitSize);
                 Button frameButton = frame.GetComponent<Button>();
-                //frameButton.onClick.AddListener(
-                //    vrGestureManager.DeleteGestureExample
-                //    );
+                frameButton.onClick.AddListener( () => vrGestureManager.DeleteGestureExample(currentGesture, i));
 
                 // set the next position
                 xPos = column * gridUnitSize;
