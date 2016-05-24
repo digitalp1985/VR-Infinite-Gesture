@@ -223,6 +223,29 @@ namespace WinterMute
             }
         }
 
+        public List<string> GetNetworksFromFile()
+        {
+            List<string> networkList = new List<string>();
+            string networkPath = Config.SAVE_FILE_PATH;
+            //string[] files = System.IO.Directory.GetFiles(gesturesPath, "*.txt");
+            string[] files = System.IO.Directory.GetDirectories(networkPath);
+            if (files.Length == 0)
+            {
+                Debug.Log("no gestures files (recorded data) yet");
+                return null;
+            }
+            foreach (string path in files)
+            {
+                //paramschar[] sep = { '/'};
+                char[] stringSeparators = new char[] { '/' };
+                string[] exploded = path.Split(stringSeparators);
+                string finalString = exploded[exploded.Length - 1];
+                //Debug.Log(finalString);
+                networkList.Add(finalString);
+            }
+            return networkList;
+        }
+
         public List<string> GetGestureBank(string networkName)
         {
             List<string> gestureBank = new List<string>();
@@ -321,6 +344,7 @@ public class GestureExample
     public string name;
     public List<Vector3> data;
     public bool trained;
+    public bool raw;
 
     public double[] GetAsArray()
     {
