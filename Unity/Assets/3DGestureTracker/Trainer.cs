@@ -14,6 +14,8 @@ namespace WinterMute
         int numHidden;
         int numOutput;
 
+        
+
         //maybe the trainer is where we need an output of gestures
         List<string> outputs;
         string currentlyTraining;
@@ -57,12 +59,19 @@ namespace WinterMute
 
             if (capturedLine.Count >= 11)
             {
-                capturedLine = Utils.Instance.SubDivideLine(capturedLine);
-                capturedLine = Utils.Instance.DownResLine(capturedLine);
+                if (!Config.USE_RAW_DATA)
+                {
+                    capturedLine = Utils.Instance.SubDivideLine(capturedLine);
+                    capturedLine = Utils.Instance.DownResLine(capturedLine);
+                }
+
+
+                
 
                 GestureExample saveMe = new GestureExample();
                 saveMe.name = gestureName;
                 saveMe.data = capturedLine;
+                saveMe.raw = Config.USE_RAW_DATA;
                 //System.IO.StreamWriter file = new System.IO.StreamWriter(gestureFileLocation + gestureName + ".txt", true);
                 using (System.IO.StreamWriter file = new System.IO.StreamWriter(gestureFileLocation + gestureName + ".txt", true))
                 {
