@@ -513,6 +513,11 @@ public class VRGestureManager : MonoBehaviour
 		gestureBankPreEdit = new List<string>(gestureBank);
     }
 
+    public void DeleteGestureExample(string gesture, int lineNumber)
+    {
+        Utils.Instance.DeleteGestureExample(currentNeuralNet, gesture, lineNumber);
+    }
+
 	List<string> gestureBankPreEdit;
 
 	[ExecuteInEditMode]

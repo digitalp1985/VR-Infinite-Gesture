@@ -18,20 +18,20 @@ namespace WinterMute
         public float lineWidth;
         public Vector3 galleryPosition;
 
+        public string currentGesture;
+
         // Use this for initialization
         void Start()
         {
             vrGestureManager = FindObjectOfType<VRGestureManager>();
             frameOffset = new Vector3(gridUnitSize / 4, gridUnitSize / 4, -(gridUnitSize / 2));
-
-            GenerateGestureGallery();
         }
 
         public List<GestureExample> GetGestureExamples()
         {
             //read in the file
             string filePath = Config.SAVE_FILE_PATH + vrGestureManager.currentNeuralNet + "/Gestures/";
-            string fileName = vrGestureManager.Gestures[0] + ".txt";
+            string fileName = currentGesture + ".txt";
             string[] lines = System.IO.File.ReadAllLines(filePath + fileName);
             List<GestureExample> gestures = new List<GestureExample>();
             foreach (string currentLine in lines)
@@ -75,6 +75,10 @@ namespace WinterMute
                 frame.name = "Frame " + i;
                 frame.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, gridUnitSize);
                 frame.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, gridUnitSize);
+                Button frameButton = frame.GetComponent<Button>();
+                //frameButton.onClick.AddListener(
+                //    vrGestureManager.DeleteGestureExample
+                //    );
 
                 // set the next position
                 xPos = column * gridUnitSize;
@@ -88,6 +92,14 @@ namespace WinterMute
                     row += 1;
                 }
             }
+        }
+
+        public void DestroyGestureGallery()
+        {
+            Debug.Log("destroy gesture gallery");
+            var children = new List<GameObject>();
+            foreach (Transform child in transform) children.Add(child.gameObject);
+            children.ForEach(child => Destroy(child));
         }
 
         public void DrawGesture(List<Vector3> capturedLine, Vector3 startCoords, int gestureExampleNumber)
@@ -118,5 +130,20 @@ namespace WinterMute
 
         }
 
+        void OnEnable()
+        {
+            PanelManager.OnPanelFocusChanged += PanelFocusChanged;
+        }
+
+        void OnDisable()
+        {
+            PanelManager.OnPanelFocusChanged -= PanelFocusChanged;
+        }
+
+        void PanelFocusChanged (string panelName)
+        {
+            if (panelName == "Recording Menu")
+                Debug.Log("welcome to recording menu you dufus");
+        }
     }
 }
