@@ -174,7 +174,7 @@ public class VRGestureManager : MonoBehaviour
     {
         if (state != stateLast)
         {
-            Debug.Log(state);
+            //Debug.Log(state);
         }
         stateLast = state;
 
@@ -225,14 +225,12 @@ public class VRGestureManager : MonoBehaviour
         {
             state = VRGestureManagerState.ReadyToDetect;
             StopRecording();
-            Debug.Log("BUTTON DOWN $$$$$$$$$$$$$$$$");
         }
 
         if (rightInput.GetButtonDown(InputOptions.Button.Trigger1))
         {
             state = VRGestureManagerState.Detecting;
             StartRecording();
-            Debug.Log("BUTTON DOWN $$$$$$$$$$$$$$$$");
         }
 
         if (state == VRGestureManagerState.Detecting)
