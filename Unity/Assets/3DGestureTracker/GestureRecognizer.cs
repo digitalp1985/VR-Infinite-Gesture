@@ -27,6 +27,17 @@ namespace WinterMute
         public string GetGesture(double[] input)
         {
             double[] output = neuralNet.ComputeOutputs(input);
+
+            string actualDebugOutput = "[";
+            for(int i=0; i<output.Length; i++)
+            {
+                actualDebugOutput += output[i];
+                actualDebugOutput += ", ";
+            }
+            actualDebugOutput = actualDebugOutput.Substring(0, actualDebugOutput.Length - 2);
+            actualDebugOutput += "]";
+
+            Debug.Log(actualDebugOutput);
             return GetGestureFromVector(output);
         }
 
@@ -44,6 +55,9 @@ namespace WinterMute
                     maxVal = outputVector[i];
                 }
             }
+            //maxVal is the confidence value.
+            Debug.Log("Confidence Value: "+ maxVal);
+
             return outputs[maxIndex];
         }
 

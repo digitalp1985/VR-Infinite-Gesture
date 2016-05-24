@@ -27,6 +27,69 @@ namespace WinterMute
             }
         }
 
+        //Same as DownRes line but this will scale, rather than skew.
+        public List<Vector3> DownScaleLine(List<Vector3> capturedLine)
+        {
+            //find min and max for X,Y,Z
+            float minX, maxX, minY, maxY, minZ, maxZ;
+            //init all defaults to first point.
+            Vector3 firstPoint = capturedLine[0];
+            minX = maxX = firstPoint.x;
+            minY = maxY = firstPoint.y;
+            minZ = maxZ = firstPoint.z;
+
+            foreach (Vector3 point in capturedLine)
+            {
+                minX = getMin(minX, point.x);
+                maxX = getMax(maxX, point.x);
+
+                minY = getMin(minY, point.y);
+                maxY = getMax(maxY, point.y);
+
+                minZ = getMin(minZ, point.z);
+                maxZ = getMax(maxZ, point.z);
+            }
+
+            //we now have all of our mins and max
+            float distX = Mathf.Abs(maxX - minX);
+            float distY = Mathf.Abs(maxY - minY);
+            float distZ = Mathf.Abs(maxZ - minZ);
+
+            //FIND THE AXIS MAX. This will be the length for all of our AXIS.
+            float axisMax = distX;
+            axisMax = getMax(axisMax, distY);
+            axisMax = getMax(axisMax, distZ);
+
+            //This should make all of our lowest points start at the origin.
+            Matrix4x4 translate = Matrix4x4.identity;
+            translate[0, 3] = -minX;
+            translate[1, 3] = -minY;
+            translate[2, 3] = -minZ;
+
+            Matrix4x4 scale = Matrix4x4.identity;
+            scale[0, 0] = 1 / axisMax;
+            scale[1, 1] = 1 / axisMax;
+            scale[2, 2] = 1 / axisMax;
+
+
+            List<Vector3> localizedLine = new List<Vector3>();
+            foreach (Vector3 point in capturedLine)
+            {
+                //we translate, but maybe we also divide each by the dist?
+                Vector3 newPoint = translate.MultiplyPoint3x4(point);
+                newPoint = scale.MultiplyPoint3x4(newPoint);
+                localizedLine.Add(newPoint);
+            }
+            //capture way less points
+            return localizedLine;
+            // ok now we need to create a matrix to move all of these points to a normalized space.
+        }
+
+
+
+
+        //This is warping gestures to be on a scale of (0-1) in every axis
+        //It stretches the gesture along each axis for how far it goes.
         public List<Vector3> DownResLine(List<Vector3> capturedLine)
         {
             //find min and max for X,Y,Z
@@ -109,6 +172,11 @@ namespace WinterMute
         }
 
         //Format line for NeuralNetwork
+        //Might want to pull this out from saving lines.
+        //Save huge raw vector lines.
+        //Run formatting on them during training.
+        //Allow users to changes and train different formats on
+        //the same data set.
         public double[] FormatLine(List<Vector3> capturedLine)
         {
             capturedLine = SubDivideLine(capturedLine);
