@@ -211,8 +211,8 @@ namespace WinterMute
             for (int i = 0; i < gestureButtons.Count; i++)
             {
                 string gestureName = vrGestureManager.gestureBank[i];
-                gestureButtons[i].onClick.AddListener(() => panelManager.FocusPanel("Recording Menu"));
                 gestureButtons[i].onClick.AddListener(() => BeginReadyToRecordGesture(gestureName));
+                gestureButtons[i].onClick.AddListener(() => panelManager.FocusPanel("Recording Menu"));
             }
 
             AdjustListTitlePosition(gestureListTitle.transform, gestureButtons.Count, recordMenuButtonHeight);

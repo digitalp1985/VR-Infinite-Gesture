@@ -382,9 +382,9 @@ public class VRGestureManager : MonoBehaviour
     {
         //Debug.Log("BeginReadyToRecord in VRGestureManager: " + gesture);
         //Put a one second delay on this.
+        gestureToRecord = gesture;
         state = VRGestureManagerState.EnteringRecord;
 
-        gestureToRecord = gesture;
     }
 
     public void BeginDetect(string ignoreThisString)

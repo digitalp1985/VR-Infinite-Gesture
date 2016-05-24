@@ -144,8 +144,9 @@ namespace WinterMute
         {
             if (panelName == "Recording Menu")
             {
+                currentGesture = vrGestureManager.gestureToRecord;
+                Debug.Log("recording: " + currentGesture);
                 GenerateGestureGallery();
-                Debug.Log("recording: " + vrGestureManager.gestureToRecord);
             }
         }
     }
