@@ -448,6 +448,7 @@ public class VRGestureManager : MonoBehaviour
     [ExecuteInEditMode]
     public void RefreshNeuralNetList()
     {
+        neuralNets.Clear();
         string path = Config.SAVE_FILE_PATH;
         foreach (string directoryPath in System.IO.Directory.GetDirectories(path))
         {
