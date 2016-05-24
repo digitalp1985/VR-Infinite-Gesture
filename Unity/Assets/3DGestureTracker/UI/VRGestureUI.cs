@@ -33,7 +33,8 @@ namespace WinterMute
         // RECORD MENU
         private List<Button> gestureButtons;
         [Tooltip("the title of the gesture list on the record menu")]
-        public CanvasRenderer gestureListTitle;
+        public CanvasRenderer recordListTitle;
+        public CanvasRenderer editListTitle;
         public CanvasRenderer newGestureButton;
 
         // RECORDING MENU
@@ -244,7 +245,10 @@ namespace WinterMute
                 }
             }
 
-            AdjustListTitlePosition(gestureListTitle.transform, gestureButtons.Count, gestureButtonHeight);
+            if (gestureButtonsType == GestureButtonsType.Record)
+                AdjustListTitlePosition(recordListTitle.transform, gestureButtons.Count, gestureButtonHeight);
+            else if (gestureButtonsType == GestureButtonsType.Edit)
+                AdjustListTitlePosition(editListTitle.transform, gestureButtons.Count, gestureButtonHeight);
 
             if (gestureButtonsType == GestureButtonsType.Record)
             {

@@ -96,7 +96,6 @@ namespace WinterMute
 
         void DestroyGestureGallery()
         {
-            Debug.Log("destroy gesture gallery");
             var children = new List<GameObject>();
             foreach (Transform child in transform) children.Add(child.gameObject);
             children.ForEach(child => Destroy(child));
@@ -149,7 +148,6 @@ namespace WinterMute
             }
             else if (panelName == "Edit Menu")
             {
-                Debug.Log("EDIT MENUIEJIFJ");
                 DestroyGestureGallery();
             }
 
