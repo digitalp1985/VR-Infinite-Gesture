@@ -180,7 +180,16 @@ namespace WinterMute
         public double[] FormatLine(List<Vector3> capturedLine)
         {
             capturedLine = SubDivideLine(capturedLine);
-            capturedLine = DownResLine(capturedLine);
+            if (Config.USE_RAW_DATA)
+            {
+                capturedLine = DownScaleLine(capturedLine);
+            }
+            else
+            {
+                capturedLine = DownResLine(capturedLine);
+            }
+
+            
             List<double> tmpLine = new List<double>();
             foreach (Vector3 cVector in capturedLine)
             {
@@ -329,7 +338,7 @@ namespace WinterMute
 			if (System.IO.Directory.Exists(path))
 			{
 				Debug.Log("Deleting Neural Net Files: " + networkName);
-				System.IO.Directory.Delete(path, true);
+				AssetDatabase.DeleteAsset(path);
 			}
 			AssetDatabase.Refresh();
 		}

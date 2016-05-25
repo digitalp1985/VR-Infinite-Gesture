@@ -133,6 +133,12 @@ namespace WinterMute
             foreach (string currentLine in lines)
             {
                 GestureExample myObject = JsonUtility.FromJson<GestureExample>(currentLine);
+                if (Config.USE_RAW_DATA)
+                {
+                    myObject.data = Utils.Instance.SubDivideLine(myObject.data);
+                    myObject.data = Utils.Instance.DownScaleLine(myObject.data);
+                }
+
                 List<double> tmpLine = new List<double>();
                 tmpLine.AddRange(myObject.GetAsArray());
                 tmpLine.AddRange(CalculateOutputVector(myObject.name));
