@@ -297,6 +297,7 @@ namespace WinterMute
 
         public void DeleteGestureExample(string neuralNetwork, string gesture, int lineNumber)
         {
+            Debug.Log("delete gesture: " + gesture + " example number: " + lineNumber);
             string gestureFileLocation = Config.SAVE_FILE_PATH + neuralNetwork + "/Gestures/" + gesture + ".txt"; ;
             List<string> tmpLines = new List<string>();
             tmpLines.AddRange(System.IO.File.ReadAllLines(gestureFileLocation));

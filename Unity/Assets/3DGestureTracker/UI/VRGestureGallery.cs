@@ -19,6 +19,9 @@ namespace WinterMute
         public Vector3 galleryPosition;
 
         public string currentGesture;
+        private string currentNeuralNet;
+
+        List<GestureExample> examples;
 
         // Use this for initialization
         void Start()
@@ -29,8 +32,8 @@ namespace WinterMute
 
         void GenerateGestureGallery()
         {
-            List<GestureExample> examples = GetGestureExamples();
-
+            examples = GetGestureExamples();
+            
             float xPos = 0;
             float yPos = 0;
             int column = 0;
@@ -47,6 +50,12 @@ namespace WinterMute
                 // offset positions to center the transform
                 xPos -= gridStartPosX;
                 yPos += gridStartPosY;
+
+                // set the next position
+                Debug.Log(column);
+                xPos = column * gridUnitSize;
+                yPos = -row * gridUnitSize;
+
                 Vector3 localPos = new Vector3(xPos, yPos, 0);
                 
                 // draw the gesture
@@ -62,11 +71,9 @@ namespace WinterMute
                 frame.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, gridUnitSize);
                 frame.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, gridUnitSize);
                 Button frameButton = frame.GetComponent<Button>();
-                frameButton.onClick.AddListener( () => vrGestureManager.DeleteGestureExample(currentGesture, i));
+                int lineNumber = i;
+                frameButton.onClick.AddListener(() => CallDeleteGesture(examples[lineNumber]));
 
-                // set the next position
-                xPos = column * gridUnitSize;
-                yPos = -row * gridUnitSize;
 
                 // change column or row
                 column += 1;
@@ -76,6 +83,13 @@ namespace WinterMute
                     row += 1;
                 }
             }
+        }
+
+        void CallDeleteGesture(GestureExample gestureExample)
+        {
+            int lineNumber = examples.IndexOf(gestureExample);
+            examples.Remove(gestureExample);
+            Utils.Instance.DeleteGestureExample(currentNeuralNet, currentGesture, lineNumber);
         }
 
         List<GestureExample> GetGestureExamples()
@@ -142,6 +156,7 @@ namespace WinterMute
             if (panelName == "Editing Menu")
             {
                 currentGesture = vrGestureManager.gestureToRecord;
+                currentNeuralNet = vrGestureManager.currentNeuralNet;
                 GenerateGestureGallery();
             }
             else if (panelName == "Edit Menu")
