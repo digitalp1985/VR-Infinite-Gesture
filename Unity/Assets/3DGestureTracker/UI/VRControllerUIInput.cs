@@ -152,7 +152,6 @@ namespace WinterMute
         {
             if (PointEvents[index].pointerCurrentRaycast.gameObject != null)
             {
-                Debug.Log("pointing at something");
                 Cursors[index].gameObject.SetActive(true);
 
                 if (pointData.pointerEnter != null)
