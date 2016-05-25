@@ -107,7 +107,7 @@ namespace WinterMute
         void Update()
         {
             Vector3 handToCamVector = vrCam.position - vrHand.position;
-            Debug.DrawRay(vrHand.position, handToCamVector);
+            //Debug.DrawRay(vrHand.position, handToCamVector);
             //transform.position = vrHand.position + (offsetZ * handToCamVector);
             //transform.rotation = Quaternion.LookRotation(transform.position - vrCam.position);
             vrHandUI.position = vrHand.position + (offsetZ * handToCamVector);
