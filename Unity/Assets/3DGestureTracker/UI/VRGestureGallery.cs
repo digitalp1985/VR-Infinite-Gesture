@@ -43,22 +43,23 @@ namespace WinterMute
             int column = 0;
             int row = 0;
 
+            // draw gesture at position
+            float gridStartPosX = (gridUnitSize * gridMaxColumns) / 2;
+            int gridMaxRows = examples.Count / gridMaxColumns;
+            float gridStartPosY = (gridUnitSize * gridMaxRows) / 2;
+            Debug.Log(gridStartPosX);
+
             // go through all the gesture examples and draw them in a grid
             for (int i = 0; i < examples.Count; i++)
             {
-                // draw gesture at position
-                float gridStartPosX = (gridUnitSize * gridMaxColumns) / 2;
-                int gridMaxRows = examples.Count / gridMaxColumns;
-                float gridStartPosY = (gridUnitSize * gridMaxRows) / 2;
+
+                // set the next position
+                xPos = column * gridUnitSize;
+                yPos = -row * gridUnitSize;
 
                 // offset positions to center the transform
                 xPos -= gridStartPosX;
                 yPos += gridStartPosY;
-
-                // set the next position
-                Debug.Log(column);
-                xPos = column * gridUnitSize;
-                yPos = -row * gridUnitSize;
 
                 Vector3 localPos = new Vector3(xPos, yPos, 0);
                 
