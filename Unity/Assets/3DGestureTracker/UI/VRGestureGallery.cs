@@ -30,9 +30,13 @@ namespace WinterMute
             frameOffset = new Vector3(gridUnitSize / 4, gridUnitSize / 4, -(gridUnitSize / 2));
         }
 
-        void GenerateGestureGallery()
+        void RefreshGestureExamples ()
         {
             examples = GetGestureExamples();
+        }
+
+        void GenerateGestureGallery()
+        {
             
             float xPos = 0;
             float yPos = 0;
@@ -59,7 +63,7 @@ namespace WinterMute
                 Vector3 localPos = new Vector3(xPos, yPos, 0);
                 
                 // draw the gesture
-                DrawGesture(examples[i].data, localPos, i);
+                GameObject gestureLine = DrawGesture(examples[i].data, localPos, i);
 
                 // draw the frame
                 Vector3 framePos = localPos + frameOffset;
@@ -71,8 +75,9 @@ namespace WinterMute
                 frame.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, gridUnitSize);
                 frame.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, gridUnitSize);
                 Button frameButton = frame.GetComponent<Button>();
-                int lineNumber = i;
-                frameButton.onClick.AddListener(() => CallDeleteGesture(examples[lineNumber]));
+                GestureExample example = examples[i];
+                GameObject lineObj = gestureLine;
+                frameButton.onClick.AddListener(() => CallDeleteGesture(example, frame, lineObj));
 
 
                 // change column or row
@@ -85,11 +90,15 @@ namespace WinterMute
             }
         }
 
-        void CallDeleteGesture(GestureExample gestureExample)
+        void CallDeleteGesture(GestureExample gestureExample, GameObject frame, GameObject line)
         {
             int lineNumber = examples.IndexOf(gestureExample);
             examples.Remove(gestureExample);
             Utils.Instance.DeleteGestureExample(currentNeuralNet, currentGesture, lineNumber);
+            GameObject.Destroy(frame);
+            GameObject.Destroy(line);
+            //DestroyGestureGallery();
+            //GenerateGestureGallery();
         }
 
         List<GestureExample> GetGestureExamples()
@@ -113,7 +122,7 @@ namespace WinterMute
             children.ForEach(child => Destroy(child));
         }
 
-        void DrawGesture(List<Vector3> capturedLine, Vector3 startCoords, int gestureExampleNumber)
+        GameObject DrawGesture(List<Vector3> capturedLine, Vector3 startCoords, int gestureExampleNumber)
         {
             // create a game object
             //Debug.Log(startCoords);
@@ -139,6 +148,7 @@ namespace WinterMute
             lineRenderer.SetVertexCount(capturedLineAdjusted.Count);
             lineRenderer.SetPositions(capturedLineAdjusted.ToArray());
 
+            return tmpObj;
         }
 
         void OnEnable()
@@ -157,6 +167,7 @@ namespace WinterMute
             {
                 currentGesture = vrGestureManager.gestureToRecord;
                 currentNeuralNet = vrGestureManager.currentNeuralNet;
+                RefreshGestureExamples();
                 GenerateGestureGallery();
             }
             else if (panelName == "Edit Menu")
