@@ -9,6 +9,8 @@ public class Example2Player : MonoBehaviour
     public GameObject triangle;
     public GameObject square;
     public GameObject push;
+    public GameObject pushLeft;
+    public GameObject pushRight;
     public GameObject pull;
 
 	void Start ()
@@ -49,6 +51,12 @@ public class Example2Player : MonoBehaviour
                 break;
             case "Push":
                 StartCoroutine(AnimateShape(push));
+                break;
+            case "Push Left":
+                StartCoroutine(AnimateShape(pushLeft));
+                break;
+            case "Push Right":
+                StartCoroutine(AnimateShape(pushRight));
                 break;
             case "Pull":
                 StartCoroutine(AnimateShape(pull));

@@ -181,8 +181,8 @@ public class VRGestureManager : MonoBehaviour
         }
         else
         {
-            //debugString = "null " + gesture + " " + confidenceValue;
-            debugString = "null";
+            debugString = "null \n" + gesture + " " + confidenceValue;
+            //debugString = "null";
         }
     }
 
