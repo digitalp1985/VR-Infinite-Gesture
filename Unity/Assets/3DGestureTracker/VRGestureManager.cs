@@ -149,8 +149,8 @@ public class VRGestureManager : MonoBehaviour
 
     public void LineCaught(List<Vector3> capturedLine)
     {
-        Debug.Log("Line Caught");
-        Debug.Log(state);
+        //Debug.Log("Line Caught");
+        //Debug.Log(state);
         if (state == VRGestureManagerState.Recording || state == VRGestureManagerState.ReadyToRecord)
         {
 
