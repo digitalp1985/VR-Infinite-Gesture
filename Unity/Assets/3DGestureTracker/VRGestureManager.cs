@@ -177,14 +177,14 @@ public class VRGestureManager : MonoBehaviour
 
 
         // broadcast gesture detected event
-        if (currentRecognizer.currentConfidenceValue < Config.CONFIDENCE_LIMIT)
+        if (currentRecognizer.currentConfidenceValue > Config.CONFIDENCE_LIMIT)
         {
             debugString = gesture + " " + confidenceValue;
             GestureDetectedEvent(gesture, currentRecognizer.currentConfidenceValue);
         }
         else
         {
-            debugString = "null";
+            debugString = "null " + gesture + " " + confidenceValue;
         }
     }
 
