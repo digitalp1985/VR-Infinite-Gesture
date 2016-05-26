@@ -79,9 +79,13 @@ public class VRGestureManager : MonoBehaviour
 
     void Start()
     {
-		Debug.Log("initial state is: " + stateInitial);
+		//Debug.Log("initial state is: " + stateInitial);
+
+        if (stateInitial == VRGestureManagerState.ReadyToDetect)
+            BeginDetect("");
+
 		state = stateInitial;
-        Debug.Log(state);
+        //Debug.Log(state);
         stateLast = state;
 
         //Debug.Log("CURRENT NEURAL NET IS: " + currentNeuralNet);
@@ -175,7 +179,6 @@ public class VRGestureManager : MonoBehaviour
         string gesture = currentRecognizer.GetGesture(input);
         string confidenceValue = currentRecognizer.currentConfidenceValue.ToString().Substring(0,4);
 
-
         // broadcast gesture detected event
         if (currentRecognizer.currentConfidenceValue > Config.CONFIDENCE_LIMIT)
         {
@@ -184,7 +187,8 @@ public class VRGestureManager : MonoBehaviour
         }
         else
         {
-            debugString = "null " + gesture + " " + confidenceValue;
+            //debugString = "null " + gesture + " " + confidenceValue;
+            debugString = "null";
         }
     }
 
@@ -193,7 +197,7 @@ public class VRGestureManager : MonoBehaviour
     {
         if (state != stateLast)
         {
-            Debug.Log(state);
+            //Debug.Log(state);
         }
         stateLast = state;
 
@@ -408,7 +412,7 @@ public class VRGestureManager : MonoBehaviour
         currentTrainer = new Trainer(gestureBank, currentNeuralNet);
         gestureToRecord = gesture;
         state = VRGestureManagerState.EnteringRecord;
-        Debug.Log("Entering Record");
+        //Debug.Log("Entering Record");
 
     }
 
@@ -419,7 +423,7 @@ public class VRGestureManager : MonoBehaviour
 
     public void BeginDetect(string ignoreThisString)
     {
-		Debug.Log("begin detecting from this recognizer: " + currentNeuralNet);
+		//Debug.Log("begin detecting from this recognizer: " + currentNeuralNet);
         gestureToRecord = "";
 		state = VRGestureManagerState.Detecting;
         currentRecognizer = new GestureRecognizer(currentNeuralNet);
@@ -428,11 +432,11 @@ public class VRGestureManager : MonoBehaviour
     [ExecuteInEditMode]
     public void BeginTraining (Action<string> callback)
     {
-        Debug.Log("Begin Training " + currentNeuralNet );
+        //Debug.Log("Begin Training " + currentNeuralNet );
 		state = VRGestureManagerState.Training;
         currentTrainer = new Trainer(gestureBank, currentNeuralNet);
         currentTrainer.TrainRecognizer();
-		Debug.Log("Done Training " + currentNeuralNet );
+		//Debug.Log("Done Training " + currentNeuralNet );
         // finish training
 		state = VRGestureManagerState.Idle;
         callback(currentNeuralNet);

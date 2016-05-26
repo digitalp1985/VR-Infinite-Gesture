@@ -169,8 +169,8 @@ namespace WinterMute
 
             LineRenderer lineRenderer = tmpObj.AddComponent<LineRenderer>();
             lineRenderer.useWorldSpace = false;
-            lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
-            lineRenderer.SetColors(Color.red, Color.red);
+            lineRenderer.material = new Material(Shader.Find("Unlit/Color"));
+            lineRenderer.SetColors(Color.blue, Color.green);
             lineRenderer.SetWidth(lineWidth, lineWidth);
             lineRenderer.SetVertexCount(capturedLineAdjusted.Count);
             lineRenderer.SetPositions(capturedLineAdjusted.ToArray());

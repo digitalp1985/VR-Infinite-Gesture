@@ -43,10 +43,6 @@ public class VRGestureManagerEditor : Editor
 	trainButtonContent = new GUIContent("TRAIN", "press to train the neural network with the recorded gesture data"),
 	detectButtonContent = new GUIContent("DETECT", "press to begin detecting gestures");
 
-	// TEXTURES
-	string bg1TexturePath = "Assets/3DGestureTracker/UI/Textures/Resources/bg1.png";
-	string bg2TexturePath = "Assets/3DGestureTracker/UI/Textures/Resources/bg2.png";
-
 	Texture2D bg1;
 	Texture2D bg2;
 
@@ -61,9 +57,7 @@ public class VRGestureManagerEditor : Editor
     public override void OnInspectorGUI()
     {
 		// TEXTURE SETUP
-//		bg1 = AssetDatabase.LoadAssetAtPath<Texture2D>(bg1TexturePath);
 		bg1 = AssetDatabase.LoadAssetAtPath<Texture2D>("");
-//		bg2 = AssetDatabase.LoadAssetAtPath<Texture2D>(bg2TexturePath);
 		bg2 = AssetDatabase.LoadAssetAtPath<Texture2D>("");
 
 //        DrawDefaultInspector();
@@ -76,13 +70,13 @@ public class VRGestureManagerEditor : Editor
 			vrGestureManager.stateInitial = VRGestureManagerState.Idle;
 
 		if (GUILayout.Button("Detect"))
-			vrGestureManager.stateInitial = VRGestureManagerState.Detecting;
+			vrGestureManager.stateInitial = VRGestureManagerState.ReadyToDetect;
 		
 		GUILayout.EndHorizontal();
 
-		if (vrGestureManager.stateInitial != VRGestureManagerState.Detecting)
+		if (vrGestureManager.stateInitial != VRGestureManagerState.ReadyToDetect)
 			ShowTrain();
-		if (vrGestureManager.stateInitial == VRGestureManagerState.Detecting)
+		if (vrGestureManager.stateInitial == VRGestureManagerState.ReadyToDetect)
 			ShowDetect();
 
 		serializedObject.ApplyModifiedProperties();
@@ -90,10 +84,10 @@ public class VRGestureManagerEditor : Editor
 
 	void ShowDetect ()
 	{
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("vrRigAnchors"));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("playerHead"));
-		EditorGUILayout.PropertyField(serializedObject.FindProperty("playerHand"));
-		EditorGUILayout.Separator();
+        //EditorGUILayout.PropertyField(serializedObject.FindProperty("vrRigAnchors"));
+        //EditorGUILayout.PropertyField(serializedObject.FindProperty("playerHead"));
+        //EditorGUILayout.PropertyField(serializedObject.FindProperty("playerHand"));
+        //EditorGUILayout.Separator();
 		EditorGUILayout.PropertyField(serializedObject.FindProperty("vrGestureDetectType"));
 	}
 	
