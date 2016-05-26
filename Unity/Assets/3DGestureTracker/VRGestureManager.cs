@@ -23,7 +23,7 @@ public class VRGestureManager : MonoBehaviour
 
     public Transform vrRigAnchors;
     VRAvatar myAvatar;
-    IInput rightInput;
+    IInput input;
 
     public Transform playerHead;
     public Transform playerHand;
@@ -79,18 +79,11 @@ public class VRGestureManager : MonoBehaviour
 
     void Start()
     {
-		//Debug.Log("initial state is: " + stateInitial);
-
         if (stateInitial == VRGestureManagerState.ReadyToDetect)
             BeginDetect("");
 
 		state = stateInitial;
-        //Debug.Log(state);
         stateLast = state;
-
-        //Debug.Log("CURRENT NEURAL NET IS: " + currentNeuralNet);
-        // get current neural net from inspector
-        //currentNeuralNet = 
 
         myAvatar = PlayerManager.GetPlayerAvatar(0);
         gestureToRecord = "";
@@ -101,13 +94,14 @@ public class VRGestureManager : MonoBehaviour
         //create a new Trainer
         currentTrainer = new Trainer(Gestures, currentNeuralNet);
 
-        //double[][] fart = myTrainer.ReadAllData();
-        //Train different gestures.
-        //Save it.
-        //currentRecognizer = new GestureRecognizer("grobbler");
-        //currentRecognizer = new GestureRecognizer(currentNeuralNet);
-
-        rightInput = myAvatar.GetInput(VROptions.Handedness.Right);
+        if (Config.handedness == Config.Handedness.Right)
+        {
+            input = myAvatar.GetInput(VROptions.Handedness.Right);
+        }
+        else if (Config.handedness == Config.Handedness.Left)
+        {
+            input = myAvatar.GetInput(VROptions.Handedness.Left);
+        }
 
         rightCapturedLine = new List<Vector3>();
         displayLine = new List<Vector3>();
@@ -228,13 +222,13 @@ public class VRGestureManager : MonoBehaviour
 
     void UpdateRecord()
     {
-        if (rightInput.GetButtonUp(InputOptions.Button.Trigger1))
+        if (input.GetButtonUp(InputOptions.Button.Trigger1))
         {
             state = VRGestureManagerState.ReadyToRecord;
             StopRecording();
         }
 
-        if (rightInput.GetButtonDown(InputOptions.Button.Trigger1) && state == VRGestureManagerState.ReadyToRecord)
+        if (input.GetButtonDown(InputOptions.Button.Trigger1) && state == VRGestureManagerState.ReadyToRecord)
         {
             state = VRGestureManagerState.Recording;
             StartRecording();
@@ -248,13 +242,13 @@ public class VRGestureManager : MonoBehaviour
 
     void UpdateDetectWithButtons()
     {
-        if (rightInput.GetButtonUp(InputOptions.Button.Trigger1))
+        if (input.GetButtonUp(InputOptions.Button.Trigger1))
         {
             state = VRGestureManagerState.ReadyToDetect;
             StopRecording();
         }
 
-        if (rightInput.GetButtonDown(InputOptions.Button.Trigger1))
+        if (input.GetButtonDown(InputOptions.Button.Trigger1))
         {
             state = VRGestureManagerState.Detecting;
             StartRecording();
@@ -268,7 +262,7 @@ public class VRGestureManager : MonoBehaviour
 
     void UpdateWithButtons()
     {
-        float trigger1 = rightInput.GetAxis1D(InputOptions.Axis1D.Trigger1);
+        float trigger1 = input.GetAxis1D(InputOptions.Axis1D.Trigger1);
 
         if (trigger1 < 0.5 && state == VRGestureManagerState.Recording)
         {

@@ -12,7 +12,7 @@ namespace WinterMute
         public enum VRUIType { SteamVR, EdwonVR };
         public VRUIType vrUiType;
 
-        public VROptions.Handedness handedness;
+        private VROptions.Handedness handedness;
         private PanelManager panelManager;
         Transform vrHand; // the hand to attach the hand ui to
         Transform vrHandUI; // the actual ui
@@ -69,6 +69,11 @@ namespace WinterMute
 
         void Start()
         {
+            if (Config.handedness == Config.Handedness.Right)
+                handedness = VROptions.Handedness.Left;
+            else if (Config.handedness == Config.Handedness.Left)
+                handedness = VROptions.Handedness.Right;
+
             rootCanvas = GetComponent<Canvas>();
             vrInput = GetComponent<VRControllerUIInput>();
             vrHandUI = transform.Find("Panels");
