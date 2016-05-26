@@ -63,7 +63,7 @@ public class VRGestureManager : MonoBehaviour
     public string gestureToRecord;
 
     float nextRenderTime = 0;
-    float renderRateLimit = 30;
+    float renderRateLimit = Config.CAPTURE_RATE;
     float nextTestTime = 0;
     float testRateLimit = 500;
 
@@ -145,9 +145,11 @@ public class VRGestureManager : MonoBehaviour
 
     public void LineCaught(List<Vector3> capturedLine)
     {
-        //if (recording != "" && state == VRGestureManagerState.Recording)
+        Debug.Log("Line Caught");
+        Debug.Log(state);
         if (state == VRGestureManagerState.Recording || state == VRGestureManagerState.ReadyToRecord)
         {
+
             TrainLine(gestureToRecord, capturedLine);
         }
         else if (state == VRGestureManagerState.Detecting || state == VRGestureManagerState.ReadyToDetect)
@@ -158,6 +160,7 @@ public class VRGestureManager : MonoBehaviour
 
     public void TrainLine(string gesture, List<Vector3> capturedLine)
     {
+        
         currentTrainer.AddGestureToTrainingExamples(gesture, capturedLine);
         debugString = "trained : " + gesture;
     }
@@ -175,7 +178,7 @@ public class VRGestureManager : MonoBehaviour
     {
         if (state != stateLast)
         {
-            //Debug.Log(state);
+            Debug.Log(state);
         }
         stateLast = state;
 
@@ -183,8 +186,6 @@ public class VRGestureManager : MonoBehaviour
         //draw a point.
         if (myAvatar != null)
         {
-            ////create a transform that will always rotate with the head but stay perp on the Y.
-            //UpdatePerpTransform();
             if (state == VRGestureManagerState.ReadyToRecord || 
                 state == VRGestureManagerState.EnteringRecord ||
                 state == VRGestureManagerState.Recording )
@@ -195,7 +196,8 @@ public class VRGestureManager : MonoBehaviour
             else if (state == VRGestureManagerState.Detecting ||
                         state == VRGestureManagerState.ReadyToDetect)
             {
-                UpdateDetectWithButtons();
+                //UpdateDetectWithButtons();
+                UpdateContinual();
             }
         }
     }
@@ -292,7 +294,8 @@ public class VRGestureManager : MonoBehaviour
 
     void StopRecording()
     {
-        if(currentCapturedLine.Count > 0)
+        
+        if (currentCapturedLine.Count > 0)
         {
             LineCaught(currentCapturedLine);
             currentCapturedLine.RemoveRange(0, currentCapturedLine.Count);
@@ -382,8 +385,10 @@ public class VRGestureManager : MonoBehaviour
     {
         //Debug.Log("BeginReadyToRecord in VRGestureManager: " + gesture);
         //Put a one second delay on this.
+        currentTrainer = new Trainer(gestureBank, currentNeuralNet);
         gestureToRecord = gesture;
         state = VRGestureManagerState.EnteringRecord;
+        Debug.Log("Entering Record");
 
     }
 

@@ -33,6 +33,16 @@ namespace WinterMute
         void RefreshGestureExamples ()
         {
             examples = GetGestureExamples();
+            List<GestureExample> tmpList = new List<GestureExample>();
+            foreach(GestureExample gesture in examples)
+            {
+                if (gesture.raw)
+                {
+                    gesture.data = Utils.Instance.SubDivideLine(gesture.data);
+                    gesture.data = Utils.Instance.DownScaleLine(gesture.data);
+                }
+                
+            }
         }
 
         void GenerateGestureGallery()

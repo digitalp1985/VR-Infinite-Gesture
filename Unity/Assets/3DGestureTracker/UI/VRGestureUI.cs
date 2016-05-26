@@ -390,7 +390,8 @@ namespace WinterMute
             }
             if (panelName == "Recording Menu")
             {
-                vrGestureManager.state = VRGestureManagerState.ReadyToRecord;
+                //vrGestureManager.state = VRGestureManagerState.ReadyToRecord;
+                //Not sure why this is in here. This re-introduced the sticky button bug.
             }
             if (panelName == "Edit Menu")
             {
@@ -414,7 +415,8 @@ namespace WinterMute
 
         void UpdateNowRecordingStatus()
         {
-            if (vrGestureManager.state == VRGestureManagerState.ReadyToRecord)
+            if (vrGestureManager.state == VRGestureManagerState.ReadyToRecord 
+                || vrGestureManager.state == VRGestureManagerState.EnteringRecord)
             {
                 nowRecordingBackground.color = Color.grey;
                 nowRecordingLabel.text = "ready to record";

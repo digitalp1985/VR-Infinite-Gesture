@@ -157,7 +157,7 @@ namespace WinterMute
         public List<Vector3> SubDivideLine(List<Vector3> capturedLine)
         {
             //Make sure list is longer than 11.
-            int outputLength = 11;
+            int outputLength = Config.FIDELITY;
 
             float intervalFloat = Mathf.Round((capturedLine.Count * 1f) / (outputLength * 1f));
             int interval = (int)intervalFloat;

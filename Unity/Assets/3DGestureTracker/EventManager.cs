@@ -62,4 +62,13 @@ public class EventManager
             thisEvent.Invoke(args);
         }
     }
+
+    public static void TriggerGestureEvent(string eventName, string gesture = "", double confidence = 0)
+    {
+        Action<string> thisEvent = null;
+        if (instance.eventDictionary.TryGetValue(eventName, out thisEvent))
+        {
+            thisEvent.Invoke(gesture);
+        }
+    }
 }
