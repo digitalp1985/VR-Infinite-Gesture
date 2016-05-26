@@ -3,13 +3,14 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-
+using System.Reflection;
 
 namespace WinterMute
 {
     [RequireComponent(typeof(VRGestureUI))]
     public class VRControllerUIInput : BaseInputModule
     {
+
         private VRGestureUI.VRUIType vrUiType;
         public static VRControllerUIInput Instance;
 
@@ -48,9 +49,18 @@ namespace WinterMute
         private SteamVR_TrackedObject[] SteamVRControllers;
         private SteamVR_Controller.Device[] ControllerDevices;
 
+        void SetInputModule()
+        {
+            MethodInfo changeEventModuleMethod = eventSystem.GetType().GetMethod("ChangeEventModule", BindingFlags.NonPublic | BindingFlags.Instance, null, new[] { typeof(BaseInputModule) }, null);
+            changeEventModuleMethod.Invoke(eventSystem, new object[] { this });
+            eventSystem.UpdateModules();
+        }
+
         protected override void Start()
         {
             base.Start();
+
+            SetInputModule();
 
             vrUiType = GetComponent<VRGestureUI>().vrUiType;
 
@@ -239,6 +249,8 @@ namespace WinterMute
         // Process is called by UI system to process events
         public override void Process()
         {
+            //Debug.Log("PROCESS IS RUNNING");
+
             if (vrUiType == VRGestureUI.VRUIType.SteamVR)
                 InitializeSteamVRControllers();
 

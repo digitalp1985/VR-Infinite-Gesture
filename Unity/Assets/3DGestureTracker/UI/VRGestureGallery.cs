@@ -11,8 +11,8 @@ namespace WinterMute
 
         public GameObject framePrefab;
 
-        public float gestureDrawSize;
-        public float gridUnitSize;
+        public float gestureDrawSize; // world size of one gesture drawing
+        public float gridUnitSize; // world size of one grid unit
         public int gridMaxColumns;
         private Vector3 frameOffset;
         public float lineWidth;
@@ -20,6 +20,8 @@ namespace WinterMute
 
         public string currentGesture;
         private string currentNeuralNet;
+
+        public RectTransform instructions;
 
         List<GestureExample> examples;
 
@@ -57,7 +59,6 @@ namespace WinterMute
             float gridStartPosX = (gridUnitSize * gridMaxColumns) / 2;
             int gridMaxRows = examples.Count / gridMaxColumns;
             float gridStartPosY = (gridUnitSize * gridMaxRows) / 2;
-            Debug.Log(gridStartPosX);
 
             // go through all the gesture examples and draw them in a grid
             for (int i = 0; i < examples.Count; i++)
@@ -99,6 +100,12 @@ namespace WinterMute
                     row += 1;
                 }
             }
+
+            // instructions adjust
+            // needs work
+            //instructions.gameObject.SetActive(true);
+            float instructionsPosY = ((row + 1) * gridUnitSize) ;
+            instructions.localPosition = new Vector3( 0, instructionsPosY, 0 );
         }
 
         void CallDeleteGesture(GestureExample gestureExample, GameObject frame, GameObject line)
@@ -128,8 +135,17 @@ namespace WinterMute
 
         void DestroyGestureGallery()
         {
+            // get all children
             var children = new List<GameObject>();
             foreach (Transform child in transform) children.Add(child.gameObject);
+
+            // remove things I don't want to destroy
+            children.Remove(instructions.gameObject);
+
+            // un-enable those things
+            instructions.gameObject.SetActive(false);
+
+            // destroy the rest
             children.ForEach(child => Destroy(child));
         }
 
