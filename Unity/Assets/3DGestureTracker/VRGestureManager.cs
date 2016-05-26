@@ -75,7 +75,7 @@ public class VRGestureManager : MonoBehaviour
 
     // EVENTS
     public delegate void GestureDetected(string gestureName, double confidence);
-    public static event GestureDetected OnGestureDetected;
+    public static event GestureDetected GestureDetectedEvent;
 
     void Start()
     {
@@ -170,10 +170,10 @@ public class VRGestureManager : MonoBehaviour
     {
         double[] input = Utils.Instance.FormatLine(capturedLine);
         string gesture = currentRecognizer.GetGesture(input);
-        string confidenceValue = currentRecognizer.currentConfidenceValue.ToString();
+        string confidenceValue = currentRecognizer.currentConfidenceValue.ToString().Substring(0,4);
 
         // broadcast gesture detected event
-        OnGestureDetected(gesture, currentRecognizer.currentConfidenceValue);
+        GestureDetectedEvent(gesture, currentRecognizer.currentConfidenceValue);
 
         debugString = gesture + " " + confidenceValue;
     }
