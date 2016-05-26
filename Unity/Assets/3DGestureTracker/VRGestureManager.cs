@@ -73,6 +73,10 @@ public class VRGestureManager : MonoBehaviour
     // DEBUG
     public string debugString;
 
+    // EVENTS
+    public delegate void GestureDetected(string gestureName, double confidence);
+    public static event GestureDetected OnGestureDetected;
+
     void Start()
     {
 		Debug.Log("initial state is: " + stateInitial);
@@ -167,6 +171,10 @@ public class VRGestureManager : MonoBehaviour
         double[] input = Utils.Instance.FormatLine(capturedLine);
         string gesture = currentRecognizer.GetGesture(input);
         string confidenceValue = currentRecognizer.currentConfidenceValue.ToString();
+
+        // broadcast gesture detected event
+        OnGestureDetected(gesture, currentRecognizer.currentConfidenceValue);
+
         debugString = gesture + " " + confidenceValue;
     }
 
