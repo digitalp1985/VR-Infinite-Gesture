@@ -175,10 +175,17 @@ public class VRGestureManager : MonoBehaviour
         string gesture = currentRecognizer.GetGesture(input);
         string confidenceValue = currentRecognizer.currentConfidenceValue.ToString().Substring(0,4);
 
-        // broadcast gesture detected event
-        GestureDetectedEvent(gesture, currentRecognizer.currentConfidenceValue);
 
-        debugString = gesture + " " + confidenceValue;
+        // broadcast gesture detected event
+        if (currentRecognizer.currentConfidenceValue < Config.CONFIDENCE_LIMIT)
+        {
+            debugString = gesture + " " + confidenceValue;
+            GestureDetectedEvent(gesture, currentRecognizer.currentConfidenceValue);
+        }
+        else
+        {
+            debugString = "null";
+        }
     }
 
     // Update is called once per frame
@@ -199,13 +206,18 @@ public class VRGestureManager : MonoBehaviour
                 state == VRGestureManagerState.Recording )
 			{
                 UpdateRecord();
-            	//UpdateContinual();
 			}
             else if (state == VRGestureManagerState.Detecting ||
                         state == VRGestureManagerState.ReadyToDetect)
             {
-                //UpdateDetectWithButtons();
-                UpdateContinual();
+                if (Config.CONTINIOUS)
+                {
+                    UpdateContinual();
+                }
+                else
+                {
+                    UpdateDetectWithButtons();
+                }
             }
         }
     }
