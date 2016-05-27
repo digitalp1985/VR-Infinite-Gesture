@@ -4,32 +4,32 @@ using System.Collections;
 public class Ragdoll : MonoBehaviour {
 
     bool isLimp = false;
+    public Rigidbody[] myParts;
 
     // Use this for initialization
 	void Start () {
         //Turn off all isKinematics
-        Rigidbody[] fart = GetComponentsInChildren<Rigidbody>();
-        Collider[] poo = GetComponentsInChildren<Collider>();
+        myParts = GetComponentsInChildren<Rigidbody>();
+
+        foreach(UnityFixer uf in GetComponentsInChildren<UnityFixer>())
+        {
+            uf.papaRagdoll = this;
+        }
 
         foreach (Rigidbody rb in GetComponentsInChildren<Rigidbody>())
         {
-            //rb.isKinematic = true;
+            rb.isKinematic = true;
         }
         foreach(Collider bc in GetComponentsInChildren<Collider>())
         {
-            //bc.isTrigger = true;
+            bc.isTrigger = true;
         }
 
         isLimp = false;
 
 	}
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
 
-    void OnTriggerEnter(Collider c)
+    public void TriggerWarning()
     {
         Debug.Log("I collided!!!");
 
@@ -47,4 +47,15 @@ public class Ragdoll : MonoBehaviour {
         }
 
     }
+
+    void Gravity()
+    {
+
+    }
+	
+	// Update is called once per frame
+	void Update () {
+	
+	}
+
 }
