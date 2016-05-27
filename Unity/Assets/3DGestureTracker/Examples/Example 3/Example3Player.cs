@@ -68,6 +68,9 @@ public class Example3Player : MonoBehaviour
             case "Air":
                 DoAir();
                 break;
+            case "Gravity":
+                DoGravity();
+                break;
         }
     }
 
@@ -124,9 +127,25 @@ public class Example3Player : MonoBehaviour
                     //Vector3 explosionPosition = enemy.position - new Vector3(0, -3f, 0);
                     //rb.AddExplosionForce(explosionForce, explosionPosition, 10000f);
                     rb.AddForce(new Vector3(.3f, explosionForce, .1f), ForceMode.Impulse);
+                    StartCoroutine(IEDoAir(rb));
                 }
 
             }
+        }
+    }
+
+    IEnumerator IEDoAir (Rigidbody rb)
+    {
+        yield return new WaitForSeconds(.3f);
+        rb.useGravity = false;
+    }
+
+    void DoGravity()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach(GameObject enemy in enemies)
+        {
+            enemy.GetComponent<Rigidbody>().useGravity = true;
         }
     }
 
