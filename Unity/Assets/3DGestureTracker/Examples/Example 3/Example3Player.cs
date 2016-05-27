@@ -80,7 +80,19 @@ public class Example3Player : MonoBehaviour
 
     void DoEarth ()
     {
+        float explosionForce = 1000f;
 
+        Quaternion rotation = Quaternion.LookRotation(Vector3.forward, Vector3.up);
+        float floorY = 2.65f;
+        Vector3 earthSpawnPosition = new Vector3(playerHandR.position.x, floorY, playerHandR.position.z);
+        GameObject.Instantiate(earth, earthSpawnPosition, rotation);
+
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach(GameObject enemy in enemies)
+        {
+            Rigidbody rb = enemy.GetComponent<Rigidbody>();
+            rb.AddExplosionForce(explosionForce, earthSpawnPosition, 100000f);
+        }
     }
 
     void DoIce()
@@ -90,7 +102,32 @@ public class Example3Player : MonoBehaviour
 
     void DoAir()
     {
+        float explosionForce = 14f;
 
+        Ray headRay = new Ray(playerHead.position, playerHead.forward);
+        float sphereCastRadius = .5f;
+        RaycastHit[] hits;
+        hits = Physics.SphereCastAll(headRay, sphereCastRadius);
+        foreach (RaycastHit hit in hits)
+        {
+            if (hit.collider.gameObject.CompareTag("Enemy"))
+            {
+                Transform enemy = hit.collider.transform;
+                // spawn the explosion effect
+                Vector3 airSpawnPosition = enemy.position;
+                GameObject.Instantiate(air, airSpawnPosition, Quaternion.identity);
+
+                // shoot the enemy up into the air
+                Rigidbody[] rbs = enemy.GetComponentsInChildren<Rigidbody>();
+                foreach (Rigidbody rb in rbs)
+                {
+                    //Vector3 explosionPosition = enemy.position - new Vector3(0, -3f, 0);
+                    //rb.AddExplosionForce(explosionForce, explosionPosition, 10000f);
+                    rb.AddForce(new Vector3(.3f, explosionForce, .1f), ForceMode.Impulse);
+                }
+
+            }
+        }
     }
 
     IEnumerator AnimateShape (GameObject shape)
