@@ -71,6 +71,9 @@ public class Example3Player : MonoBehaviour
             case "Gravity":
                 DoGravity();
                 break;
+            case "Pull":
+                DoPull();
+                break;
         }
     }
 
@@ -93,8 +96,11 @@ public class Example3Player : MonoBehaviour
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         foreach(GameObject enemy in enemies)
         {
-            Rigidbody rb = enemy.GetComponent<Rigidbody>();
-            rb.AddExplosionForce(explosionForce, earthSpawnPosition, 100000f);
+            if (enemy.GetComponent<Rigidbody>() != null)
+            {
+                Rigidbody rb = enemy.GetComponent<Rigidbody>();
+                rb.AddExplosionForce(explosionForce, earthSpawnPosition, 100000f);
+            }
         }
     }
 
@@ -105,7 +111,7 @@ public class Example3Player : MonoBehaviour
 
     void DoAir()
     {
-        float explosionForce = 14f;
+        float explosionForce = 6f;
 
         Ray headRay = new Ray(playerHead.position, playerHead.forward);
         float sphereCastRadius = .5f;
@@ -134,6 +140,11 @@ public class Example3Player : MonoBehaviour
         }
     }
 
+    void DoPull()
+    {
+
+    }
+
     IEnumerator IEDoAir (Rigidbody rb)
     {
         yield return new WaitForSeconds(.3f);
@@ -145,7 +156,8 @@ public class Example3Player : MonoBehaviour
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         foreach(GameObject enemy in enemies)
         {
-            enemy.GetComponent<Rigidbody>().useGravity = true;
+            if (enemy.GetComponent<Rigidbody>() != null)
+                enemy.GetComponent<Rigidbody>().useGravity = true;
         }
     }
 
