@@ -9,6 +9,6 @@
         public const double CONFIDENCE_LIMIT = 0.98;
         public const bool CONTINIOUS = false;
         public enum Handedness { Left, Right, Both };
-        public const Handedness handedness = Handedness.Right;
+        public const Handedness handedness = Handedness.Right; // the hand to track
     }
 }
