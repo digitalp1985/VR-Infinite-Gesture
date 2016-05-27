@@ -5,6 +5,9 @@ using WinterMute;
 public class Example3Player : MonoBehaviour
 {
     public GameObject fire;
+    public GameObject earth;
+    public GameObject ice;
+    public GameObject air;
 
     VRAvatar myAvatar;
     IInput input;
