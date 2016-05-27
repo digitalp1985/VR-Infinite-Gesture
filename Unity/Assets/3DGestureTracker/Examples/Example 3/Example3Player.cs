@@ -96,7 +96,19 @@ public class Example3Player : MonoBehaviour
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         foreach(GameObject enemy in enemies)
         {
-            if (enemy.GetComponent<Rigidbody>() != null)
+
+            // if it's a ragdoll make non-kinematic
+            if (enemy.GetComponent<Ragdoll>() != null)
+            {
+                Ragdoll ragdoll = enemy.GetComponent<Ragdoll>();
+                ragdoll.TriggerWarning();
+                foreach(Rigidbody rb in ragdoll.myParts)
+                {
+                    rb.AddExplosionForce(explosionForce, earthSpawnPosition, 100000f);
+                }
+            }
+
+            else if (enemy.GetComponent<Rigidbody>() != null)
             {
                 Rigidbody rb = enemy.GetComponent<Rigidbody>();
                 rb.AddExplosionForce(explosionForce, earthSpawnPosition, 100000f);
@@ -127,15 +139,23 @@ public class Example3Player : MonoBehaviour
                 GameObject.Instantiate(air, airSpawnPosition, Quaternion.identity);
 
                 // shoot the enemy up into the air
-                Rigidbody[] rbs = enemy.GetComponentsInChildren<Rigidbody>();
-                foreach (Rigidbody rb in rbs)
+
+                // if it's a ragdoll make non-kinematic
+                if (enemy.GetComponent<Ragdoll>() != null)
                 {
-                    //Vector3 explosionPosition = enemy.position - new Vector3(0, -3f, 0);
-                    //rb.AddExplosionForce(explosionForce, explosionPosition, 10000f);
+                    Ragdoll ragdoll = enemy.GetComponent<Ragdoll>();
+                    foreach (Rigidbody rb in ragdoll.myParts)
+                    {
+                        rb.AddForce(new Vector3(.3f, explosionForce * 2, .1f), ForceMode.Impulse);
+                        StartCoroutine(IEDoAir(rb));
+                    }
+                }
+                else if (enemy.GetComponent<Rigidbody>() != null)
+                {
+                    Rigidbody rb = enemy.GetComponent<Rigidbody>();
                     rb.AddForce(new Vector3(.3f, explosionForce, .1f), ForceMode.Impulse);
                     StartCoroutine(IEDoAir(rb));
                 }
-
             }
         }
     }
