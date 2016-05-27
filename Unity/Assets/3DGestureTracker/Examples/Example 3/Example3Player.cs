@@ -126,17 +126,24 @@ public class Example3Player : MonoBehaviour
         float explosionForce = 6f;
 
         Ray headRay = new Ray(playerHead.position, playerHead.forward);
-        float sphereCastRadius = .5f;
+        float sphereCastRadius = .25f;
         RaycastHit[] hits;
         hits = Physics.SphereCastAll(headRay, sphereCastRadius);
+        int hitCounter = 0;
         foreach (RaycastHit hit in hits)
         {
             if (hit.collider.gameObject.CompareTag("Enemy"))
             {
+
                 Transform enemy = hit.collider.transform;
+                if (hitCounter == 0)
+                {
+                    Vector3 airSpawnPosition = enemy.transform.position;
+                    GameObject.Instantiate(air, airSpawnPosition, Quaternion.identity);
+                }
+
+                hitCounter += 1;
                 // spawn the explosion effect
-                Vector3 airSpawnPosition = enemy.position;
-                GameObject.Instantiate(air, airSpawnPosition, Quaternion.identity);
 
                 // shoot the enemy up into the air
 
@@ -144,25 +151,55 @@ public class Example3Player : MonoBehaviour
                 if (enemy.GetComponent<Ragdoll>() != null)
                 {
                     Ragdoll ragdoll = enemy.GetComponent<Ragdoll>();
+                    ragdoll.TriggerWarning();
+
                     foreach (Rigidbody rb in ragdoll.myParts)
                     {
+
                         rb.AddForce(new Vector3(.3f, explosionForce * 2, .1f), ForceMode.Impulse);
                         StartCoroutine(IEDoAir(rb));
                     }
                 }
                 else if (enemy.GetComponent<Rigidbody>() != null)
                 {
+
                     Rigidbody rb = enemy.GetComponent<Rigidbody>();
                     rb.AddForce(new Vector3(.3f, explosionForce, .1f), ForceMode.Impulse);
                     StartCoroutine(IEDoAir(rb));
                 }
             }
         }
+
     }
 
     void DoPull()
     {
 
+        // pull enemies in
+        float pullForce = -1000f;
+        float floorY = 2.65f;
+        Vector3 earthSpawnPosition = new Vector3(playerHead.position.x, floorY, playerHead.position.z);
+
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject enemy in enemies)
+        {
+            // if it's a ragdoll make non-kinematic
+            if (enemy.GetComponent<Ragdoll>() != null)
+            {
+                Ragdoll ragdoll = enemy.GetComponent<Ragdoll>();
+                ragdoll.TriggerWarning();
+                foreach (Rigidbody rb in ragdoll.myParts)
+                {
+                    rb.AddExplosionForce(pullForce, earthSpawnPosition, 100000f);
+                }
+            }
+
+            else if (enemy.GetComponent<Rigidbody>() != null)
+            {
+                Rigidbody rb = enemy.GetComponent<Rigidbody>();
+                rb.AddExplosionForce(pullForce, earthSpawnPosition, 100000f);
+            }
+        }
     }
 
     IEnumerator IEDoAir (Rigidbody rb)
