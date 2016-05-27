@@ -51,8 +51,8 @@ public class Example3Player : MonoBehaviour
 
     void OnGestureDetected (string gestureName, double confidence)
     {
-        //string confidenceString = confidence.ToString().Substring(0, 4);
-        //Debug.Log("detected gesture: " + gestureName + " with confidence: " + confidenceString);
+        string confidenceString = confidence.ToString().Substring(0, 4);
+        Debug.Log("detected gesture: " + gestureName + " with confidence: " + confidenceString);
 
         switch (gestureName)
         {
@@ -97,7 +97,7 @@ public class Example3Player : MonoBehaviour
 
     void DoIce()
     {
-
+        GameObject.Instantiate(ice, playerHandR.position, playerHandR.rotation);
     }
 
     void DoAir()
