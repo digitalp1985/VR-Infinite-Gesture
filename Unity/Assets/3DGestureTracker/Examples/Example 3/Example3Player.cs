@@ -81,12 +81,20 @@ public class Example3Player : MonoBehaviour
     {
         Quaternion rotation = Quaternion.LookRotation(playerHandR.forward, Vector3.up);
         Vector3 betweenHandsPos = (playerHandL.position + playerHandR.position) / 2;
-        GameObject.Instantiate(fire, betweenHandsPos, rotation);
+        GameObject fireInstance = GameObject.Instantiate(fire, betweenHandsPos, rotation) as GameObject;
+        StartCoroutine(IEDoFire(fireInstance));
+    }
+
+    IEnumerator IEDoFire (GameObject fireInstance)
+    {
+        yield return new WaitForSeconds(.5f);
+        fireInstance.GetComponent<Collider>().enabled = true;
     }
 
     void DoEarth ()
     {
-        float explosionForce = 1000f;
+
+        float explosionForce = 300f;
 
         Quaternion rotation = Quaternion.LookRotation(Vector3.forward, Vector3.up);
         float floorY = 2.65f;
@@ -111,7 +119,7 @@ public class Example3Player : MonoBehaviour
             else if (enemy.GetComponent<Rigidbody>() != null)
             {
                 Rigidbody rb = enemy.GetComponent<Rigidbody>();
-                rb.AddExplosionForce(explosionForce, earthSpawnPosition, 100000f);
+                rb.AddExplosionForce(explosionForce, earthSpawnPosition, 10f);
             }
         }
     }
@@ -126,7 +134,7 @@ public class Example3Player : MonoBehaviour
         float explosionForce = 6f;
 
         Ray headRay = new Ray(playerHead.position, playerHead.forward);
-        float sphereCastRadius = .25f;
+        float sphereCastRadius = 1f;
         RaycastHit[] hits;
         hits = Physics.SphereCastAll(headRay, sphereCastRadius);
         int hitCounter = 0;
@@ -172,11 +180,17 @@ public class Example3Player : MonoBehaviour
 
     }
 
+    IEnumerator IEDoAir (Rigidbody rb)
+    {
+        yield return new WaitForSeconds(.15f);
+        rb.useGravity = false;
+    }
+
     void DoPull()
     {
 
         // pull enemies in
-        float pullForce = -1000f;
+        float pullForce = -300f;
         float floorY = 2.65f;
         Vector3 earthSpawnPosition = new Vector3(playerHead.position.x, floorY, playerHead.position.z);
 
@@ -202,11 +216,6 @@ public class Example3Player : MonoBehaviour
         }
     }
 
-    IEnumerator IEDoAir (Rigidbody rb)
-    {
-        yield return new WaitForSeconds(.3f);
-        rb.useGravity = false;
-    }
 
     void DoGravity()
     {

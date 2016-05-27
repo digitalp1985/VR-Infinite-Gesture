@@ -31,7 +31,6 @@ public class Ragdoll : MonoBehaviour {
 
     public void TriggerWarning()
     {
-        Debug.Log("I collided!!!");
 
         if (!isLimp)
         {
