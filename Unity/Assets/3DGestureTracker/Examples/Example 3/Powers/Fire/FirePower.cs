@@ -6,6 +6,7 @@ public class FirePower : MonoBehaviour
     public float speed;
     Rigidbody rb;
     public float timeTillDeath;
+    private bool deathBegan = false;
 
     public GameObject fireExplosion;
 
@@ -23,12 +24,15 @@ public class FirePower : MonoBehaviour
 
     void OnCollisionEnter (Collision collision)
     {
-        GameObject.Instantiate(fireExplosion, collision.contacts[0].point, Quaternion.identity);
-        StartCoroutine(DestroySelf());
+
+        if (!deathBegan)
+            StartCoroutine(DestroySelf(collision));
     }
 
-    IEnumerator DestroySelf()
+    IEnumerator DestroySelf(Collision collision)
     {
+        deathBegan = true;
+        GameObject.Instantiate(fireExplosion, collision.contacts[0].point, Quaternion.identity);
         yield return new WaitForSeconds(timeTillDeath);
         Destroy(gameObject);
     }

@@ -52,7 +52,7 @@ public class Example3Player : MonoBehaviour
     void OnGestureDetected (string gestureName, double confidence)
     {
         string confidenceString = confidence.ToString().Substring(0, 4);
-        Debug.Log("detected gesture: " + gestureName + " with confidence: " + confidenceString);
+        //Debug.Log("detected gesture: " + gestureName + " with confidence: " + confidenceString);
 
         switch (gestureName)
         {
@@ -87,7 +87,7 @@ public class Example3Player : MonoBehaviour
 
     IEnumerator IEDoFire (GameObject fireInstance)
     {
-        yield return new WaitForSeconds(.5f);
+        yield return new WaitForSeconds(.1f);
         fireInstance.GetComponent<Collider>().enabled = true;
     }
 
@@ -215,7 +215,6 @@ public class Example3Player : MonoBehaviour
             }
         }
     }
-
 
     void DoGravity()
     {
