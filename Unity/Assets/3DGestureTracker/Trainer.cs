@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using System.Collections;
 using System.Collections.Generic;
 
@@ -209,7 +211,9 @@ namespace WinterMute
                 //file.WriteLine(dumbString);
                 file.WriteLine(JsonUtility.ToJson(stub));
             }
+#if UNITY_EDITOR
             AssetDatabase.ImportAsset(filePath);
+#endif
         }
 
 

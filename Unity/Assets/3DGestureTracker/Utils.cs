@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -294,15 +296,19 @@ namespace WinterMute
 			// create the gesture file
             string fullPath = gestureFileLocation + gestureName + ".txt";
         	System.IO.StreamWriter file = new System.IO.StreamWriter(fullPath, true);
+#if UNITY_EDITOR
             AssetDatabase.ImportAsset(fullPath);
+#endif
         }
 
 		public void DeleteGestureFile(string gestureName, string networkName)
 		{
 			string gestureFileLocation = Config.SAVE_FILE_PATH + networkName + "/Gestures/" + gestureName + ".txt";
+#if UNITY_EDITOR
 			FileUtil.DeleteFileOrDirectory(gestureFileLocation);
-			AssetDatabase.Refresh();
-		}
+            AssetDatabase.Refresh();
+#endif
+        }
 
         public void DeleteGestureExample(string neuralNetwork, string gesture, int lineNumber)
         {
@@ -319,11 +325,13 @@ namespace WinterMute
 		{
 			Debug.Log("change: " + gestureNameOld + " : name to: " + gestureNameNew);
 			string path = Config.SAVE_FILE_PATH + networkName + "/Gestures/" + gestureNameOld + ".txt";
-			AssetDatabase.RenameAsset(path, gestureNameNew);
+#if UNITY_EDITOR
+            AssetDatabase.RenameAsset(path, gestureNameNew);
 			string pathUpdated = Config.SAVE_FILE_PATH + networkName + "/Gestures/" + gestureNameNew + ".txt";
 //			AssetDatabase.ImportAsset(pathUpdated);
 			AssetDatabase.Refresh();
-		}
+#endif
+        }
 
         public List<string> GetGestureFiles(string networkName)
         {
@@ -338,10 +346,14 @@ namespace WinterMute
 			if (System.IO.Directory.Exists(path))
 			{
 				Debug.Log("Deleting Neural Net Files: " + networkName);
-				AssetDatabase.DeleteAsset(path);
-			}
-			AssetDatabase.Refresh();
-		}
+#if UNITY_EDITOR
+                AssetDatabase.DeleteAsset(path);
+#endif
+            }
+#if UNITY_EDITOR
+            AssetDatabase.Refresh();
+#endif
+        }
 
         // create a folder in the save file path
         // return true if successful, false if not
@@ -349,7 +361,9 @@ namespace WinterMute
         {
             string folderPathNew = Config.SAVE_FILE_PATH + path;
             System.IO.Directory.CreateDirectory(folderPathNew);
+#if UNITY_EDITOR
             AssetDatabase.ImportAsset(folderPathNew);
+#endif
             return true;
         }
     }
