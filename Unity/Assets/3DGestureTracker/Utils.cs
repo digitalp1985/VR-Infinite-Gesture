@@ -321,6 +321,24 @@ namespace WinterMute
             System.IO.File.WriteAllLines(gestureFileLocation, lines);
         }
 
+        public void RenameGestureFile(string gestureOldName, string gestureNewName, string networkName)
+        {
+            Debug.Log("change: " + gestureOldName + " : name to: " + gestureNewName);
+            string oldPath = Config.SAVE_FILE_PATH + networkName + "/Gestures/" + gestureOldName + ".txt";
+            string newPath = Config.SAVE_FILE_PATH + networkName + "/Gestures/" + gestureNewName + ".txt";
+            //get all them old gesture
+            string[] oldLines = System.IO.File.ReadAllLines(oldPath);
+            List<string> newLines = new List<string>();
+            foreach(string line in oldLines)
+            {
+                GestureExample currentGest = JsonUtility.FromJson<GestureExample>(line);
+                currentGest.name = gestureNewName;
+                newLines.Add(JsonUtility.ToJson(currentGest));
+            }
+            System.IO.File.WriteAllLines(newPath, newLines.ToArray());
+            DeleteGestureFile(gestureOldName, networkName);
+        }
+
 		public void ChangeGestureName(string gestureNameOld, string gestureNameNew, string networkName)
 		{
 			Debug.Log("change: " + gestureNameOld + " : name to: " + gestureNameNew);

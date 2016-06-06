@@ -675,5 +675,56 @@ public class VRGestureManager : MonoBehaviour
         }
     }
 
+    bool CheckForDuplicateGestures(string newName)
+    {
+        bool dupeCheck = true;
+        int dupeCount = -1;
+        foreach (string gesture in gestureBank)
+        {
+            if(newName == gesture)
+            {
+                dupeCount++;
+            }
+        }
+        if(dupeCount > 0)
+        {
+            dupeCheck = false;
+        }
+
+        return dupeCheck;
+    }
+
+    [ExecuteInEditMode]
+    public VRGestureManagerEditor.VRGestureRenameState RenameGesture(int gestureIndex)
+    {
+        //check to make sure the name has actually changed.
+        string newName = gestureBank[gestureIndex];
+        string oldName = gestureBankPreEdit[gestureIndex];
+        VRGestureManagerEditor.VRGestureRenameState renameState = VRGestureManagerEditor.VRGestureRenameState.Good;
+
+        if(oldName != newName)
+        {
+            if (CheckForDuplicateGestures(newName))
+            {
+                //ACTUALLY RENAME THAT SHIZZ
+                Utils.Instance.RenameGestureFile(oldName, newName, currentNeuralNet); 
+                gestureBankPreEdit = new List<string>(gestureBank);
+
+            }
+            else
+            {
+                //reset gestureBank
+                gestureBank = new List<string>(gestureBankPreEdit);
+                renameState = VRGestureManagerEditor.VRGestureRenameState.Duplicate;
+            }
+        }
+        else
+        {
+            renameState = VRGestureManagerEditor.VRGestureRenameState.NoChange;
+        }
+
+        return renameState;
+    }
+
 
 }

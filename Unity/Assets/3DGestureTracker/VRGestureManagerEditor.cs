@@ -15,6 +15,10 @@ public class VRGestureManagerEditor : Editor
 	int selectedNeuralNetIndex = 0;
 	string newNeuralNetName;
 
+
+    public enum VRGestureRenameState { Good, NoChange, Duplicate};
+    string selectedFocus = "";
+
 	// gestures gui helpers
 	string editGesturesButtonText;
 	bool editGestures = true;
@@ -80,7 +84,43 @@ public class VRGestureManagerEditor : Editor
 		if (vrGestureManager.stateInitial == VRGestureManagerState.ReadyToDetect)
 			ShowDetect();
 
+
+        //Enter click
+        if (Event.current.isKey && Event.current.keyCode == KeyCode.Return && Event.current.type == EventType.KeyUp && IfGestureControl(GUI.GetNameOfFocusedControl()))
+        {
+            //On return key press
+            ChangeGestureName(GUI.GetNameOfFocusedControl());
+        }
+
+        //Focus change
+        if(GUI.GetNameOfFocusedControl() != selectedFocus)
+        {
+            //Focus has changed from a Gesture Control.
+            if (IfGestureControl(selectedFocus)){
+                ChangeGestureName(selectedFocus);
+            }
+            selectedFocus = GUI.GetNameOfFocusedControl();
+        }
+
+
+
 		serializedObject.ApplyModifiedProperties();
+    }
+
+    void ChangeGestureName(string controlName)
+    {
+        int listIndex = Int32.Parse(controlName.Substring(16));
+        VRGestureRenameState checkState = vrGestureManager.RenameGesture(listIndex);
+        if(checkState == VRGestureRenameState.Duplicate)
+        {
+            EditorUtility.DisplayDialog("Hey, listen!",
+                    "You can't have duplicate gesture names.", "ok");
+        }
+    }
+
+    bool IfGestureControl(string controlName)
+    {
+        return (controlName.Length > 15 && controlName.Substring(0, 15) == "Gesture Control");
     }
 
 	void ShowDetect ()
@@ -445,6 +485,7 @@ public class VRGestureManagerEditor : Editor
 		// render the list
 		for (int i = 0; i < list.arraySize; i++)
 		{
+            string controlName = "Gesture Control " + i;
 
 			if (showButtons)
 			{
@@ -456,7 +497,9 @@ public class VRGestureManagerEditor : Editor
 			}
 			else
 			{
-				EditorGUILayout.PropertyField(list.GetArrayElementAtIndex(i), GUIContent.none);
+                //Was is this one?
+                GUI.SetNextControlName(controlName);
+                EditorGUILayout.PropertyField(list.GetArrayElementAtIndex(i), GUIContent.none);
 			}
 			if (showButtons)
 			{
