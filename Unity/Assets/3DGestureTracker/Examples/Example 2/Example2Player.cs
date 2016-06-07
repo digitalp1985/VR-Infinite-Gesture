@@ -12,6 +12,7 @@ public class Example2Player : MonoBehaviour
     public GameObject pushLeft;
     public GameObject pushRight;
     public GameObject pull;
+    public GameObject nullGO;
 
 	void Start ()
     {
@@ -61,6 +62,9 @@ public class Example2Player : MonoBehaviour
             case "Pull":
                 StartCoroutine(AnimateShape(pull));
                 break;
+            case "Null":
+                StartCoroutine(AnimateShape(nullGO));
+                break;
         }
     }
 
@@ -79,4 +83,5 @@ public class Example2Player : MonoBehaviour
             r.material.color = Color.white;
         }
     }
+
 }

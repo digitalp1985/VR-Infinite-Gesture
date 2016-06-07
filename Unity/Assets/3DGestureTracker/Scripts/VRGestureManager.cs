@@ -183,8 +183,8 @@ public class VRGestureManager : MonoBehaviour
         }
         else
         {
-            debugString = "null \n" + gesture + " " + confidenceValue;
-            //debugString = "null";
+            debugString = "Null \n" + gesture + " " + confidenceValue;
+            GestureDetectedEvent("Null", currentRecognizer.currentConfidenceValue);
         }
     }
 
