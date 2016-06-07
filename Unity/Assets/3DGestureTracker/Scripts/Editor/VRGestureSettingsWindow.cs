@@ -7,6 +7,7 @@ namespace WinterMute
     public class VRGestureSettingsWindow : EditorWindow
     {
         static VRGestureSettingsWindow window;
+        const float spaceSize = 10f;
 
         [MenuItem("Tools/Edwon VR Gesture/Settings")]
 
@@ -19,13 +20,28 @@ namespace WinterMute
             window.Show();
         }
 
-        bool groupEnabled;
+        bool folderPathEditingEnabled;
         bool myBool = true;
         float myFloat = 1.23f;
 
         void OnGUI()
         {
             GUILayout.Label("Edwon VR Gesture Tracker Settings", EditorStyles.boldLabel);
+            GUILayout.Space(spaceSize);
+
+            folderPathEditingEnabled = EditorGUILayout.BeginToggleGroup("Edit Data Folder", folderPathEditingEnabled);
+                GUILayout.Label("the folder to save gesture and neural net data \nbe careful changing this");
+                Config.SAVE_FILE_PATH = GUILayout.TextField(Config.SAVE_FILE_PATH);
+            EditorGUILayout.EndToggleGroup();
+            GUILayout.Space(spaceSize);
+
+            GUILayout.Label("use raw data when recording gestures, this does... blah blah blah");
+            Config.USE_RAW_DATA = GUILayout.Toggle(Config.USE_RAW_DATA, " use raw data");
+            GUILayout.Space(spaceSize);
+
+            GUILayout.Label("use continious tracking of gestures");
+            Config.CONTINIOUS = GUILayout.Toggle(Config.CONTINIOUS, " Continious Tracking");
+            GUILayout.Space(spaceSize);
 
             // optional settings example
             //groupEnabled = EditorGUILayout.BeginToggleGroup("Optional Settings", groupEnabled);
