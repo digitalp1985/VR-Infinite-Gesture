@@ -247,12 +247,9 @@ namespace WinterMute
                 if (vrHandInput.GetButton(InputOptions.Button.Trigger2))
                 {
                     Vector3 velocity = vrHandRB.velocity;
-                    //Debug.Log(velocity);
                     Vector3 velocityFlat = Vector3.ProjectOnPlane(velocity, transform.forward);
-                    Debug.DrawRay(transform.position, velocityFlat);
                     velocityFlat *= 13;
                     velocityFlat = new Vector3(-velocityFlat.z, velocityFlat.y, 0);
-                    Debug.Log(velocityFlat);
                     galleryRB.AddRelativeForce(velocityFlat);
                 }
             }
