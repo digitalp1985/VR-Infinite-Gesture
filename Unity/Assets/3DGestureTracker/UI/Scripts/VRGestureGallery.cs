@@ -17,6 +17,7 @@ namespace WinterMute
         private Vector3 frameOffset;
         public float lineWidth;
         public Vector3 galleryPosition;
+        private Vector3 galleryStartPosition;
 
         public string currentGesture;
         private string currentNeuralNet;
@@ -40,6 +41,8 @@ namespace WinterMute
 
         void Start()
         {
+            galleryStartPosition = transform.position;
+
             vrGestureUI = transform.parent.GetComponent<VRGestureUI>();
             vrUiType = vrGestureUI.vrUiType;
 
@@ -47,12 +50,13 @@ namespace WinterMute
 
             galleryState = GestureGalleryState.NotVisible;
             vrGestureManager = FindObjectOfType<VRGestureManager>();
-            frameOffset = new Vector3(gridUnitSize / 4, gridUnitSize / 4, -(gridUnitSize / 2));
-
+            //frameOffset = new Vector3(gridUnitSize / 4, gridUnitSize / 4, -(gridUnitSize / 2));
+            frameOffset = new Vector3(0, gridUnitSize / 6 , -(gridUnitSize / 2));
+            Debug.Log("frame offset" + frameOffset);
             GetHands();
         }
 
-        void GetHands ()
+        void GetHands()
         {
             VROptions.Handedness handedness;
 
@@ -83,24 +87,26 @@ namespace WinterMute
             //}
         }
 
-        void RefreshGestureExamples ()
+        // CREATE THE GESTURE GALLERY
+
+        void RefreshGestureExamples()
         {
             examples = GetGestureExamples();
             List<GestureExample> tmpList = new List<GestureExample>();
-            foreach(GestureExample gesture in examples)
+            foreach (GestureExample gesture in examples)
             {
                 if (gesture.raw)
                 {
                     gesture.data = Utils.Instance.SubDivideLine(gesture.data);
                     gesture.data = Utils.Instance.DownScaleLine(gesture.data);
                 }
-                
+
             }
         }
 
         void GenerateGestureGallery()
         {
-            
+
             float xPos = 0;
             float yPos = 0;
             int column = 0;
@@ -124,7 +130,7 @@ namespace WinterMute
                 yPos += gridStartPosY;
 
                 Vector3 localPos = new Vector3(xPos, yPos, 0);
-                
+
                 // draw the gesture
                 GameObject gestureLine = DrawGesture(examples[i].data, localPos, i);
 
@@ -155,8 +161,8 @@ namespace WinterMute
             // instructions adjust
             // needs work
             //instructions.gameObject.SetActive(true);
-            float instructionsPosY = ((row + 1) * gridUnitSize) ;
-            instructions.localPosition = new Vector3( 0, instructionsPosY, 0 );
+            float instructionsPosY = ((row + 1) * gridUnitSize);
+            instructions.localPosition = new Vector3(0, instructionsPosY, 0);
 
             galleryState = GestureGalleryState.Visible;
         }
@@ -200,7 +206,7 @@ namespace WinterMute
             children.ForEach(child => Destroy(child));
 
             galleryState = GestureGalleryState.Visible;
-
+            galleryRB.MovePosition(galleryStartPosition);
         }
 
         GameObject DrawGesture(List<Vector3> capturedLine, Vector3 startCoords, int gestureExampleNumber)
@@ -211,7 +217,7 @@ namespace WinterMute
             tmpObj.name = "Gesture Example " + gestureExampleNumber;
             tmpObj.transform.SetParent(transform);
             tmpObj.transform.localPosition = startCoords;
-            tmpObj.transform.localRotation = Quaternion.identity;
+            tmpObj.transform.forward = -transform.forward;
 
             // get the list of points in capturedLine and modify positions based on gestureDrawSize
             List<Vector3> capturedLineAdjusted = new List<Vector3>();
@@ -234,12 +240,12 @@ namespace WinterMute
 
         // GRAB AND MOVE THE GALLERY
 
-        void FixedUpdate ()
+        void FixedUpdate()
         {
             FixedUpdateGrabAndMove();
         }
 
-        void FixedUpdateGrabAndMove ()
+        void FixedUpdateGrabAndMove()
         {
 
             if (galleryState == GestureGalleryState.Visible)
@@ -267,7 +273,7 @@ namespace WinterMute
             PanelManager.OnPanelFocusChanged -= PanelFocusChanged;
         }
 
-        void PanelFocusChanged (string panelName)
+        void PanelFocusChanged(string panelName)
         {
             if (panelName == "Editing Menu")
             {
