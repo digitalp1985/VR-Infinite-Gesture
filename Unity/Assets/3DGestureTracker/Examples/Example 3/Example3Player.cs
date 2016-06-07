@@ -24,11 +24,11 @@ public class Example3Player : MonoBehaviour
         playerHandR = myAvatar.vrRigAnchors.rHandAnchor;
         playerHandL = myAvatar.vrRigAnchors.lHandAnchor;
 
-        if (Config.gestureUIHand == GestureUIHand.Right)
+        if (Config.gestureHand == GestureHand.Right)
         {
             input = myAvatar.GetInput(VROptions.Handedness.Right);
         }
-        else if (Config.gestureUIHand == GestureUIHand.Left)
+        else if (Config.gestureHand == GestureHand.Left)
         {
             input = myAvatar.GetInput(VROptions.Handedness.Left);
         }

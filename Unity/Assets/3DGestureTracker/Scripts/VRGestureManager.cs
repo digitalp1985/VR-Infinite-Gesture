@@ -98,11 +98,11 @@ public class VRGestureManager : MonoBehaviour
         //create a new Trainer
         currentTrainer = new Trainer(Gestures, currentNeuralNet);
 
-        if (Config.gestureUIHand == GestureUIHand.Right)
+        if (Config.gestureHand == GestureHand.Right)
         {
             input = myAvatar.GetInput(VROptions.Handedness.Right);
         }
-        else if (Config.gestureUIHand == GestureUIHand.Left)
+        else if (Config.gestureHand == GestureHand.Left)
         {
             input = myAvatar.GetInput(VROptions.Handedness.Left);
         }

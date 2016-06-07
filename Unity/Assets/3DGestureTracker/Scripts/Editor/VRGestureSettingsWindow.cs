@@ -6,6 +6,7 @@ namespace WinterMute
 {
     public class VRGestureSettingsWindow : EditorWindow
     {
+
         static VRGestureSettingsWindow window;
         const float spaceSize = 10f;
 
@@ -30,8 +31,8 @@ namespace WinterMute
             GUILayout.Space(spaceSize);
 
             folderPathEditingEnabled = EditorGUILayout.BeginToggleGroup("Edit Data Folder", folderPathEditingEnabled);
-                GUILayout.Label("the folder to save gesture and neural net data \nbe careful changing this");
-                Config.SAVE_FILE_PATH = GUILayout.TextField(Config.SAVE_FILE_PATH);
+            GUILayout.Label("the folder to save gesture and neural net data \nbe careful changing this");
+            Config.SAVE_FILE_PATH = GUILayout.TextField(Config.SAVE_FILE_PATH);
             EditorGUILayout.EndToggleGroup();
             GUILayout.Space(spaceSize);
 
@@ -41,6 +42,14 @@ namespace WinterMute
 
             GUILayout.Label("use continious tracking of gestures");
             Config.CONTINIOUS = GUILayout.Toggle(Config.CONTINIOUS, " Continious Tracking");
+            GUILayout.Space(spaceSize);
+
+            GUILayout.Label("how many points to examine from any given gesture recording");
+            Config.FIDELITY = EditorGUILayout.IntField(" Fidelity", Config.FIDELITY);
+            GUILayout.Space(spaceSize);
+
+            GUILayout.Label("this does something i don't know yet");
+            Config.CAPTURE_RATE = EditorGUILayout.IntField(" Capture Rate", Config.CAPTURE_RATE);
             GUILayout.Space(spaceSize);
 
             // optional settings example

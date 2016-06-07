@@ -1,14 +1,15 @@
 ﻿namespace WinterMute
 {
-    public enum GestureUIHand { Left, Right };
+    public enum GestureHand { Left, Right };
     public static class Config
     {
-        public static string SAVE_FILE_PATH = @"Assets/3DGestureTracker/VRGestureData/";
-        public static bool USE_RAW_DATA = true;
-        public static int FIDELITY = 11;
-        public static int CAPTURE_RATE = 30;
+       
+        public static string SAVE_FILE_PATH = @"Assets/3dGestureTracker/VRGestureData/";
+        public static bool USE_RAW_DATA;
+        public static int FIDELITY;
+        public static int CAPTURE_RATE;
         public static double CONFIDENCE_LIMIT = 0.98;
         public static bool CONTINIOUS = false;
-        public static GestureUIHand gestureUIHand = GestureUIHand.Right; // the hand to track
+        public static GestureHand gestureHand = GestureHand.Right; // the hand to track
     }
 }
