@@ -52,7 +52,6 @@ namespace WinterMute
             vrGestureManager = FindObjectOfType<VRGestureManager>();
             //frameOffset = new Vector3(gridUnitSize / 4, gridUnitSize / 4, -(gridUnitSize / 2));
             frameOffset = new Vector3(0, gridUnitSize / 6 , -(gridUnitSize / 2));
-            Debug.Log("frame offset" + frameOffset);
             GetHands();
         }
 

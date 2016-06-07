@@ -121,7 +121,6 @@ public class VRGestureManager : MonoBehaviour
     //IMPORTANT SET UP LISTENERS FOR UI
     void OnEnable()
     {
-        Debug.Log("On Enable inside of VRGestureManager");
         EventManager.StartListening("ReadyToRecord", BeginReadyToRecord);
         EventManager.StartListening("BeginDetect", BeginDetect);
         //load a trainor
