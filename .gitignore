@@ -56,8 +56,6 @@ Unity/Assets/3DGestureTracker/TrainingData.meta
 Unity/Assets/SymLinks/
 Unity/Assets/SymLinks.meta
 Unity/ProjectSettings/GraphicsSettings.asset
-Unity/Assets/3DGestureTracker/SAVE_DATA/
-Unity/Assets/3DGestureTracker/SAVE_DATA.meta
 sh.exe.stackdump
 Unity/Assets/3DGestureTracker/SAVE_DATA.meta
 Unity/Assets/Particle Playground/
@@ -65,3 +63,5 @@ Unity/Assets/Particle Playground.meta
 Unity/PlaygroundCache/
 Unity/Assets/FT_ImpactEffects_Vol01/
 Unity/Assets/FT_ImpactEffects_Vol01.meta
+Unity/Assets/3DGestureTracker/VRGestureData/
+Unity/Assets/3DGestureTracker/VRGestureData.meta
