@@ -27,11 +27,13 @@ public class Example2Player : MonoBehaviour
     void OnEnable ()
     {
         VRGestureManager.GestureDetectedEvent += OnGestureDetected;
+        VRGestureManager.GestureNullEvent += OnGestureNull;
     }
 
     void OnDisable ()
     {
         VRGestureManager.GestureDetectedEvent -= OnGestureDetected;
+        VRGestureManager.GestureNullEvent -= OnGestureNull;
     }
 
     void OnGestureDetected (string gestureName, double confidence)
@@ -62,10 +64,12 @@ public class Example2Player : MonoBehaviour
             case "Pull":
                 StartCoroutine(AnimateShape(pull));
                 break;
-            case "Null":
-                StartCoroutine(AnimateShape(nullGO));
-                break;
         }
+    }
+
+    void OnGestureNull ()
+    {
+        StartCoroutine(AnimateShape(nullGO));
     }
 
     IEnumerator AnimateShape (GameObject shape)

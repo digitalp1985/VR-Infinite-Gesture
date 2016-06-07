@@ -78,6 +78,8 @@ public class VRGestureManager : MonoBehaviour
     // EVENTS
     public delegate void GestureDetected(string gestureName, double confidence);
     public static event GestureDetected GestureDetectedEvent;
+    public delegate void GestureNull();
+    public static event GestureNull GestureNullEvent;
 
     void Start()
     {
@@ -184,7 +186,7 @@ public class VRGestureManager : MonoBehaviour
         else
         {
             debugString = "Null \n" + gesture + " " + confidenceValue;
-            GestureDetectedEvent("Null", currentRecognizer.currentConfidenceValue);
+            GestureNullEvent();
         }
     }
 
