@@ -58,11 +58,11 @@ namespace WinterMute
 
         void GetHands()
         {
-            VROptions.Handedness handedness;
+            VROptions.Handedness handedness = VROptions.Handedness.Left; // needed to set it to something to prevent error
 
-            if (Config.handedness == Config.Handedness.Right)
+            if (Config.gestureUIHand == GestureUIHand.Right)
                 handedness = VROptions.Handedness.Right;
-            else if (Config.handedness == Config.Handedness.Left)
+            else if (Config.gestureUIHand == GestureUIHand.Left)
                 handedness = VROptions.Handedness.Right;
 
 

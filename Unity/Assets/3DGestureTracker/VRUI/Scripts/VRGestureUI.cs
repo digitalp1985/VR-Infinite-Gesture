@@ -76,9 +76,9 @@ namespace WinterMute
 
         void Start()
         {
-            if (Config.handedness == Config.Handedness.Right)
+            if (Config.gestureUIHand == GestureUIHand.Right)
                 handedness = VROptions.Handedness.Left;
-            else if (Config.handedness == Config.Handedness.Left)
+            else if (Config.gestureUIHand == GestureUIHand.Left)
                 handedness = VROptions.Handedness.Right;
 
             rootCanvas = GetComponent<Canvas>();
