@@ -45,9 +45,13 @@ namespace WinterMute
         public Text nowRecordingLabel;
         public Image nowRecordingBackground;
         [Tooltip("the label that tells you what gesture your recording currently")]
-        public Text gestureTitle;
+        public Text nowRecordingGestureLabel;
         [Tooltip("the button that deletes gestures in the Recording Menu")]
         public Button deleteGestureButton;
+
+        // EDITING MENU
+        [Tooltip("the label that tells you what gesture your editing currently")]
+        public Text nowEditingGestureLabel;
 
         // DETECT MENU
         [Tooltip("the ui text that should be updated with a gesture detect log")]
@@ -143,7 +147,7 @@ namespace WinterMute
         public void BeginReadyToRecordGesture(string gestureName)
         {
             //Debug.Log("begin ready to record gesture of type " + gestureName);
-            gestureTitle.text = gestureName;
+            nowRecordingGestureLabel.text = gestureName;
             deleteGestureButton.onClick.RemoveAllListeners();
             deleteGestureButton.onClick.AddListener(() => DeleteGesture(gestureName));
             deleteGestureButton.onClick.AddListener(() => panelManager.FocusPanel("Record Menu"));
@@ -152,7 +156,7 @@ namespace WinterMute
 
         public void BeginEditGesture(string gestureName)
         {
-            gestureTitle.text = gestureName;
+            nowEditingGestureLabel.text = gestureName;
             vrGestureManager.BeginEditing(gestureName);
         }
 
