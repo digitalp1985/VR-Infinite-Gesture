@@ -25,11 +25,62 @@ namespace WinterMute
 
         List<GestureExample> examples;
 
-        // Use this for initialization
+        enum GestureGalleryState { Visible, NotVisible };
+        GestureGalleryState galleryState;
+
+        Rigidbody galleryRB;
+
+        Transform vrHand; // the hand to use to grab and move the gallery
+        Rigidbody vrHandRB;
+        IInput vrHandInput;
+        VRGestureUI vrGestureUI;
+        private VRGestureUI.VRUIType vrUiType;
+
+        // INIT
+
         void Start()
         {
+            vrGestureUI = transform.parent.GetComponent<VRGestureUI>();
+            vrUiType = vrGestureUI.vrUiType;
+
+            galleryRB = GetComponent<Rigidbody>();
+
+            galleryState = GestureGalleryState.NotVisible;
             vrGestureManager = FindObjectOfType<VRGestureManager>();
             frameOffset = new Vector3(gridUnitSize / 4, gridUnitSize / 4, -(gridUnitSize / 2));
+
+            GetHands();
+        }
+
+        void GetHands ()
+        {
+            VROptions.Handedness handedness;
+
+            if (Config.handedness == Config.Handedness.Right)
+                handedness = VROptions.Handedness.Right;
+            else if (Config.handedness == Config.Handedness.Left)
+                handedness = VROptions.Handedness.Right;
+
+
+            if (vrUiType == VRGestureUI.VRUIType.EdwonVR)
+            {
+                vrHand = PlayerManager.GetPlayerHand(0, handedness).transform;
+                vrHandInput = PlayerManager.GetPlayerInput(0, handedness);
+
+                if (handedness == VROptions.Handedness.Right)
+                    vrHandRB = PlayerManager.GetPlayerAvatar(0).rHandRB;
+                else if (handedness == VROptions.Handedness.Left)
+                    vrHandRB = PlayerManager.GetPlayerAvatar(0).lHandRB;
+            }
+            //else if (vrUiType == VRGestureUI.VRUIType.SteamVR)
+            //{
+            //    SteamVR_ControllerManager ControllerManager;
+            //    ControllerManager = GameObject.FindObjectOfType<SteamVR_ControllerManager>();
+            //    if (handedness == VROptions.Handedness.Left)
+            //        vrHand = ControllerManager.left.GetComponent<SteamVR_TrackedObject>().transform;
+            //    else
+            //        vrHand = ControllerManager.right.GetComponent<SteamVR_TrackedObject>().transform;
+            //}
         }
 
         void RefreshGestureExamples ()
@@ -106,6 +157,8 @@ namespace WinterMute
             //instructions.gameObject.SetActive(true);
             float instructionsPosY = ((row + 1) * gridUnitSize) ;
             instructions.localPosition = new Vector3( 0, instructionsPosY, 0 );
+
+            galleryState = GestureGalleryState.Visible;
         }
 
         void CallDeleteGesture(GestureExample gestureExample, GameObject frame, GameObject line)
@@ -115,8 +168,6 @@ namespace WinterMute
             Utils.Instance.DeleteGestureExample(currentNeuralNet, currentGesture, lineNumber);
             GameObject.Destroy(frame);
             GameObject.Destroy(line);
-            //DestroyGestureGallery();
-            //GenerateGestureGallery();
         }
 
         List<GestureExample> GetGestureExamples()
@@ -147,6 +198,9 @@ namespace WinterMute
 
             // destroy the rest
             children.ForEach(child => Destroy(child));
+
+            galleryState = GestureGalleryState.Visible;
+
         }
 
         GameObject DrawGesture(List<Vector3> capturedLine, Vector3 startCoords, int gestureExampleNumber)
@@ -177,6 +231,34 @@ namespace WinterMute
 
             return tmpObj;
         }
+
+        // GRAB AND MOVE THE GALLERY
+
+        void FixedUpdate ()
+        {
+            FixedUpdateGrabAndMove();
+        }
+
+        void FixedUpdateGrabAndMove ()
+        {
+
+            if (galleryState == GestureGalleryState.Visible)
+            {
+                if (vrHandInput.GetButton(InputOptions.Button.Trigger2))
+                {
+                    Vector3 velocity = vrHandRB.velocity;
+                    //Debug.Log(velocity);
+                    Vector3 velocityFlat = Vector3.ProjectOnPlane(velocity, transform.forward);
+                    Debug.DrawRay(transform.position, velocityFlat);
+                    velocityFlat *= 13;
+                    velocityFlat = new Vector3(-velocityFlat.z, velocityFlat.y, 0);
+                    Debug.Log(velocityFlat);
+                    galleryRB.AddRelativeForce(velocityFlat);
+                }
+            }
+        }
+
+        // EVENTS
 
         void OnEnable()
         {

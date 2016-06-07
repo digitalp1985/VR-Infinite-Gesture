@@ -371,7 +371,7 @@ namespace WinterMute
             GuiHitLast = GuiHit;
         }
 
-        private bool ButtonDown(int index)
+        public bool ButtonDown(int index)
         {
             if (vrUiType == VRGestureUI.VRUIType.SteamVR)
             {
@@ -386,7 +386,7 @@ namespace WinterMute
             }
         }
 
-        private bool ButtonUp(int index)
+        public bool ButtonUp(int index)
         {
             if (vrUiType == VRGestureUI.VRUIType.SteamVR)
             {

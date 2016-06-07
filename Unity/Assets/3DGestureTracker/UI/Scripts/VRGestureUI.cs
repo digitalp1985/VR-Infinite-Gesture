@@ -12,7 +12,8 @@ namespace WinterMute
         public enum VRUIType { SteamVR, EdwonVR };
         public VRUIType vrUiType;
 
-        private VROptions.Handedness handedness;
+        [HideInInspector]
+        public VROptions.Handedness handedness;
         private PanelManager panelManager;
         Transform vrHand; // the hand to attach the hand ui to
         Transform vrHandUI; // the actual ui
@@ -28,7 +29,9 @@ namespace WinterMute
 
         // PARENT
         Canvas rootCanvas; // the canvas on the main VRGestureUI object
-        VRControllerUIInput vrInput;
+
+        [HideInInspector]
+        public VRControllerUIInput vrInput;
 
         // RECORD MENU
         private List<Button> gestureButtons;
