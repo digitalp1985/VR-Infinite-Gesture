@@ -23,11 +23,11 @@ namespace WinterMute
             playerHandR = myAvatar.vrRigAnchors.rHandAnchor;
             playerHandL = myAvatar.vrRigAnchors.lHandAnchor;
 
-            if (Config.handedness == Config.Handedness.Right)
+            if (Config.gestureHand == GestureHand.Right)
             {
                 input = myAvatar.GetInput(VROptions.Handedness.Left);
             }
-            else if (Config.handedness == Config.Handedness.Left)
+            else if (Config.gestureHand == GestureHand.Left)
             {
                 input = myAvatar.GetInput(VROptions.Handedness.Right);
             }

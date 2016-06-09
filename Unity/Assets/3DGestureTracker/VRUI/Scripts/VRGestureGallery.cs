@@ -17,6 +17,7 @@ namespace WinterMute
         private Vector3 frameOffset;
         public float lineWidth;
         public Vector3 galleryPosition;
+        private Vector3 galleryStartPosition;
 
         public string currentGesture;
         private string currentNeuralNet;
@@ -25,31 +26,86 @@ namespace WinterMute
 
         List<GestureExample> examples;
 
-        // Use this for initialization
+        enum GestureGalleryState { Visible, NotVisible };
+        GestureGalleryState galleryState;
+
+        Rigidbody galleryRB;
+
+        Transform vrHand; // the hand to use to grab and move the gallery
+        Rigidbody vrHandRB;
+        IInput vrHandInput;
+        VRGestureUI vrGestureUI;
+        private VRGestureUI.VRUIType vrUiType;
+
+        // INIT
+
         void Start()
         {
+            galleryStartPosition = transform.position;
+
+            vrGestureUI = transform.parent.GetComponent<VRGestureUI>();
+            vrUiType = vrGestureUI.vrUiType;
+
+            galleryRB = GetComponent<Rigidbody>();
+
+            galleryState = GestureGalleryState.NotVisible;
             vrGestureManager = FindObjectOfType<VRGestureManager>();
-            frameOffset = new Vector3(gridUnitSize / 4, gridUnitSize / 4, -(gridUnitSize / 2));
+            //frameOffset = new Vector3(gridUnitSize / 4, gridUnitSize / 4, -(gridUnitSize / 2));
+            frameOffset = new Vector3(0, gridUnitSize / 6 , -(gridUnitSize / 2));
+            GetHands();
         }
 
-        void RefreshGestureExamples ()
+        void GetHands()
+        {
+            VROptions.Handedness handedness = VROptions.Handedness.Left; // needed to set it to something to prevent error
+
+            if (Config.gestureHand == GestureHand.Right)
+                handedness = VROptions.Handedness.Right;
+            else if (Config.gestureHand == GestureHand.Left)
+                handedness = VROptions.Handedness.Right;
+
+
+            if (vrUiType == VRGestureUI.VRUIType.EdwonVR)
+            {
+                vrHand = PlayerManager.GetPlayerHand(0, handedness).transform;
+                vrHandInput = PlayerManager.GetPlayerInput(0, handedness);
+
+                if (handedness == VROptions.Handedness.Right)
+                    vrHandRB = PlayerManager.GetPlayerAvatar(0).rHandRB;
+                else if (handedness == VROptions.Handedness.Left)
+                    vrHandRB = PlayerManager.GetPlayerAvatar(0).lHandRB;
+            }
+            //else if (vrUiType == VRGestureUI.VRUIType.SteamVR)
+            //{
+            //    SteamVR_ControllerManager ControllerManager;
+            //    ControllerManager = GameObject.FindObjectOfType<SteamVR_ControllerManager>();
+            //    if (handedness == VROptions.Handedness.Left)
+            //        vrHand = ControllerManager.left.GetComponent<SteamVR_TrackedObject>().transform;
+            //    else
+            //        vrHand = ControllerManager.right.GetComponent<SteamVR_TrackedObject>().transform;
+            //}
+        }
+
+        // CREATE THE GESTURE GALLERY
+
+        void RefreshGestureExamples()
         {
             examples = GetGestureExamples();
             List<GestureExample> tmpList = new List<GestureExample>();
-            foreach(GestureExample gesture in examples)
+            foreach (GestureExample gesture in examples)
             {
                 if (gesture.raw)
                 {
                     gesture.data = Utils.Instance.SubDivideLine(gesture.data);
                     gesture.data = Utils.Instance.DownScaleLine(gesture.data);
                 }
-                
+
             }
         }
 
         void GenerateGestureGallery()
         {
-            
+
             float xPos = 0;
             float yPos = 0;
             int column = 0;
@@ -73,7 +129,7 @@ namespace WinterMute
                 yPos += gridStartPosY;
 
                 Vector3 localPos = new Vector3(xPos, yPos, 0);
-                
+
                 // draw the gesture
                 GameObject gestureLine = DrawGesture(examples[i].data, localPos, i);
 
@@ -104,8 +160,10 @@ namespace WinterMute
             // instructions adjust
             // needs work
             //instructions.gameObject.SetActive(true);
-            float instructionsPosY = ((row + 1) * gridUnitSize) ;
-            instructions.localPosition = new Vector3( 0, instructionsPosY, 0 );
+            float instructionsPosY = ((row + 1) * gridUnitSize);
+            instructions.localPosition = new Vector3(0, instructionsPosY, 0);
+
+            galleryState = GestureGalleryState.Visible;
         }
 
         void CallDeleteGesture(GestureExample gestureExample, GameObject frame, GameObject line)
@@ -115,8 +173,6 @@ namespace WinterMute
             Utils.Instance.DeleteGestureExample(currentNeuralNet, currentGesture, lineNumber);
             GameObject.Destroy(frame);
             GameObject.Destroy(line);
-            //DestroyGestureGallery();
-            //GenerateGestureGallery();
         }
 
         List<GestureExample> GetGestureExamples()
@@ -147,6 +203,9 @@ namespace WinterMute
 
             // destroy the rest
             children.ForEach(child => Destroy(child));
+
+            galleryState = GestureGalleryState.Visible;
+            galleryRB.MovePosition(galleryStartPosition);
         }
 
         GameObject DrawGesture(List<Vector3> capturedLine, Vector3 startCoords, int gestureExampleNumber)
@@ -157,7 +216,7 @@ namespace WinterMute
             tmpObj.name = "Gesture Example " + gestureExampleNumber;
             tmpObj.transform.SetParent(transform);
             tmpObj.transform.localPosition = startCoords;
-            tmpObj.transform.localRotation = Quaternion.identity;
+            tmpObj.transform.forward = -transform.forward;
 
             // get the list of points in capturedLine and modify positions based on gestureDrawSize
             List<Vector3> capturedLineAdjusted = new List<Vector3>();
@@ -178,6 +237,31 @@ namespace WinterMute
             return tmpObj;
         }
 
+        // GRAB AND MOVE THE GALLERY
+
+        void FixedUpdate()
+        {
+            FixedUpdateGrabAndMove();
+        }
+
+        void FixedUpdateGrabAndMove()
+        {
+
+            if (galleryState == GestureGalleryState.Visible)
+            {
+                if (vrHandInput.GetButton(InputOptions.Button.Trigger2))
+                {
+                    Vector3 velocity = vrHandRB.velocity;
+                    Vector3 velocityFlat = Vector3.ProjectOnPlane(velocity, transform.forward);
+                    velocityFlat *= 13;
+                    velocityFlat = new Vector3(-velocityFlat.z, velocityFlat.y, 0);
+                    galleryRB.AddRelativeForce(velocityFlat);
+                }
+            }
+        }
+
+        // EVENTS
+
         void OnEnable()
         {
             PanelManager.OnPanelFocusChanged += PanelFocusChanged;
@@ -188,7 +272,7 @@ namespace WinterMute
             PanelManager.OnPanelFocusChanged -= PanelFocusChanged;
         }
 
-        void PanelFocusChanged (string panelName)
+        void PanelFocusChanged(string panelName)
         {
             if (panelName == "Editing Menu")
             {

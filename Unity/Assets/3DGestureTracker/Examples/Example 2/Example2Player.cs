@@ -12,6 +12,7 @@ public class Example2Player : MonoBehaviour
     public GameObject pushLeft;
     public GameObject pushRight;
     public GameObject pull;
+    public GameObject nullGO;
 
 	void Start ()
     {
@@ -26,11 +27,13 @@ public class Example2Player : MonoBehaviour
     void OnEnable ()
     {
         VRGestureManager.GestureDetectedEvent += OnGestureDetected;
+        VRGestureManager.GestureNullEvent += OnGestureNull;
     }
 
     void OnDisable ()
     {
         VRGestureManager.GestureDetectedEvent -= OnGestureDetected;
+        VRGestureManager.GestureNullEvent -= OnGestureNull;
     }
 
     void OnGestureDetected (string gestureName, double confidence)
@@ -64,6 +67,11 @@ public class Example2Player : MonoBehaviour
         }
     }
 
+    void OnGestureNull ()
+    {
+        StartCoroutine(AnimateShape(nullGO));
+    }
+
     IEnumerator AnimateShape (GameObject shape)
     {
         Renderer[] renderers = shape.GetComponentsInChildren<Renderer>();
@@ -79,4 +87,5 @@ public class Example2Player : MonoBehaviour
             r.material.color = Color.white;
         }
     }
+
 }

@@ -76,6 +76,8 @@ public class VRGestureManager : MonoBehaviour
     // EVENTS
     public delegate void GestureDetected(string gestureName, double confidence);
     public static event GestureDetected GestureDetectedEvent;
+    public delegate void GestureNull();
+    public static event GestureNull GestureNullEvent;
 
     void Start()
     {
@@ -94,11 +96,11 @@ public class VRGestureManager : MonoBehaviour
         //create a new Trainer
         currentTrainer = new Trainer(Gestures, currentNeuralNet);
 
-        if (Config.handedness == Config.Handedness.Right)
+        if (Config.gestureHand == GestureHand.Right)
         {
             input = myAvatar.GetInput(VROptions.Handedness.Right);
         }
-        else if (Config.handedness == Config.Handedness.Left)
+        else if (Config.gestureHand == GestureHand.Left)
         {
             input = myAvatar.GetInput(VROptions.Handedness.Left);
         }
@@ -117,7 +119,6 @@ public class VRGestureManager : MonoBehaviour
     //IMPORTANT SET UP LISTENERS FOR UI
     void OnEnable()
     {
-        Debug.Log("On Enable inside of VRGestureManager");
         EventManager.StartListening("ReadyToRecord", BeginReadyToRecord);
         EventManager.StartListening("BeginDetect", BeginDetect);
         //load a trainor
@@ -181,8 +182,8 @@ public class VRGestureManager : MonoBehaviour
         }
         else
         {
-            debugString = "null \n" + gesture + " " + confidenceValue;
-            //debugString = "null";
+            debugString = "Null \n" + gesture + " " + confidenceValue;
+            GestureNullEvent();
         }
     }
 
