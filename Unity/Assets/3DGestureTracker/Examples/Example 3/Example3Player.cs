@@ -18,7 +18,7 @@ public class Example3Player : MonoBehaviour
 
     void Start ()
     {
-        myAvatar = PlayerManager.GetPlayerAvatar(0);
+        myAvatar = PlayerManager.Instance.GetPlayerAvatar(0);
 
         playerHead = myAvatar.headTF;
         playerHandR = myAvatar.vrRigAnchors.rHandAnchor;

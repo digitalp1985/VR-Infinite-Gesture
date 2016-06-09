@@ -16,7 +16,7 @@ public class IcePower : MonoBehaviour
 
     void Start ()
     {
-        myAvatar = PlayerManager.GetPlayerAvatar(0);
+        myAvatar = PlayerManager.Instance.GetPlayerAvatar(0);
 
         rb = GetComponent<Rigidbody>();
 

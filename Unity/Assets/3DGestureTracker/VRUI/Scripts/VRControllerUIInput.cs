@@ -1,4 +1,29 @@
-﻿using UnityEngine;
+﻿/*
+The MIT License(MIT) only covers this script named VRControllerUIInput that is based on the ViveUGUIModule script
+created by VREALITY and is posted on github at https://github.com/VREALITY/ViveUGUIModule
+
+Copyright(c) 2015 VREAL INC.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System.Collections;
@@ -44,6 +69,8 @@ namespace WinterMute
         [Tooltip("Generated non rendering camera (used for raycasting ui)")]
         public Camera ControllerCamera;
 
+        private VRAvatar myAvatar;
+        private IInput ControllerInput;
         private SteamVR_ControllerManager ControllerManager;
         private Transform[] Controllers;
         private SteamVR_TrackedObject[] SteamVRControllers;
@@ -84,9 +111,13 @@ namespace WinterMute
                 }
                 else if (vrUiType == VRGestureUI.VRUIType.EdwonVR)
                 {
-                    Controllers = new Transform[] { PlayerManager.GetPlayerHand(0, VROptions.Handedness.Left).transform, PlayerManager.GetPlayerHand(0, VROptions.Handedness.Right).transform };
+                    // lHandTF->VRHandBase.transform
+                    //Controllers = new Transform[] { PlayerManager.GetPlayerHand(0, VROptions.Handedness.Left).transform, PlayerManager.GetPlayerHand(0, VROptions.Handedness.Right).transform };
+                    Controllers = new Transform[] { myAvatar.lHandTF, myAvatar.rHandTF };
                     Cursors = new RectTransform[2];
                 }
+                //Maybe ControllerInputR ControllerInputL
+                ControllerInput = myAvatar.GetInput(VROptions.Handedness.Right);
 
 
                 for (int index = 0; index < Cursors.Length; index++)
@@ -380,9 +411,9 @@ namespace WinterMute
             else
             {
                 if (index == 0)
-                    return PlayerManager.GetPlayerInput(0, VROptions.Handedness.Left).GetButtonDown(InputOptions.Button.Trigger1);
+                    return ControllerInput.GetButtonDown(InputOptions.Button.Trigger1);
                 else
-                    return PlayerManager.GetPlayerInput(0, VROptions.Handedness.Right).GetButtonDown(InputOptions.Button.Trigger1);
+                    return ControllerInput.GetButtonDown(InputOptions.Button.Trigger1);
             }
         }
 
@@ -395,9 +426,9 @@ namespace WinterMute
             else
             {
                 if (index == 0)
-                    return PlayerManager.GetPlayerInput(0, VROptions.Handedness.Left).GetButtonUp(InputOptions.Button.Trigger1);
+                    return ControllerInput.GetButtonUp(InputOptions.Button.Trigger1);
                 else
-                    return PlayerManager.GetPlayerInput(0, VROptions.Handedness.Right).GetButtonUp(InputOptions.Button.Trigger1);
+                    return ControllerInput.GetButtonUp(InputOptions.Button.Trigger1);
             }
         }
     }

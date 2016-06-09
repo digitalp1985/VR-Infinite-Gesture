@@ -11,6 +11,7 @@ namespace WinterMute
     {
         public enum VRUIType { SteamVR, EdwonVR };
         public VRUIType vrUiType;
+        VRAvatar myAvatar;
 
         [HideInInspector]
         public VROptions.Handedness handedness;
@@ -91,8 +92,8 @@ namespace WinterMute
             // get vr player hand and camera
             if (vrUiType == VRUIType.EdwonVR)
             {
-                vrHand = PlayerManager.GetPlayerHand(0, handedness).transform;
-                vrCam = PlayerManager.GetPlayerCamera(0).transform;
+                vrHand = myAvatar.GetHand(handedness);
+                vrCam = PlayerManager.Instance.GetPlayerCamera(0).transform;
             }
             else if (vrUiType == VRUIType.SteamVR)
             {

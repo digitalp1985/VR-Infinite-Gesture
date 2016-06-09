@@ -33,6 +33,7 @@ namespace WinterMute
 
         Transform vrHand; // the hand to use to grab and move the gallery
         Rigidbody vrHandRB;
+        VRAvatar myAvatar;
         IInput vrHandInput;
         VRGestureUI vrGestureUI;
         private VRGestureUI.VRUIType vrUiType;
@@ -67,13 +68,13 @@ namespace WinterMute
 
             if (vrUiType == VRGestureUI.VRUIType.EdwonVR)
             {
-                vrHand = PlayerManager.GetPlayerHand(0, handedness).transform;
-                vrHandInput = PlayerManager.GetPlayerInput(0, handedness);
+                vrHand = myAvatar.GetHand(handedness).transform;
+                vrHandInput = myAvatar.GetInput(handedness);
 
                 if (handedness == VROptions.Handedness.Right)
-                    vrHandRB = PlayerManager.GetPlayerAvatar(0).rHandRB;
+                    vrHandRB = myAvatar.rHandRB;
                 else if (handedness == VROptions.Handedness.Left)
-                    vrHandRB = PlayerManager.GetPlayerAvatar(0).lHandRB;
+                    vrHandRB = myAvatar.lHandRB;
             }
             //else if (vrUiType == VRGestureUI.VRUIType.SteamVR)
             //{

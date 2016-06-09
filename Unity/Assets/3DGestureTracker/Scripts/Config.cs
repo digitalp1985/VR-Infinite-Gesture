@@ -1,5 +1,6 @@
 ﻿namespace WinterMute
 {
+    public enum GestureHand { Left, Right };
     public static class Config
     {
         public const string SAVE_FILE_PATH = @"Assets/3DGestureTracker/VRGestureData/";
@@ -14,7 +15,7 @@
         // whether to track when pressing trigger or all the time
         public const bool CONTINIOUS = false; // SETTING
         // which hand to track
-        public enum Handedness { Left, Right, Both };
-        public const Handedness handedness = Handedness.Right; // the hand to track
+        
+        public const GestureHand gestureHand = GestureHand.Right; // the hand to track
     }
 }

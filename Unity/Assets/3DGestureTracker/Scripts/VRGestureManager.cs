@@ -87,7 +87,7 @@ public class VRGestureManager : MonoBehaviour
 		state = stateInitial;
         stateLast = state;
 
-        myAvatar = PlayerManager.GetPlayerAvatar(0);
+        myAvatar = PlayerManager.Instance.GetPlayerAvatar(0);
         gestureToRecord = "";
 
         playerHead = myAvatar.headTF;
