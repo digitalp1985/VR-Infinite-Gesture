@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using WinterMute;
 
+//@DEPRECATED
 namespace Fart
 {
     class BackPropProgram

@@ -7,8 +7,6 @@ using System.IO;
 using System.Collections;
 using System.Collections.Generic;
 using WinterMute;
-using VRDebugUI;
-using UnityEngine.UI;
 
 public enum VRGestureManagerState { Idle, Edit, Editing, EnteringRecord, ReadyToRecord, Recording, Training, ReadyToDetect, Detecting };
 public enum VRGestureDetectType { Button, Continious };
@@ -171,8 +169,8 @@ public class VRGestureManager : MonoBehaviour
 
     public void TestNeural(List<Vector3> capturedLine)
     {
-        double[] input = Utils.Instance.FormatLine(capturedLine);
-        string gesture = currentRecognizer.GetGesture(input);
+        double[] networkInput = Utils.Instance.FormatLine(capturedLine);
+        string gesture = currentRecognizer.GetGesture(networkInput);
         string confidenceValue = currentRecognizer.currentConfidenceValue.ToString().Substring(0,4);
 
         // broadcast gesture detected event
