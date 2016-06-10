@@ -203,7 +203,7 @@ namespace Fart
         //The end results
         public void GenerateParabola()
         {
-            List<double[]> shittyParabola = new List<double[]>();
+
             //To make things easy on us all parabolas will be between -5 and 5
             System.Random rnd = new System.Random();
             double shitFactor = 0.25;

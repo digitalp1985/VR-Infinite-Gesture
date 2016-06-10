@@ -6,7 +6,7 @@ namespace WinterMute
 
     public class VRGestureUISwitcher : MonoBehaviour
     {
-        VRAvatar myAvatar;
+        VRGestureRig rig;
         IInput input;
 
         Transform playerHead;
@@ -17,20 +17,13 @@ namespace WinterMute
 
         void Start()
         {
-            myAvatar = PlayerManager.Instance.GetPlayerAvatar(0);
+            rig = VRGestureManager.Instance.rig;
 
-            playerHead = myAvatar.headTF;
-            playerHandR = myAvatar.vrRigAnchors.rHandAnchor;
-            playerHandL = myAvatar.vrRigAnchors.lHandAnchor;
+            playerHead = rig.headTF;
+            playerHandR = rig.rHandTF;
+            playerHandL = rig.lHandTF;
 
-            if (Config.gestureHand == GestureHand.Right)
-            {
-                input = myAvatar.GetInput(VROptions.Handedness.Left);
-            }
-            else if (Config.gestureHand == GestureHand.Left)
-            {
-                input = myAvatar.GetInput(VROptions.Handedness.Right);
-            }
+            input = rig.GetInput(Config.gestureHand);
         }
 
         void Update ()

@@ -190,7 +190,6 @@ namespace WinterMute
             {
                 capturedLine = DownResLine(capturedLine);
             }
-
             
             List<double> tmpLine = new List<double>();
             foreach (Vector3 cVector in capturedLine)

@@ -33,7 +33,7 @@ namespace WinterMute
 
         Transform vrHand; // the hand to use to grab and move the gallery
         Rigidbody vrHandRB;
-        VRAvatar myAvatar;
+        VRGestureRig rig;
         IInput vrHandInput;
         VRGestureUI vrGestureUI;
         private VRGestureUI.VRUIType vrUiType;
@@ -58,33 +58,15 @@ namespace WinterMute
 
         void GetHands()
         {
-            VROptions.Handedness handedness = VROptions.Handedness.Left; // needed to set it to something to prevent error
-
-            if (Config.gestureHand == GestureHand.Right)
-                handedness = VROptions.Handedness.Right;
-            else if (Config.gestureHand == GestureHand.Left)
-                handedness = VROptions.Handedness.Right;
-
+            HandType handedness = Config.gestureHand; // needed to set it to something to prevent error
 
             if (vrUiType == VRGestureUI.VRUIType.EdwonVR)
             {
-                vrHand = myAvatar.GetHand(handedness).transform;
-                vrHandInput = myAvatar.GetInput(handedness);
-
-                if (handedness == VROptions.Handedness.Right)
-                    vrHandRB = myAvatar.rHandRB;
-                else if (handedness == VROptions.Handedness.Left)
-                    vrHandRB = myAvatar.lHandRB;
+                rig = VRGestureManager.Instance.rig;
+                vrHand = rig.GetHand(handedness);
+                vrHandInput = rig.GetInput(handedness);
+                vrHandRB = rig.GetHandRB(handedness);
             }
-            //else if (vrUiType == VRGestureUI.VRUIType.SteamVR)
-            //{
-            //    SteamVR_ControllerManager ControllerManager;
-            //    ControllerManager = GameObject.FindObjectOfType<SteamVR_ControllerManager>();
-            //    if (handedness == VROptions.Handedness.Left)
-            //        vrHand = ControllerManager.left.GetComponent<SteamVR_TrackedObject>().transform;
-            //    else
-            //        vrHand = ControllerManager.right.GetComponent<SteamVR_TrackedObject>().transform;
-            //}
         }
 
         // CREATE THE GESTURE GALLERY

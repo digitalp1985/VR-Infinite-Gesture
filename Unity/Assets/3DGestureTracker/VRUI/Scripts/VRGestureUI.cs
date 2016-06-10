@@ -11,10 +11,10 @@ namespace WinterMute
     {
         public enum VRUIType { SteamVR, EdwonVR };
         public VRUIType vrUiType;
-        VRAvatar myAvatar;
+        VRGestureRig myAvatar;
 
         [HideInInspector]
-        public VROptions.Handedness handedness;
+        public HandType handedness;
         private PanelManager panelManager;
         Transform vrHand; // the hand to attach the hand ui to
         Transform vrHandUI; // the actual ui
@@ -77,10 +77,7 @@ namespace WinterMute
 
         void Start()
         {
-            if (Config.gestureHand == GestureHand.Right)
-                handedness = VROptions.Handedness.Left;
-            else if (Config.gestureHand == GestureHand.Left)
-                handedness = VROptions.Handedness.Right;
+            handedness = Config.gestureHand;
 
             rootCanvas = GetComponent<Canvas>();
             vrInput = GetComponent<VRControllerUIInput>();
@@ -92,14 +89,15 @@ namespace WinterMute
             // get vr player hand and camera
             if (vrUiType == VRUIType.EdwonVR)
             {
+                myAvatar = VRGestureManager.Instance.rig;
                 vrHand = myAvatar.GetHand(handedness);
-                vrCam = PlayerManager.Instance.GetPlayerCamera(0).transform;
+                vrCam = VRGestureManager.Instance.rig.cameraEyeTransform;
             }
             else if (vrUiType == VRUIType.SteamVR)
             {
                 SteamVR_ControllerManager ControllerManager;
                 ControllerManager = GameObject.FindObjectOfType<SteamVR_ControllerManager>();
-                if (handedness == VROptions.Handedness.Left)
+                if (handedness == HandType.Left)
                 {
                     vrHand = ControllerManager.left.GetComponent<SteamVR_TrackedObject>().transform;
                 }

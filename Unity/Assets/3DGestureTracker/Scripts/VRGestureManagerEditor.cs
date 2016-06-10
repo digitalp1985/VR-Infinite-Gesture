@@ -369,7 +369,7 @@ public class VRGestureManagerEditor : Editor
             }
 			if (editGesturesButtonText == "Save Gestures")
 			{
-				vrGestureManager.SaveGestures();
+				//vrGestureManager.SaveGestures();
 				editGestures = !editGestures;
 
 			}

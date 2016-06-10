@@ -12,17 +12,17 @@ public class IcePower : MonoBehaviour
     Transform playerHandL;
     Transform playerHandR;
 
-    VRAvatar myAvatar;
+    VRGestureRig myAvatar;
 
     void Start ()
     {
-        myAvatar = PlayerManager.Instance.GetPlayerAvatar(0);
+        myAvatar = VRGestureManager.Instance.rig;
 
         rb = GetComponent<Rigidbody>();
 
         playerHead = myAvatar.headTF;
-        playerHandR = myAvatar.vrRigAnchors.rHandAnchor;
-        playerHandL = myAvatar.vrRigAnchors.lHandAnchor;
+        playerHandR = myAvatar.rHandTF;
+        playerHandL = myAvatar.lHandTF;
 
         StartCoroutine(DestroySelf());
     }

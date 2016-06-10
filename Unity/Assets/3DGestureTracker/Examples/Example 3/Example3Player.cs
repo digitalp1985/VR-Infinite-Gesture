@@ -9,7 +9,7 @@ public class Example3Player : MonoBehaviour
     public GameObject ice;
     public GameObject air;
 
-    VRAvatar myAvatar;
+    VRGestureRig rig;
     IInput input;
 
     Transform playerHead;
@@ -18,20 +18,13 @@ public class Example3Player : MonoBehaviour
 
     void Start ()
     {
-        myAvatar = PlayerManager.Instance.GetPlayerAvatar(0);
+        rig = VRGestureManager.Instance.rig;
 
-        playerHead = myAvatar.headTF;
-        playerHandR = myAvatar.vrRigAnchors.rHandAnchor;
-        playerHandL = myAvatar.vrRigAnchors.lHandAnchor;
+        playerHead = rig.headTF;
+        playerHandR = rig.rHandTF;
+        playerHandL = rig.lHandTF;
 
-        if (Config.gestureHand == GestureHand.Right)
-        {
-            input = myAvatar.GetInput(VROptions.Handedness.Right);
-        }
-        else if (Config.gestureHand == GestureHand.Left)
-        {
-            input = myAvatar.GetInput(VROptions.Handedness.Left);
-        }
+        input = rig.GetInput(Config.gestureHand);
     }
 	
 	void Update ()

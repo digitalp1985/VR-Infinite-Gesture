@@ -13,23 +13,22 @@ public enum VRGestureDetectType { Button, Continious };
 
 public class VRGestureManager : MonoBehaviour
 {
-	public VRGestureDetectType vrGestureDetectType;
+    static VRGestureManager instance;
+
+    public VRGestureDetectType vrGestureDetectType;
 
     [HideInInspector]
     public VRGestureManagerState state;
-	[HideInInspector]
-	public VRGestureManagerState stateInitial;
+    [HideInInspector]
+    public VRGestureManagerState stateInitial;
     private VRGestureManagerState stateLast;
 
-    public Transform vrRigAnchors;
-    VRAvatar myAvatar;
+    public VRGestureRig rig;
     IInput input;
 
-    public Transform playerHead;
-    public Transform playerHand;
-
-    GameObject rightGo;
-    GameObject currentGo;
+    Transform playerHead;
+    Transform playerHand;
+    Transform perpTransform;
 
     int lengthOfLineRenderer = 50;
     LineRenderer rightLineRenderer;
@@ -38,27 +37,27 @@ public class VRGestureManager : MonoBehaviour
     LineRenderer currentRenderer;
     List<Vector3> currentCapturedLine;
 
-    [Tooltip ("the neural net that I am using")]
+    [Tooltip("the neural net that I am using")]
     [SerializeField]
     public string currentNeuralNet;
     [SerializeField]
     public List<string> neuralNets;
-	private List<string> gestures; 	// list of gestures already trained in currentNeuralNet
-	public List<string> Gestures
-	{
-		get
-		{
-			NeuralNetworkStub stub = Utils.Instance.ReadNeuralNetworkStub (currentNeuralNet);
-			return stub.gestures;
-		}
-		set
-		{
-			value = gestures;
-		}
-	}
+    private List<string> gestures;  // list of gestures already trained in currentNeuralNet
+    public List<string> Gestures
+    {
+        get
+        {
+            NeuralNetworkStub stub = Utils.Instance.ReadNeuralNetworkStub(currentNeuralNet);
+            return stub.gestures;
+        }
+        set
+        {
+            value = gestures;
+        }
+    }
     public List<string> gestureBank; // list of recorded gesture for current neural net
 
-    Transform perpTransform;
+    
 
     public string gestureToRecord;
 
@@ -79,6 +78,47 @@ public class VRGestureManager : MonoBehaviour
     public delegate void GestureNull();
     public static event GestureNull GestureNullEvent;
 
+
+    public static VRGestureManager Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<VRGestureManager>();
+                if (instance == null)
+                {
+                    GameObject obj = new GameObject();
+                    obj.hideFlags = HideFlags.HideAndDontSave;
+                    instance = obj.AddComponent<VRGestureManager>();
+                    instance.Init();
+                }
+            }
+            return instance;
+        }
+    }
+
+    public virtual void Awake()
+    {
+        DontDestroyOnLoad(this.gameObject);
+        if (instance == null)
+        {
+            instance = this;
+            instance.Init();
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    void Init()
+    {
+        rig = FindObjectOfType<VRGestureRig>();
+        playerHead = rig.headTF;
+        playerHand = rig.rHandTF;
+    }
+
     void Start()
     {
         if (stateInitial == VRGestureManagerState.ReadyToDetect)
@@ -86,24 +126,12 @@ public class VRGestureManager : MonoBehaviour
 
 		state = stateInitial;
         stateLast = state;
-
-        myAvatar = PlayerManager.Instance.GetPlayerAvatar(0);
         gestureToRecord = "";
-
-        playerHead = myAvatar.headTF;
-        playerHand = myAvatar.vrRigAnchors.rHandAnchor;
 
         //create a new Trainer
         currentTrainer = new Trainer(Gestures, currentNeuralNet);
 
-        if (Config.gestureHand == GestureHand.Right)
-        {
-            input = myAvatar.GetInput(VROptions.Handedness.Right);
-        }
-        else if (Config.gestureHand == GestureHand.Left)
-        {
-            input = myAvatar.GetInput(VROptions.Handedness.Left);
-        }
+        input = rig.GetInput(Config.gestureHand);
 
         rightCapturedLine = new List<Vector3>();
         displayLine = new List<Vector3>();
@@ -112,8 +140,8 @@ public class VRGestureManager : MonoBehaviour
         perpTransform = new GameObject("Perpindicular Head").transform;
         perpTransform.parent = this.transform;
 
-        rightLineRenderer = CreateLineRenderer(rightGo, Color.yellow, Color.red);
-        currentRenderer = CreateLineRenderer(currentGo, Color.magenta, Color.magenta);
+        rightLineRenderer = CreateLineRenderer( Color.yellow, Color.red);
+        currentRenderer = CreateLineRenderer( Color.magenta, Color.magenta);
     }
 
     //IMPORTANT SET UP LISTENERS FOR UI
@@ -131,9 +159,9 @@ public class VRGestureManager : MonoBehaviour
         EventManager.StopListening("BeginDetect", BeginDetect);
     }
 
-    LineRenderer CreateLineRenderer(GameObject myGo, Color c1, Color c2)
+    LineRenderer CreateLineRenderer(Color c1, Color c2)
     {
-        myGo = new GameObject();
+        GameObject myGo = new GameObject();
         myGo.transform.parent = transform;
         myGo.transform.localPosition = Vector3.zero;
 
@@ -198,7 +226,7 @@ public class VRGestureManager : MonoBehaviour
 
         //get the position from the left anchor.
         //draw a point.
-        if (myAvatar != null)
+        if (rig != null)
         {
             if (state == VRGestureManagerState.ReadyToRecord || 
                 state == VRGestureManagerState.EnteringRecord ||
@@ -385,6 +413,14 @@ public class VRGestureManager : MonoBehaviour
         }
     }
 
+
+
+
+
+
+
+
+
     // below here is new custom editor stuff that edwon's making
     // mostly dummy stuff that doesn't do anything yet
     // needs connecting to real stuff by Tyler
@@ -555,124 +591,6 @@ public class VRGestureManager : MonoBehaviour
 		Debug.Log("edit gestures");
 		gestureBankPreEdit = new List<string>(gestureBank);
 	}
-
-    [ExecuteInEditMode]
-    public void SaveGestures()
-    {
-		Debug.Log("save gestures");
-		// make sorted lists of gestureFiles and gestureBank to make easier to compare
-		List<string> gestureFilesSorted = new List<string>();
-		gestureFilesSorted = Utils.Instance.GetGestureFiles(currentNeuralNet);
-		gestureFilesSorted.Sort();
-		List<string> gestureBankPostEdit = new List<string>(gestureBank);
-//		gestureBankPostEdit.Sort();
-//		gestureBankPreEdit.Sort();
-
-		// if gestures were added to gestureBank
-//		if (gestureBankPostEdit.Count > gestureBankPreEdit.Count)
-//		{
-
-		// compare the pre-edited list to the post-edited list
-//		for(int i = 0; i < gestureBankPreEdit.Count; i++)
-//		{
-//			string gesture = gestureBankPreEdit[i];
-//			// if the user has deleted a gesture or changed its name
-//			if (!gestureBankPostEdit.Contains(gesture))
-//			{
-//				Debug.Log("doesn't contain");
-//				// find the file to update
-//				string fileToUpdate = Config.SAVE_FILE_PATH + currentNeuralNet + "/Gestures/" + gesture + ".txt";
-//				// if file exists
-//				if (System.IO.File.Exists(fileToUpdate))
-//				{
-//					// change its name
-//					Utils.Instance.ChangeGestureName(gesture, gestureBankPostEdit[i], currentNeuralNet);
-//				}
-//				else // if file doesn't exist
-//				{
-//					Utils.Instance.DeleteGestureFile(gesture, currentNeuralNet);
-//				}
-//			}
-//		}
-
-		// if no gesture files create from list
-		if (gestureFilesSorted.Count <= 0)
-		{
-			foreach (string gesture in gestureBankPostEdit)
-			{
-				Utils.Instance.CreateGestureFile(gesture, currentNeuralNet);
-			}
-		}
-
-		// if gesture files are less than the edited gestures list
-		if (gestureFilesSorted.Count < gestureBankPostEdit.Count)
-		{
-			foreach(string gesturePostEdit in gestureBankPostEdit)
-			{
-				if (!gestureFilesSorted.Contains(gesturePostEdit))
-				{
-					Utils.Instance.CreateGestureFile(gesturePostEdit, currentNeuralNet);
-				}
-			}
-		}
-
-		// now compare the gesture files to the post-edited list
-//		for(int i = 0; i < gestureFilesSorted.Count; i++)
-//		{
-//			string path = gestureFilesSorted[i];
-//			string gestureFile = System.IO.Path.GetFileNameWithoutExtension(path);
-//
-//			// if the user has deleted a gesture or changed its name
-//			if (!gestureBankPostEdit.Contains(gestureFile))
-//			{
-//				int index = gestureBankPostEdit.IndexOf(gestureFile);
-//				Utils.Instance.ChangeGestureName(gestureFile, gestureBankPostEdit[index], currentNeuralNet);
-//			}
-//		}
-
-		// now compare the post-edited list to the gesture files
-		for (int i = 0; i < gestureBankPostEdit.Count; i++)
-		{
-			if (!gestureFilesSorted.Contains(gestureBankPostEdit[i]))
-			{
-				string gestureNamePreEdit = gestureBankPreEdit[i];
-				string gestureNamePostEdit = gestureBankPostEdit[i];
-				Utils.Instance.ChangeGestureName(gestureNamePreEdit, gestureNamePostEdit, currentNeuralNet);
-			}
-		}
-
-		// if any gesture files are missing (compared to gestureBank) make them again
-//		for (int i = 0; i < gestureBankPostEdit.Count; i++)
-//		{
-//			string path = Config.SAVE_FILE_PATH + currentNeuralNet + "/Gestures/" + gestureBankPostEdit[i] + ".txt";
-//			// if file doesn't exist
-//			if (!System.IO.File.Exists(path))
-//			{
-//				Utils.Instance.CreateGestureFile(gestureBankPostEdit[i], currentNeuralNet);
-//			}
-//		}
-
-		// if a gesture was deleted from the gesture bank, delete the corresponding file
-//		if (gestureBankPostEdit.Count < gestureFilesSorted.Count)
-//		{
-//			for (int i = 0; i < gestureFilesSorted.Count; i++)
-//			{
-//				string gestureInFile = System.IO.Path.GetFileNameWithoutExtension(gestureFilesSorted[i]);
-//				// if the gesture file is not in the gesture bank
-//				if (!gestureBankPostEdit.Contains(gestureInFile))
-//				{
-//					Utils.Instance.DeleteGestureFile(gestureInFile, currentNeuralNet);
-//				}
-//			}
-//		}
-
-		// if gesture bank name changed
-        for (int i = 0; i < gestureFilesSorted.Count; i++)
-        {
-			// find the file and change it's name
-//			Utils.Instance.ChangeGestureName(gestureNameOld, gestureNameNew, currentNeuralNet);
-        }
-    }
 
     bool CheckForDuplicateGestures(string newName)
     {

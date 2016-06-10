@@ -69,7 +69,7 @@ namespace WinterMute
         [Tooltip("Generated non rendering camera (used for raycasting ui)")]
         public Camera ControllerCamera;
 
-        private VRAvatar myAvatar;
+        private VRGestureRig rig;
         private IInput ControllerInput;
         private SteamVR_ControllerManager ControllerManager;
         private Transform[] Controllers;
@@ -88,6 +88,7 @@ namespace WinterMute
             base.Start();
 
             SetInputModule();
+            ControllerInput = rig.GetInput(Config.gestureHand);
 
             vrUiType = GetComponent<VRGestureUI>().vrUiType;
 
@@ -101,6 +102,8 @@ namespace WinterMute
                 ControllerCamera.cullingMask = 0; // 1 << LayerMask.NameToLayer("UI"); 
                 ControllerCamera.nearClipPlane = 0.0001f;
 
+                rig = VRGestureManager.Instance.rig;
+
                 if (vrUiType == VRGestureUI.VRUIType.SteamVR)
                 {
                     ControllerManager = GameObject.FindObjectOfType<SteamVR_ControllerManager>();
@@ -113,11 +116,12 @@ namespace WinterMute
                 {
                     // lHandTF->VRHandBase.transform
                     //Controllers = new Transform[] { PlayerManager.GetPlayerHand(0, VROptions.Handedness.Left).transform, PlayerManager.GetPlayerHand(0, VROptions.Handedness.Right).transform };
-                    Controllers = new Transform[] { myAvatar.lHandTF, myAvatar.rHandTF };
+                    Controllers = new Transform[] { rig.lHandTF, rig.rHandTF };
                     Cursors = new RectTransform[2];
                 }
                 //Maybe ControllerInputR ControllerInputL
-                ControllerInput = myAvatar.GetInput(VROptions.Handedness.Right);
+                
+
 
 
                 for (int index = 0; index < Cursors.Length; index++)
