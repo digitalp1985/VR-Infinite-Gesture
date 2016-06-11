@@ -412,20 +412,45 @@ namespace WinterMute
 
         public bool ButtonDown(int index)
         {
+
+            if(ControllerInputLeft != null)
+            {
+
+            }
+
+
+
+
+
             if (vrUiType == VRGestureUI.VRUIType.SteamVR)
             {
                 return (ControllerDevices[index] != null && ControllerDevices[index].GetPressDown(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger) == true);
             }
             else
             {
-                //bool tester;
-                bool tester = ControllerInputLeft.GetButtonDown(InputOptions.Button.Trigger1);
-                bool tester2 = ControllerInputRight.GetButtonDown(InputOptions.Button.Trigger1);
                 //Debug.Log("Left Trigger Down is: " + tester + "Right Trigger Down is: " + tester2);
                 if (index == 0)
+                {
+                    //This is actually the RIGHT trigger
+                    bool tester = ControllerInputLeft.GetButtonDown(InputOptions.Button.Trigger1);
+                    if (tester)
+                    {
+                        Debug.Log("Left Trigger " + tester);
+                    }
+                    
                     return ControllerInputLeft.GetButtonDown(InputOptions.Button.Trigger1);
-                else
+                }
+                    
+                else{
+                    bool tester2 = ControllerInputRight.GetButtonDown(InputOptions.Button.Trigger1);
+                    
+                    if (tester2)
+                    {
+                        Debug.Log("Right Trigger " + tester2);
+                    }
                     return ControllerInputRight.GetButtonDown(InputOptions.Button.Trigger1);
+                }
+                    
             }
         }
 

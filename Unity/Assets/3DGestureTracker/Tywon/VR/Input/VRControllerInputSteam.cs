@@ -6,12 +6,19 @@ public class VRControllerInputSteam : VRController {
     [Header("SteamVR Options")]
     public float curlTime = .3f;
     public int deviceIndex;
+    bool properlySetIndex = false;
 
-
-    public VRControllerInputSteam(HandType whichHand)
+    public IInput Init(HandType handy)
     {
-        handedness = whichHand;
+        handedness = handy;
         deviceIndex = GetSteamVRController();
+        return this;
+    }
+
+    public void findMe()
+    {
+        //steamVR_cm = FindObjectOfType<SteamVR_ControllerManager>();
+        //steamVR_cm.left;
     }
   
     // GET STEAM VR CONTROLLER
@@ -42,11 +49,18 @@ public class VRControllerInputSteam : VRController {
                 index = 2;
             }
         }
+        else
+        {
+            properlySetIndex = true;
+        }
         return index;
     }
 
     public override void InputUpdate()
     {
+        //if (!properlySetIndex) { deviceIndex = GetSteamVRController(); }
+        deviceIndex = (int)gameObject.GetComponent<SteamVR_TrackedObject>().index;
+
         directional1 = SteamVR_Controller.Input(deviceIndex).GetAxis(Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad);
 
         button1 = SteamVR_Controller.Input(deviceIndex).GetPress(SteamVR_Controller.ButtonMask.Touchpad);

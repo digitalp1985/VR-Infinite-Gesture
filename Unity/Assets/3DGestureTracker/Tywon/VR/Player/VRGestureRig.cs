@@ -13,6 +13,9 @@ public class VRGestureRig : MonoBehaviour {
     public Transform rHandTF;
     public Rigidbody rHandRB;
 
+    GameObject leftController;
+    GameObject rightController;
+
     IInput inputLeft;
     IInput inputRight;
 
@@ -23,13 +26,19 @@ public class VRGestureRig : MonoBehaviour {
 
     void Awake()
     {
-        CreateInputHelper();
+        //CreateInputHelper();
+        SteamVR_TrackedObject[] trackedObjects = FindObjectsOfType<SteamVR_TrackedObject>();
+
+        SteamVR_ControllerManager steamVR_cm = FindObjectOfType<SteamVR_ControllerManager>();
+        //SteamVR_Controller.GetDeviceIndex(SteamVR_Controller.DeviceRelation.Leftmost;
+        leftController = steamVR_cm.left;
+        rightController = steamVR_cm.right;
     }
 
     void LateUpdate()
     {
-        inputLeft.InputUpdate();
-        inputRight.InputUpdate();
+        //inputLeft.InputUpdate();
+        //inputRight.InputUpdate();
     }
 
     public Transform GetHand(HandType handedness)
@@ -96,10 +105,10 @@ public class VRGestureRig : MonoBehaviour {
         }
         else
         {
-            inputLeft = new VRControllerInputSteam(HandType.Left);
-            inputRight = new VRControllerInputSteam(HandType.Right);
-            //inputLeft = lHandTF.gameObject.AddComponent<VRControllerInputSteam>().Init(HandType.Left);
-            //inputRight = rHandTF.gameObject.AddComponent<VRControllerInputSteam>().Init(HandType.Right);
+            //inputLeft = new VRControllerInputSteam(HandType.Left);
+            //inputRight = new VRControllerInputSteam(HandType.Right);
+            inputLeft = leftController.gameObject.AddComponent<VRControllerInputSteam>().Init(HandType.Left);
+            inputRight = rightController.gameObject.AddComponent<VRControllerInputSteam>().Init(HandType.Right);
         }
     }
 }

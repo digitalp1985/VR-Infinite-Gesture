@@ -14,10 +14,10 @@ namespace WinterMute
         VRGestureRig myAvatar;
 
         [HideInInspector]
-        public HandType handedness;
+        public HandType menuHandedness;
         private PanelManager panelManager;
-        Transform vrHand; // the hand to attach the hand ui to
-        Transform vrHandUI; // the actual ui
+        Transform vrMenuHand; // the hand to attach the hand ui to
+        Transform vrHandUIPanel; // the actual ui
         Transform vrCam;
         VRGestureGallery vrGestureGallery;
         public float offsetZ;
@@ -32,7 +32,7 @@ namespace WinterMute
         Canvas rootCanvas; // the canvas on the main VRGestureUI object
 
         [HideInInspector]
-        public VRControllerUIInput vrInput;
+        //public VRControllerUIInput vrInput;
 
         // RECORD MENU
         private List<Button> gestureButtons;
@@ -77,11 +77,11 @@ namespace WinterMute
 
         void Start()
         {
-            handedness = Config.gestureHand;
+            menuHandedness = (Config.gestureHand == HandType.Left)? HandType.Right : HandType.Left;
 
             rootCanvas = GetComponent<Canvas>();
-            vrInput = GetComponent<VRControllerUIInput>();
-            vrHandUI = transform.Find("Panels");
+            //vrInput = GetComponent<VRControllerUIInput>();
+            vrHandUIPanel = transform.Find("Panels");
             vrGestureGallery = transform.GetComponentInChildren<VRGestureGallery>();
 
             buttonRectScale = new Vector3(0.6666f, 1, 0.2f);
@@ -90,20 +90,20 @@ namespace WinterMute
             if (vrUiType == VRUIType.EdwonVR)
             {
                 myAvatar = VRGestureManager.Instance.rig;
-                vrHand = myAvatar.GetHand(handedness);
+                vrMenuHand = myAvatar.GetHand(menuHandedness);
                 vrCam = VRGestureManager.Instance.rig.cameraEyeTransform;
             }
             else if (vrUiType == VRUIType.SteamVR)
             {
                 SteamVR_ControllerManager ControllerManager;
                 ControllerManager = GameObject.FindObjectOfType<SteamVR_ControllerManager>();
-                if (handedness == HandType.Left)
+                if (menuHandedness == HandType.Left)
                 {
-                    vrHand = ControllerManager.left.GetComponent<SteamVR_TrackedObject>().transform;
+                    vrMenuHand = ControllerManager.left.GetComponent<SteamVR_TrackedObject>().transform;
                 }
                 else
                 {
-                    vrHand = ControllerManager.right.GetComponent<SteamVR_TrackedObject>().transform;
+                    vrMenuHand = ControllerManager.right.GetComponent<SteamVR_TrackedObject>().transform;
                 }
                 vrCam = GameObject.FindObjectOfType<SteamVR_Camera>().transform;
             }
@@ -117,12 +117,12 @@ namespace WinterMute
 
         void Update()
         {
-            Vector3 handToCamVector = vrCam.position - vrHand.position;
+            Vector3 handToCamVector = vrCam.position - vrMenuHand.position;
             //Debug.DrawRay(vrHand.position, handToCamVector);
             //transform.position = vrHand.position + (offsetZ * handToCamVector);
             //transform.rotation = Quaternion.LookRotation(transform.position - vrCam.position);
-            vrHandUI.position = vrHand.position + (offsetZ * handToCamVector);
-            vrHandUI.rotation = Quaternion.LookRotation(-handToCamVector, Vector3.up);
+            vrHandUIPanel.position = vrMenuHand.position + (offsetZ * handToCamVector);
+            vrHandUIPanel.rotation = Quaternion.LookRotation(-handToCamVector, Vector3.up);
 
             // update detect log
             if (detectLog != null)
@@ -365,7 +365,7 @@ namespace WinterMute
 
         void TogglePanelAlpha(string panelName, float toAlpha)
         {
-            CanvasRenderer[] canvasRenderers = vrHandUI.GetComponentsInChildren<CanvasRenderer>();
+            CanvasRenderer[] canvasRenderers = vrHandUIPanel.GetComponentsInChildren<CanvasRenderer>();
             foreach (CanvasRenderer cr in canvasRenderers)
             {
                 cr.SetAlpha(toAlpha);
@@ -376,7 +376,7 @@ namespace WinterMute
 
         void TogglePanelInteractivity(string panelName, bool interactive)
         {
-            Button[] buttons = vrHandUI.GetComponentsInChildren<Button>();
+            Button[] buttons = vrHandUIPanel.GetComponentsInChildren<Button>();
             foreach (Button button in buttons)
             {
                 button.interactable = interactive;
@@ -444,11 +444,11 @@ namespace WinterMute
             // update current neural network name on each currentNeuralNetworkTitle UI thingy
             if (panelManager == null)
                 return null;
-            if (vrHandUI == null)
+            if (vrHandUIPanel == null)
                 return null;
-            if (vrHandUI.Find(panelManager.currentPanel) == null)
+            if (vrHandUIPanel.Find(panelManager.currentPanel) == null)
                 return null;
-            Transform currentPanelParent = vrHandUI.Find(panelManager.currentPanel);
+            Transform currentPanelParent = vrHandUIPanel.Find(panelManager.currentPanel);
             if (currentPanelParent == null)
                 return null;
             Transform currentNeuralNetworkTitle = currentPanelParent.FindChild("Current Neural Network");
