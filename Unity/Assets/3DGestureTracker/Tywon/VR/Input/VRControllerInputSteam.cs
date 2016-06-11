@@ -45,7 +45,7 @@ public class VRControllerInputSteam : VRController {
         return index;
     }
 
-    void LateUpdate()
+    public override void InputUpdate()
     {
         directional1 = SteamVR_Controller.Input(deviceIndex).GetAxis(Valve.VR.EVRButtonId.k_EButton_SteamVR_Touchpad);
 

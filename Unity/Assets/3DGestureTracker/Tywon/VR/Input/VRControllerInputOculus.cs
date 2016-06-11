@@ -39,12 +39,12 @@ public class VRControllerInputOculus : VRController {
 
         // triggers
         float trigger1Raw = OVRInput.Get(OVRInput.Axis1D.PrimaryIndexTrigger, controllerType); // for broken controller
-        trigger1 = brokenOVRRemap ? trigger1 = trigger1Raw.Remap(brokenOVRTrigger1Min, brokenOVRTrigger1Max, 0, 1) : trigger1Raw;
+        //trigger1 = brokenOVRRemap ? trigger1 = trigger1Raw.Remap(brokenOVRTrigger1Min, brokenOVRTrigger1Max, 0, 1) : trigger1Raw;
         trigger1Button = OVRInput.Get(OVRInput.Button.PrimaryIndexTrigger, controllerType);
         trigger1ButtonDown = OVRInput.GetDown(OVRInput.Button.PrimaryIndexTrigger, controllerType);
         trigger1ButtonUp = OVRInput.GetUp(OVRInput.Button.PrimaryIndexTrigger, controllerType);
         float trigger2Raw = OVRInput.Get(OVRInput.Axis1D.PrimaryHandTrigger, controllerType); // for broken controller
-        trigger2 = brokenOVRRemap ? trigger2 = trigger2Raw.Remap(brokenOVRTrigger2Min, brokenOVRTrigger2Max, 0, 1) : trigger2Raw;
+        //trigger2 = brokenOVRRemap ? trigger2 = trigger2Raw.Remap(brokenOVRTrigger2Min, brokenOVRTrigger2Max, 0, 1) : trigger2Raw;
         trigger2Button = OVRInput.Get(OVRInput.Button.PrimaryHandTrigger, controllerType);
         trigger2ButtonDown = OVRInput.GetDown(OVRInput.Button.PrimaryHandTrigger, controllerType);
         trigger2ButtonUp = OVRInput.GetUp(OVRInput.Button.PrimaryHandTrigger, controllerType);

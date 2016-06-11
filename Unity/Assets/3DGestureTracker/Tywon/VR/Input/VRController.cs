@@ -7,7 +7,7 @@ using WinterMute;
 // (oculus touch controller, playstation vr controller, etc...)
 // it will search for a hand and if there is one
 // it will send controller input values to its interface
-public class VRController: IInput
+public class VRController: MonoBehaviour, IInput
 {
     public HandType handedness;
 
@@ -108,6 +108,10 @@ public class VRController: IInput
         return Vector2.zero;
     }
 
+    public virtual void InputUpdate() {
+        Debug.Log("GENERIC LATE UPDATE");
+    }
+
     private void Start()
     {
 
@@ -123,6 +127,8 @@ public class VRController: IInput
     {
 
     }
+
+    
 
     //Shared, shared, shared.
     float ButtonDownTimer(float time)

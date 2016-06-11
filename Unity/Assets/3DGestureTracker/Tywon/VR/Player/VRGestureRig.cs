@@ -20,11 +20,17 @@ public class VRGestureRig : MonoBehaviour {
     void Start () {
         //CreateInputHelper();
     }
-	
-	// Update is called once per frame
-	void Update () {
-	
-	}
+
+    void Awake()
+    {
+        CreateInputHelper();
+    }
+
+    void LateUpdate()
+    {
+        inputLeft.InputUpdate();
+        inputRight.InputUpdate();
+    }
 
     public Transform GetHand(HandType handedness)
     {
@@ -60,11 +66,6 @@ public class VRGestureRig : MonoBehaviour {
     /// <returns></returns>
     public IInput GetInput(HandType handedness)
     {
-        if(inputLeft == null && inputRight == null)
-        {
-            CreateInputHelper();
-        }
-
         if (handedness == HandType.Left)
         {
             return inputLeft;
@@ -85,13 +86,20 @@ public class VRGestureRig : MonoBehaviour {
     {
         if (VROptions.vrType == VROptions.VRTYPE.SteamVR)
         {
-            inputLeft = new VRControllerInputSteam(HandType.Left);
-            inputRight = new VRControllerInputSteam(HandType.Right);
+            //inputLeft = new VRControllerInputSteam(HandType.Left);
+            //inputRight = new VRControllerInputSteam(HandType.Right);
         }
         else if (VROptions.vrType == VROptions.VRTYPE.OculusTouchVR)
         {
             //controllerInput = new VRControllerInputOculus();
             //controllerInput = hand.gameObject.AddComponent<VRControllerInputOculus>();
+        }
+        else
+        {
+            inputLeft = new VRControllerInputSteam(HandType.Left);
+            inputRight = new VRControllerInputSteam(HandType.Right);
+            //inputLeft = lHandTF.gameObject.AddComponent<VRControllerInputSteam>().Init(HandType.Left);
+            //inputRight = rHandTF.gameObject.AddComponent<VRControllerInputSteam>().Init(HandType.Right);
         }
     }
 }

@@ -70,7 +70,8 @@ namespace WinterMute
         public Camera ControllerCamera;
 
         private VRGestureRig rig;
-        private IInput ControllerInput;
+        private IInput ControllerInputLeft;
+        private IInput ControllerInputRight;
         private SteamVR_ControllerManager ControllerManager;
         private Transform[] Controllers;
         private SteamVR_TrackedObject[] SteamVRControllers;
@@ -88,7 +89,9 @@ namespace WinterMute
             base.Start();
 
             SetInputModule();
-            ControllerInput = rig.GetInput(Config.gestureHand);
+            rig = VRGestureManager.Instance.rig;
+            ControllerInputLeft = rig.GetInput(HandType.Left);
+            ControllerInputRight = rig.GetInput(HandType.Right);
 
             vrUiType = GetComponent<VRGestureUI>().vrUiType;
 
@@ -102,7 +105,7 @@ namespace WinterMute
                 ControllerCamera.cullingMask = 0; // 1 << LayerMask.NameToLayer("UI"); 
                 ControllerCamera.nearClipPlane = 0.0001f;
 
-                rig = VRGestureManager.Instance.rig;
+                
 
                 if (vrUiType == VRGestureUI.VRUIType.SteamVR)
                 {
@@ -268,6 +271,7 @@ namespace WinterMute
 
         private void InitializeSteamVRControllers()
         {
+            //WHAT IS WRONG WITH THIS SHIT? I CAN'T EVEN TELL WHAT YOU WANT.
             for (int index = 0; index < SteamVRControllers.Length; index++)
             {
                 if (SteamVRControllers[index] != null && SteamVRControllers[index].index != SteamVR_TrackedObject.EIndex.None)
@@ -414,13 +418,23 @@ namespace WinterMute
             }
             else
             {
+                //bool tester;
+                bool tester = ControllerInputLeft.GetButtonDown(InputOptions.Button.Trigger1);
+                bool tester2 = ControllerInputRight.GetButtonDown(InputOptions.Button.Trigger1);
+                //Debug.Log("Left Trigger Down is: " + tester + "Right Trigger Down is: " + tester2);
                 if (index == 0)
-                    return ControllerInput.GetButtonDown(InputOptions.Button.Trigger1);
+                    return ControllerInputLeft.GetButtonDown(InputOptions.Button.Trigger1);
                 else
-                    return ControllerInput.GetButtonDown(InputOptions.Button.Trigger1);
+                    return ControllerInputRight.GetButtonDown(InputOptions.Button.Trigger1);
             }
         }
 
+        /// <summary>
+        /// This is checking the button up for an INDEX. left or right. 0 or 1?
+        /// 
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public bool ButtonUp(int index)
         {
             if (vrUiType == VRGestureUI.VRUIType.SteamVR)
@@ -430,9 +444,9 @@ namespace WinterMute
             else
             {
                 if (index == 0)
-                    return ControllerInput.GetButtonUp(InputOptions.Button.Trigger1);
+                    return ControllerInputLeft.GetButtonUp(InputOptions.Button.Trigger1);
                 else
-                    return ControllerInput.GetButtonUp(InputOptions.Button.Trigger1);
+                    return ControllerInputRight.GetButtonUp(InputOptions.Button.Trigger1);
             }
         }
     }

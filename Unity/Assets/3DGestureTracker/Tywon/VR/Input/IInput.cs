@@ -46,4 +46,6 @@ public interface IInput
 
     Vector2 GetAxis2D(InputOptions.Axis2D axis2D);
 
+    void InputUpdate();
+
 }
