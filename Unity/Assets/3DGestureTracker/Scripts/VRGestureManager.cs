@@ -144,21 +144,6 @@ public class VRGestureManager : MonoBehaviour
         currentRenderer = CreateLineRenderer( Color.magenta, Color.magenta);
     }
 
-    //IMPORTANT SET UP LISTENERS FOR UI
-    void OnEnable()
-    {
-        EventManager.StartListening("ReadyToRecord", BeginReadyToRecord);
-        EventManager.StartListening("BeginDetect", BeginDetect);
-        //load a trainor
-        //load a recognizer
-    }
-
-    void OnDisable()
-    {
-        EventManager.StopListening("Record", BeginReadyToRecord);
-        EventManager.StopListening("BeginDetect", BeginDetect);
-    }
-
     LineRenderer CreateLineRenderer(Color c1, Color c2)
     {
         GameObject myGo = new GameObject();
@@ -422,7 +407,6 @@ public class VRGestureManager : MonoBehaviour
 
 
 
-
     // below here is new custom editor stuff that edwon's making
     // mostly dummy stuff that doesn't do anything yet
     // needs connecting to real stuff by Tyler
@@ -438,6 +422,7 @@ public class VRGestureManager : MonoBehaviour
         }
     }
 
+    //This should be called directly from UIController via instance
     public void BeginReadyToRecord(string gesture)
     {
         //Debug.Log("BeginReadyToRecord in VRGestureManager: " + gesture);
@@ -445,8 +430,6 @@ public class VRGestureManager : MonoBehaviour
         currentTrainer = new Trainer(gestureBank, currentNeuralNet);
         gestureToRecord = gesture;
         state = VRGestureManagerState.EnteringRecord;
-        //Debug.Log("Entering Record");
-
     }
 
     public void BeginEditing(string gesture)
@@ -456,7 +439,6 @@ public class VRGestureManager : MonoBehaviour
 
     public void BeginDetect(string ignoreThisString)
     {
-		//Debug.Log("begin detecting from this recognizer: " + currentNeuralNet);
         gestureToRecord = "";
 		state = VRGestureManagerState.Detecting;
         currentRecognizer = new GestureRecognizer(currentNeuralNet);
