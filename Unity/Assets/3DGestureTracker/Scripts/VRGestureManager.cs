@@ -15,6 +15,14 @@ namespace WinterMute
 
     public class VRGestureManager : MonoBehaviour
     {
+        // the type of vr to use
+        public static VRTYPE vrType = VRTYPE.OculusTouchVR;
+        // which hand to track
+        [Tooltip("which hand to track using the gesture")]
+        public static HandType gestureHand = HandType.Right; // the hand to track
+        [Tooltip("the threshold over wich a gesture is considered correctly classified")]
+        public static double CONFIDENCE_LIMIT = 0.98;
+
         static VRGestureManager instance;
 
         public VRGestureDetectType vrGestureDetectType;
@@ -133,7 +141,7 @@ namespace WinterMute
             //create a new Trainer
             currentTrainer = new Trainer(Gestures, currentNeuralNet);
 
-            input = rig.GetInput(Config.gestureHand);
+            input = rig.GetInput(VRGestureManager.gestureHand);
 
             rightCapturedLine = new List<Vector3>();
             displayLine = new List<Vector3>();
@@ -190,7 +198,7 @@ namespace WinterMute
             string confidenceValue = currentRecognizer.currentConfidenceValue.ToString().Substring(0, 4);
 
             // broadcast gesture detected event
-            if (currentRecognizer.currentConfidenceValue > Config.CONFIDENCE_LIMIT)
+            if (currentRecognizer.currentConfidenceValue > VRGestureManager.CONFIDENCE_LIMIT)
             {
                 debugString = gesture + " " + confidenceValue;
                 if (GestureDetectedEvent != null)

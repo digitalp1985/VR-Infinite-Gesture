@@ -76,7 +76,7 @@ namespace WinterMute
         /// <returns></returns>
         public void CreateInputHelper()
         {
-            if (Config.vrType == Config.VRTYPE.SteamVR)
+            if (VRGestureManager.vrType == VRTYPE.SteamVR)
             {
                 SteamVR_ControllerManager[] steamVR_cm = FindObjectsOfType<SteamVR_ControllerManager>();
                 leftController = steamVR_cm[0].left;
@@ -85,7 +85,7 @@ namespace WinterMute
                 inputRight = rightController.gameObject.AddComponent<VRControllerInputSteam>().Init(HandType.Right);
 
             }
-            else if (Config.vrType == Config.VRTYPE.OculusTouchVR)
+            else if (VRGestureManager.vrType == VRTYPE.OculusTouchVR)
             {
                 inputLeft = lHandTF.gameObject.AddComponent<VRControllerInputOculus>().Init(HandType.Left);
                 inputRight = rHandTF.gameObject.AddComponent<VRControllerInputOculus>().Init(HandType.Right);
