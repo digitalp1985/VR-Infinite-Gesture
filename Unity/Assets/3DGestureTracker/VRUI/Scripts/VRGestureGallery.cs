@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using Edwon.VR.Input;
 
 namespace Edwon.VR.Gesture
 {

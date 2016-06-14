@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Edwon.VR.Input;
 
-namespace WinterMute.Examples
+namespace Edwon.VR.Gesture
 {
     public class Example3Player : MonoBehaviour
     {

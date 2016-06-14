@@ -1,4 +1,4 @@
-﻿namespace WinterMute
+﻿namespace Edwon.VR.Gesture
 {
     public enum HandType { Left, Right };
     public enum VRTYPE { OculusTouchVR, SteamVR };
