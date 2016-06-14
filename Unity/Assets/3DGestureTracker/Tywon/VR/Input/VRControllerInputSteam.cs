@@ -53,10 +53,7 @@ public class VRControllerInputSteam : VRController
             trigger2Button = SteamVR_Controller.Input(deviceIndex).GetPress(SteamVR_Controller.ButtonMask.Grip);
             trigger2ButtonDown = SteamVR_Controller.Input(deviceIndex).GetPressDown(SteamVR_Controller.ButtonMask.Grip);
             trigger2ButtonUp = SteamVR_Controller.Input(deviceIndex).GetPressUp(SteamVR_Controller.ButtonMask.Grip);
-            if (trigger1Button)
-            {
-                Debug.Log("YOU PUSHED A TRIGGER");
-            }
+
         }
 
     }

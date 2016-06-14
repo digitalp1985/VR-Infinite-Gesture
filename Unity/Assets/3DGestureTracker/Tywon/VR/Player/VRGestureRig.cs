@@ -22,6 +22,11 @@ public class VRGestureRig : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
+        
+    }
+
+    void Awake()
+    {
         SteamVR_ControllerManager[] steamVR_cm = FindObjectsOfType<SteamVR_ControllerManager>();
         //SteamVR_Controller.GetDeviceIndex(SteamVR_Controller.DeviceRelation.Leftmost;
         leftController = steamVR_cm[0].left;
@@ -29,16 +34,9 @@ public class VRGestureRig : MonoBehaviour {
         CreateInputHelper();
     }
 
-    void Awake()
-    {
-        //CreateInputHelper();
-
-    }
-
     void LateUpdate()
     {
-        //inputLeft.InputUpdate();
-        //inputRight.InputUpdate();
+
     }
 
     public Transform GetHand(HandType handedness)

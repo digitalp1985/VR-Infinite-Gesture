@@ -435,10 +435,6 @@ namespace WinterMute
                             Debug.Log("Left Trigger " + pressed);
                         }
                     }
-                    else
-                    {
-                        ControllerInputLeft = rig.GetInput(HandType.Left);
-                    }
                     //This is actually the RIGHT trigger
                     return pressed;
                 }
@@ -451,10 +447,6 @@ namespace WinterMute
                         {
                             Debug.Log("Right Trigger " + pressed);
                         }
-                    }
-                    else
-                    {
-                        ControllerInputRight = rig.GetInput(HandType.Right);
                     }
                     return pressed;
                 }

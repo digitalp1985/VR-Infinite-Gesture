@@ -229,7 +229,6 @@ namespace WinterMute
 
         void FixedUpdateGrabAndMove()
         {
-
             if (galleryState == GestureGalleryState.Visible)
             {
                 if (vrHandInput.GetButton(InputOptions.Button.Trigger2))
