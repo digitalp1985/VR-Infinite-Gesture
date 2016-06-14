@@ -12,7 +12,7 @@ public class VRControllerInputSteam : VRController
     public IInput Init(HandType handy)
     {
         handedness = handy;
-        gameObject.active = true;
+        gameObject.SetActive(true);
         StartCoroutine("RegisterIndex");
         return this;
     }

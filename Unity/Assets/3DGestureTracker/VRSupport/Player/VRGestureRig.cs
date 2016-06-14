@@ -27,10 +27,6 @@ public class VRGestureRig : MonoBehaviour {
 
     void Awake()
     {
-        SteamVR_ControllerManager[] steamVR_cm = FindObjectsOfType<SteamVR_ControllerManager>();
-        //SteamVR_Controller.GetDeviceIndex(SteamVR_Controller.DeviceRelation.Leftmost;
-        leftController = steamVR_cm[0].left;
-        rightController = steamVR_cm[0].right;
         CreateInputHelper();
     }
 
@@ -93,20 +89,21 @@ public class VRGestureRig : MonoBehaviour {
     {
         if (Config.vrType == Config.VRTYPE.SteamVR)
         {
-            //inputLeft = new VRControllerInputSteam(HandType.Left);
-            //inputRight = new VRControllerInputSteam(HandType.Right);
+            SteamVR_ControllerManager[] steamVR_cm = FindObjectsOfType<SteamVR_ControllerManager>();
+            leftController = steamVR_cm[0].left;
+            rightController = steamVR_cm[0].right;
+            inputLeft = leftController.gameObject.AddComponent<VRControllerInputSteam>().Init(HandType.Left);
+            inputRight = rightController.gameObject.AddComponent<VRControllerInputSteam>().Init(HandType.Right);
+
         }
         else if (Config.vrType == Config.VRTYPE.OculusTouchVR)
         {
-            //controllerInput = new VRControllerInputOculus();
-            //controllerInput = hand.gameObject.AddComponent<VRControllerInputOculus>();
+           inputLeft = lHandTF.gameObject.AddComponent<VRControllerInputOculus>().Init(HandType.Left);
+           inputRight = rHandTF.gameObject.AddComponent<VRControllerInputOculus>().Init(HandType.Right);
         }
         else
         {
-            //inputLeft = new VRControllerInputSteam(HandType.Left);
-            //inputRight = new VRControllerInputSteam(HandType.Right);
-            inputLeft = leftController.gameObject.AddComponent<VRControllerInputSteam>().Init(HandType.Left);
-            inputRight = rightController.gameObject.AddComponent<VRControllerInputSteam>().Init(HandType.Right);
+            Debug.Log("YOU NEED TO SELECT A BETTER VRTYPE in your config.");
         }
     }
 }
