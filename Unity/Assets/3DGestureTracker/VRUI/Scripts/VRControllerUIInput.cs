@@ -361,12 +361,14 @@ namespace WinterMute
                 }
             }
 
-            //Debug.Log("GuiHit: " + GuiHit + "GuiHitLast: " + GuiHitLast);
-
             if (GuiHitLast != GuiHit)
-                EventManager.TriggerEvent("VRGuiHitChanged", GuiHit.ToString());
+                OnVRGuiHitChanged(GuiHit);
+
             GuiHitLast = GuiHit;
         }
+
+        public delegate void VRGuiHitChanged(bool guiHitBool);
+        public static event VRGuiHitChanged OnVRGuiHitChanged;
 
         public bool ButtonDown(int index)
         {
