@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using System;
 
-namespace WinterMute
+namespace Edwon.VR.Gesture
 {
     [CustomEditor(typeof(VRGestureManager)), CanEditMultipleObjects]
     public class VRGestureManagerEditor : Editor

@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Edwon.VR.Gesture;
 
 // this class checks the global static VRTYPE variable
 // and outputs controller input accordingly
 // (oculus touch controller, playstation vr controller, etc...)
 // it will search for a hand and if there is one
 // it will send controller input values to its interface
-namespace WinterMute
+namespace Edwon.VR.Input
 {
     public class VRController : MonoBehaviour, IInput
     {

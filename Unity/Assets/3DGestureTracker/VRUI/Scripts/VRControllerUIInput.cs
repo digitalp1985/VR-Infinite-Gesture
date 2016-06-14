@@ -29,8 +29,9 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
+using Edwon.VR.Input;
 
-namespace WinterMute
+namespace Edwon.VR.Gesture
 {
     [RequireComponent(typeof(VRGestureUI))]
     public class VRControllerUIInput : BaseInputModule

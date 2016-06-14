@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace WinterMute
+namespace Edwon.VR.Gesture
 {
     public static class ExtensionMethods
     {

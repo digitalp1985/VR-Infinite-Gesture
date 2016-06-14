@@ -5,7 +5,7 @@ using UnityEditor;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace WinterMute
+namespace Edwon.VR.Gesture
 {
 
     public class Trainer

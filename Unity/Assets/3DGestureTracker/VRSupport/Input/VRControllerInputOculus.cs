@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Edwon.VR.Gesture;
 
-namespace WinterMute
+namespace Edwon.VR.Input
 {
     public class VRControllerInputOculus : VRController
     {
@@ -23,7 +24,7 @@ namespace WinterMute
         {
             // setup controller type variable (left or right)
             OVRInput.Controller controllerType = OVRInput.Controller.None;
-            controllerType = (handedness == WinterMute.HandType.Left) ? OVRInput.Controller.LTouch : OVRInput.Controller.RTouch;
+            controllerType = (handedness == HandType.Left) ? OVRInput.Controller.LTouch : OVRInput.Controller.RTouch;
             return controllerType;
         }
 

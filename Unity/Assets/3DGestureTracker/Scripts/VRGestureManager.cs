@@ -6,8 +6,9 @@ using System;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
+using Edwon.VR.Input;
 
-namespace WinterMute
+namespace Edwon.VR.Gesture
 {
 
     public enum VRGestureManagerState { Idle, Edit, Editing, EnteringRecord, ReadyToRecord, Recording, Training, ReadyToDetect, Detecting };
@@ -112,8 +113,8 @@ namespace WinterMute
                         GameObject obj = new GameObject();
                         obj.hideFlags = HideFlags.HideAndDontSave;
                         instance = obj.AddComponent<VRGestureManager>();
-                        instance.Init();
                     }
+                    instance.Init();
                 }
                 return instance;
             }

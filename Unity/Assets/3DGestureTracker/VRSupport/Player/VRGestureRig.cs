@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using Edwon.VR.Gesture;
+using Edwon.VR.Input;
 
-namespace WinterMute
+namespace Edwon.VR
 {
     public class VRGestureRig : MonoBehaviour
     {

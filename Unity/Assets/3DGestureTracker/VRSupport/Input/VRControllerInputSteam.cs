@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Edwon.VR.Gesture;
 
-namespace WinterMute
+namespace Edwon.VR.Input
 {
     public class VRControllerInputSteam : VRController
     {
@@ -23,15 +24,12 @@ namespace WinterMute
             for (;;)
             {
                 deviceIndex = (int)gameObject.GetComponent<SteamVR_TrackedObject>().index;
-                Debug.Log("CoRoutine : " + deviceIndex);
                 if (deviceIndex > -1)
                 {
-                    Debug.Log("FOUND IT STOPPING NOW");
                     yield break;
                 }
                 else
                 {
-                    Debug.Log("I'm going");
                     yield return new WaitForSeconds(.1f);
                 }
             }
