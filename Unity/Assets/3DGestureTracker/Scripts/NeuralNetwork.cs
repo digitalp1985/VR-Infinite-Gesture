@@ -2,7 +2,7 @@
 using System;
 using System.Collections;
 
-namespace WinterMute
+namespace Edwon.VR.Gesture
 {
 
     public class NeuralNetwork

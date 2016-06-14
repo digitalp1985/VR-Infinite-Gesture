@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
-namespace WinterMute
+namespace Edwon.VR.Gesture
 {
     public class Utils
     {

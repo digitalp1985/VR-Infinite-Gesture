@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
-namespace WinterMute
+namespace Edwon.VR.Gesture
 {
     [RequireComponent(typeof(CanvasRenderer))]
     [RequireComponent(typeof(VRControllerUIInput))]

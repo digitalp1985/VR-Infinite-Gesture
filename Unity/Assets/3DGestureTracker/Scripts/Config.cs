@@ -1,10 +1,10 @@
-﻿namespace WinterMute
+﻿namespace Edwon.VR.Gesture
 {
     public enum HandType { Left, Right };
     public static class Config
     {
         public enum VRTYPE { OculusTouchVR, SteamVR };
-        public static VRTYPE vrType = VRTYPE.OculusTouchVR; // this is the actual vrType variable
+        public static VRTYPE vrType = VRTYPE.SteamVR; // this is the actual vrType variable
 
         public const string SAVE_FILE_PATH = @"Assets/3DGestureTracker/VRGestureData/";
 

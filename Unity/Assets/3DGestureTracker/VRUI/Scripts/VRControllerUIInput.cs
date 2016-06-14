@@ -30,7 +30,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace WinterMute
+namespace Edwon.VR.Gesture
 {
     [RequireComponent(typeof(VRGestureUI))]
     public class VRControllerUIInput : BaseInputModule
