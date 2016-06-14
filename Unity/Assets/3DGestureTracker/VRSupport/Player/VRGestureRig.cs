@@ -91,12 +91,12 @@ public class VRGestureRig : MonoBehaviour {
     /// <returns></returns>
     public void CreateInputHelper()
     {
-        if (VROptions.vrType == VROptions.VRTYPE.SteamVR)
+        if (Config.vrType == Config.VRTYPE.SteamVR)
         {
             //inputLeft = new VRControllerInputSteam(HandType.Left);
             //inputRight = new VRControllerInputSteam(HandType.Right);
         }
-        else if (VROptions.vrType == VROptions.VRTYPE.OculusTouchVR)
+        else if (Config.vrType == Config.VRTYPE.OculusTouchVR)
         {
             //controllerInput = new VRControllerInputOculus();
             //controllerInput = hand.gameObject.AddComponent<VRControllerInputOculus>();
