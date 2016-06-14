@@ -9,8 +9,6 @@ namespace WinterMute
     [RequireComponent(typeof(VRControllerUIInput))]
     public class VRGestureUI : MonoBehaviour
     {
-        public enum VRUIType { SteamVR, EdwonVR };
-        public VRUIType vrUiType;
         VRGestureRig myAvatar;
 
         [HideInInspector]
@@ -87,26 +85,10 @@ namespace WinterMute
             buttonRectScale = new Vector3(0.6666f, 1, 0.2f);
 
             // get vr player hand and camera
-            if (vrUiType == VRUIType.EdwonVR)
-            {
-                myAvatar = VRGestureManager.Instance.rig;
-                vrMenuHand = myAvatar.GetHand(menuHandedness);
-                vrCam = VRGestureManager.Instance.rig.cameraEyeTransform;
-            }
-            else if (vrUiType == VRUIType.SteamVR)
-            {
-                SteamVR_ControllerManager ControllerManager;
-                ControllerManager = GameObject.FindObjectOfType<SteamVR_ControllerManager>();
-                if (menuHandedness == HandType.Left)
-                {
-                    vrMenuHand = ControllerManager.left.GetComponent<SteamVR_TrackedObject>().transform;
-                }
-                else
-                {
-                    vrMenuHand = ControllerManager.right.GetComponent<SteamVR_TrackedObject>().transform;
-                }
-                vrCam = GameObject.FindObjectOfType<SteamVR_Camera>().transform;
-            }
+            myAvatar = VRGestureManager.Instance.rig;
+            vrMenuHand = myAvatar.GetHand(menuHandedness);
+            vrCam = VRGestureManager.Instance.rig.cameraEyeTransform;
+      
 
             panelManager = transform.GetComponentInChildren<PanelManager>();
 

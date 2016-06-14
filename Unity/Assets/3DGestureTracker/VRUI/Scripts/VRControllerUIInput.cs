@@ -35,8 +35,6 @@ namespace WinterMute
     [RequireComponent(typeof(VRGestureUI))]
     public class VRControllerUIInput : BaseInputModule
     {
-
-        private VRGestureUI.VRUIType vrUiType;
         public static VRControllerUIInput Instance;
 
         [Header(" [Cursor setup]")]
@@ -93,8 +91,6 @@ namespace WinterMute
             ControllerInputLeft = rig.GetInput(HandType.Left);
             ControllerInputRight = rig.GetInput(HandType.Right);
 
-            vrUiType = GetComponent<VRGestureUI>().vrUiType;
-
             if (Initialized == false)
             {
                 Instance = this;
@@ -105,27 +101,8 @@ namespace WinterMute
                 ControllerCamera.cullingMask = 0; // 1 << LayerMask.NameToLayer("UI"); 
                 ControllerCamera.nearClipPlane = 0.0001f;
 
-                
-
-                if (vrUiType == VRGestureUI.VRUIType.SteamVR)
-                {
-                    ControllerManager = GameObject.FindObjectOfType<SteamVR_ControllerManager>();
-                    Controllers = new Transform[] { ControllerManager.left.GetComponent<SteamVR_TrackedObject>().transform, ControllerManager.right.GetComponent<SteamVR_TrackedObject>().transform };
-                    SteamVRControllers = new SteamVR_TrackedObject[] { ControllerManager.left.GetComponent<SteamVR_TrackedObject>(), ControllerManager.right.GetComponent<SteamVR_TrackedObject>() };
-                    ControllerDevices = new SteamVR_Controller.Device[Controllers.Length];
-                    Cursors = new RectTransform[Controllers.Length];
-                }
-                else if (vrUiType == VRGestureUI.VRUIType.EdwonVR)
-                {
-                    // lHandTF->VRHandBase.transform
-                    //Controllers = new Transform[] { PlayerManager.GetPlayerHand(0, VROptions.Handedness.Left).transform, PlayerManager.GetPlayerHand(0, VROptions.Handedness.Right).transform };
-                    Controllers = new Transform[] { rig.lHandTF, rig.rHandTF };
-                    Cursors = new RectTransform[2];
-                }
-                //Maybe ControllerInputR ControllerInputL
-                
-
-
+                Controllers = new Transform[] { rig.lHandTF, rig.rHandTF };
+                Cursors = new RectTransform[2];                
 
                 for (int index = 0; index < Cursors.Length; index++)
                 {
@@ -269,29 +246,10 @@ namespace WinterMute
             ControllerCamera.transform.forward = Controllers[index].transform.forward;
         }
 
-        private void InitializeSteamVRControllers()
-        {
-            //WHAT IS WRONG WITH THIS SHIT? I CAN'T EVEN TELL WHAT YOU WANT.
-            for (int index = 0; index < SteamVRControllers.Length; index++)
-            {
-                if (SteamVRControllers[index] != null && SteamVRControllers[index].index != SteamVR_TrackedObject.EIndex.None)
-                {
-                    ControllerDevices[index] = SteamVR_Controller.Input((int)SteamVRControllers[index].index);
-                }
-                else
-                {
-                    ControllerDevices[index] = null;
-                }
-            }
-        }
-
         // Process is called by UI system to process events
         public override void Process()
         {
             //Debug.Log("PROCESS IS RUNNING");
-
-            if (vrUiType == VRGestureUI.VRUIType.SteamVR)
-                InitializeSteamVRControllers();
 
             GuiHit = false;
             ButtonUsed = false;
@@ -412,45 +370,32 @@ namespace WinterMute
 
         public bool ButtonDown(int index)
         {
-
-
-
-
-
-            if (vrUiType == VRGestureUI.VRUIType.SteamVR)
+            //Debug.Log("Left Trigger Down is: " + tester + "Right Trigger Down is: " + tester2);
+            if (index == 0)
             {
-                return (ControllerDevices[index] != null && ControllerDevices[index].GetPressDown(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger) == true);
-            }
-            else
-            {
-                //Debug.Log("Left Trigger Down is: " + tester + "Right Trigger Down is: " + tester2);
-                if (index == 0)
+                bool pressed = false;
+                if (ControllerInputLeft != null)
                 {
-                    bool pressed = false;
-                    if (ControllerInputLeft != null)
+                    pressed = ControllerInputLeft.GetButtonDown(InputOptions.Button.Trigger1);
+                    if (pressed)
                     {
-                        pressed = ControllerInputLeft.GetButtonDown(InputOptions.Button.Trigger1);
-                        if (pressed)
-                        {
-                            //Debug.Log("Left Trigger " + pressed);
-                        }
+                        //Debug.Log("Left Trigger " + pressed);
                     }
-                    //This is actually the RIGHT trigger
-                    return pressed;
                 }
-                else{
-                    bool pressed = false;
-                    if (ControllerInputRight != null)
+                //This is actually the RIGHT trigger
+                return pressed;
+            }
+            else{
+                bool pressed = false;
+                if (ControllerInputRight != null)
+                {
+                    pressed = ControllerInputRight.GetButtonDown(InputOptions.Button.Trigger1);
+                    if (pressed)
                     {
-                        pressed = ControllerInputRight.GetButtonDown(InputOptions.Button.Trigger1);
-                        if (pressed)
-                        {
-                            //Debug.Log("Right Trigger " + pressed);
-                        }
+                        //Debug.Log("Right Trigger " + pressed);
                     }
-                    return pressed;
                 }
-                    
+                return pressed;
             }
         }
 
@@ -462,32 +407,24 @@ namespace WinterMute
         /// <returns></returns>
         public bool ButtonUp(int index)
         {
-            if (vrUiType == VRGestureUI.VRUIType.SteamVR)
+            if (index == 0)
             {
-                return (ControllerDevices[index] != null && ControllerDevices[index].GetPressUp(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger) == true);
+                bool pressed = false;
+                if (ControllerInputLeft != null)
+                {
+                    pressed =ControllerInputLeft.GetButtonUp(InputOptions.Button.Trigger1);
+                }
+                return pressed;
             }
+                    
             else
             {
-                if (index == 0)
+                bool pressed = false;
+                if(ControllerInputRight != null)
                 {
-                    bool pressed = false;
-                    if (ControllerInputLeft != null)
-                    {
-                        pressed =ControllerInputLeft.GetButtonUp(InputOptions.Button.Trigger1);
-                    }
-                    return pressed;
+                    pressed =ControllerInputRight.GetButtonUp(InputOptions.Button.Trigger1);
                 }
-                    
-                else
-                {
-                    bool pressed = false;
-                    if(ControllerInputRight != null)
-                    {
-                        pressed =ControllerInputRight.GetButtonUp(InputOptions.Button.Trigger1);
-                    }
-                    return pressed;
-                }
-                    
+                return pressed;
             }
         }
     }

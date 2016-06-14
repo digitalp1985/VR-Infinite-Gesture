@@ -36,7 +36,6 @@ namespace WinterMute
         VRGestureRig rig;
         IInput vrHandInput;
         VRGestureUI vrGestureUI;
-        private VRGestureUI.VRUIType vrUiType;
 
         // INIT
 
@@ -45,7 +44,6 @@ namespace WinterMute
             galleryStartPosition = transform.position;
 
             vrGestureUI = transform.parent.GetComponent<VRGestureUI>();
-            vrUiType = vrGestureUI.vrUiType;
 
             galleryRB = GetComponent<Rigidbody>();
 
@@ -60,12 +58,9 @@ namespace WinterMute
         {
             HandType handedness = Config.gestureHand; // needed to set it to something to prevent error
 
-            if (vrUiType == VRGestureUI.VRUIType.EdwonVR)
-            {
-                rig = VRGestureManager.Instance.rig;
-                vrHand = rig.GetHand(handedness);
-                vrHandInput = rig.GetInput(handedness);
-            }
+            rig = VRGestureManager.Instance.rig;
+            vrHand = rig.GetHand(handedness);
+            vrHandInput = rig.GetInput(handedness);
         }
 
         // CREATE THE GESTURE GALLERY
