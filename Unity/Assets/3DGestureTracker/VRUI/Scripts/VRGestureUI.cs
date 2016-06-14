@@ -122,7 +122,7 @@ namespace WinterMute
         public void BeginDetectMode()
         {
             //Debug.Log("begin detect mode");
-            EventManager.TriggerEvent("BeginDetect");
+            VRGestureManager.Instance.BeginDetect("");
         }
 
         // called when entering recording menu
@@ -133,7 +133,7 @@ namespace WinterMute
             deleteGestureButton.onClick.RemoveAllListeners();
             deleteGestureButton.onClick.AddListener(() => DeleteGesture(gestureName));
             deleteGestureButton.onClick.AddListener(() => panelManager.FocusPanel("Record Menu"));
-            EventManager.TriggerEvent("ReadyToRecord", gestureName);
+            VRGestureManager.Instance.BeginReadyToRecord(gestureName);
         }
 
         public void BeginEditGesture(string gestureName)
