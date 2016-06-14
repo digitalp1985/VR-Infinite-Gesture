@@ -18,6 +18,7 @@ namespace WinterMute
         public float lineWidth;
         public Vector3 galleryPosition;
         private Vector3 galleryStartPosition;
+        public float grabVelocity = 650f;
 
         public string currentGesture;
         private string currentNeuralNet;
@@ -32,7 +33,6 @@ namespace WinterMute
         Rigidbody galleryRB;
 
         Transform vrHand; // the hand to use to grab and move the gallery
-        Rigidbody vrHandRB;
         VRGestureRig rig;
         IInput vrHandInput;
         VRGestureUI vrGestureUI;
@@ -65,7 +65,6 @@ namespace WinterMute
                 rig = VRGestureManager.Instance.rig;
                 vrHand = rig.GetHand(handedness);
                 vrHandInput = rig.GetInput(handedness);
-                vrHandRB = rig.GetHandRB(handedness);
             }
         }
 
@@ -227,19 +226,22 @@ namespace WinterMute
             FixedUpdateGrabAndMove();
         }
 
+        Vector3 lastHandPos; // used to calculate velocity of the vrHand to move the gesture gallery
+
         void FixedUpdateGrabAndMove()
         {
             if (galleryState == GestureGalleryState.Visible)
             {
                 if (vrHandInput.GetButton(InputOptions.Button.Trigger2))
                 {
-                    Vector3 velocity = vrHandRB.velocity;
+                    Vector3 velocity = vrHand.position - lastHandPos;
                     Vector3 velocityFlat = Vector3.ProjectOnPlane(velocity, transform.forward);
-                    velocityFlat *= 13;
+                    velocityFlat *= grabVelocity;
                     velocityFlat = new Vector3(-velocityFlat.z, velocityFlat.y, 0);
                     galleryRB.AddRelativeForce(velocityFlat);
                 }
             }
+            lastHandPos = vrHand.position;
         }
 
         // EVENTS

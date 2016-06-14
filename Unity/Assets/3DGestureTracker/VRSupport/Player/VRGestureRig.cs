@@ -9,9 +9,7 @@ public class VRGestureRig : MonoBehaviour {
     public Transform headTF;
     public Transform cameraEyeTransform;
     public Transform lHandTF;
-    public Rigidbody lHandRB;
     public Transform rHandTF;
-    public Rigidbody rHandRB;
 
     GameObject leftController;
     GameObject rightController;
@@ -34,7 +32,7 @@ public class VRGestureRig : MonoBehaviour {
     {
 
     }
-
+    
     public Transform GetHand(HandType handedness)
     {
         if(handedness == HandType.Left)
@@ -44,18 +42,6 @@ public class VRGestureRig : MonoBehaviour {
         else
         {
             return rHandTF;
-        }
-    }
-
-    internal Rigidbody GetHandRB(HandType handedness)
-    {
-        if (handedness == HandType.Right)
-        {
-            return rHandRB;
-        }
-        else
-        {
-            return lHandRB;
         }
     }
 
