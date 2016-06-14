@@ -23,7 +23,7 @@ namespace Edwon.VR.Gesture
             playerHandR = rig.rHandTF;
             playerHandL = rig.lHandTF;
 
-            input = rig.GetInput(Config.gestureHand);
+            input = rig.GetInput(VRGestureManager.Instance.gestureHand);
         }
 
         void Update ()

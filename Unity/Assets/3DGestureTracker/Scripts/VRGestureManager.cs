@@ -6,37 +6,60 @@ using System;
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;
-namespace Edwon.VR.Gesture
+
+namespace WinterMute
 {
+
     public enum VRGestureManagerState { Idle, Edit, Editing, EnteringRecord, ReadyToRecord, Recording, Training, ReadyToDetect, Detecting };
     public enum VRGestureDetectType { Button, Continious };
 
     public class VRGestureManager : MonoBehaviour
     {
+        #region SETTINGS
+        // the type of vr to use
+        public VRTYPE vrType;
+        // which hand to track
+        [Tooltip("which hand to track using the gesture")]
+        public HandType gestureHand = HandType.Right; // the hand to track
+        [Tooltip("the threshold over wich a gesture is considered correctly classified")]
+        public double confidenceLimit = 0.98;
+        // whether to track when pressing trigger or all the time
+        // continious mode is not supported yet
+        // though you're welcome to try it out
+        [HideInInspector]
+        public VRGestureDetectType vrGestureDetectType;
+        #endregion
+
+        // SINGLETON INSTANCE
         static VRGestureManager instance;
 
-        public VRGestureDetectType vrGestureDetectType;
-
+        #region STATE
         [HideInInspector]
         public VRGestureManagerState state;
         [HideInInspector]
         public VRGestureManagerState stateInitial;
         private VRGestureManagerState stateLast;
+        #endregion
 
         public VRGestureRig rig;
         IInput input;
 
+        #region AVATAR
         Transform playerHead;
         Transform playerHand;
         Transform perpTransform;
+        #endregion
 
+        #region LINE RENDERER
         int lengthOfLineRenderer = 50;
         LineRenderer rightLineRenderer;
         List<Vector3> rightCapturedLine;
         List<Vector3> displayLine;
         LineRenderer currentRenderer;
         List<Vector3> currentCapturedLine;
+        #endregion
 
+        #region NEURAL NETS
         [Tooltip("the neural net that I am using")]
         [SerializeField]
         public string currentNeuralNet;
@@ -56,8 +79,7 @@ namespace Edwon.VR.Gesture
             }
         }
         public List<string> gestureBank; // list of recorded gesture for current neural net
-
-
+        #endregion
 
         public string gestureToRecord;
 
@@ -77,7 +99,6 @@ namespace Edwon.VR.Gesture
         public static event GestureDetected GestureDetectedEvent;
         public delegate void GestureNull();
         public static event GestureNull GestureNullEvent;
-
 
         public static VRGestureManager Instance
         {
@@ -131,7 +152,7 @@ namespace Edwon.VR.Gesture
             //create a new Trainer
             currentTrainer = new Trainer(Gestures, currentNeuralNet);
 
-            input = rig.GetInput(Config.gestureHand);
+            input = rig.GetInput(VRGestureManager.Instance.gestureHand);
 
             rightCapturedLine = new List<Vector3>();
             displayLine = new List<Vector3>();
@@ -188,7 +209,7 @@ namespace Edwon.VR.Gesture
             string confidenceValue = currentRecognizer.currentConfidenceValue.ToString().Substring(0, 4);
 
             // broadcast gesture detected event
-            if (currentRecognizer.currentConfidenceValue > Config.CONFIDENCE_LIMIT)
+            if (currentRecognizer.currentConfidenceValue > VRGestureManager.Instance.confidenceLimit)
             {
                 debugString = gesture + " " + confidenceValue;
                 if (GestureDetectedEvent != null)
@@ -224,7 +245,7 @@ namespace Edwon.VR.Gesture
                 else if (state == VRGestureManagerState.Detecting ||
                             state == VRGestureManagerState.ReadyToDetect)
                 {
-                    if (Config.CONTINIOUS)
+                    if (VRGestureManager.Instance.vrGestureDetectType == VRGestureDetectType.Continious)
                     {
                         UpdateContinual();
                     }
@@ -626,5 +647,7 @@ namespace Edwon.VR.Gesture
 
             return renameState;
         }
+
+
     }
 }

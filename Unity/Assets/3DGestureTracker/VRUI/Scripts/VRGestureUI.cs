@@ -9,8 +9,6 @@ namespace Edwon.VR.Gesture
     [RequireComponent(typeof(VRControllerUIInput))]
     public class VRGestureUI : MonoBehaviour
     {
-        public enum VRUIType { SteamVR, EdwonVR };
-        public VRUIType vrUiType;
         VRGestureRig myAvatar;
 
         [HideInInspector]
@@ -77,7 +75,7 @@ namespace Edwon.VR.Gesture
 
         void Start()
         {
-            menuHandedness = (Config.gestureHand == HandType.Left)? HandType.Right : HandType.Left;
+            menuHandedness = (VRGestureManager.Instance.gestureHand == HandType.Left)? HandType.Right : HandType.Left;
 
             rootCanvas = GetComponent<Canvas>();
             //vrInput = GetComponent<VRControllerUIInput>();
@@ -87,26 +85,10 @@ namespace Edwon.VR.Gesture
             buttonRectScale = new Vector3(0.6666f, 1, 0.2f);
 
             // get vr player hand and camera
-            if (vrUiType == VRUIType.EdwonVR)
-            {
-                myAvatar = VRGestureManager.Instance.rig;
-                vrMenuHand = myAvatar.GetHand(menuHandedness);
-                vrCam = VRGestureManager.Instance.rig.cameraEyeTransform;
-            }
-            else if (vrUiType == VRUIType.SteamVR)
-            {
-                SteamVR_ControllerManager ControllerManager;
-                ControllerManager = GameObject.FindObjectOfType<SteamVR_ControllerManager>();
-                if (menuHandedness == HandType.Left)
-                {
-                    vrMenuHand = ControllerManager.left.GetComponent<SteamVR_TrackedObject>().transform;
-                }
-                else
-                {
-                    vrMenuHand = ControllerManager.right.GetComponent<SteamVR_TrackedObject>().transform;
-                }
-                vrCam = GameObject.FindObjectOfType<SteamVR_Camera>().transform;
-            }
+            myAvatar = VRGestureManager.Instance.rig;
+            vrMenuHand = myAvatar.GetHand(menuHandedness);
+            vrCam = VRGestureManager.Instance.rig.cameraEyeTransform;
+      
 
             panelManager = transform.GetComponentInChildren<PanelManager>();
 
@@ -335,18 +317,18 @@ namespace Edwon.VR.Gesture
         void OnEnable()
         {
             PanelManager.OnPanelFocusChanged += PanelFocusChanged;
-            EventManager.StartListening("VRGuiHitChanged", VRGuiHitChanged);
+            VRControllerUIInput.OnVRGuiHitChanged += VRGuiHitChanged;
         }
 
         void OnDisable()
         {
             PanelManager.OnPanelFocusChanged -= PanelFocusChanged;
-            EventManager.StopListening("VRGuiHitChanged", VRGuiHitChanged);
+            VRControllerUIInput.OnVRGuiHitChanged -= VRGuiHitChanged;
         }
 
-        void VRGuiHitChanged(string hitBool)
+        void VRGuiHitChanged(bool hitBool)
         {
-            if (hitBool == "True")
+            if (hitBool)
             {
                 if (vrGestureManager.state == VRGestureManagerState.ReadyToRecord)
                 {
@@ -354,7 +336,7 @@ namespace Edwon.VR.Gesture
                     TogglePanelInteractivity("Recording Menu", true);
                 }
             }
-            else if (hitBool == "False")
+            else if (!hitBool)
             {
                 if (vrGestureManager.state == VRGestureManagerState.ReadyToRecord || vrGestureManager.state == VRGestureManagerState.Recording)
                 {
@@ -370,8 +352,6 @@ namespace Edwon.VR.Gesture
             foreach (CanvasRenderer cr in canvasRenderers)
             {
                 cr.SetAlpha(toAlpha);
-                //float startAlpha = cr.GetAlpha();
-                //StartCoroutine(TweenAlpha(cr, startAlpha, toAlpha, 1f));
             }
         }
 
@@ -458,20 +438,6 @@ namespace Edwon.VR.Gesture
 
             Text title = currentNeuralNetworkTitle.FindChild("neural network name").GetComponent<Text>();
             return title;
-        }
-
-        IEnumerator TweenAlpha(CanvasRenderer cr, float alphaFrom, float alphaTo, float time)
-        {
-            float timer = 0f;
-
-            while (timer < time)
-            {
-                float percent = timer / time;
-                float alpha = percent.Remap(0, 1, alphaFrom, alphaTo);
-                cr.SetAlpha(alpha);
-                timer += Time.fixedDeltaTime;
-                yield return new WaitForSeconds(Time.fixedDeltaTime);
-            }
         }
     }
 }

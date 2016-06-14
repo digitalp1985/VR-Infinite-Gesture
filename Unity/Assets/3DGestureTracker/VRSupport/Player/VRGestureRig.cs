@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
-using Edwon.VR.Gesture;
 
-namespace Edwon.VR.Input
+namespace WinterMute
 {
     public class VRGestureRig : MonoBehaviour
     {
@@ -77,7 +76,7 @@ namespace Edwon.VR.Input
         /// <returns></returns>
         public void CreateInputHelper()
         {
-            if (Config.vrType == Config.VRTYPE.SteamVR)
+            if (VRGestureManager.Instance.vrType == VRTYPE.SteamVR)
             {
                 SteamVR_ControllerManager[] steamVR_cm = FindObjectsOfType<SteamVR_ControllerManager>();
                 leftController = steamVR_cm[0].left;
@@ -86,7 +85,7 @@ namespace Edwon.VR.Input
                 inputRight = rightController.gameObject.AddComponent<VRControllerInputSteam>().Init(HandType.Right);
 
             }
-            else if (Config.vrType == Config.VRTYPE.OculusTouchVR)
+            else if (VRGestureManager.Instance.vrType == VRTYPE.OculusTouchVR)
             {
                 inputLeft = lHandTF.gameObject.AddComponent<VRControllerInputOculus>().Init(HandType.Left);
                 inputRight = rHandTF.gameObject.AddComponent<VRControllerInputOculus>().Init(HandType.Right);
