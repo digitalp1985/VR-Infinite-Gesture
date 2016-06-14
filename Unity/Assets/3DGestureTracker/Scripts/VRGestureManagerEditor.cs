@@ -57,6 +57,7 @@ namespace WinterMute
         string selectedNeuralNetName = "";
 
         // GUI MODES
+        private bool showSettingsGUI = false;
         enum NeuralNetGUIMode { None, EnterNewNetName, ShowPopup };
         NeuralNetGUIMode neuralNetGUIMode;
 
@@ -73,18 +74,27 @@ namespace WinterMute
             GUILayout.BeginHorizontal();
 
             if (GUILayout.Button("Train"))
+            {
                 vrGestureManager.stateInitial = VRGestureManagerState.Idle;
-
+                showSettingsGUI = false;
+            }
             if (GUILayout.Button("Detect"))
+            {
                 vrGestureManager.stateInitial = VRGestureManagerState.ReadyToDetect;
-
+                showSettingsGUI = false;
+            }
+            if (GUILayout.Button("Settings"))
+            {
+                showSettingsGUI = true;
+            }
             GUILayout.EndHorizontal();
 
-            if (vrGestureManager.stateInitial != VRGestureManagerState.ReadyToDetect)
+            if (showSettingsGUI)
+                ShowSettings();
+            else if (vrGestureManager.stateInitial != VRGestureManagerState.ReadyToDetect)
                 ShowTrain();
-            if (vrGestureManager.stateInitial == VRGestureManagerState.ReadyToDetect)
+            else if (vrGestureManager.stateInitial == VRGestureManagerState.ReadyToDetect)
                 ShowDetect();
-
 
             //Enter click
             if (Event.current.isKey && Event.current.keyCode == KeyCode.Return && Event.current.type == EventType.KeyUp && IfGestureControl(GUI.GetNameOfFocusedControl()))
@@ -127,11 +137,7 @@ namespace WinterMute
 
         void ShowDetect()
         {
-            //EditorGUILayout.PropertyField(serializedObject.FindProperty("vrRigAnchors"));
-            //EditorGUILayout.PropertyField(serializedObject.FindProperty("playerHead"));
-            //EditorGUILayout.PropertyField(serializedObject.FindProperty("playerHand"));
-            //EditorGUILayout.Separator();
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("vrGestureDetectType"));
+
         }
 
         void ShowTrain()
@@ -184,6 +190,15 @@ namespace WinterMute
             {
                 ShowTrainingMode();
             }
+        }
+
+        void ShowSettings()
+        {
+            EditorGUILayout.Separator();
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("vrType"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("gestureHand"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("confidenceLimit"));
+            //EditorGUILayout.PropertyField(serializedObject.FindProperty("vrGestureDetectType"));
         }
 
         void ShowNeuralNets()

@@ -12,9 +12,6 @@
         // how many points to use in a gesture line
         public const int FIDELITY = 11; 
         // how many points captured per second
-        public const int CAPTURE_RATE = 30;
-        // whether to track when pressing trigger or all the time
-        // continious mode is not supported yet, though you're welcome to try it out
-        public const bool CONTINIOUS = false; 
+        public const int CAPTURE_RATE = 30;  
     }
 }

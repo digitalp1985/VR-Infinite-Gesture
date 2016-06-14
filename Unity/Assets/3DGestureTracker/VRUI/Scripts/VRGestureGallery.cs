@@ -56,7 +56,7 @@ namespace WinterMute
 
         void GetHands()
         {
-            HandType handedness = VRGestureManager.gestureHand; // needed to set it to something to prevent error
+            HandType handedness = VRGestureManager.Instance.gestureHand; // needed to set it to something to prevent error
 
             rig = VRGestureManager.Instance.rig;
             vrHand = rig.GetHand(handedness);

@@ -25,7 +25,7 @@ namespace WinterMute.Examples
             playerHandR = rig.rHandTF;
             playerHandL = rig.lHandTF;
 
-            input = rig.GetInput(VRGestureManager.gestureHand);
+            input = rig.GetInput(VRGestureManager.Instance.gestureHand);
         }
 
         void Update()

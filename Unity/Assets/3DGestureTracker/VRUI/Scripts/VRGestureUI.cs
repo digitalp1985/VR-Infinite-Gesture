@@ -75,7 +75,7 @@ namespace WinterMute
 
         void Start()
         {
-            menuHandedness = (VRGestureManager.gestureHand == HandType.Left)? HandType.Right : HandType.Left;
+            menuHandedness = (VRGestureManager.Instance.gestureHand == HandType.Left)? HandType.Right : HandType.Left;
 
             rootCanvas = GetComponent<Canvas>();
             //vrInput = GetComponent<VRControllerUIInput>();

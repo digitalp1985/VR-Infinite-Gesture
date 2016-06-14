@@ -15,38 +15,51 @@ namespace WinterMute
 
     public class VRGestureManager : MonoBehaviour
     {
+        #region SETTINGS
         // the type of vr to use
-        public static VRTYPE vrType = VRTYPE.OculusTouchVR;
+        public VRTYPE vrType;
         // which hand to track
         [Tooltip("which hand to track using the gesture")]
-        public static HandType gestureHand = HandType.Right; // the hand to track
+        public HandType gestureHand = HandType.Right; // the hand to track
         [Tooltip("the threshold over wich a gesture is considered correctly classified")]
-        public static double CONFIDENCE_LIMIT = 0.98;
+        public double confidenceLimit = 0.98;
+        // whether to track when pressing trigger or all the time
+        // continious mode is not supported yet
+        // though you're welcome to try it out
+        [HideInInspector]
+        public VRGestureDetectType vrGestureDetectType;
+        #endregion
 
+        // SINGLETON INSTANCE
         static VRGestureManager instance;
 
-        public VRGestureDetectType vrGestureDetectType;
-
+        #region STATE
         [HideInInspector]
         public VRGestureManagerState state;
         [HideInInspector]
         public VRGestureManagerState stateInitial;
         private VRGestureManagerState stateLast;
+        #endregion
 
         public VRGestureRig rig;
         IInput input;
 
+        #region AVATAR
         Transform playerHead;
         Transform playerHand;
         Transform perpTransform;
+        #endregion
 
+        #region LINE RENDERER
         int lengthOfLineRenderer = 50;
         LineRenderer rightLineRenderer;
         List<Vector3> rightCapturedLine;
         List<Vector3> displayLine;
         LineRenderer currentRenderer;
         List<Vector3> currentCapturedLine;
+        #endregion
 
+        #region NEURAL NETS
         [Tooltip("the neural net that I am using")]
         [SerializeField]
         public string currentNeuralNet;
@@ -66,8 +79,7 @@ namespace WinterMute
             }
         }
         public List<string> gestureBank; // list of recorded gesture for current neural net
-
-
+        #endregion
 
         public string gestureToRecord;
 
@@ -87,7 +99,6 @@ namespace WinterMute
         public static event GestureDetected GestureDetectedEvent;
         public delegate void GestureNull();
         public static event GestureNull GestureNullEvent;
-
 
         public static VRGestureManager Instance
         {
@@ -141,7 +152,7 @@ namespace WinterMute
             //create a new Trainer
             currentTrainer = new Trainer(Gestures, currentNeuralNet);
 
-            input = rig.GetInput(VRGestureManager.gestureHand);
+            input = rig.GetInput(VRGestureManager.Instance.gestureHand);
 
             rightCapturedLine = new List<Vector3>();
             displayLine = new List<Vector3>();
@@ -198,7 +209,7 @@ namespace WinterMute
             string confidenceValue = currentRecognizer.currentConfidenceValue.ToString().Substring(0, 4);
 
             // broadcast gesture detected event
-            if (currentRecognizer.currentConfidenceValue > VRGestureManager.CONFIDENCE_LIMIT)
+            if (currentRecognizer.currentConfidenceValue > VRGestureManager.Instance.confidenceLimit)
             {
                 debugString = gesture + " " + confidenceValue;
                 if (GestureDetectedEvent != null)
@@ -234,7 +245,7 @@ namespace WinterMute
                 else if (state == VRGestureManagerState.Detecting ||
                             state == VRGestureManagerState.ReadyToDetect)
                 {
-                    if (Config.CONTINIOUS)
+                    if (VRGestureManager.Instance.vrGestureDetectType == VRGestureDetectType.Continious)
                     {
                         UpdateContinual();
                     }
