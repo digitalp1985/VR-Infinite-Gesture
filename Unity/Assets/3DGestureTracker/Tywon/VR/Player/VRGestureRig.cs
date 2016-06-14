@@ -16,23 +16,23 @@ public class VRGestureRig : MonoBehaviour {
     GameObject leftController;
     GameObject rightController;
 
-    IInput inputLeft;
-    IInput inputRight;
+    IInput inputLeft = null;
+    IInput inputRight = null;
 
     // Use this for initialization
     void Start () {
-        //CreateInputHelper();
+
+        SteamVR_ControllerManager[] steamVR_cm = FindObjectsOfType<SteamVR_ControllerManager>();
+        //SteamVR_Controller.GetDeviceIndex(SteamVR_Controller.DeviceRelation.Leftmost;
+        leftController = steamVR_cm[0].left;
+        rightController = steamVR_cm[0].right;
+        CreateInputHelper();
     }
 
     void Awake()
     {
         //CreateInputHelper();
-        SteamVR_TrackedObject[] trackedObjects = FindObjectsOfType<SteamVR_TrackedObject>();
 
-        SteamVR_ControllerManager steamVR_cm = FindObjectOfType<SteamVR_ControllerManager>();
-        //SteamVR_Controller.GetDeviceIndex(SteamVR_Controller.DeviceRelation.Leftmost;
-        leftController = steamVR_cm.left;
-        rightController = steamVR_cm.right;
     }
 
     void LateUpdate()

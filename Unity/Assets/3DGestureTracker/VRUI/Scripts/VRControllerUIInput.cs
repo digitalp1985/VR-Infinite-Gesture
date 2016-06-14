@@ -413,11 +413,6 @@ namespace WinterMute
         public bool ButtonDown(int index)
         {
 
-            if(ControllerInputLeft != null)
-            {
-
-            }
-
 
 
 
@@ -431,24 +426,37 @@ namespace WinterMute
                 //Debug.Log("Left Trigger Down is: " + tester + "Right Trigger Down is: " + tester2);
                 if (index == 0)
                 {
+                    bool pressed = false;
+                    if (ControllerInputLeft != null)
+                    {
+                        pressed = ControllerInputLeft.GetButtonDown(InputOptions.Button.Trigger1);
+                        if (pressed)
+                        {
+                            Debug.Log("Left Trigger " + pressed);
+                        }
+                    }
+                    else
+                    {
+                        ControllerInputLeft = rig.GetInput(HandType.Left);
+                    }
                     //This is actually the RIGHT trigger
-                    bool tester = ControllerInputLeft.GetButtonDown(InputOptions.Button.Trigger1);
-                    if (tester)
-                    {
-                        Debug.Log("Left Trigger " + tester);
-                    }
-                    
-                    return ControllerInputLeft.GetButtonDown(InputOptions.Button.Trigger1);
+                    return pressed;
                 }
-                    
                 else{
-                    bool tester2 = ControllerInputRight.GetButtonDown(InputOptions.Button.Trigger1);
-                    
-                    if (tester2)
+                    bool pressed = false;
+                    if (ControllerInputRight != null)
                     {
-                        Debug.Log("Right Trigger " + tester2);
+                        pressed = ControllerInputRight.GetButtonDown(InputOptions.Button.Trigger1);
+                        if (pressed)
+                        {
+                            Debug.Log("Right Trigger " + pressed);
+                        }
                     }
-                    return ControllerInputRight.GetButtonDown(InputOptions.Button.Trigger1);
+                    else
+                    {
+                        ControllerInputRight = rig.GetInput(HandType.Right);
+                    }
+                    return pressed;
                 }
                     
             }
@@ -469,9 +477,25 @@ namespace WinterMute
             else
             {
                 if (index == 0)
-                    return ControllerInputLeft.GetButtonUp(InputOptions.Button.Trigger1);
+                {
+                    bool pressed = false;
+                    if (ControllerInputLeft != null)
+                    {
+                        pressed =ControllerInputLeft.GetButtonUp(InputOptions.Button.Trigger1);
+                    }
+                    return pressed;
+                }
+                    
                 else
-                    return ControllerInputRight.GetButtonUp(InputOptions.Button.Trigger1);
+                {
+                    bool pressed = false;
+                    if(ControllerInputRight != null)
+                    {
+                        pressed =ControllerInputRight.GetButtonUp(InputOptions.Button.Trigger1);
+                    }
+                    return pressed;
+                }
+                    
             }
         }
     }
