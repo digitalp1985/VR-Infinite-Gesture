@@ -75,6 +75,8 @@ namespace WinterMute
 
         void Start()
         {
+            uiVisible = true;
+
             menuHandedness = (VRGestureManager.Instance.gestureHand == HandType.Left)? HandType.Right : HandType.Left;
 
             rootCanvas = GetComponent<Canvas>();
@@ -99,6 +101,11 @@ namespace WinterMute
 
         void Update()
         {
+            // if press Button1 on menu hand toggle menu on off
+            HandType oppositeHand = vrGestureManager.gestureHand == HandType.Left ? HandType.Right : HandType.Left;
+            if (myAvatar.GetInput(oppositeHand).GetButtonDown(InputOptions.Button.Button1))
+                ToggleVRGestureUI();
+
             Vector3 handToCamVector = vrCam.position - vrMenuHand.position;
             //Debug.DrawRay(vrHand.position, handToCamVector);
             //transform.position = vrHand.position + (offsetZ * handToCamVector);
@@ -115,6 +122,17 @@ namespace WinterMute
 
             UpdateCurrentNeuralNetworkText();
             UpdateNowRecordingStatus();
+        }
+
+        bool uiVisible;
+
+        // toggles this UI's visibility on/off
+
+        void ToggleVRGestureUI ()
+        {
+            uiVisible = !uiVisible;
+            vrGestureGallery.gameObject.SetActive(uiVisible);
+            vrHandUIPanel.gameObject.SetActive(uiVisible);
         }
 
         // events called by buttons when pressed
