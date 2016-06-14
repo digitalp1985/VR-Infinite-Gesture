@@ -122,7 +122,8 @@ namespace WinterMute
             //transform.position = vrHand.position + (offsetZ * handToCamVector);
             //transform.rotation = Quaternion.LookRotation(transform.position - vrCam.position);
             vrHandUIPanel.position = vrMenuHand.position + (offsetZ * handToCamVector);
-            vrHandUIPanel.rotation = Quaternion.LookRotation(-handToCamVector, Vector3.up);
+            if (-handToCamVector != Vector3.zero)
+                vrHandUIPanel.rotation = Quaternion.LookRotation(-handToCamVector, Vector3.up);
 
             // update detect log
             if (detectLog != null)
