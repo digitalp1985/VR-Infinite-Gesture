@@ -23,7 +23,7 @@ namespace Edwon.VR.Gesture
         [Tooltip("which hand to track using the gesture")]
         public HandType gestureHand = HandType.Right; // the hand to track
         [Tooltip("the threshold over wich a gesture is considered correctly classified")]
-        public double confidenceLimit = 0.98;
+        public double confidenceThreshold = 0.98;
         /// <summary>
         /// 
         /// </summary>
@@ -225,7 +225,7 @@ namespace Edwon.VR.Gesture
                 string confidenceValue = currentRecognizer.currentConfidenceValue.ToString().Substring(0, 4);
 
                 // broadcast gesture detected event
-                if (currentRecognizer.currentConfidenceValue > VRGestureManager.Instance.confidenceLimit)
+                if (currentRecognizer.currentConfidenceValue > VRGestureManager.Instance.confidenceThreshold)
                 {
                     debugString = gesture + " " + confidenceValue;
                     if (GestureDetectedEvent != null)
