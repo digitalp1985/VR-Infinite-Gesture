@@ -10,11 +10,6 @@ namespace HutongGames.PlayMaker.Actions
     {
         public FsmEvent gestureNullEvent;
 
-        public override void Reset()
-        {
-            gestureNullEvent = null;
-        }
-
         // Code that runs on entering the state.
         public override void OnEnter()
 	    {
