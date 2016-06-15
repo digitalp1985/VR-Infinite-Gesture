@@ -21,7 +21,7 @@ namespace Edwon.VR.Gesture
         VRGestureGallery vrGestureGallery;
         public float offsetZ;
 
-        public VRGestureManager vrGestureManager; // the VRGestureManager script we want to interact with
+        //public VRGestureManager VRGestureManagerInstance; // the VRGestureManager script we want to interact with
         public RectTransform recordMenu; // the top level transform of the recordMenu where we will generate gesture buttons'
         public RectTransform editMenu; // the top level transform of the eidtMenu
         public RectTransform selectNeuralNetMenu; // the top level transform of the select neural net menu where we will generate buttons
@@ -68,11 +68,7 @@ namespace Edwon.VR.Gesture
         // default settings
         private Vector3 buttonRectScale; // new Vector3(0.6666f, 1, 0.2f);
 
-        void Awake()
-        {
-            if (vrGestureManager == null)
-                vrGestureManager = GameObject.FindObjectOfType<VRGestureManager>();
-        }
+
 
         void Start()
         {
@@ -103,7 +99,7 @@ namespace Edwon.VR.Gesture
         void Update()
         {
             // if press Button1 on menu hand toggle menu on off
-            HandType oppositeHand = vrGestureManager.gestureHand == HandType.Left ? HandType.Right : HandType.Left;
+            HandType oppositeHand = VRGestureManager.Instance.gestureHand == HandType.Left ? HandType.Right : HandType.Left;
             if (myAvatar.GetInput(oppositeHand).GetButtonDown(InputOptions.Button.Button1))
                 ToggleVRGestureUI();
 
@@ -117,7 +113,7 @@ namespace Edwon.VR.Gesture
 
             // update detect log
             if (detectLog != null)
-                detectLog.text = vrGestureManager.debugString;
+                detectLog.text = VRGestureManager.Instance.debugString;
             else
                 Debug.Log("please set detect log on GestureUIController");
 
@@ -158,24 +154,24 @@ namespace Edwon.VR.Gesture
         public void BeginEditGesture(string gestureName)
         {
             nowEditingGestureLabel.text = gestureName;
-            vrGestureManager.BeginEditing(gestureName);
+            VRGestureManager.Instance.BeginEditing(gestureName);
         }
 
         public void SelectNeuralNet(string neuralNetName)
         {
-            vrGestureManager.SelectNeuralNet(neuralNetName);
+            VRGestureManager.Instance.SelectNeuralNet(neuralNetName);
         }
 
         public void BeginTraining()
         {
             panelManager.FocusPanel("Training Menu");
-            neuralNetTraining.text = vrGestureManager.currentNeuralNet;
-            vrGestureManager.BeginTraining(OnFinishedTraining);
+            neuralNetTraining.text = VRGestureManager.Instance.currentNeuralNet;
+            VRGestureManager.Instance.BeginTraining(OnFinishedTraining);
         }
 
         public void QuitTraining()
         {
-            vrGestureManager.EndTraining(OnQuitTraining);
+            VRGestureManager.Instance.EndTraining(OnQuitTraining);
         }
 
         void OnFinishedTraining(string neuralNetName)
@@ -191,14 +187,14 @@ namespace Edwon.VR.Gesture
         public void CreateGesture()
         {
             Debug.Log("called create new gesture");
-            string newGestureName = "Gesture " + (vrGestureManager.gestureBank.Count + 1);
-            vrGestureManager.CreateGesture(newGestureName);
+            string newGestureName = "Gesture " + (VRGestureManager.Instance.gestureBank.Count + 1);
+            VRGestureManager.Instance.CreateGesture(newGestureName);
             GenerateRecordMenuButtons();
         }
 
         public void DeleteGesture(string gestureName)
         {
-            vrGestureManager.DeleteGesture(gestureName);
+            VRGestureManager.Instance.DeleteGesture(gestureName);
         }
 
         IEnumerator TrainingMenuDelay(float delay)
@@ -212,13 +208,13 @@ namespace Edwon.VR.Gesture
 
         void GenerateRecordMenuButtons()
         {
-            GenerateGestureButtons(vrGestureManager.gestureBank, recordMenu.transform, GestureButtonsType.Record);
+            GenerateGestureButtons(VRGestureManager.Instance.gestureBank, recordMenu.transform, GestureButtonsType.Record);
 
         }
 
         void GenerateEditMenuButtons()
         {
-            GenerateGestureButtons(vrGestureManager.gestureBank, editMenu.transform, GestureButtonsType.Edit);
+            GenerateGestureButtons(VRGestureManager.Instance.gestureBank, editMenu.transform, GestureButtonsType.Edit);
         }
 
         enum GestureButtonsType { Record, Edit };
@@ -245,7 +241,7 @@ namespace Edwon.VR.Gesture
             // set the functions that the button will call when pressed
             for (int i = 0; i < gestureButtons.Count; i++)
             {
-                string gestureName = vrGestureManager.gestureBank[i];
+                string gestureName = VRGestureManager.Instance.gestureBank[i];
                 if (gestureButtonsType == GestureButtonsType.Record)
                 {
                     gestureButtons[i].onClick.AddListener(() => BeginReadyToRecordGesture(gestureName));
@@ -276,12 +272,12 @@ namespace Edwon.VR.Gesture
         {
             int neuralNetMenuButtonHeight = 30;
 
-            List<Button> buttons = GenerateButtonsFromList(vrGestureManager.neuralNets, selectNeuralNetMenu.transform, buttonPrefab, neuralNetMenuButtonHeight);
+            List<Button> buttons = GenerateButtonsFromList(VRGestureManager.Instance.neuralNets, selectNeuralNetMenu.transform, buttonPrefab, neuralNetMenuButtonHeight);
 
             // set the functions that the button will call when pressed
             for (int i = 0; i < buttons.Count; i++)
             {
-                string neuralNetName = vrGestureManager.neuralNets[i];
+                string neuralNetName = VRGestureManager.Instance.neuralNets[i];
                 buttons[i].onClick.AddListener(() => panelManager.FocusPanel("Main Menu"));
                 buttons[i].onClick.AddListener(() => SelectNeuralNet(neuralNetName));
             }
@@ -349,7 +345,7 @@ namespace Edwon.VR.Gesture
         {
             if (hitBool)
             {
-                if (vrGestureManager.state == VRGestureManagerState.ReadyToRecord)
+                if (VRGestureManager.Instance.state == VRGestureManagerState.ReadyToRecord)
                 {
                     TogglePanelAlpha("Recording Menu", 1f);
                     TogglePanelInteractivity("Recording Menu", true);
@@ -357,7 +353,7 @@ namespace Edwon.VR.Gesture
             }
             else if (!hitBool)
             {
-                if (vrGestureManager.state == VRGestureManagerState.ReadyToRecord || vrGestureManager.state == VRGestureManagerState.Recording)
+                if (VRGestureManager.Instance.state == VRGestureManagerState.ReadyToRecord || VRGestureManager.Instance.state == VRGestureManagerState.Recording)
                 {
                     TogglePanelAlpha("Recording Menu", .35f);
                     TogglePanelInteractivity("Recording Menu", false);
@@ -387,16 +383,16 @@ namespace Edwon.VR.Gesture
         {
             if (panelName == "Main Menu")
             {
-                vrGestureManager.state = VRGestureManagerState.Idle;
+                VRGestureManager.Instance.state = VRGestureManagerState.Idle;
             }
             if (panelName == "Select Neural Net Menu")
             {
-                vrGestureManager.RefreshNeuralNetList();
-                vrGestureManager.state = VRGestureManagerState.Idle;
+                VRGestureManager.Instance.RefreshNeuralNetList();
+                VRGestureManager.Instance.state = VRGestureManagerState.Idle;
             }
             if (panelName == "Record Menu")
             {
-                vrGestureManager.state = VRGestureManagerState.Idle;
+                VRGestureManager.Instance.state = VRGestureManagerState.Idle;
                 GenerateRecordMenuButtons();
             }
             if (panelName == "Recording Menu")
@@ -406,12 +402,12 @@ namespace Edwon.VR.Gesture
             }
             if (panelName == "Edit Menu")
             {
-                vrGestureManager.state = VRGestureManagerState.Edit;
+                VRGestureManager.Instance.state = VRGestureManagerState.Edit;
                 GenerateEditMenuButtons();
             }
             if (panelName == "Editing Menu")
             {
-                vrGestureManager.state = VRGestureManagerState.Editing;
+                VRGestureManager.Instance.state = VRGestureManagerState.Editing;
             }
         }
 
@@ -421,18 +417,18 @@ namespace Edwon.VR.Gesture
                 return;
 
             Text title = GetCurrentNeuralNetworkText();
-            title.text = vrGestureManager.currentNeuralNet;
+            title.text = VRGestureManager.Instance.currentNeuralNet;
         }
 
         void UpdateNowRecordingStatus()
         {
-            if (vrGestureManager.state == VRGestureManagerState.ReadyToRecord 
-                || vrGestureManager.state == VRGestureManagerState.EnteringRecord)
+            if (VRGestureManager.Instance.state == VRGestureManagerState.ReadyToRecord 
+                || VRGestureManager.Instance.state == VRGestureManagerState.EnteringRecord)
             {
                 nowRecordingBackground.color = Color.grey;
                 nowRecordingLabel.text = "ready to record";
             }
-            else if (vrGestureManager.state == VRGestureManagerState.Recording)
+            else if (VRGestureManager.Instance.state == VRGestureManagerState.Recording)
             {
                 nowRecordingBackground.color = Color.red;
                 nowRecordingLabel.text = "RECORDING";
