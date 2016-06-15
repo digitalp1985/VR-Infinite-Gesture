@@ -27,7 +27,6 @@ namespace HutongGames.PlayMaker.Actions
         {
             if (_gestureName == gestureName.Value)
             {
-                Debug.Log(_gestureName);
                 Fsm.Event(gestureDetectedEvent);
             }
         }
