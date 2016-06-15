@@ -1,7 +1,13 @@
-﻿namespace Edwon.VR.Gesture
+﻿
+namespace Edwon.VR
 {
     public enum HandType { Left, Right };
     public enum VRTYPE { OculusTouchVR, SteamVR };
+}
+
+
+namespace Edwon.VR.Gesture
+{
     public static class Config
     {
         public const string SAVE_FILE_PATH = @"Assets/3DGestureTracker/VRGestureData/";
