@@ -13,13 +13,13 @@ namespace HutongGames.PlayMaker.Actions
 
         public override void Reset()
         {
-            gestureName = null;
-            gestureDetectedEvent = null;
+
         }
 
         // Code that runs on entering the state.
         public override void OnEnter()
 	    {
+
             VRGestureManager.GestureDetectedEvent += OnGestureDetected;
         }
 
@@ -33,6 +33,7 @@ namespace HutongGames.PlayMaker.Actions
         {
             if (_gestureName == gestureName.Value)
             {
+                Debug.Log(_gestureName);
                 Fsm.Event(gestureDetectedEvent);
             }
         }
