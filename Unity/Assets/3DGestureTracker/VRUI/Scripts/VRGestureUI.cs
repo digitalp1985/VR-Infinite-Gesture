@@ -14,7 +14,7 @@ namespace Edwon.VR.Gesture
 
         [HideInInspector]
         public HandType menuHandedness;
-        private PanelManager panelManager;
+        private VRGestureUIPanelManager panelManager;
         Transform vrMenuHand; // the hand to attach the hand ui to
         Transform vrHandUIPanel; // the actual ui
         Transform vrCam;
@@ -89,11 +89,13 @@ namespace Edwon.VR.Gesture
             vrCam = VRGestureManager.Instance.rig.cameraEyeTransform;
       
 
-            panelManager = transform.GetComponentInChildren<PanelManager>();
+            panelManager = transform.GetComponentInChildren<VRGestureUIPanelManager>();
 
             GenerateRecordMenuButtons();
             GenerateEditMenuButtons();
             GenerateNeuralNetMenuButtons();
+
+            if (VRGestureManager.Ins)
         }
 
         void Update()
@@ -331,13 +333,13 @@ namespace Edwon.VR.Gesture
 
         void OnEnable()
         {
-            PanelManager.OnPanelFocusChanged += PanelFocusChanged;
+            VRGestureUIPanelManager.OnPanelFocusChanged += PanelFocusChanged;
             VRControllerUIInput.OnVRGuiHitChanged += VRGuiHitChanged;
         }
 
         void OnDisable()
         {
-            PanelManager.OnPanelFocusChanged -= PanelFocusChanged;
+            VRGestureUIPanelManager.OnPanelFocusChanged -= PanelFocusChanged;
             VRControllerUIInput.OnVRGuiHitChanged -= VRGuiHitChanged;
         }
 

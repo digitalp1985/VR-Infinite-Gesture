@@ -244,12 +244,12 @@ namespace Edwon.VR.Gesture
 
         void OnEnable()
         {
-            PanelManager.OnPanelFocusChanged += PanelFocusChanged;
+            VRGestureUIPanelManager.OnPanelFocusChanged += PanelFocusChanged;
         }
 
         void OnDisable()
         {
-            PanelManager.OnPanelFocusChanged -= PanelFocusChanged;
+            VRGestureUIPanelManager.OnPanelFocusChanged -= PanelFocusChanged;
         }
 
         void PanelFocusChanged(string panelName)
