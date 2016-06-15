@@ -16,6 +16,10 @@ namespace Edwon.VR.Gesture
 
     public class VRGestureManager : MonoBehaviour
     {
+
+        // SINGLETON INSTANCE
+        static VRGestureManager instance;
+
         #region SETTINGS
         // the type of vr to use
         public VRTYPE vrType;
@@ -23,17 +27,13 @@ namespace Edwon.VR.Gesture
         [Tooltip("which hand to track using the gesture")]
         public HandType gestureHand = HandType.Right; // the hand to track
         [Tooltip("the threshold over wich a gesture is considered correctly classified")]
-        public double confidenceLimit = 0.98;
+        public double confidenceThreshold = 0.98;
         // whether to track when pressing trigger or all the time
         // continious mode is not supported yet
         // though you're welcome to try it out
         [HideInInspector]
         public VRGestureDetectType vrGestureDetectType;
         #endregion
-
-        // SINGLETON INSTANCE
-        static VRGestureManager instance;
-
         #region STATE
         [HideInInspector]
         public VRGestureManagerState state;
@@ -210,7 +210,7 @@ namespace Edwon.VR.Gesture
             string confidenceValue = currentRecognizer.currentConfidenceValue.ToString().Substring(0, 4);
 
             // broadcast gesture detected event
-            if (currentRecognizer.currentConfidenceValue > VRGestureManager.Instance.confidenceLimit)
+            if (currentRecognizer.currentConfidenceValue > VRGestureManager.Instance.confidenceThreshold)
             {
                 debugString = gesture + " " + confidenceValue;
                 if (GestureDetectedEvent != null)
