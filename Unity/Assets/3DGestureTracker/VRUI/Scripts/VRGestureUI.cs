@@ -95,7 +95,6 @@ namespace Edwon.VR.Gesture
             GenerateEditMenuButtons();
             GenerateNeuralNetMenuButtons();
 
-            if (VRGestureManager.Ins)
         }
 
         void Update()
