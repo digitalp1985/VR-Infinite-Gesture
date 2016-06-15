@@ -24,6 +24,11 @@ namespace Edwon.VR.Gesture
         public HandType gestureHand = HandType.Right; // the hand to track
         [Tooltip("the threshold over wich a gesture is considered correctly classified")]
         public double confidenceLimit = 0.98;
+        /// <summary>
+        /// 
+        /// </summary>
+        [Tooltip("Your gesture must have one axis longer than this length")]
+        public float minimumGestureAxisLength = 0.10f;
         // whether to track when pressing trigger or all the time
         // continious mode is not supported yet
         // though you're welcome to try it out
@@ -166,6 +171,13 @@ namespace Edwon.VR.Gesture
             currentRenderer = CreateLineRenderer(Color.magenta, Color.magenta);
         }
 
+        /// <summary>
+        /// This can maybe become it's own class and does not need to be part of
+        /// VR Gesture Manager.
+        /// </summary>
+        /// <param name="c1"></param>
+        /// <param name="c2"></param>
+        /// <returns></returns>
         LineRenderer CreateLineRenderer(Color c1, Color c2)
         {
             GameObject myGo = new GameObject();
@@ -192,7 +204,7 @@ namespace Edwon.VR.Gesture
             }
             else if (state == VRGestureManagerState.Detecting || state == VRGestureManagerState.ReadyToDetect)
             {
-                TestNeural(capturedLine);
+                RecognizeLine(capturedLine);
             }
         }
 
@@ -203,25 +215,42 @@ namespace Edwon.VR.Gesture
             debugString = "trained : " + gesture;
         }
 
-        public void TestNeural(List<Vector3> capturedLine)
+        public void RecognizeLine(List<Vector3> capturedLine)
         {
-            double[] networkInput = Utils.Instance.FormatLine(capturedLine);
-            string gesture = currentRecognizer.GetGesture(networkInput);
-            string confidenceValue = currentRecognizer.currentConfidenceValue.ToString().Substring(0, 4);
-
-            // broadcast gesture detected event
-            if (currentRecognizer.currentConfidenceValue > VRGestureManager.Instance.confidenceLimit)
+            if (IsGestureBigEnough(capturedLine))
             {
-                debugString = gesture + " " + confidenceValue;
-                if (GestureDetectedEvent != null)
-                    GestureDetectedEvent(gesture, currentRecognizer.currentConfidenceValue);
+                //Detect if the captured line meets minimum gesture size requirements
+                double[] networkInput = Utils.Instance.FormatLine(capturedLine);
+                string gesture = currentRecognizer.GetGesture(networkInput);
+                string confidenceValue = currentRecognizer.currentConfidenceValue.ToString().Substring(0, 4);
+
+                // broadcast gesture detected event
+                if (currentRecognizer.currentConfidenceValue > VRGestureManager.Instance.confidenceLimit)
+                {
+                    debugString = gesture + " " + confidenceValue;
+                    if (GestureDetectedEvent != null)
+                        GestureDetectedEvent(gesture, currentRecognizer.currentConfidenceValue);
+                }
+                else
+                {
+                    debugString = "Null \n" + gesture + " " + confidenceValue;
+                    if (GestureNullEvent != null)
+                        GestureNullEvent();
+                }
             }
             else
             {
-                debugString = "Null \n" + gesture + " " + confidenceValue;
-                if (GestureNullEvent != null)
-                    GestureNullEvent();
+                //broadcast that a gesture is too small??
+                debugString = "Too tiny!";
             }
+        }
+
+        public bool IsGestureBigEnough(List<Vector3> capturedLine)
+        {
+            //C'mon rude boy - boy is it big enough?
+            float check = Utils.Instance.FindMaxAxis(capturedLine);
+            Debug.Log("Gesture Max Axis :" + check);
+            return (check > minimumGestureAxisLength);
         }
 
         // Update is called once per frame

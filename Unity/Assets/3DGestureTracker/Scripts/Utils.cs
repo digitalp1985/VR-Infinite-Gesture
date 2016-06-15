@@ -29,6 +29,40 @@ namespace Edwon.VR.Gesture
             }
         }
 
+        public float FindMaxAxis(List<Vector3> capturedLine)
+        {
+            //find min and max for X,Y,Z
+            float minX, maxX, minY, maxY, minZ, maxZ;
+            //init all defaults to first point.
+            Vector3 firstPoint = capturedLine[0];
+            minX = maxX = firstPoint.x;
+            minY = maxY = firstPoint.y;
+            minZ = maxZ = firstPoint.z;
+
+            foreach (Vector3 point in capturedLine)
+            {
+                minX = getMin(minX, point.x);
+                maxX = getMax(maxX, point.x);
+
+                minY = getMin(minY, point.y);
+                maxY = getMax(maxY, point.y);
+
+                minZ = getMin(minZ, point.z);
+                maxZ = getMax(maxZ, point.z);
+            }
+
+            //we now have all of our mins and max
+            float distX = Mathf.Abs(maxX - minX);
+            float distY = Mathf.Abs(maxY - minY);
+            float distZ = Mathf.Abs(maxZ - minZ);
+
+            //FIND THE AXIS MAX. This will be the length for all of our AXIS.
+            float axisMax = distX;
+            axisMax = getMax(axisMax, distY);
+            axisMax = getMax(axisMax, distZ);
+            return axisMax;
+        }
+
         //Same as DownRes line but this will scale, rather than skew.
         public List<Vector3> DownScaleLine(List<Vector3> capturedLine)
         {
