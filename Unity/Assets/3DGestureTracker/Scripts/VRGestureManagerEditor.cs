@@ -137,6 +137,10 @@ namespace Edwon.VR.Gesture
 
         void ShowDetect()
         {
+            GUILayout.BeginHorizontal();
+            EditorGUILayout.Separator();
+            GUILayout.EndHorizontal();
+
             GUILayout.BeginVertical();
             ShowNeuralNets();
             GUILayout.EndVertical();
