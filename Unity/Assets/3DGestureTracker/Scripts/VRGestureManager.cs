@@ -27,7 +27,7 @@ namespace Edwon.VR.Gesture
         /// <summary>
         /// 
         /// </summary>
-        [Tooltip("Your gesture must have one axis longer than this length")]
+        [Tooltip("Your gesture must have one axis longer than this length in world size")]
         public float minimumGestureAxisLength = 0.10f;
         // whether to track when pressing trigger or all the time
         // continious mode is not supported yet
@@ -249,7 +249,6 @@ namespace Edwon.VR.Gesture
         {
             //C'mon rude boy - boy is it big enough?
             float check = Utils.Instance.FindMaxAxis(capturedLine);
-            Debug.Log("Gesture Max Axis :" + check);
             return (check > minimumGestureAxisLength);
         }
 
