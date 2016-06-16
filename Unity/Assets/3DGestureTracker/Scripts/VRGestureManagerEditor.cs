@@ -64,6 +64,10 @@ namespace Edwon.VR.Gesture
         public void OnEnable()
         {
             vrGestureManager = (VRGestureManager)target;
+            if(vrGestureManager == null)
+            {
+                vrGestureManager = VRGestureManager.Instance;
+            }
             vrGestureManager.RefreshNeuralNetList();
             string starterNet = null;
             if(vrGestureManager.neuralNets.Count > 0)

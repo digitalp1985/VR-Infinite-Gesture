@@ -20,6 +20,7 @@ namespace Edwon.VR.Gesture
         // the type of vr to use
         public VRTYPE vrType;
         // which hand to track
+        [SerializeField]
         [Tooltip("which hand to track using the gesture")]
         public HandType gestureHand = HandType.Right; // the hand to track
         [Tooltip("the threshold over wich a gesture is considered correctly classified")]
@@ -49,6 +50,7 @@ namespace Edwon.VR.Gesture
 
         public VRGestureRig rig;
         IInput input;
+        InputOptions.Button triggerButton = InputOptions.Button.Trigger1;
 
         #region AVATAR
         Transform playerHead;
@@ -135,15 +137,19 @@ namespace Edwon.VR.Gesture
             }
             else
             {
-                Destroy(gameObject);
+                //Destroy(gameObject);
+                //Debug.Log("trying to destroy me");
             }
         }
 
         void Init()
         {
+            Debug.Log("HAND TYPE: "+gestureHand);
             rig = FindObjectOfType<VRGestureRig>();
             playerHead = rig.headTF;
-            playerHand = rig.rHandTF;
+            playerHand = rig.GetHand(gestureHand);
+            input = rig.GetInput(gestureHand);
+
         }
 
         void Start()
@@ -155,10 +161,10 @@ namespace Edwon.VR.Gesture
             stateLast = state;
             gestureToRecord = "";
 
+            input = rig.GetInput(gestureHand);
+
             //create a new Trainer
             currentTrainer = new Trainer(Gestures, currentNeuralNet);
-
-            input = rig.GetInput(VRGestureManager.Instance.gestureHand);
 
             rightCapturedLine = new List<Vector3>();
             displayLine = new List<Vector3>();
@@ -291,13 +297,13 @@ namespace Edwon.VR.Gesture
 
         void UpdateRecord()
         {
-            if (input.GetButtonUp(InputOptions.Button.Trigger1))
+            if (input.GetButtonUp(triggerButton))
             {
                 state = VRGestureManagerState.ReadyToRecord;
                 StopRecording();
             }
 
-            if (input.GetButtonDown(InputOptions.Button.Trigger1) && state == VRGestureManagerState.ReadyToRecord)
+            if (input.GetButtonDown(triggerButton) && state == VRGestureManagerState.ReadyToRecord)
             {
                 state = VRGestureManagerState.Recording;
                 StartRecording();
@@ -311,13 +317,13 @@ namespace Edwon.VR.Gesture
 
         void UpdateDetectWithButtons()
         {
-            if (input.GetButtonUp(InputOptions.Button.Trigger1))
+            if (input.GetButtonUp(triggerButton))
             {
                 state = VRGestureManagerState.ReadyToDetect;
                 StopRecording();
             }
 
-            if (input.GetButtonDown(InputOptions.Button.Trigger1))
+            if (input.GetButtonDown(triggerButton))
             {
                 state = VRGestureManagerState.Detecting;
                 StartRecording();
@@ -326,36 +332,6 @@ namespace Edwon.VR.Gesture
             if (state == VRGestureManagerState.Detecting)
             {
                 CapturePoint();
-            }
-        }
-
-        void UpdateWithButtons()
-        {
-            float trigger1 = input.GetAxis1D(InputOptions.Axis1D.Trigger1);
-
-            if (trigger1 < 0.5 && state == VRGestureManagerState.Recording)
-            {
-                state = VRGestureManagerState.ReadyToRecord;
-                //StopRecording();
-                if (currentCapturedLine.Count > 0)
-                {
-                    StopRecording();
-                }
-            }
-            else if (trigger1 >= 0.5 && state == VRGestureManagerState.ReadyToRecord)
-            {
-                state = VRGestureManagerState.Recording;
-                StartRecording();
-
-            }
-
-            if (Time.time > nextRenderTime)
-            {
-                nextRenderTime = Time.time + renderRateLimit / 1000;
-                if (state == VRGestureManagerState.Recording)
-                {
-                    CapturePoint();
-                }
             }
         }
 
@@ -549,7 +525,7 @@ namespace Edwon.VR.Gesture
         [ExecuteInEditMode]
         public void RefreshNeuralNetList()
         {
-            neuralNets.Clear();
+            neuralNets = new List<string>();
             string path = Config.SAVE_FILE_PATH;
             foreach (string directoryPath in System.IO.Directory.GetDirectories(path))
             {
