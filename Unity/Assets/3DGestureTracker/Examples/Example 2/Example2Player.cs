@@ -68,7 +68,7 @@ namespace Edwon.VR.Gesture.Examples
             }
         }
 
-        void OnGestureNull()
+        void OnGestureNull(string error, string gestureName = null, double confidenceValue = 0)
         {
             StartCoroutine(AnimateShape(nullGO));
         }

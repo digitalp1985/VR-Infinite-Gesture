@@ -22,7 +22,7 @@ namespace HutongGames.PlayMaker.Actions
             VRGestureManager.GestureNullEvent -= OnGestureNull;
         }
 
-        void OnGestureNull ()
+        void OnGestureNull (string error, string gestureName = null, double confidenceValue = 0)
         {
             Fsm.Event(gestureNullEvent);
         }

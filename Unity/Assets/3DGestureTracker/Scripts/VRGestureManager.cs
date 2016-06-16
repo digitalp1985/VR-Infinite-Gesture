@@ -103,7 +103,7 @@ namespace Edwon.VR.Gesture
         // EVENTS
         public delegate void GestureDetected(string gestureName, double confidence);
         public static event GestureDetected GestureDetectedEvent;
-        public delegate void GestureNull();
+        public delegate void GestureNull(string error, string gestureName = null, double confidence = 0);
         public static event GestureNull GestureNullEvent;
 
         public static VRGestureManager Instance
@@ -235,13 +235,16 @@ namespace Edwon.VR.Gesture
                 {
                     debugString = "Null \n" + gesture + " " + confidenceValue;
                     if (GestureNullEvent != null)
-                        GestureNullEvent();
+                        GestureNullEvent("Confidence Too Low", gesture, currentRecognizer.currentConfidenceValue);
                 }
             }
             else
             {
                 //broadcast that a gesture is too small??
-                debugString = "Too tiny!";
+                debugString = "Gesture is too small!";
+                if (GestureNullEvent != null)
+                    GestureNullEvent("Gesture is too small");
+                
             }
         }
 
