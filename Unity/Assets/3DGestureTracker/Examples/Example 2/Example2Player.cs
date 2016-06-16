@@ -46,21 +46,12 @@ namespace Edwon.VR.Gesture.Examples
             {
                 case "Circle":
                     StartCoroutine(AnimateShape(circle));
-                    break;
-                case "Square":
-                    StartCoroutine(AnimateShape(square));
-                    break;
+                    break;             
                 case "Triangle":
                     StartCoroutine(AnimateShape(triangle));
                     break;
                 case "Push":
                     StartCoroutine(AnimateShape(push));
-                    break;
-                case "Push Left":
-                    StartCoroutine(AnimateShape(pushLeft));
-                    break;
-                case "Push Right":
-                    StartCoroutine(AnimateShape(pushRight));
                     break;
                 case "Pull":
                     StartCoroutine(AnimateShape(pull));
