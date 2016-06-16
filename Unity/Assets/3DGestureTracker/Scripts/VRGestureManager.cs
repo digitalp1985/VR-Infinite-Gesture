@@ -23,6 +23,8 @@ namespace Edwon.VR.Gesture
         [SerializeField]
         [Tooltip("which hand to track using the gesture")]
         public HandType gestureHand = HandType.Right; // the hand to track
+        [Tooltip("the button that triggers gesture recognition")]
+        InputOptions.Button triggerButton = InputOptions.Button.Trigger1;
         [Tooltip("the threshold over wich a gesture is considered correctly classified")]
         public double confidenceThreshold = 0.98;
         /// <summary>
@@ -50,7 +52,7 @@ namespace Edwon.VR.Gesture
 
         public VRGestureRig rig;
         IInput input;
-        InputOptions.Button triggerButton = InputOptions.Button.Trigger1;
+        
 
         #region AVATAR
         Transform playerHead;
