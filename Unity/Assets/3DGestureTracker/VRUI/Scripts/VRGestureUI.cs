@@ -146,15 +146,17 @@ namespace Edwon.VR.Gesture
         {
             //Debug.Log("begin ready to record gesture of type " + gestureName);
             nowRecordingGestureLabel.text = gestureName;
-            deleteGestureButton.onClick.RemoveAllListeners();
-            deleteGestureButton.onClick.AddListener(() => DeleteGesture(gestureName));
-            deleteGestureButton.onClick.AddListener(() => panelManager.FocusPanel("Record Menu"));
             VRGestureManager.Instance.BeginReadyToRecord(gestureName);
         }
 
         public void BeginEditGesture(string gestureName)
         {
             nowEditingGestureLabel.text = gestureName;
+            //I THINK THIS IS WHAT WE CANT?
+            deleteGestureButton.onClick.RemoveAllListeners();
+            deleteGestureButton.onClick.AddListener(() => DeleteGesture(gestureName));
+            deleteGestureButton.onClick.AddListener(() => panelManager.FocusPanel("Edit Menu")); //go to menu
+
             VRGestureManager.Instance.BeginEditing(gestureName);
         }
 
@@ -195,6 +197,7 @@ namespace Edwon.VR.Gesture
 
         public void DeleteGesture(string gestureName)
         {
+            Debug.Log("DELETE GESTURE WAS ACTUALLY CALLED");
             VRGestureManager.Instance.DeleteGesture(gestureName);
         }
 

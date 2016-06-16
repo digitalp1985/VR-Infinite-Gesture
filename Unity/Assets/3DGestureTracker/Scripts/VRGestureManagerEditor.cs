@@ -61,14 +61,25 @@ namespace Edwon.VR.Gesture
         enum NeuralNetGUIMode { None, EnterNewNetName, ShowPopup };
         NeuralNetGUIMode neuralNetGUIMode;
 
+        public void OnEnable()
+        {
+            vrGestureManager = (VRGestureManager)target;
+            vrGestureManager.RefreshNeuralNetList();
+            string starterNet = null;
+            if(vrGestureManager.neuralNets.Count > 0)
+            {
+                starterNet = vrGestureManager.neuralNets[0];
+            }
+            vrGestureManager.SelectNeuralNet(starterNet);
+
+        }
+
         public override void OnInspectorGUI()
         {
             // TEXTURE SETUP
             bg1 = AssetDatabase.LoadAssetAtPath<Texture2D>("");
             bg2 = AssetDatabase.LoadAssetAtPath<Texture2D>("");
 
-            //        DrawDefaultInspector();
-            vrGestureManager = (VRGestureManager)target;
             serializedObject.Update();
 
             GUILayout.BeginHorizontal();
@@ -210,7 +221,6 @@ namespace Edwon.VR.Gesture
 
         void ShowNeuralNets()
         {
-
             EditorGUILayout.LabelField("NEURAL NETWORK");
 
             string[] neuralNetsArray = new string[0];
