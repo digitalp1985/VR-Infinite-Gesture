@@ -82,23 +82,26 @@ namespace Edwon.VR.Gesture
 
             serializedObject.Update();
 
-            GUILayout.BeginHorizontal();
+            if (neuralNetGUIMode != NeuralNetGUIMode.None)
+            {
+                GUILayout.BeginHorizontal();
 
-            if (GUILayout.Button("Train"))
-            {
-                vrGestureManager.stateInitial = VRGestureManagerState.Idle;
-                showSettingsGUI = false;
+                if (GUILayout.Button("Train"))
+                {
+                    vrGestureManager.stateInitial = VRGestureManagerState.Idle;
+                    showSettingsGUI = false;
+                }
+                if (GUILayout.Button("Detect"))
+                {
+                    vrGestureManager.stateInitial = VRGestureManagerState.ReadyToDetect;
+                    showSettingsGUI = false;
+                }
+                if (GUILayout.Button("Settings"))
+                {
+                    showSettingsGUI = true;
+                }
+                GUILayout.EndHorizontal();
             }
-            if (GUILayout.Button("Detect"))
-            {
-                vrGestureManager.stateInitial = VRGestureManagerState.ReadyToDetect;
-                showSettingsGUI = false;
-            }
-            if (GUILayout.Button("Settings"))
-            {
-                showSettingsGUI = true;
-            }
-            GUILayout.EndHorizontal();
 
             if (showSettingsGUI)
                 ShowSettings();
