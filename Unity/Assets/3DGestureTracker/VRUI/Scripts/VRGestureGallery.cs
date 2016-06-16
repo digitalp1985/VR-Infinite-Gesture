@@ -8,7 +8,7 @@ namespace Edwon.VR.Gesture
 {
     public class VRGestureGallery : MonoBehaviour
     {
-        VRGestureManager vrGestureManager;
+        //VRGestureManager vrGestureManager;
 
         public GameObject framePrefab;
 
@@ -49,7 +49,6 @@ namespace Edwon.VR.Gesture
             galleryRB = GetComponent<Rigidbody>();
 
             galleryState = GestureGalleryState.NotVisible;
-            vrGestureManager = FindObjectOfType<VRGestureManager>();
             //frameOffset = new Vector3(gridUnitSize / 4, gridUnitSize / 4, -(gridUnitSize / 2));
             frameOffset = new Vector3(0, gridUnitSize / 6 , -(gridUnitSize / 2));
             GetHands();
@@ -156,7 +155,7 @@ namespace Edwon.VR.Gesture
         List<GestureExample> GetGestureExamples()
         {
             //read in the file
-            string filePath = Config.SAVE_FILE_PATH + vrGestureManager.currentNeuralNet + "/Gestures/";
+            string filePath = Config.SAVE_FILE_PATH + VRGestureManager.Instance.currentNeuralNet + "/Gestures/";
             string fileName = currentGesture + ".txt";
             string[] lines = System.IO.File.ReadAllLines(filePath + fileName);
             List<GestureExample> gestures = new List<GestureExample>();
@@ -256,8 +255,8 @@ namespace Edwon.VR.Gesture
         {
             if (panelName == "Editing Menu")
             {
-                currentGesture = vrGestureManager.gestureToRecord;
-                currentNeuralNet = vrGestureManager.currentNeuralNet;
+                currentGesture = VRGestureManager.Instance.gestureToRecord;
+                currentNeuralNet = VRGestureManager.Instance.currentNeuralNet;
                 RefreshGestureExamples();
                 GenerateGestureGallery();
             }
