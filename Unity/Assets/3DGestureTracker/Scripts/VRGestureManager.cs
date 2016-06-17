@@ -626,6 +626,7 @@ namespace Edwon.VR.Gesture
             return dupeCheck;
         }
 
+#if UNITY_EDITOR
         [ExecuteInEditMode]
         public VRGestureManagerEditor.VRGestureRenameState RenameGesture(int gestureIndex)
         {
@@ -657,7 +658,7 @@ namespace Edwon.VR.Gesture
 
             return renameState;
         }
-
+#endif
 
     }
 }
