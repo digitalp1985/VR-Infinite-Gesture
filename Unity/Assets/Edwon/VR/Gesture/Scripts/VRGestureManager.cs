@@ -558,10 +558,6 @@ namespace Edwon.VR.Gesture
         [ExecuteInEditMode]
         public void SelectNeuralNet(string neuralNetName)
         {
-            //		Debug.Log("SELECT NET: " + neuralNetName);
-
-            // Load the neural net and gestures into gesture bank
-            //		Debug.Log("selecting neural net: " + neuralNetName);
             currentNeuralNet = neuralNetName;
 
             if (neuralNetName !=null && Utils.Instance.GetGestureBank(neuralNetName) != null)

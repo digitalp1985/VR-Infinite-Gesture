@@ -13,7 +13,7 @@ namespace Edwon.VR.Gesture
         public const string SAVE_FILE_PATH = @"Assets/Edwon/VR/Gesture/Data/";
 
         // records raw, unmodified tracking data when recording gestures
-        // should always be true
+		// this should probably always be true
         public const bool USE_RAW_DATA = true;
         // how many points to use in a gesture line
         public const int FIDELITY = 11; 
