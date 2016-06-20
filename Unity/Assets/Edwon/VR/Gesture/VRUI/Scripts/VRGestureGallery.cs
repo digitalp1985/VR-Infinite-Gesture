@@ -67,7 +67,7 @@ namespace Edwon.VR.Gesture
 
         void RefreshGestureExamples()
         {
-            examples = GetGestureExamples();
+			examples = Utils.Instance.GetGestureExamples(currentGesture);
             List<GestureExample> tmpList = new List<GestureExample>();
             foreach (GestureExample gesture in examples)
             {
@@ -150,20 +150,6 @@ namespace Edwon.VR.Gesture
             Utils.Instance.DeleteGestureExample(currentNeuralNet, currentGesture, lineNumber);
             GameObject.Destroy(frame);
             GameObject.Destroy(line);
-        }
-
-        List<GestureExample> GetGestureExamples()
-        {
-            //read in the file
-            string filePath = Config.SAVE_FILE_PATH + VRGestureManager.Instance.currentNeuralNet + "/Gestures/";
-            string fileName = currentGesture + ".txt";
-            string[] lines = System.IO.File.ReadAllLines(filePath + fileName);
-            List<GestureExample> gestures = new List<GestureExample>();
-            foreach (string currentLine in lines)
-            {
-                gestures.Add(JsonUtility.FromJson<GestureExample>(currentLine));
-            }
-            return gestures;
         }
 
         void DestroyGestureGallery()

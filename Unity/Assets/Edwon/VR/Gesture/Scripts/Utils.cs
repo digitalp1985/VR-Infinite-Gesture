@@ -391,6 +391,34 @@ namespace Edwon.VR.Gesture
             return files.ToList<string>();
         }
 
+		// get all the examples of this gesture and store in a GestureExample list
+		public List<GestureExample> GetGestureExamples(string gesture)
+		{
+			string[] lines = GetGestureLines(gesture);
+			List<GestureExample> gestures = new List<GestureExample>();
+			foreach (string currentLine in lines)
+			{
+				gestures.Add(JsonUtility.FromJson<GestureExample>(currentLine));
+			}
+			return gestures;
+		}
+
+		// get the total amount of examples of this gesture
+		public int GetGestureExamplesTotal(string gesture)
+		{
+			string[] lines = GetGestureLines(gesture);
+			return lines.Length;
+		}
+
+		private string[] GetGestureLines(string gesture)
+		{
+			//read in the file
+			string filePath = Config.SAVE_FILE_PATH + VRGestureManager.Instance.currentNeuralNet + "/Gestures/";
+			string fileName = gesture + ".txt";
+			string[] lines = System.IO.File.ReadAllLines(filePath + fileName);
+			return lines;
+		}
+
 		public void DeleteNeuralNetFiles(string networkName)
 		{
 			string path = Config.SAVE_FILE_PATH + networkName + "/";
