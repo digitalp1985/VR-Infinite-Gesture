@@ -48,6 +48,18 @@ namespace Edwon.VR.Gesture
         [HideInInspector]
         public VRGestureManagerState stateInitial;
         private VRGestureManagerState stateLast;
+
+		public bool readyToTrain
+		{
+			get
+			{
+				if (gestureBank.Count > 0)
+					return true;
+				else
+					return false;
+			}
+		}
+
         #endregion
 
         public VRGestureRig rig;
@@ -178,14 +190,9 @@ namespace Edwon.VR.Gesture
             rightLineRenderer = CreateLineRenderer(Color.yellow, Color.red);
             currentRenderer = CreateLineRenderer(Color.magenta, Color.magenta);
         }
+			
+		#region LINE CAPTURE
 
-        /// <summary>
-        /// This can maybe become it's own class and does not need to be part of
-        /// VR Gesture Manager.
-        /// </summary>
-        /// <param name="c1"></param>
-        /// <param name="c2"></param>
-        /// <returns></returns>
         LineRenderer CreateLineRenderer(Color c1, Color c2)
         {
             GameObject myGo = new GameObject();
@@ -262,7 +269,37 @@ namespace Edwon.VR.Gesture
             float check = Utils.Instance.FindMaxAxis(capturedLine);
             return (check > minimumGestureAxisLength);
         }
+			
+		public void CapturePoint(Vector3 myVector, List<Vector3> capturedLine, int maxLineLength)
+		{
+			if (capturedLine.Count >= maxLineLength)
+			{
+				capturedLine.RemoveAt(0);
+			}
+			capturedLine.Add(myVector);
+		}
 
+		//This will get points in relation to a users head.
+		public Vector3 getLocalizedPoint(Vector3 myDumbPoint)
+		{
+			perpTransform.position = playerHead.position;
+			perpTransform.rotation = Quaternion.Euler(0, playerHead.eulerAngles.y, 0);
+			return perpTransform.InverseTransformPoint(myDumbPoint);
+		}
+
+		void RenderTrail(LineRenderer lineRenderer, List<Vector3> capturedLine)
+		{
+			if (capturedLine.Count == lengthOfLineRenderer)
+			{
+				lineRenderer.SetVertexCount(lengthOfLineRenderer);
+				lineRenderer.SetPositions(capturedLine.ToArray());
+			}
+		}
+
+
+		#endregion
+
+		#region UPDATE
         // Update is called once per frame
         void Update()
         {
@@ -403,55 +440,9 @@ namespace Edwon.VR.Gesture
 
         }
 
-        //Important
-        //This will get points in relation to a users head.
-        public Vector3 getLocalizedPoint(Vector3 myDumbPoint)
-        {
-            perpTransform.position = playerHead.position;
-            perpTransform.rotation = Quaternion.Euler(0, playerHead.eulerAngles.y, 0);
-            return perpTransform.InverseTransformPoint(myDumbPoint);
-        }
+		#endregion
 
-        public void CapturePoint(Vector3 myVector, List<Vector3> capturedLine, int maxLineLength)
-        {
-            if (capturedLine.Count >= maxLineLength)
-            {
-                capturedLine.RemoveAt(0);
-            }
-            capturedLine.Add(myVector);
-        }
-
-        //Render Trails, maybe this is an optional feature of a line capture.
-        void RenderTrail(LineRenderer lineRenderer, List<Vector3> capturedLine)
-        {
-            if (capturedLine.Count == lengthOfLineRenderer)
-            {
-                lineRenderer.SetVertexCount(lengthOfLineRenderer);
-                lineRenderer.SetPositions(capturedLine.ToArray());
-            }
-        }
-
-
-
-
-
-
-
-
-        // below here is new custom editor stuff that edwon's making
-        // mostly dummy stuff that doesn't do anything yet
-        // needs connecting to real stuff by Tyler
-
-        public bool readyToTrain
-        {
-            get
-            {
-                if (gestureBank.Count > 0)
-                    return true;
-                else
-                    return false;
-            }
-        }
+		#region HIGH LEVEL METHODS
 
         //This should be called directly from UIController via instance
         public void BeginReadyToRecord(string gesture)
@@ -588,12 +579,7 @@ namespace Edwon.VR.Gesture
             Utils.Instance.DeleteGestureFile(gestureName, currentNeuralNet);
             gestureBankPreEdit = new List<string>(gestureBank);
         }
-
-        //public void DeleteGestureExample(string gesture, int lineNumber)
-        //{
-        //    Utils.Instance.DeleteGestureExample(currentNeuralNet, gesture, lineNumber);
-        //}
-
+			
         List<string> gestureBankPreEdit;
 
         [ExecuteInEditMode]
@@ -621,6 +607,9 @@ namespace Edwon.VR.Gesture
 
             return dupeCheck;
         }
+
+		#endregion
+
 
 #if UNITY_EDITOR
         [ExecuteInEditMode]
