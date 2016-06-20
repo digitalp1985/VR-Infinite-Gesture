@@ -126,6 +126,7 @@ namespace Edwon.VR.Gesture
             }
         }
         public List<string> gestureBank; // list of recorded gesture for current neural net
+		public List<int> gestureBankTotalExamples;
 
 		Trainer currentTrainer;
 		GestureRecognizer currentRecognizer;
@@ -516,6 +517,7 @@ namespace Edwon.VR.Gesture
             neuralNets.Add(neuralNetName);
             gestures = new List<string>();
             gestureBank = new List<string>();
+			gestureBankTotalExamples = new List<int>();
 
             // select the new neural net
             SelectNeuralNet(neuralNetName);
@@ -547,6 +549,7 @@ namespace Edwon.VR.Gesture
             Debug.Log("deleting neural net: " + neuralNetName);
             neuralNets.Remove(neuralNetName); // remove from list
             gestureBank.Clear(); // clear the gestures list
+			gestureBankTotalExamples.Clear();
             Utils.Instance.DeleteNeuralNetFiles(neuralNetName); // delete all the files
 
             if (neuralNets.Count > 0)
@@ -561,10 +564,12 @@ namespace Edwon.VR.Gesture
             if (neuralNetName !=null && Utils.Instance.GetGestureBank(neuralNetName) != null)
             {
                 gestureBank = Utils.Instance.GetGestureBank(neuralNetName);
+				gestureBankTotalExamples = Utils.Instance.GetGestureBankTotalExamples(gestureBank);
             }
             else
             {
                 gestureBank = new List<string>();
+				gestureBankTotalExamples = new List<int>();
             }
 
         }
@@ -574,6 +579,7 @@ namespace Edwon.VR.Gesture
         {
             Debug.Log("Create Gesture: " + gestureName);
             gestureBank.Add(gestureName);
+			gestureBankTotalExamples.Add(0);
             Utils.Instance.CreateGestureFile(gestureName, currentNeuralNet);
             gestureBankPreEdit = new List<string>(gestureBank);
         }
@@ -582,7 +588,9 @@ namespace Edwon.VR.Gesture
         public void DeleteGesture(string gestureName)
         {
             Debug.Log("deleting gesture: " + gestureName);
+			int index = gestureBank.IndexOf(gestureName);
             gestureBank.Remove(gestureName);
+			gestureBankTotalExamples.Remove(index);
             Utils.Instance.DeleteGestureFile(gestureName, currentNeuralNet);
             gestureBankPreEdit = new List<string>(gestureBank);
         }

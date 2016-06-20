@@ -121,9 +121,6 @@ namespace Edwon.VR.Gesture
             // ok now we need to create a matrix to move all of these points to a normalized space.
         }
 
-
-
-
         //This is warping gestures to be on a scale of (0-1) in every axis
         //It stretches the gesture along each axis for how far it goes.
         public List<Vector3> DownResLine(List<Vector3> capturedLine)
@@ -315,6 +312,17 @@ namespace Edwon.VR.Gesture
 
             return gestureBank;
         }
+
+		public List<int> GetGestureBankTotalExamples(List<string> gestureList)
+		{
+			List<int> totals = new List<int>();
+			foreach(string gesture in gestureList)
+			{
+				int total = GetGestureExamplesTotal(gesture);
+				totals.Add(total);
+			}
+			return totals;
+		}
 
         public void CreateGestureFile(string gestureName, string networkName)
         {

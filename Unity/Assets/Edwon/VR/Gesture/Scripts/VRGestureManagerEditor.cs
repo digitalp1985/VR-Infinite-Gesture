@@ -523,8 +523,7 @@ namespace Edwon.VR.Gesture
 
 		private static void ShowGestureListTotalExamples(SerializedProperty list, int index)
 		{
-			string gesture = list.GetArrayElementAtIndex(index).stringValue;
-			int totalExamples = Utils.Instance.GetGestureExamplesTotal(gesture);
+			int totalExamples = vrGestureManager.gestureBankTotalExamples[index];
 			GUILayout.Label(totalExamples.ToString(), EditorStyles.centeredGreyMiniLabel, GUILayout.Width(35f));
 		}
 
