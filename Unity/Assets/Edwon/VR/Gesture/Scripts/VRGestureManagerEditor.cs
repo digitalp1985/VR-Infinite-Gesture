@@ -20,10 +20,6 @@ namespace Edwon.VR.Gesture
         public enum VRGestureRenameState { Good, NoChange, Duplicate };
         string selectedFocus = "";
 
-        // gestures gui helpers
-        string editGesturesButtonText;
-        bool editGestures = true;
-
         public enum EditorListOption
         {
             None = 0,
@@ -205,7 +201,7 @@ namespace Edwon.VR.Gesture
                 GUILayout.EndHorizontal();
 
                 // TRAIN BUTTON
-                if (vrGestureManager.readyToTrain && editGestures && neuralNetGUIMode == NeuralNetGUIMode.ShowPopup)
+                if (vrGestureManager.readyToTrain && neuralNetGUIMode == NeuralNetGUIMode.ShowPopup)
                     ShowTrainButton();
 
             }
@@ -376,45 +372,11 @@ namespace Edwon.VR.Gesture
 
         void ShowGestures()
         {
-            //		if (vrGestureManager.gestures.Count == 0)
-            //			editGestures = true;
             EditorGUILayout.LabelField("RECORDED GESTURES");
-            EditorGUI.BeginDisabledGroup(editGestures);
             SerializedProperty gesturesList = serializedObject.FindProperty("gestureBank");
             SerializedProperty size = gesturesList.FindPropertyRelative("Array.size");
-            if (size.intValue == 0)
-                EditorGUI.EndDisabledGroup();
             ShowGestureList(gesturesList, EditorListOption.Buttons);
-            if (size.intValue > 0)
-                EditorGUI.EndDisabledGroup();
-            if (size.intValue > 0)
-                EditGesturesButtonUpdate();
 
-        }
-
-        void EditGesturesButtonUpdate()
-        {
-            editGesturesButtonText = editGestures ? "Edit Gestures" : editGesturesButtonText = "Save Gestures";
-
-            VRGestureManager script = (VRGestureManager)target;
-            if (GUILayout.Button(editGesturesButtonText))
-            {
-                if (editGesturesButtonText == "Edit Gestures")
-                {
-                    if (EditorUtility.DisplayDialog("Are you sure you want to edit gestures?",
-                        "If you edit any gestures, you will need to re-train your neural net", "ok"))
-                    {
-                        vrGestureManager.EditGestures();
-                        editGestures = !editGestures;
-                    }
-                }
-                if (editGesturesButtonText == "Save Gestures")
-                {
-                    //vrGestureManager.SaveGestures();
-                    editGestures = !editGestures;
-
-                }
-            }
         }
 
         void ShowTrainButton()
