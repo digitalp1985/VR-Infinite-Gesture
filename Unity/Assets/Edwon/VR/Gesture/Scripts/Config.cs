@@ -10,7 +10,7 @@ namespace Edwon.VR.Gesture
 {
     public static class Config
     {
-        public const string SAVE_FILE_PATH = @"Assets/3DGestureTracker/VRGestureData/";
+        public const string SAVE_FILE_PATH = @"Assets/Edwon/VR/Gesture/Data/";
 
         // records raw, unmodified tracking data when recording gestures
         // should always be true
