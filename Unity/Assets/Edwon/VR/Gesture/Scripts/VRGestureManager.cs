@@ -74,7 +74,14 @@ namespace Edwon.VR.Gesture
 			get
 			{
 				if (gestureBank.Count > 0)
+				{
+					foreach(int total in gestureBankTotalExamples)
+					{
+						if (total <= 0)
+							return false;
+					}
 					return true;
+				}
 				else
 					return false;
 			}

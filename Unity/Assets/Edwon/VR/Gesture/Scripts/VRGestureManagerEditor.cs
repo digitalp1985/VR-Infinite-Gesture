@@ -202,7 +202,9 @@ namespace Edwon.VR.Gesture
 
                 // TRAIN BUTTON
                 if (vrGestureManager.readyToTrain && neuralNetGUIMode == NeuralNetGUIMode.ShowPopup)
+				{
                     ShowTrainButton();
+				}
 
             }
             // TRAINING IS PROCESSING UI
