@@ -1,4 +1,4 @@
-Builds/
+-Builds/
 
 Unity/Library/
 Unity/Temp/
@@ -40,7 +40,6 @@ Unity/Assets/OVR/
 Unity/Assets/OvrTouch/
 Unity/Assets/Plugins/
 Unity/Assets/SteamVR/
-Unity/Assets/3DGestureTracker.meta
 Unity/Assets/EasyEditor.meta
 Unity/Assets/EdwonVR.meta
 Unity/Assets/OVR.meta
@@ -49,22 +48,15 @@ Unity/Assets/Plugins.meta
 Unity/Assets/SendCollisionsTriggersEvents.cs
 Unity/Assets/SendCollisionsTriggersEvents.cs.meta
 Unity/Assets/SteamVR.meta
-Unity/Assets/3DGestureTracker/TrainingData/WriteLines.txt
-Unity/Assets/3DGestureTracker/TrainingData/WriteLines.txt.meta
-Unity/Assets/3DGestureTracker/TrainingData/
-Unity/Assets/3DGestureTracker/TrainingData.meta
 Unity/Assets/SymLinks/
 Unity/Assets/SymLinks.meta
 Unity/ProjectSettings/GraphicsSettings.asset
 sh.exe.stackdump
-Unity/Assets/3DGestureTracker/SAVE_DATA.meta
 Unity/Assets/Particle Playground/
 Unity/Assets/Particle Playground.meta
 Unity/PlaygroundCache/
 Unity/Assets/FT_ImpactEffects_Vol01/
 Unity/Assets/FT_ImpactEffects_Vol01.meta
-Unity/Assets/3DGestureTracker/VRGestureData/
-Unity/Assets/3DGestureTracker/VRGestureData.meta
 Unity/Assets/Editor.meta
 Unity/Assets/Editor/
 Unity/Assets/Standard Assets.meta
@@ -75,5 +67,7 @@ Unity/Assets/iTween/
 Unity/Assets/Gizmos/
 Unity/Assets/Gizmos.meta
 Unity/Assets/iTween.meta
-Unity/Assets/3DGestureTracker/Integrations/Playmaker/Examples/Playmaker Example 1/
-Unity/Assets/3DGestureTracker/Integrations/Playmaker/Examples/Playmaker Example 1.meta
+
+#PLUGIN SPECIFIC STUFF
+Unity/Assets/Edwon/VR/Data.meta
+Unity/Assets/Edwon/VR/Data/
