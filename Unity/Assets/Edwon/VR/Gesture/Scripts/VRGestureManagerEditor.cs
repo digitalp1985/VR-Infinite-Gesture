@@ -74,6 +74,8 @@ namespace Edwon.VR.Gesture
 
         }
 
+		int tab = 0;
+
         public override void OnInspectorGUI()
         {
             // TEXTURE SETUP
@@ -86,20 +88,24 @@ namespace Edwon.VR.Gesture
             {
                 GUILayout.BeginHorizontal();
 
-                if (GUILayout.Button("Train"))
-                {
-                    vrGestureManager.stateInitial = VRGestureManagerState.Idle;
-                    showSettingsGUI = false;
-                }
-                if (GUILayout.Button("Detect"))
-                {
-                    vrGestureManager.stateInitial = VRGestureManagerState.ReadyToDetect;
-                    showSettingsGUI = false;
-                }
-                if (GUILayout.Button("Settings"))
-                {
-                    showSettingsGUI = true;
-                }
+				tab = GUILayout.Toolbar (tab, new string[] {"Train", "Detect", "Settings"});
+				switch (tab) 
+				{
+				case 0:
+						vrGestureManager.stateInitial = VRGestureManagerState.Idle;
+						showSettingsGUI = false;
+					break;
+				case 1:
+						vrGestureManager.stateInitial = VRGestureManagerState.ReadyToDetect;
+						showSettingsGUI = false;
+					break;
+				case 2:
+					
+						showSettingsGUI = true;
+					break;
+				}
+
+
                 GUILayout.EndHorizontal();
             }
 
