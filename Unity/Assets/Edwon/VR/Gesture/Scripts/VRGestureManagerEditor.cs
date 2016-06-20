@@ -525,7 +525,7 @@ namespace Edwon.VR.Gesture
 		{
 			string gesture = list.GetArrayElementAtIndex(index).stringValue;
 			int totalExamples = Utils.Instance.GetGestureExamplesTotal(gesture);
-			GUILayout.Label(totalExamples.ToString(), EditorStyles.miniBoldLabel, GUILayout.Width(35f));
+			GUILayout.Label(totalExamples.ToString(), EditorStyles.centeredGreyMiniLabel, GUILayout.Width(35f));
 		}
 
         private static void ShowGestureListButtons(SerializedProperty list, int index)
