@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿//#define STEAMVR
+#if STEAMVR
+
+using UnityEngine;
 using System.Collections;
 using Edwon.VR.Gesture;
 
@@ -58,3 +61,5 @@ namespace Edwon.VR.Input
         }
     }
 }
+
+#endif

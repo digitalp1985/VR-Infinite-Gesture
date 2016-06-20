@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿
+//#define OCULUS
+#if OCULUS
+
+using UnityEngine;
 using System.Collections;
 using Edwon.VR.Gesture;
 
@@ -59,3 +63,4 @@ namespace Edwon.VR.Input
         }
     }
 }
+#endif

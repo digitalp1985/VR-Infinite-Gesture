@@ -1,4 +1,8 @@
-﻿using UnityEngine;
+﻿
+//#define OCULUS
+//#define STEAMVR
+
+using UnityEngine;
 using System.Collections;
 using System;
 using Edwon.VR.Gesture;
@@ -83,14 +87,18 @@ namespace Edwon.VR
                 SteamVR_ControllerManager[] steamVR_cm = FindObjectsOfType<SteamVR_ControllerManager>();
                 leftController = steamVR_cm[0].left;
                 rightController = steamVR_cm[0].right;
+				#if STEAMVR
                 inputLeft = leftController.gameObject.AddComponent<VRControllerInputSteam>().Init(HandType.Left);
                 inputRight = rightController.gameObject.AddComponent<VRControllerInputSteam>().Init(HandType.Right);
+				#endif
 
             }
             else if (VRGestureManager.Instance.vrType == VRTYPE.OculusTouchVR)
             {
+				#if OCULUS
                 inputLeft = lHandTF.gameObject.AddComponent<VRControllerInputOculus>().Init(HandType.Left);
                 inputRight = rHandTF.gameObject.AddComponent<VRControllerInputOculus>().Init(HandType.Right);
+				#endif
             }
             else
             {
