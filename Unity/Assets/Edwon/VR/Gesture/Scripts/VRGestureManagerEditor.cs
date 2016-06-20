@@ -384,7 +384,7 @@ namespace Edwon.VR.Gesture
             SerializedProperty size = gesturesList.FindPropertyRelative("Array.size");
             if (size.intValue == 0)
                 EditorGUI.EndDisabledGroup();
-            ShowList(gesturesList, EditorListOption.Buttons);
+            ShowGestureList(gesturesList, EditorListOption.Buttons);
             if (size.intValue > 0)
                 EditorGUI.EndDisabledGroup();
             if (size.intValue > 0)
@@ -483,7 +483,7 @@ namespace Edwon.VR.Gesture
             return null;
         }
 
-        void ShowList(SerializedProperty list, EditorListOption options = EditorListOption.Default)
+        void ShowGestureList(SerializedProperty list, EditorListOption options = EditorListOption.Default)
         {
             bool showListLabel = (options & EditorListOption.ListLabel) != 0;
             bool showListSize = (options & EditorListOption.ListSize) != 0;
@@ -505,14 +505,14 @@ namespace Edwon.VR.Gesture
                 }
                 else
                 {
-                    ShowElements(list, options);
+                    ShowGestureListElements(list, options);
                 }
             }
             if (showListLabel)
                 EditorGUI.indentLevel -= 1;
         }
 
-        private static void ShowElements(SerializedProperty list, EditorListOption options)
+        private static void ShowGestureListElements(SerializedProperty list, EditorListOption options)
         {
             if (!list.isArray)
             {
@@ -544,9 +544,12 @@ namespace Edwon.VR.Gesture
                 }
                 if (showButtons)
                 {
-                    ShowButtons(list, i);
+					ShowGestureListTotalExamples(list, i);
+                    ShowGestureListButtons(list, i);
                     EditorGUILayout.EndHorizontal();
+
                 }
+
             }
 
             // if the list is empty show the plus + button
@@ -556,13 +559,15 @@ namespace Edwon.VR.Gesture
             }
         }
 
-        private static void ShowButtons(SerializedProperty list, int index)
+		private static void ShowGestureListTotalExamples(SerializedProperty list, int index)
+		{
+			string gesture = list.GetArrayElementAtIndex(index).stringValue;
+			int totalExamples = Utils.Instance.GetGestureExamplesTotal(gesture);
+			GUILayout.Label(totalExamples.ToString(), EditorStyles.miniBoldLabel, GUILayout.Width(35f));
+		}
+
+        private static void ShowGestureListButtons(SerializedProperty list, int index)
         {
-            // use toggle
-            //		if (GUILayout.Toggle(false, useToggleContent, miniButtonWidth))
-            //		{
-            ////			Debug.Log("do ssomething toggle");
-            //		}
             // plus button
             if (GUILayout.Button(duplicateButtonContent, EditorStyles.miniButtonMid, miniButtonWidth))
             {
