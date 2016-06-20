@@ -1,5 +1,5 @@
 ﻿
-//#define OCULUS
+//#define OCULUSVR
 //#define STEAMVR
 
 using UnityEngine;
@@ -95,7 +95,7 @@ namespace Edwon.VR
             }
             else if (VRGestureManager.Instance.vrType == VRTYPE.OculusTouchVR)
             {
-				#if OCULUS
+				#if OCULUSVR
                 inputLeft = lHandTF.gameObject.AddComponent<VRControllerInputOculus>().Init(HandType.Left);
                 inputRight = rHandTF.gameObject.AddComponent<VRControllerInputOculus>().Init(HandType.Right);
 				#endif
