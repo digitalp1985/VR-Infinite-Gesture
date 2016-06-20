@@ -16,7 +16,30 @@ namespace Edwon.VR.Gesture
 
     public class VRGestureManager : MonoBehaviour
     {
-        #region SETTINGS
+		#region SINGLETON
+		static VRGestureManager instance;
+
+		public static VRGestureManager Instance
+		{
+			get
+			{
+				if (instance == null)
+				{
+					instance = FindObjectOfType<VRGestureManager>();
+					if (instance == null)
+					{
+						GameObject obj = new GameObject();
+						obj.hideFlags = HideFlags.HideAndDontSave;
+						instance = obj.AddComponent<VRGestureManager>();
+					}
+					instance.Init();
+				}
+				return instance;
+			}
+		}
+		#endregion
+
+        #region SETTINGS VARIABLES
         // the type of vr to use
         public VRTYPE vrType;
         // which hand to track
@@ -39,10 +62,7 @@ namespace Edwon.VR.Gesture
         public VRGestureDetectType vrGestureDetectType;
         #endregion
 
-        // SINGLETON INSTANCE
-        static VRGestureManager instance;
-
-        #region STATE
+        #region STATE VARIABLES
         [HideInInspector]
         public VRGestureManagerState state;
         [HideInInspector]
@@ -61,27 +81,32 @@ namespace Edwon.VR.Gesture
 		}
 
         #endregion
-
-        public VRGestureRig rig;
-        IInput input;
         
-
-        #region AVATAR
+        #region AVATAR VARIABLES
+		public VRGestureRig rig;
+		IInput input;
         Transform playerHead;
         Transform playerHand;
         Transform perpTransform;
         #endregion
 
-        #region LINE RENDERER
+        #region LINE CAPTURE VARIABLES
         int lengthOfLineRenderer = 50;
         LineRenderer rightLineRenderer;
         List<Vector3> rightCapturedLine;
         List<Vector3> displayLine;
         LineRenderer currentRenderer;
         List<Vector3> currentCapturedLine;
+		public string gestureToRecord;
+
+		float nextRenderTime = 0;
+		float renderRateLimit = Config.CAPTURE_RATE;
+		float nextTestTime = 0;
+		float testRateLimit = 500;
         #endregion
 
-        #region NEURAL NETS
+        #region NEURAL NET VARIABLES
+
         [Tooltip("the neural net that I am using")]
         [SerializeField]
         public string currentNeuralNet;
@@ -101,45 +126,25 @@ namespace Edwon.VR.Gesture
             }
         }
         public List<string> gestureBank; // list of recorded gesture for current neural net
+
+		Trainer currentTrainer;
+		GestureRecognizer currentRecognizer;
+
         #endregion
 
-        public string gestureToRecord;
-
-        float nextRenderTime = 0;
-        float renderRateLimit = Config.CAPTURE_RATE;
-        float nextTestTime = 0;
-        float testRateLimit = 500;
-
-        Trainer currentTrainer;
-        GestureRecognizer currentRecognizer;
-
-        // DEBUG
-        public string debugString;
-
-        // EVENTS
+		#region EVENTS VARIABLES
         public delegate void GestureDetected(string gestureName, double confidence);
         public static event GestureDetected GestureDetectedEvent;
         public delegate void GestureNull(string error, string gestureName = null, double confidence = 0);
         public static event GestureNull GestureNullEvent;
+            
+		#endregion
 
-        public static VRGestureManager Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = FindObjectOfType<VRGestureManager>();
-                    if (instance == null)
-                    {
-                        GameObject obj = new GameObject();
-                        obj.hideFlags = HideFlags.HideAndDontSave;
-                        instance = obj.AddComponent<VRGestureManager>();
-                    }
-                    instance.Init();
-                }
-                return instance;
-            }
-        }
+		#region DEBUG VARIABLES
+		public string debugString;
+		#endregion
+
+		#region INITIALIZE
 
         public virtual void Awake()
         {
@@ -190,6 +195,8 @@ namespace Edwon.VR.Gesture
             rightLineRenderer = CreateLineRenderer(Color.yellow, Color.red);
             currentRenderer = CreateLineRenderer(Color.magenta, Color.magenta);
         }
+
+		#endregion
 			
 		#region LINE CAPTURE
 
