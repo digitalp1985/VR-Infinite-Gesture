@@ -6,6 +6,7 @@ using Edwon.VR.Input;
 
 namespace Edwon.VR.Gesture
 {
+    [RequireComponent(typeof (CanvasGroup))]
     public class VRGestureGallery : MonoBehaviour
     {
         //VRGestureManager vrGestureManager;
@@ -38,11 +39,14 @@ namespace Edwon.VR.Gesture
         IInput vrHandInput;
         VRGestureUI vrGestureUI;
 
+        [HideInInspector]
+        public CanvasGroup canvasGroup;
 
         // INIT
 
         void Start()
         {
+            canvasGroup = GetComponent<CanvasGroup>();
 
             galleryStartPosition = transform.position;
 
@@ -242,6 +246,7 @@ namespace Edwon.VR.Gesture
         {
             if (panelName == "Editing Menu")
             {
+                VRGestureUI.ToggleCanvasGroup(canvasGroup, true);
                 currentGesture = VRGestureManager.Instance.gestureToRecord;
                 currentNeuralNet = VRGestureManager.Instance.currentNeuralNet;
                 RefreshGestureExamples();
@@ -249,9 +254,11 @@ namespace Edwon.VR.Gesture
             }
             else if (panelName == "Edit Menu")
             {
+                VRGestureUI.ToggleCanvasGroup(canvasGroup, false);
                 DestroyGestureGallery();
             }
 
         }
+
     }
 }

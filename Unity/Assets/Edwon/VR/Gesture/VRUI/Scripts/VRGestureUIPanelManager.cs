@@ -5,6 +5,7 @@ using System.Collections.Generic;
 
 namespace Edwon.VR.Gesture
 {
+    [RequireComponent(typeof(CanvasGroup))]
     // this script should be placed on the panels parent
     public class VRGestureUIPanelManager : MonoBehaviour
     {
@@ -56,17 +57,11 @@ namespace Edwon.VR.Gesture
             {
                 if (panel.gameObject.name == panelName)
                 {
-                    // turn panel on
-                    panel.alpha = 1f;
-                    panel.interactable = true;
-                    panel.blocksRaycasts = true;
+                    VRGestureUI.ToggleCanvasGroup(panel, true);
                 }
                 else
                 {
-                    // turn panel off
-                    panel.alpha = 0f;
-                    panel.interactable = false;
-                    panel.blocksRaycasts = false;
+                    VRGestureUI.ToggleCanvasGroup(panel, false);
                 }
             }
         }

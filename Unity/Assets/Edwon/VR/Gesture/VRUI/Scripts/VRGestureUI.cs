@@ -136,7 +136,7 @@ namespace Edwon.VR.Gesture
             uiVisible = !uiVisible;
 
             if (vrGestureGallery != null)
-                ToggleCanvasGroup(vrGestureGallery.GetComponent<CanvasGroup>(), uiVisible);
+                ToggleCanvasGroup(vrGestureGallery.canvasGroup, uiVisible);
 
             if (vrHandUIPanel != null)
                 ToggleCanvasGroup(vrHandUIPanel.GetComponent<CanvasGroup>(), uiVisible);
@@ -477,7 +477,7 @@ namespace Edwon.VR.Gesture
             return title;
         }
 
-        public void ToggleCanvasGroup(CanvasGroup cg, bool on)
+        public static void ToggleCanvasGroup(CanvasGroup cg, bool on)
         {
             if (on)
             {
