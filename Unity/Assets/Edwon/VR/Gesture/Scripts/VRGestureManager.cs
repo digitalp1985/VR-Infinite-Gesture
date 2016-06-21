@@ -583,7 +583,6 @@ namespace Edwon.VR.Gesture
         [ExecuteInEditMode]
         public void CreateGesture(string gestureName)
         {
-            Debug.Log("Create Gesture: " + gestureName);
             gestureBank.Add(gestureName);
 			gestureBankTotalExamples.Add(0);
             Utils.Instance.CreateGestureFile(gestureName, currentNeuralNet);
@@ -593,7 +592,6 @@ namespace Edwon.VR.Gesture
         [ExecuteInEditMode]
         public void DeleteGesture(string gestureName)
         {
-            Debug.Log("deleting gesture: " + gestureName);
 			int index = gestureBank.IndexOf(gestureName);
             gestureBank.Remove(gestureName);
 			gestureBankTotalExamples.Remove(index);
@@ -606,7 +604,6 @@ namespace Edwon.VR.Gesture
         [ExecuteInEditMode]
         public void EditGestures()
         {
-            Debug.Log("edit gestures");
             gestureBankPreEdit = new List<string>(gestureBank);
         }
 

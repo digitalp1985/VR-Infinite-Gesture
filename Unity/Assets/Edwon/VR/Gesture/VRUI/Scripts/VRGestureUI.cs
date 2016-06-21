@@ -73,8 +73,6 @@ namespace Edwon.VR.Gesture
         // default settings
         private Vector3 buttonRectScale; // new Vector3(0.6666f, 1, 0.2f);
 
-
-
         void Start()
         {
             uiVisible = true;
@@ -159,7 +157,7 @@ namespace Edwon.VR.Gesture
             nowEditingGestureLabel.text = gestureName;
             deleteGestureButton.onClick.RemoveAllListeners();
             deleteGestureButton.onClick.AddListener(() => panelManager.FocusPanel("Delete Confirm Menu")); // go to confirm delete menu
-
+            deleteGestureButton.onClick.AddListener(() => BeginDeleteConfirm(gestureName));
             VRGestureManager.Instance.BeginEditing(gestureName);
         }
 
@@ -168,6 +166,7 @@ namespace Edwon.VR.Gesture
             deleteGestureConfirmLabel.text = gestureName;
             deleteGestureConfirmButton.onClick.RemoveAllListeners();
             deleteGestureConfirmButton.onClick.AddListener(() => DeleteGesture(gestureName));
+            deleteGestureConfirmButton.onClick.AddListener(() => panelManager.FocusPanel("Edit Menu")); 
         }
 
         public void SelectNeuralNet(string neuralNetName)
@@ -207,7 +206,6 @@ namespace Edwon.VR.Gesture
 
         public void DeleteGesture(string gestureName)
         {
-            Debug.Log("DELETE GESTURE WAS ACTUALLY CALLED");
             VRGestureManager.Instance.DeleteGesture(gestureName);
         }
 
@@ -420,6 +418,10 @@ namespace Edwon.VR.Gesture
                 GenerateEditMenuButtons();
             }
             if (panelName == "Editing Menu")
+            {
+                VRGestureManager.Instance.state = VRGestureManagerState.Editing;
+            }
+            if (panelName == "Delete Confirm Menu")
             {
                 VRGestureManager.Instance.state = VRGestureManagerState.Editing;
             }
