@@ -199,7 +199,7 @@ namespace Edwon.VR.Gesture
 
         public void BeginDetectMenu()
         {
-            RefreshDetectLogs("", 0, "");
+            RefreshDetectLogs("begin", true, 0, "");
         }
 
         // called when detect mode begins
@@ -274,15 +274,37 @@ namespace Edwon.VR.Gesture
             VRGestureManager.Instance.DeleteGesture(gestureName);
         }
 
-        void RefreshDetectLogs(string gestureName, double confidence, string info)
+        void RefreshDetectLogs(string gestureName, bool isNull, double confidence, string info)
         {
+            // get all the elements
+            Image bigFeedbackImage = detectMenu.Find("Detect Big Feedback").GetComponent<Image>();
+            Text bigFeedbackText = bigFeedbackImage.transform.GetChild(0).GetComponent<Text>();
             Text gestureLog = detectMenu.Find("Detect Log Gesture").GetChild(0).GetComponent<Text>();
             Text confidenceLog = detectMenu.Find("Detect Log Confidence").GetChild(0).GetComponent<Text>();
             Text infoLog = detectMenu.Find("Detect Log Info").GetChild(0).GetComponent<Text>();
 
+            // set the log text
             gestureLog.text = gestureName;
-            confidenceLog.text = confidence.ToString("F2");
+            confidenceLog.text = confidence.ToString("F3");
             infoLog.text = info;
+
+            // set the big feedback
+            if (isNull)
+            {
+                bigFeedbackImage.color = Color.red;
+                bigFeedbackText.text = "REJECTED";
+            }
+            else
+            {
+                bigFeedbackImage.color = Color.green;
+                bigFeedbackText.text = "DETECTED";
+            }
+
+            if (gestureName == "begin")
+            {
+                bigFeedbackImage.color = Color.white;
+                bigFeedbackText.text = "";
+            }
         }
 
         IEnumerator TrainingMenuDelay(float delay)
@@ -439,13 +461,13 @@ namespace Edwon.VR.Gesture
 
         void OnGestureDetected (string gestureName, double confidence)
         {
-            RefreshDetectLogs(gestureName, confidence, "Gesture Detected" );
+            RefreshDetectLogs(gestureName, false, confidence, "Gesture Detected" );
             //detectLog.text = gestureName + "\n" + confidence.ToString("F3");
         }
 
         void OnGestureNull(string error, string gestureName = null, double confidence = 0)
         {
-            RefreshDetectLogs(gestureName, confidence, error);
+            RefreshDetectLogs(gestureName, true,confidence, error);
             //detectLog.text = "null" + "\n" + error;
         }
 
