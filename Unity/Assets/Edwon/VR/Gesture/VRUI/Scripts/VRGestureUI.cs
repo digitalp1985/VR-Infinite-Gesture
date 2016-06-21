@@ -68,6 +68,10 @@ namespace Edwon.VR.Gesture
         [Tooltip("the panel of the Select Neural Net Menu")]
         public RectTransform neuralNetTitle;
 
+        // DETECT MENU
+        private Slider thresholdSlider;
+        private Text thresholdLog;
+
         // TRAINING MENU
         [Tooltip("the text feedback for the currently training neural net")]
         public Text neuralNetTraining;
@@ -119,8 +123,12 @@ namespace Edwon.VR.Gesture
             if (-handToCamVector != Vector3.zero)
                 vrHandUIPanel.rotation = Quaternion.LookRotation(-handToCamVector, Vector3.up);
 
+            if(VRGestureManager.Instance.state == VRGestureManagerState.Detecting)
+                UpdateDetectMenu();
+
             UpdateCurrentNeuralNetworkText();
             UpdateNowRecordingStatus();
+
         }
 
         // toggles this UI's visibility on/off
@@ -274,6 +282,19 @@ namespace Edwon.VR.Gesture
             VRGestureManager.Instance.DeleteGesture(gestureName);
         }
 
+        void UpdateDetectMenu()
+        {
+            if (thresholdSlider != null)
+            {
+                VRGestureManager.Instance.confidenceThreshold = thresholdSlider.value;
+                thresholdSlider.value = (float)VRGestureManager.Instance.confidenceThreshold;
+            }
+            if (thresholdLog != null)
+            {
+                thresholdLog.text = VRGestureManager.Instance.confidenceThreshold.ToString("F3");
+            }
+        }
+
         void RefreshDetectLogs(string gestureName, bool isNull, double confidence, string info)
         {
             // get all the elements
@@ -282,6 +303,8 @@ namespace Edwon.VR.Gesture
             Text gestureLog = detectMenu.Find("Detect Log Gesture").GetChild(0).GetComponent<Text>();
             Text confidenceLog = detectMenu.Find("Detect Log Confidence").GetChild(0).GetComponent<Text>();
             Text infoLog = detectMenu.Find("Detect Log Info").GetChild(0).GetComponent<Text>();
+            thresholdLog = detectMenu.Find("Detect Log Threshold").GetChild(0).GetComponent<Text>();
+            thresholdSlider = detectMenu.Find("Threshold Slider").GetComponent<Slider>();
 
             // set the log text
             gestureLog.text = gestureName;
