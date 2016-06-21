@@ -67,7 +67,8 @@ namespace Edwon.VR.Gesture
         public VRGestureManagerState state;
         [HideInInspector]
         public VRGestureManagerState stateInitial;
-        private VRGestureManagerState stateLast;
+        [HideInInspector]
+        public VRGestureManagerState stateLast;
 
 		public bool readyToTrain
 		{

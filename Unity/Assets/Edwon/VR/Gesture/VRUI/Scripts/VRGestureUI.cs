@@ -48,6 +48,8 @@ namespace Edwon.VR.Gesture
         public Image nowRecordingBackground;
         [Tooltip("the label that tells you what gesture your recording currently")]
         public Text nowRecordingGestureLabel;
+        [Tooltip("the label that tells you how many examples you've recorded")]
+        public Text nowRecordingTotalExamplesLabel;
 
         // EDITING MENU
         [Tooltip("the label that tells you what gesture your editing currently")]
@@ -156,6 +158,7 @@ namespace Edwon.VR.Gesture
             //Debug.Log("begin ready to record gesture of type " + gestureName);
             nowRecordingGestureLabel.text = gestureName;
             VRGestureManager.Instance.BeginReadyToRecord(gestureName);
+            RefreshTotalExamplesLabel();
         }
 
         public void BeginEditGesture(string gestureName)
@@ -444,7 +447,8 @@ namespace Edwon.VR.Gesture
 
         void UpdateNowRecordingStatus()
         {
-            if (VRGestureManager.Instance.state == VRGestureManagerState.ReadyToRecord 
+
+            if (VRGestureManager.Instance.state == VRGestureManagerState.ReadyToRecord
                 || VRGestureManager.Instance.state == VRGestureManagerState.EnteringRecord)
             {
                 nowRecordingBackground.color = Color.grey;
@@ -455,6 +459,22 @@ namespace Edwon.VR.Gesture
                 nowRecordingBackground.color = Color.red;
                 nowRecordingLabel.text = "RECORDING";
             }
+            // update gesture example count in UI if gesture just finished recording
+            if (VRGestureManager.Instance.state != VRGestureManager.Instance.stateLast)
+            {
+                if (VRGestureManager.Instance.stateLast == VRGestureManagerState.Recording)
+                {
+                    RefreshTotalExamplesLabel();
+                }
+            }
+        }
+
+        // refresh the label that says how many examples recorded
+        void RefreshTotalExamplesLabel ()
+        {
+            string gesture = VRGestureManager.Instance.gestureToRecord;
+            int totalExamples = Utils.Instance.GetGestureExamplesTotal(gesture);
+            nowRecordingTotalExamplesLabel.text = totalExamples.ToString();
         }
 
         Text GetCurrentNeuralNetworkText()
