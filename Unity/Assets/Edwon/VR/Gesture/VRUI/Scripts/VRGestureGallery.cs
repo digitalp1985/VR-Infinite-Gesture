@@ -235,11 +235,18 @@ namespace Edwon.VR.Gesture
             {
                 if (vrHandInput.GetButton(InputOptions.Button.Trigger2))
                 {
+                    // ADD UP/DOWN/LEFT/RIGHT FORCE
                     Vector3 velocity = vrHand.position - lastHandPos;
-                    Vector3 velocityFlat = Vector3.ProjectOnPlane(velocity, transform.forward);
+                    Vector3 velocityFlat = Vector3.ProjectOnPlane(velocity, -transform.forward);
                     velocityFlat *= grabVelocity;
-                    velocityFlat = new Vector3(-velocityFlat.z, velocityFlat.y, 0);
-                    galleryRB.AddRelativeForce(velocityFlat);
+                    galleryRB.AddForce(velocityFlat);
+
+                    // ADD Z SPACE FORCE
+                    Vector3 zVelocity = Vector3.ProjectOnPlane(velocity, -transform.right); // flatten left/right
+                    zVelocity = Vector3.ProjectOnPlane(zVelocity, transform.up); // flatten up/down
+                    zVelocity *= grabVelocity; // multiply
+                    Debug.DrawRay(transform.position, zVelocity, Color.red);
+                    galleryRB.AddForce(zVelocity);
                 }
             }
             lastHandPos = vrHand.position;
