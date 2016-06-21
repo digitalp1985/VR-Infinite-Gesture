@@ -40,7 +40,10 @@ namespace Edwon.VR.Gesture
             }
 
             // initialize initial panel focused
-            FocusPanel(initialPanel);
+            if (VRGestureManager.Instance.neuralNets.Count <= 0)
+                FocusPanel("No Neural Net Menu");
+            else
+                FocusPanel(initialPanel);
         }
 
         public void FocusPanel(string panelName)
