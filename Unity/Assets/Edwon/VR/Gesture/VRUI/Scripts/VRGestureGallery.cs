@@ -145,6 +145,12 @@ namespace Edwon.VR.Gesture
                 GameObject lineObj = gestureLine;
                 frameButton.onClick.AddListener(() => CallDeleteGesture(example, frame, lineObj));
 
+                // set the trash icon position
+                VRGestureGalleryFrame frameScript = frame.GetComponent<VRGestureGalleryFrame>();
+                RectTransform trashTF = (RectTransform)frameScript.trash.transform;
+                frameScript.trash.transform.localPosition = Vector3.zero;
+                trashTF.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, gridUnitSize * 2 );
+                trashTF.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, gridUnitSize * 2 );
 
                 // change column or row
                 column += 1;
@@ -245,7 +251,6 @@ namespace Edwon.VR.Gesture
                     Vector3 zVelocity = Vector3.ProjectOnPlane(velocity, -transform.right); // flatten left/right
                     zVelocity = Vector3.ProjectOnPlane(zVelocity, transform.up); // flatten up/down
                     zVelocity *= grabVelocity; // multiply
-                    Debug.DrawRay(transform.position, zVelocity, Color.red);
                     galleryRB.AddForce(zVelocity);
                 }
             }

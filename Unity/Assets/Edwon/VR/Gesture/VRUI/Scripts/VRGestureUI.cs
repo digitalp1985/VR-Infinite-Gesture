@@ -153,7 +153,6 @@ namespace Edwon.VR.Gesture
         public void BeginMainMenu()
         {
             // GET ALL THE BUTTONS IN MAIN MENU
-            Debug.Log("begin main menu");
             CanvasGroup recordButton = new CanvasGroup();
             CanvasGroup editButton = new CanvasGroup();
             CanvasGroup trainButton = new CanvasGroup();
@@ -271,7 +270,6 @@ namespace Edwon.VR.Gesture
 
         public void CreateGesture()
         {
-            Debug.Log("called create new gesture");
             string newGestureName = "Gesture " + (VRGestureManager.Instance.gestureBank.Count + 1);
             VRGestureManager.Instance.CreateGesture(newGestureName);
             GenerateRecordMenuButtons();
