@@ -13,13 +13,13 @@ namespace HutongGames.PlayMaker.Actions
         // Code that runs on entering the state.
         public override void OnEnter()
 	    {
-            VRGestureManager.GestureNullEvent += OnGestureNull;
+            VRGestureManager.GestureRejectedEvent += OnGestureNull;
         }
 
 	    // Code that runs when exiting the state.
 	    public override void OnExit()
 	    {
-            VRGestureManager.GestureNullEvent -= OnGestureNull;
+            VRGestureManager.GestureRejectedEvent -= OnGestureNull;
         }
 
         void OnGestureNull (string error, string gestureName = null, double confidenceValue = 0)

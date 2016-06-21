@@ -28,13 +28,13 @@ namespace Edwon.VR.Gesture.Examples
         void OnEnable()
         {
             VRGestureManager.GestureDetectedEvent += OnGestureDetected;
-            VRGestureManager.GestureNullEvent += OnGestureNull;
+            VRGestureManager.GestureRejectedEvent += OnGestureRejected;
         }
 
         void OnDisable()
         {
             VRGestureManager.GestureDetectedEvent -= OnGestureDetected;
-            VRGestureManager.GestureNullEvent -= OnGestureNull;
+            VRGestureManager.GestureRejectedEvent -= OnGestureRejected;
         }
 
         void OnGestureDetected(string gestureName, double confidence)
@@ -59,7 +59,7 @@ namespace Edwon.VR.Gesture.Examples
             }
         }
 
-        void OnGestureNull(string error, string gestureName = null, double confidenceValue = 0)
+        void OnGestureRejected(string error, string gestureName = null, double confidenceValue = 0)
         {
             StartCoroutine(AnimateShape(nullGO));
         }

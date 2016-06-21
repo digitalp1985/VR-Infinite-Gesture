@@ -474,7 +474,7 @@ namespace Edwon.VR.Gesture
         void OnEnable()
         {
             VRGestureManager.GestureDetectedEvent += OnGestureDetected;
-            VRGestureManager.GestureNullEvent += OnGestureNull;
+            VRGestureManager.GestureRejectedEvent += OnGestureRejected;
             VRGestureUIPanelManager.OnPanelFocusChanged += PanelFocusChanged;
             VRControllerUIInput.OnVRGuiHitChanged += VRGuiHitChanged;
         }
@@ -482,7 +482,7 @@ namespace Edwon.VR.Gesture
         void OnDisable()
         {
             VRGestureManager.GestureDetectedEvent -= OnGestureDetected;
-            VRGestureManager.GestureNullEvent -= OnGestureNull;
+            VRGestureManager.GestureRejectedEvent -= OnGestureRejected;
             VRGestureUIPanelManager.OnPanelFocusChanged -= PanelFocusChanged;
             VRControllerUIInput.OnVRGuiHitChanged -= VRGuiHitChanged;
         }
@@ -493,7 +493,7 @@ namespace Edwon.VR.Gesture
             //detectLog.text = gestureName + "\n" + confidence.ToString("F3");
         }
 
-        void OnGestureNull(string error, string gestureName = null, double confidence = 0)
+        void OnGestureRejected(string error, string gestureName = null, double confidence = 0)
         {
             RefreshDetectLogs(gestureName, true,confidence, error);
             //detectLog.text = "null" + "\n" + error;
