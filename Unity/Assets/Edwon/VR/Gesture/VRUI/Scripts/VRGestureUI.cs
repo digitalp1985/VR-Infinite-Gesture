@@ -46,12 +46,17 @@ namespace Edwon.VR.Gesture
         public Image nowRecordingBackground;
         [Tooltip("the label that tells you what gesture your recording currently")]
         public Text nowRecordingGestureLabel;
-        [Tooltip("the button that deletes gestures in the Recording Menu")]
-        public Button deleteGestureButton;
 
         // EDITING MENU
         [Tooltip("the label that tells you what gesture your editing currently")]
         public Text nowEditingGestureLabel;
+        [Tooltip("the button that begins delete gesture in the Recording Menu")]
+        public Button deleteGestureButton;
+
+        // DELETE CONFRIM MENU
+        public Text deleteGestureConfirmLabel;
+        [Tooltip("the button that actually deletes a gesture in the Delete Confirm Menu")]
+        public Button deleteGestureConfirmButton;
 
         // DETECT MENU
         [Tooltip("the ui text that should be updated with a gesture detect log")]
@@ -152,12 +157,17 @@ namespace Edwon.VR.Gesture
         public void BeginEditGesture(string gestureName)
         {
             nowEditingGestureLabel.text = gestureName;
-            //I THINK THIS IS WHAT WE CANT?
             deleteGestureButton.onClick.RemoveAllListeners();
-            deleteGestureButton.onClick.AddListener(() => DeleteGesture(gestureName));
-            deleteGestureButton.onClick.AddListener(() => panelManager.FocusPanel("Edit Menu")); //go to menu
+            deleteGestureButton.onClick.AddListener(() => panelManager.FocusPanel("Delete Confirm Menu")); // go to confirm delete menu
 
             VRGestureManager.Instance.BeginEditing(gestureName);
+        }
+
+        public void BeginDeleteConfirm(string gestureName)
+        {
+            deleteGestureConfirmLabel.text = gestureName;
+            deleteGestureConfirmButton.onClick.RemoveAllListeners();
+            deleteGestureConfirmButton.onClick.AddListener(() => DeleteGesture(gestureName));
         }
 
         public void SelectNeuralNet(string neuralNetName)
