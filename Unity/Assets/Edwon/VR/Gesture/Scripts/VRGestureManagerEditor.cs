@@ -16,9 +16,10 @@ namespace Edwon.VR.Gesture
         int selectedNeuralNetIndex = 0;
         string newNeuralNetName;
 
-
         public enum VRGestureRenameState { Good, NoChange, Duplicate };
         string selectedFocus = "";
+
+        #region GUI CONTENT VARIABLES
 
         public enum EditorListOption
         {
@@ -35,6 +36,7 @@ namespace Edwon.VR.Gesture
 
         private static GUILayoutOption miniButtonWidth = GUILayout.Width(20f);
 
+
         private static GUIContent
         useToggleContent = new GUIContent("", "use this gesture"),
         moveButtonContent = new GUIContent("\u21b4", "move down"),
@@ -47,6 +49,8 @@ namespace Edwon.VR.Gesture
 
         Texture2D bg1;
         Texture2D bg2;
+
+        #endregion
 
         // NEURAL NET STUFF
         int selectedNeuralNetIndexLast;
@@ -154,6 +158,8 @@ namespace Edwon.VR.Gesture
         {
             return (controlName.Length > 15 && controlName.Substring(0, 15) == "Gesture Control");
         }
+
+        #region SHOW GUI SECTIONS
 
         void ShowDetect()
         {
@@ -288,7 +294,7 @@ namespace Edwon.VR.Gesture
         {
             GUIStyle style = EditorStyles.whiteLabel;
             GUILayout.BeginVertical();
-            EditorGUILayout.LabelField("TRAINED GESTURES");
+            EditorGUILayout.LabelField("PROCESSED GESTURES");
             GUILayout.EndVertical();
             GUILayout.BeginVertical(style);
             foreach (string gesture in vrGestureManager.Gestures)
@@ -389,7 +395,7 @@ namespace Edwon.VR.Gesture
 
         void ShowTrainButton()
         {
-            if (GUILayout.Button("TRAIN \n" + vrGestureManager.currentNeuralNet, GUILayout.Height(40f)))
+            if (GUILayout.Button("PROCESS \n" + vrGestureManager.currentNeuralNet, GUILayout.Height(40f)))
             {
                 EventType eventType = Event.current.type;
                 if (eventType == EventType.used)
@@ -413,6 +419,8 @@ namespace Edwon.VR.Gesture
                 }
             }
         }
+
+        #endregion
 
         // callback that VRGestureManager should call upon training finished
         void OnFinishedTraining(string neuralNetName)
