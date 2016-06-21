@@ -284,7 +284,7 @@ namespace Edwon.VR.Gesture
             float check = Utils.Instance.FindMaxAxis(capturedLine);
             return (check > minimumGestureAxisLength);
         }
-			
+		
 		public void CapturePoint(Vector3 myVector, List<Vector3> capturedLine, int maxLineLength)
 		{
 			if (capturedLine.Count >= maxLineLength)
@@ -311,6 +311,11 @@ namespace Edwon.VR.Gesture
 			}
 		}
 
+        public void ClearTrail()
+        {
+            Debug.Log("clear trail");
+            currentRenderer.SetVertexCount(0);
+        }
 
 		#endregion
 
