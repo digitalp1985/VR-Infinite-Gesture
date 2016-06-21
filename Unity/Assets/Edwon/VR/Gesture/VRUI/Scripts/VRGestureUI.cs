@@ -24,6 +24,7 @@ namespace Edwon.VR.Gesture
         public float offsetZ;
 
         //public VRGestureManager VRGestureManagerInstance; // the VRGestureManager script we want to interact with
+        public RectTransform mainMenu; // the top level transform of the main menu
         public RectTransform recordMenu; // the top level transform of the recordMenu where we will generate gesture buttons'
         public RectTransform editMenu; // the top level transform of the eidtMenu
         public RectTransform selectNeuralNetMenu; // the top level transform of the select neural net menu where we will generate buttons
@@ -57,7 +58,7 @@ namespace Edwon.VR.Gesture
         [Tooltip("the button that begins delete gesture in the Recording Menu")]
         public Button deleteGestureButton;
 
-        // DELETE CONFRIM MENU
+        // DELETE CONFIRM MENU
         public Text deleteGestureConfirmLabel;
         [Tooltip("the button that actually deletes a gesture in the Delete Confirm Menu")]
         public Button deleteGestureConfirmButton;
@@ -123,7 +124,9 @@ namespace Edwon.VR.Gesture
 
             // update detect log
             if (detectLog != null)
+            {
                 detectLog.text = VRGestureManager.Instance.debugString;
+            }
             else
                 Debug.Log("please set detect log on GestureUIController");
 
@@ -144,8 +147,69 @@ namespace Edwon.VR.Gesture
                 ToggleCanvasGroup(vrHandUIPanel.GetComponent<CanvasGroup>(), uiVisible);
         }
 
-        // events called by buttons when pressed
+        #region CALLED BY BUTTON METHODS
 
+        // called every time main menu is entered
+        public void BeginMainMenu()
+        {
+            // GET ALL THE BUTTONS IN MAIN MENU
+            Debug.Log("begin main menu");
+            CanvasGroup recordButton = new CanvasGroup();
+            CanvasGroup editButton = new CanvasGroup();
+            CanvasGroup trainButton = new CanvasGroup();
+            CanvasGroup detectButton = new CanvasGroup();
+            CanvasGroup[] cgs = mainMenu.GetComponentsInChildren<CanvasGroup>();
+            List<CanvasGroup> buttons = new List<CanvasGroup>();
+            for (int i = 0; i < cgs.Length; i++)
+            {
+                if (cgs[i].name == "Record Button")
+                {
+                    recordButton = cgs[i];
+                    buttons.Add(recordButton);
+                }
+                if (cgs[i].name == "Edit Button")
+                {
+                    editButton = cgs[i];
+                    buttons.Add(editButton);
+                }
+                if (cgs[i].name == "Train Button")
+                {
+                    trainButton = cgs[i];
+                    buttons.Add(trainButton);
+                }
+                if (cgs[i].name == "Detect Button")
+                {
+                    detectButton = cgs[i];
+                    buttons.Add(detectButton);
+                }
+            }
+
+            // DISABLE ALL BUTTONS FIRST
+            foreach (CanvasGroup c in buttons)
+            {
+                c.interactable = false;
+                c.blocksRaycasts = true;
+                c.alpha = .5f;
+            }
+
+            // ENABLE BUTTONS DEPENDING ON TRAINING STATE
+            // enable record button because always need it
+            ToggleCanvasGroup(recordButton, true, 1f);
+
+            if (VRGestureManager.Instance.gestureBank.Count > 0)
+            {
+                // some gestures recorded, show edit and train buttons
+                ToggleCanvasGroup(editButton, true, 1f);
+                ToggleCanvasGroup(trainButton, true, 1f);
+            }
+            if (VRGestureManager.Instance.Gestures.Count > 0)
+            {
+                // some gestures trained, show detect button
+                ToggleCanvasGroup(detectButton, true, 1f);
+            }
+        }
+
+        // called when detect mode begins
         public void BeginDetectMode()
         {
             //Debug.Log("begin detect mode");
@@ -225,7 +289,9 @@ namespace Edwon.VR.Gesture
             panelManager.FocusPanel("Main Menu");
         }
 
-        // generate UI elements
+        #endregion
+
+        #region GENERATIVE BUTTONS
 
         void GenerateRecordMenuButtons()
         {
@@ -336,6 +402,8 @@ namespace Edwon.VR.Gesture
             return buttons;
         }
 
+        #endregion
+
         void AdjustListTitlePosition(Transform title, int totalButtons, float buttonHeight)
         {
             if (title != null)
@@ -405,6 +473,7 @@ namespace Edwon.VR.Gesture
             if (panelName == "Main Menu")
             {
                 VRGestureManager.Instance.state = VRGestureManagerState.Idle;
+                BeginMainMenu();
             }
             if (panelName == "Select Neural Net Menu")
             {
@@ -510,6 +579,24 @@ namespace Edwon.VR.Gesture
             {
                 // turn panel off
                 cg.alpha = 0f;
+                cg.interactable = false;
+                cg.blocksRaycasts = false;
+            }
+        }
+
+        public static void ToggleCanvasGroup(CanvasGroup cg, bool on, float alpha)
+        {
+            if (on)
+            {
+                // turn panel on
+                cg.alpha = alpha;
+                cg.interactable = true;
+                cg.blocksRaycasts = true;
+            }
+            else
+            {
+                // turn panel off
+                cg.alpha = alpha;
                 cg.interactable = false;
                 cg.blocksRaycasts = false;
             }
