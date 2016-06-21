@@ -28,6 +28,7 @@ namespace Edwon.VR.Gesture
         public RectTransform recordMenu; // the top level transform of the recordMenu where we will generate gesture buttons'
         public RectTransform editMenu; // the top level transform of the eidtMenu
         public RectTransform selectNeuralNetMenu; // the top level transform of the select neural net menu where we will generate buttons
+        public RectTransform detectMenu;
         public GameObject buttonPrefab;
 
         // PARENT
@@ -62,10 +63,6 @@ namespace Edwon.VR.Gesture
         public Text deleteGestureConfirmLabel;
         [Tooltip("the button that actually deletes a gesture in the Delete Confirm Menu")]
         public Button deleteGestureConfirmButton;
-
-        // DETECT MENU
-        [Tooltip("the ui text that should be updated with a gesture detect log")]
-        public Text detectLog;
 
         // SELECT NEURAL NET MENU
         [Tooltip("the panel of the Select Neural Net Menu")]
@@ -121,14 +118,6 @@ namespace Edwon.VR.Gesture
             vrHandUIPanel.position = vrMenuHand.position + (offsetZ * handToCamVector);
             if (-handToCamVector != Vector3.zero)
                 vrHandUIPanel.rotation = Quaternion.LookRotation(-handToCamVector, Vector3.up);
-
-            // update detect log
-            if (detectLog != null)
-            {
-                detectLog.text = VRGestureManager.Instance.debugString;
-            }
-            else
-                Debug.Log("please set detect log on GestureUIController");
 
             UpdateCurrentNeuralNetworkText();
             UpdateNowRecordingStatus();
@@ -208,6 +197,11 @@ namespace Edwon.VR.Gesture
             }
         }
 
+        public void BeginDetectMenu()
+        {
+            RefreshDetectLogs("", 0, "");
+        }
+
         // called when detect mode begins
         public void BeginDetectMode()
         {
@@ -278,6 +272,17 @@ namespace Edwon.VR.Gesture
         public void DeleteGesture(string gestureName)
         {
             VRGestureManager.Instance.DeleteGesture(gestureName);
+        }
+
+        void RefreshDetectLogs(string gestureName, double confidence, string info)
+        {
+            Text gestureLog = detectMenu.Find("Detect Log Gesture").GetChild(0).GetComponent<Text>();
+            Text confidenceLog = detectMenu.Find("Detect Log Confidence").GetChild(0).GetComponent<Text>();
+            Text infoLog = detectMenu.Find("Detect Log Info").GetChild(0).GetComponent<Text>();
+
+            gestureLog.text = gestureName;
+            confidenceLog.text = confidence.ToString("F2");
+            infoLog.text = info;
         }
 
         IEnumerator TrainingMenuDelay(float delay)
@@ -418,14 +423,30 @@ namespace Edwon.VR.Gesture
 
         void OnEnable()
         {
+            VRGestureManager.GestureDetectedEvent += OnGestureDetected;
+            VRGestureManager.GestureNullEvent += OnGestureNull;
             VRGestureUIPanelManager.OnPanelFocusChanged += PanelFocusChanged;
             VRControllerUIInput.OnVRGuiHitChanged += VRGuiHitChanged;
         }
 
         void OnDisable()
         {
+            VRGestureManager.GestureDetectedEvent -= OnGestureDetected;
+            VRGestureManager.GestureNullEvent -= OnGestureNull;
             VRGestureUIPanelManager.OnPanelFocusChanged -= PanelFocusChanged;
             VRControllerUIInput.OnVRGuiHitChanged -= VRGuiHitChanged;
+        }
+
+        void OnGestureDetected (string gestureName, double confidence)
+        {
+            RefreshDetectLogs(gestureName, confidence, "Gesture Detected" );
+            //detectLog.text = gestureName + "\n" + confidence.ToString("F3");
+        }
+
+        void OnGestureNull(string error, string gestureName = null, double confidence = 0)
+        {
+            RefreshDetectLogs(gestureName, confidence, error);
+            //detectLog.text = "null" + "\n" + error;
         }
 
         void VRGuiHitChanged(bool hitBool)
@@ -500,6 +521,10 @@ namespace Edwon.VR.Gesture
             if (panelName == "Delete Confirm Menu")
             {
                 VRGestureManager.Instance.state = VRGestureManagerState.Editing;
+            }
+            if (panelName == "Detect Menu")
+            {
+
             }
         }
 
