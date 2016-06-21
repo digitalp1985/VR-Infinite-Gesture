@@ -1,23 +1,37 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 using System.Collections;
 using System.Collections.Generic;
 
 namespace Edwon.VR.Gesture
 {
+    // this script should be placed on the panels parent
     public class VRGestureUIPanelManager : MonoBehaviour
     {
-        Animator panelAnim;
+
         private string initialPanel = "Select Neural Net Menu";
+        [HideInInspector]
         public string currentPanel;
 
         public delegate void PanelFocusChanged(string panelName);
         public static event PanelFocusChanged OnPanelFocusChanged;
 
+        List<CanvasGroup> panels;
+
+        [HideInInspector]
+        public CanvasGroup canvasGroup;
+
         void Start()
         {
-            panelAnim = GetComponent<Animator>();
+            // get the panels below me
+            canvasGroup = gameObject.GetComponent<CanvasGroup>();
+            panels = new List<CanvasGroup>();
+            CanvasGroup[] panelsTemp = transform.GetComponentsInChildren<CanvasGroup>();
+            for (int i = 0; i < panelsTemp.Length; i++)
+            {
+                if (panelsTemp[i] != canvasGroup)
+                    panels.Add(panelsTemp[i]);
+            }
 
             if (VRGestureManager.Instance.stateInitial == VRGestureManagerState.ReadyToDetect)
             {
@@ -30,37 +44,31 @@ namespace Edwon.VR.Gesture
 
         public void FocusPanel(string panelName)
         {
-            OnPanelFocusChanged(panelName);
-            panelAnim.SetTrigger(panelName);
+
             currentPanel = panelName;
-        }
 
-        // UTILITY
-
-        static GameObject FindFirstEnabledSelectable(GameObject gameObject)
-        {
-            GameObject go = null;
-            var selectables = gameObject.GetComponentsInChildren<Selectable>(true);
-            foreach (var selectable in selectables)
+            if (OnPanelFocusChanged != null)
             {
-                if (selectable.IsActive() && selectable.IsInteractable())
+                OnPanelFocusChanged(panelName);
+            }
+
+            foreach (CanvasGroup panel in panels)
+            {
+                if (panel.gameObject.name == panelName)
                 {
-                    go = selectable.gameObject;
-                    break;
+                    // turn panel on
+                    panel.alpha = 1f;
+                    panel.interactable = true;
+                    panel.blocksRaycasts = true;
+                }
+                else
+                {
+                    // turn panel off
+                    panel.alpha = 0f;
+                    panel.interactable = false;
+                    panel.blocksRaycasts = false;
                 }
             }
-            return go;
-        }
-
-        private void SetSelected(GameObject go)
-        {
-            EventSystem.current.SetSelectedGameObject(go);
-
-            var standaloneInputModule = EventSystem.current.currentInputModule as StandaloneInputModule;
-            if (standaloneInputModule != null && standaloneInputModule.inputMode == StandaloneInputModule.InputMode.Buttons)
-                return;
-
-            EventSystem.current.SetSelectedGameObject(null);
         }
 
     }

@@ -12,9 +12,11 @@ namespace Edwon.VR.Gesture
     {
         VRGestureRig myAvatar;
 
+        bool uiVisible;
+
         [HideInInspector]
         public HandType menuHandedness;
-        private VRGestureUIPanelManager panelManager;
+        VRGestureUIPanelManager panelManager;
         Transform vrMenuHand; // the hand to attach the hand ui to
         Transform vrHandUIPanel; // the actual ui
         Transform vrCam;
@@ -75,14 +77,19 @@ namespace Edwon.VR.Gesture
 
         void Start()
         {
-            uiVisible = true;
+            panelManager = GetComponentInChildren<VRGestureUIPanelManager>();
 
             menuHandedness = (VRGestureManager.Instance.gestureHand == HandType.Left)? HandType.Right : HandType.Left;
 
             rootCanvas = GetComponent<Canvas>();
             //vrInput = GetComponent<VRControllerUIInput>();
             vrHandUIPanel = transform.Find("Panels");
-            vrGestureGallery = transform.GetComponentInChildren<VRGestureGallery>();
+            
+            // start with hand UI visible
+            uiVisible = true;
+            ToggleCanvasGroup(panelManager.canvasGroup, uiVisible);
+
+            vrGestureGallery = transform.GetComponentInChildren<VRGestureGallery>(true);
 
             buttonRectScale = new Vector3(0.6666f, 1, 0.2f);
 
@@ -91,9 +98,6 @@ namespace Edwon.VR.Gesture
             vrMenuHand = myAvatar.GetHand(menuHandedness);
             vrCam = VRGestureManager.Instance.rig.cameraEyeTransform;
       
-
-            panelManager = transform.GetComponentInChildren<VRGestureUIPanelManager>();
-
             GenerateRecordMenuButtons();
             GenerateEditMenuButtons();
             GenerateNeuralNetMenuButtons();
@@ -125,15 +129,17 @@ namespace Edwon.VR.Gesture
             UpdateNowRecordingStatus();
         }
 
-        bool uiVisible;
-
         // toggles this UI's visibility on/off
 
-        void ToggleVRGestureUI ()
+        public void ToggleVRGestureUI ()
         {
             uiVisible = !uiVisible;
-            vrGestureGallery.gameObject.SetActive(uiVisible);
-            vrHandUIPanel.gameObject.SetActive(uiVisible);
+
+            if (vrGestureGallery != null)
+                ToggleCanvasGroup(vrGestureGallery.GetComponent<CanvasGroup>(), uiVisible);
+
+            if (vrHandUIPanel != null)
+                ToggleCanvasGroup(vrHandUIPanel.GetComponent<CanvasGroup>(), uiVisible);
         }
 
         // events called by buttons when pressed
@@ -320,7 +326,7 @@ namespace Edwon.VR.Gesture
                 y = (totalHeight / 2) - (i * buttonHeight);
                 buttonRect.localPosition = new Vector3(0, y, 0);
                 // set the button text
-                Text buttonText = button.transform.GetComponentInChildren<Text>();
+                Text buttonText = button.transform.GetComponentInChildren<Text>(true);
                 buttonText.text = list[i];
                 buttons.Add(button.GetComponent<Button>());
             }
@@ -469,6 +475,24 @@ namespace Edwon.VR.Gesture
 
             Text title = currentNeuralNetworkTitle.FindChild("neural network name").GetComponent<Text>();
             return title;
+        }
+
+        public void ToggleCanvasGroup(CanvasGroup cg, bool on)
+        {
+            if (on)
+            {
+                // turn panel on
+                cg.alpha = 1f;
+                cg.interactable = true;
+                cg.blocksRaycasts = true;
+            }
+            else
+            {
+                // turn panel off
+                cg.alpha = 0f;
+                cg.interactable = false;
+                cg.blocksRaycasts = false;
+            }
         }
     }
 }

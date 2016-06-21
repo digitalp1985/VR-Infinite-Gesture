@@ -38,10 +38,12 @@ namespace Edwon.VR.Gesture
         IInput vrHandInput;
         VRGestureUI vrGestureUI;
 
+
         // INIT
 
         void Start()
         {
+
             galleryStartPosition = transform.position;
 
             vrGestureUI = transform.parent.GetComponent<VRGestureUI>();
@@ -136,7 +138,6 @@ namespace Edwon.VR.Gesture
 
             // instructions adjust
             // needs work
-            //instructions.gameObject.SetActive(true);
             float instructionsPosY = ((row + 1) * gridUnitSize);
             instructions.localPosition = new Vector3(0, instructionsPosY, 0);
 
