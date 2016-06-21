@@ -294,7 +294,6 @@ namespace Edwon.VR.Gesture
             string[] files = System.IO.Directory.GetFiles(gesturesPath, "*.txt");
             if (files.Length == 0)
             {
-                Debug.Log("no gestures files (recorded data) yet");
                 return null;
             }
             foreach(string path in files)
