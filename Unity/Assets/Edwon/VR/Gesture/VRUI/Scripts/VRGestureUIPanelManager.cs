@@ -31,7 +31,10 @@ namespace Edwon.VR.Gesture
             for (int i = 0; i < panelsTemp.Length; i++)
             {
                 if (panelsTemp[i] != canvasGroup)
-                    panels.Add(panelsTemp[i]);
+                {
+                    if (panelsTemp[i].transform.parent == transform)
+                        panels.Add(panelsTemp[i]);
+                }
             }
 
             if (VRGestureManager.Instance.stateInitial == VRGestureManagerState.ReadyToDetect)
