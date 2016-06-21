@@ -8,22 +8,9 @@ namespace Edwon.VR.Gesture.Examples
 
         public GameObject circle;
         public GameObject triangle;
-        public GameObject square;
         public GameObject push;
-        public GameObject pushLeft;
-        public GameObject pushRight;
         public GameObject pull;
         public GameObject nullGO;
-
-        void Start()
-        {
-
-        }
-
-        void Update()
-        {
-
-        }
 
         void OnEnable()
         {
