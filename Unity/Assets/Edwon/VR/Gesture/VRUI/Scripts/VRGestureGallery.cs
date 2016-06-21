@@ -13,6 +13,7 @@ namespace Edwon.VR.Gesture
 
         public GameObject framePrefab;
 
+        public float distanceFromHead;
         public float gestureDrawSize; // world size of one gesture drawing
         public float gridUnitSize; // world size of one grid unit
         public int gridMaxColumns;
@@ -84,6 +85,20 @@ namespace Edwon.VR.Gesture
                 }
 
             }
+        }
+
+        void PositionGestureGallery()
+        {
+            // set position
+            Vector3 forward = rig.headTF.forward;
+            forward = Vector3.ProjectOnPlane(forward, Vector3.up);
+            Vector3 position = rig.headTF.position + (forward * distanceFromHead);
+            galleryRB.MovePosition( position );
+
+            // set rotation
+            Vector3 toHead = position - rig.headTF.position;
+            Quaternion rotation = Quaternion.LookRotation(-toHead, Vector3.up);
+            galleryRB.MoveRotation(rotation);
         }
 
         void GenerateGestureGallery()
@@ -250,6 +265,7 @@ namespace Edwon.VR.Gesture
                 currentGesture = VRGestureManager.Instance.gestureToRecord;
                 currentNeuralNet = VRGestureManager.Instance.currentNeuralNet;
                 RefreshGestureExamples();
+                PositionGestureGallery();
                 GenerateGestureGallery();
             }
             else if (panelName == "Edit Menu")
