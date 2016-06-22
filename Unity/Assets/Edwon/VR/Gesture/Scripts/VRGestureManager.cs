@@ -175,7 +175,6 @@ namespace Edwon.VR.Gesture
             playerHead = rig.headTF;
             playerHand = rig.GetHand(gestureHand);
             input = rig.GetInput(gestureHand);
-
         }
 
         void Start()
@@ -557,7 +556,6 @@ namespace Edwon.VR.Gesture
             int deletedNetIndex = neuralNets.IndexOf(neuralNetName);
 
             // delete the net and gestures
-            Debug.Log("deleting neural net: " + neuralNetName);
             neuralNets.Remove(neuralNetName); // remove from list
             gestureBank.Clear(); // clear the gestures list
 			gestureBankTotalExamples.Clear();
