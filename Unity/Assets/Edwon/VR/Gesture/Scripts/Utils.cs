@@ -431,7 +431,6 @@ namespace Edwon.VR.Gesture
 			string path = Config.SAVE_FILE_PATH + networkName + "/";
 			if (System.IO.Directory.Exists(path))
 			{
-				Debug.Log("Deleting Neural Net Files: " + networkName);
 #if UNITY_EDITOR
                 AssetDatabase.DeleteAsset(path);
 #endif

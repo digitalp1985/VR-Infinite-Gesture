@@ -46,13 +46,12 @@ namespace Edwon.VR.Gesture
         [SerializeField]
         [Tooltip("which hand to track using the gesture")]
         public HandType gestureHand = HandType.Right; // the hand to track
+        [Tooltip("spawn simple controller art for hand position reference")]
+        public bool spawnControllerModels = true;
         [Tooltip("the button that triggers gesture recognition")]
         InputOptions.Button triggerButton = InputOptions.Button.Trigger1;
         [Tooltip("the threshold over wich a gesture is considered correctly classified")]
         public double confidenceThreshold = 0.98;
-        /// <summary>
-        /// 
-        /// </summary>
         [Tooltip("Your gesture must have one axis longer than this length in world size")]
         public float minimumGestureAxisLength = 0.10f;
         // whether to track when pressing trigger or all the time
@@ -172,7 +171,6 @@ namespace Edwon.VR.Gesture
             playerHead = rig.headTF;
             playerHand = rig.GetHand(gestureHand);
             input = rig.GetInput(gestureHand);
-
         }
 
         void Start()
@@ -518,7 +516,6 @@ namespace Edwon.VR.Gesture
             int deletedNetIndex = neuralNets.IndexOf(neuralNetName);
 
             // delete the net and gestures
-            Debug.Log("deleting neural net: " + neuralNetName);
             neuralNets.Remove(neuralNetName); // remove from list
             gestureBank.Clear(); // clear the gestures list
             gestureBankPreEdit.Clear();

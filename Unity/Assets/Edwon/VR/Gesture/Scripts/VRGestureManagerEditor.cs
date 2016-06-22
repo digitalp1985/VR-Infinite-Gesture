@@ -237,6 +237,7 @@ namespace Edwon.VR.Gesture
         {
             EditorGUILayout.Separator();
             EditorGUILayout.PropertyField(serializedObject.FindProperty("vrType"));
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("spawnControllerModels"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("gestureHand"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("confidenceThreshold"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("minimumGestureAxisLength"));
