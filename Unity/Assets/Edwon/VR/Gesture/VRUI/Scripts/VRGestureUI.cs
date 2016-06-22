@@ -112,7 +112,7 @@ namespace Edwon.VR.Gesture
         {
             // if press Button1 on menu hand toggle menu on off
             HandType oppositeHand = VRGestureManager.Instance.gestureHand == HandType.Left ? HandType.Right : HandType.Left;
-            if (myAvatar.GetInput(oppositeHand).GetButtonDown(InputOptions.Button.Button1))
+            if (myAvatar.GetInput(oppositeHand) != null && myAvatar.GetInput(oppositeHand).GetButtonDown(InputOptions.Button.Button1))
                 ToggleVRGestureUI();
 
             Vector3 handToCamVector = vrCam.position - vrMenuHand.position;

@@ -58,6 +58,8 @@ namespace Edwon.VR.Gesture
 
         // GUI MODES
         private bool showSettingsGUI = false;
+        enum MenuTabs {Train, Detect, Settings};
+        MenuTabs selectedTab = MenuTabs.Train;
         enum NeuralNetGUIMode { None, EnterNewNetName, ShowPopup };
         NeuralNetGUIMode neuralNetGUIMode;
 
@@ -88,31 +90,36 @@ namespace Edwon.VR.Gesture
 
             serializedObject.Update();
 
-            if (neuralNetGUIMode != NeuralNetGUIMode.None)
+            SelectTab();
+            DisplayTabUpdate();
+            FocusAndClickUpdate();
+            serializedObject.ApplyModifiedProperties();
+        }
+
+        void SelectTab()
+        {
+            GUILayout.BeginHorizontal();
+
+            tab = GUILayout.Toolbar(tab, new string[] { "Train", "Detect", "Settings" });
+            switch (tab)
             {
-                GUILayout.BeginHorizontal();
-
-				tab = GUILayout.Toolbar (tab, new string[] {"Train", "Detect", "Settings"});
-				switch (tab) 
-				{
-				case 0:
-						vrGestureManager.stateInitial = VRGestureManagerState.Idle;
-						showSettingsGUI = false;
-					break;
-				case 1:
-						vrGestureManager.stateInitial = VRGestureManagerState.ReadyToDetect;
-						showSettingsGUI = false;
-					break;
-				case 2:
-					
-						showSettingsGUI = true;
-					break;
-				}
-
-
-                GUILayout.EndHorizontal();
+                case 0:
+                    vrGestureManager.stateInitial = VRGestureManagerState.Idle;
+                    showSettingsGUI = false;
+                    break;
+                case 1:
+                    vrGestureManager.stateInitial = VRGestureManagerState.ReadyToDetect;
+                    showSettingsGUI = false;
+                    break;
+                case 2:
+                    showSettingsGUI = true;
+                    break;
             }
+            GUILayout.EndHorizontal();
+        }
 
+        void DisplayTabUpdate()
+        {
             if (showSettingsGUI)
                 ShowSettings();
             else if (vrGestureManager.stateInitial != VRGestureManagerState.ReadyToDetect)
@@ -120,6 +127,10 @@ namespace Edwon.VR.Gesture
             else if (vrGestureManager.stateInitial == VRGestureManagerState.ReadyToDetect)
                 ShowDetect();
 
+        }
+
+        void FocusAndClickUpdate()
+        {
             //Enter click
             if (Event.current.isKey && Event.current.keyCode == KeyCode.Return && Event.current.type == EventType.KeyUp && IfGestureControl(GUI.GetNameOfFocusedControl()))
             {
@@ -137,10 +148,6 @@ namespace Edwon.VR.Gesture
                 }
                 selectedFocus = GUI.GetNameOfFocusedControl();
             }
-
-
-
-            serializedObject.ApplyModifiedProperties();
         }
 
         void ChangeGestureName(string controlName)
