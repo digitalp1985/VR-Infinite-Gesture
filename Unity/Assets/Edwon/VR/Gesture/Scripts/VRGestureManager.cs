@@ -529,6 +529,7 @@ namespace Edwon.VR.Gesture
             neuralNets.Add(neuralNetName);
             gestures = new List<string>();
             gestureBank = new List<string>();
+            gestureBankPreEdit = new List<string>();
 			gestureBankTotalExamples = new List<int>();
 
             // select the new neural net
@@ -561,6 +562,7 @@ namespace Edwon.VR.Gesture
             Debug.Log("deleting neural net: " + neuralNetName);
             neuralNets.Remove(neuralNetName); // remove from list
             gestureBank.Clear(); // clear the gestures list
+            gestureBankPreEdit.Clear();
 			gestureBankTotalExamples.Clear();
             Utils.Instance.DeleteNeuralNetFiles(neuralNetName); // delete all the files
 
@@ -576,12 +578,14 @@ namespace Edwon.VR.Gesture
             if (neuralNetName !=null && Utils.Instance.GetGestureBank(neuralNetName) != null)
             {
                 gestureBank = Utils.Instance.GetGestureBank(neuralNetName);
+                gestureBankPreEdit = new List<string>(gestureBank);
 				gestureBankTotalExamples = Utils.Instance.GetGestureBankTotalExamples(gestureBank);
             }
             else
             {
                 gestureBank = new List<string>();
-				gestureBankTotalExamples = new List<int>();
+                gestureBankPreEdit = new List<string>();
+                gestureBankTotalExamples = new List<int>();
             }
 
         }
@@ -606,12 +610,6 @@ namespace Edwon.VR.Gesture
         }
 			
         List<string> gestureBankPreEdit;
-
-        [ExecuteInEditMode]
-        public void EditGestures()
-        {
-            gestureBankPreEdit = new List<string>(gestureBank);
-        }
 
         bool CheckForDuplicateGestures(string newName)
         {
@@ -640,6 +638,7 @@ namespace Edwon.VR.Gesture
         public VRGestureManagerEditor.VRGestureRenameState RenameGesture(int gestureIndex)
         {
             //check to make sure the name has actually changed.
+            Debug.Log("Rename Gesture at index: " + gestureIndex);
             string newName = gestureBank[gestureIndex];
             string oldName = gestureBankPreEdit[gestureIndex];
             VRGestureManagerEditor.VRGestureRenameState renameState = VRGestureManagerEditor.VRGestureRenameState.Good;

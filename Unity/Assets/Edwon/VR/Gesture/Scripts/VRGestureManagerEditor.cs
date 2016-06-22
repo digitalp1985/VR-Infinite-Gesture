@@ -546,8 +546,13 @@ namespace Edwon.VR.Gesture
 
 		private static void ShowGestureListTotalExamples(SerializedProperty list, int index)
 		{
-			int totalExamples = vrGestureManager.gestureBankTotalExamples[index];
-			GUILayout.Label(totalExamples.ToString(), EditorStyles.centeredGreyMiniLabel, GUILayout.Width(35f));
+            //Sometimes on the first repaint this will still be looking at the previous gestureBank
+            //this means we will be checking the index intended for a different array.
+            if (index < vrGestureManager.gestureBankTotalExamples.Count)
+            {
+                int totalExamples = vrGestureManager.gestureBankTotalExamples[index];
+                GUILayout.Label(totalExamples.ToString(), EditorStyles.centeredGreyMiniLabel, GUILayout.Width(35f));
+            }
 		}
 
         private static void ShowGestureListButtons(SerializedProperty list, int index)
