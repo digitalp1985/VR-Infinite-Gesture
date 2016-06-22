@@ -46,13 +46,12 @@ namespace Edwon.VR.Gesture
         [SerializeField]
         [Tooltip("which hand to track using the gesture")]
         public HandType gestureHand = HandType.Right; // the hand to track
+        [Tooltip("spawn simple controller art for hand position reference")]
+        public bool spawnControllerModels = true;
         [Tooltip("the button that triggers gesture recognition")]
         InputOptions.Button triggerButton = InputOptions.Button.Trigger1;
         [Tooltip("the threshold over wich a gesture is considered correctly classified")]
         public double confidenceThreshold = 0.98;
-        /// <summary>
-        /// 
-        /// </summary>
         [Tooltip("Your gesture must have one axis longer than this length in world size")]
         public float minimumGestureAxisLength = 0.10f;
         // whether to track when pressing trigger or all the time

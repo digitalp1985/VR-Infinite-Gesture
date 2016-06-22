@@ -100,7 +100,7 @@ namespace Edwon.VR.Gesture
             // get vr player hand and camera
             myAvatar = VRGestureManager.Instance.rig;
             vrMenuHand = myAvatar.GetHand(menuHandedness);
-            vrCam = VRGestureManager.Instance.rig.cameraEyeTransform;
+            vrCam = VRGestureManager.Instance.rig.headTF;
       
             GenerateRecordMenuButtons();
             GenerateEditMenuButtons();
