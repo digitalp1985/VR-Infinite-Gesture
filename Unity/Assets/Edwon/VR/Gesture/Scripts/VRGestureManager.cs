@@ -99,11 +99,7 @@ namespace Edwon.VR.Gesture
         #endregion
 
         #region LINE CAPTURE VARIABLES
-        int lengthOfLineRenderer = 50;
-        LineRenderer rightLineRenderer;
-        List<Vector3> rightCapturedLine;
-        List<Vector3> displayLine;
-        LineRenderer currentRenderer;
+        GestureTrail myTrail;
         List<Vector3> currentCapturedLine;
 		public string gestureToRecord;
 
@@ -193,35 +189,18 @@ namespace Edwon.VR.Gesture
             //create a new Trainer
             currentTrainer = new Trainer(Gestures, currentNeuralNet);
 
-            rightCapturedLine = new List<Vector3>();
-            displayLine = new List<Vector3>();
             currentCapturedLine = new List<Vector3>();
+            myTrail = gameObject.AddComponent<GestureTrail>();
 
             perpTransform = new GameObject("Perpindicular Head").transform;
             perpTransform.parent = this.transform;
-
-            rightLineRenderer = CreateLineRenderer(Color.yellow, Color.red);
-            currentRenderer = CreateLineRenderer(Color.magenta, Color.magenta);
         }
 
 		#endregion
 			
 		#region LINE CAPTURE
 
-        LineRenderer CreateLineRenderer(Color c1, Color c2)
-        {
-            GameObject myGo = new GameObject();
-            myGo.transform.parent = transform;
-            myGo.transform.localPosition = Vector3.zero;
 
-            LineRenderer lineRenderer = myGo.AddComponent<LineRenderer>();
-            lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
-            lineRenderer.SetColors(c1, c2);
-            lineRenderer.SetWidth(0.01F, 0.05F);
-            lineRenderer.SetVertexCount(0);
-            //lineRenderer.SetPositions();
-            return lineRenderer;
-        }
 
         public void LineCaught(List<Vector3> capturedLine)
         {
@@ -285,14 +264,7 @@ namespace Edwon.VR.Gesture
             return (check > minimumGestureAxisLength);
         }
 		
-		public void CapturePoint(Vector3 myVector, List<Vector3> capturedLine, int maxLineLength)
-		{
-			if (capturedLine.Count >= maxLineLength)
-			{
-				capturedLine.RemoveAt(0);
-			}
-			capturedLine.Add(myVector);
-		}
+
 
 		//This will get points in relation to a users head.
 		public Vector3 getLocalizedPoint(Vector3 myDumbPoint)
@@ -302,20 +274,7 @@ namespace Edwon.VR.Gesture
 			return perpTransform.InverseTransformPoint(myDumbPoint);
 		}
 
-		void RenderTrail(LineRenderer lineRenderer, List<Vector3> capturedLine)
-		{
-			if (capturedLine.Count == lengthOfLineRenderer)
-			{
-				lineRenderer.SetVertexCount(lengthOfLineRenderer);
-				lineRenderer.SetPositions(capturedLine.ToArray());
-			}
-		}
 
-        public void ClearTrail()
-        {
-            Debug.Log("clear trail");
-            currentRenderer.SetVertexCount(0);
-        }
 
 		#endregion
 
@@ -397,9 +356,7 @@ namespace Edwon.VR.Gesture
         void StartRecording()
         {
             nextRenderTime = Time.time + renderRateLimit / 1000;
-            currentRenderer.SetColors(Color.magenta, Color.magenta);
-            displayLine.Clear();
-
+            myTrail.StartTrail();
             CapturePoint();
 
         }
@@ -409,9 +366,7 @@ namespace Edwon.VR.Gesture
             Vector3 rightHandPoint = playerHand.position;
             Vector3 localizedPoint = getLocalizedPoint(rightHandPoint);
             currentCapturedLine.Add(localizedPoint);
-            displayLine.Add(rightHandPoint);
-            currentRenderer.SetVertexCount(displayLine.Count);
-            currentRenderer.SetPositions(displayLine.ToArray());
+            myTrail.CapturePoint(rightHandPoint);
         }
 
         void StopRecording()
@@ -423,11 +378,16 @@ namespace Edwon.VR.Gesture
                 currentCapturedLine.RemoveRange(0, currentCapturedLine.Count);
                 currentCapturedLine.Clear();
 
-                currentRenderer.SetColors(Color.blue, Color.cyan);
+                myTrail.StopTrail();
             }
 
         }
 
+        /// <summary>
+        /// This is an experimental form of gesture detection. It will always attempt to
+        /// detect a gesture while it is running. This would allow a user to constantly 
+        /// be inputting various gesture in a more natural way.
+        /// </summary>
         void UpdateContinual()
         {
             //		state = VRGestureManagerState.Detecting;
@@ -436,16 +396,15 @@ namespace Edwon.VR.Gesture
                 Vector3 rightHandPoint = playerHand.position;
 
                 nextRenderTime = Time.time + renderRateLimit / 1000;
-                CapturePoint(rightHandPoint, rightCapturedLine, lengthOfLineRenderer);
-
+                //myTrail.CapturePoint(rightHandPoint, rightCapturedLine, lengthOfLineRenderer);
                 //IF currentCapturedLine is length greater than renderRateLimit v testRateLimit
                 //  30 / 1000 = every 0.03 seconds
                 // 100 / 1000 = every 0.10 seconds this will have only logged 3 points of data.
                 // 500 / 1000 = every 0.5 second this will always have 16 points of data. 
                 int maxLineLength = (int)testRateLimit / (int)renderRateLimit;
-                CapturePoint(getLocalizedPoint(rightHandPoint), currentCapturedLine, maxLineLength);
+                myTrail.CapturePoint(getLocalizedPoint(rightHandPoint), currentCapturedLine, maxLineLength);
             }
-            RenderTrail(rightLineRenderer, rightCapturedLine);
+            //myTrail.RenderTrail(rightLineRenderer, rightCapturedLine);
 
             //On Release
             //@TODO: fix this magic number 14.
@@ -453,8 +412,8 @@ namespace Edwon.VR.Gesture
             {
                 nextTestTime = Time.time + testRateLimit / 1000;
                 LineCaught(currentCapturedLine);
-                currentRenderer.SetVertexCount(currentCapturedLine.Count);
-                currentRenderer.SetPositions(currentCapturedLine.ToArray());
+                //currentRenderer.SetVertexCount(currentCapturedLine.Count);
+                //currentRenderer.SetPositions(currentCapturedLine.ToArray());
             }
 
 

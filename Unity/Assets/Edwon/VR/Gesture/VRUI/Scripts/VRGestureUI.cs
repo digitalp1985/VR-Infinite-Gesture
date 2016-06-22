@@ -330,11 +330,6 @@ namespace Edwon.VR.Gesture
             }
         }
 
-        public void ClearTrail ()
-        {
-            VRGestureManager.Instance.ClearTrail();
-        }
-
         IEnumerator TrainingMenuDelay(float delay)
         {
             // after training complete and a short delay go back to main menu
