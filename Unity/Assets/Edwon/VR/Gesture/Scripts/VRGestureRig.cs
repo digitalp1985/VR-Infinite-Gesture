@@ -15,7 +15,6 @@ namespace Edwon.VR
 
         //public VRRigAnchors vrRigAnchors;
         public Transform headTF;
-        public Transform cameraEyeTransform;
         public Transform lHandTF;
         public Transform rHandTF;
 
