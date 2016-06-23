@@ -1,6 +1,6 @@
 ﻿
 //#define OCULUSVR
-//#define STEAMVR
+#define STEAMVR
 
 using UnityEngine;
 using System.Collections;
@@ -73,12 +73,14 @@ namespace Edwon.VR
         {
             if (VRGestureManager.Instance.vrType == VRTYPE.SteamVR)
             {
-				#if STEAMVR
+                
+                #if STEAMVR
                 SteamVR_ControllerManager[] steamVR_cm = FindObjectsOfType<SteamVR_ControllerManager>();
                 leftController = steamVR_cm[0].left;
                 rightController = steamVR_cm[0].right;
-                inputLeft = leftController.gameObject.AddComponent<VRControllerInputSteam>().Init(HandType.Left);
-                inputRight = rightController.gameObject.AddComponent<VRControllerInputSteam>().Init(HandType.Right);
+
+                inputLeft = gameObject.AddComponent<VRControllerInputSteam>().Init(HandType.Left, leftController);
+                inputRight = gameObject.AddComponent<VRControllerInputSteam>().Init(HandType.Right, rightController);
 				#endif
 
             }

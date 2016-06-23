@@ -229,7 +229,7 @@ namespace Edwon.VR.Gesture
                 //Detect if the captured line meets minimum gesture size requirements
                 double[] networkInput = Utils.Instance.FormatLine(capturedLine);
                 string gesture = currentRecognizer.GetGesture(networkInput);
-                string confidenceValue = currentRecognizer.currentConfidenceValue.ToString().Substring(0, 4);
+                string confidenceValue = currentRecognizer.currentConfidenceValue.ToString("N3");
 
                 // broadcast gesture detected event
                 if (currentRecognizer.currentConfidenceValue > VRGestureManager.Instance.confidenceThreshold)

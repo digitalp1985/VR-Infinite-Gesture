@@ -1,4 +1,4 @@
-﻿//#define STEAMVR
+﻿#define STEAMVR
 #if STEAMVR
 
 using UnityEngine;
@@ -10,32 +10,37 @@ namespace Edwon.VR.Input
     public class VRControllerInputSteam : VRController
     {
         [Header("SteamVR Options")]
-        public float curlTime = .3f;
         public int deviceIndex;
         bool properlySetIndex = false;
+        public GameObject _hand;
 
-        public IInput Init(HandType handy)
+        public IInput Init(HandType handy, GameObject hand)
         {
             handedness = handy;
-            gameObject.SetActive(true);
-            StartCoroutine("RegisterIndex");
+            _hand = hand;
+            //gameObject.SetActive(true);
+            StartCoroutine(RegisterIndex());
             return this;
         }
 
         IEnumerator RegisterIndex()
         {
-            for (;;)
+            //yield return new WaitForSeconds(.2f);
+            while (true)
             {
-                deviceIndex = (int)gameObject.GetComponent<SteamVR_TrackedObject>().index;
+                deviceIndex = (int)_hand.GetComponent<SteamVR_TrackedObject>().index;
                 if (deviceIndex > -1)
                 {
+                    //Debug.Log("I just got registered. Index: " + deviceIndex);
                     yield break;
                 }
-                else
-                {
-                    yield return new WaitForSeconds(.1f);
-                }
+                yield return null;
             }
+        }
+
+        void OnDestroy()
+        {
+            //Debug.Log("I am being destroyed");
         }
 
         void LateUpdate()
@@ -55,7 +60,6 @@ namespace Edwon.VR.Input
                 trigger2Button = SteamVR_Controller.Input(deviceIndex).GetPress(SteamVR_Controller.ButtonMask.Grip);
                 trigger2ButtonDown = SteamVR_Controller.Input(deviceIndex).GetPressDown(SteamVR_Controller.ButtonMask.Grip);
                 trigger2ButtonUp = SteamVR_Controller.Input(deviceIndex).GetPressUp(SteamVR_Controller.ButtonMask.Grip);
-
             }
 
         }
