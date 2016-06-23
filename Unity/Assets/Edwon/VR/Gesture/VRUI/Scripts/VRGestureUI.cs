@@ -86,7 +86,6 @@ namespace Edwon.VR.Gesture
             menuHandedness = (VRGestureManager.Instance.gestureHand == HandType.Left)? HandType.Right : HandType.Left;
 
             rootCanvas = GetComponent<Canvas>();
-            //vrInput = GetComponent<VRControllerUIInput>();
             vrHandUIPanel = transform.Find("Panels");
             
             // start with hand UI visible
@@ -218,7 +217,7 @@ namespace Edwon.VR.Gesture
         }
 
         // called when entering recording menu
-        public void BeginReadyToRecordGesture(string gestureName)
+        public void BeginRecordingMenu(string gestureName)
         {
             //Debug.Log("begin ready to record gesture of type " + gestureName);
             nowRecordingGestureLabel.text = gestureName;
@@ -388,7 +387,7 @@ namespace Edwon.VR.Gesture
                 string gestureName = VRGestureManager.Instance.gestureBank[i];
                 if (gestureButtonsType == GestureButtonsType.Record)
                 {
-                    gestureButtons[i].onClick.AddListener(() => BeginReadyToRecordGesture(gestureName));
+                    gestureButtons[i].onClick.AddListener(() => BeginRecordingMenu(gestureName));
                     gestureButtons[i].onClick.AddListener(() => panelManager.FocusPanel("Recording Menu"));
                 }
                 else if (gestureButtonsType == GestureButtonsType.Edit)
