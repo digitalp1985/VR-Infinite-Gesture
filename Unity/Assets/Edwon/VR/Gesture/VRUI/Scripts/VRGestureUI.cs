@@ -295,8 +295,10 @@ namespace Edwon.VR.Gesture
             }
         }
 
-        void RefreshDetectLogs(string gestureName, bool isNull, double confidence, string info)
+        IEnumerator RefreshDetectLogs(string gestureName, bool isNull, double confidence, string info)
         {
+            float clearDelay = 1f;
+
             // get all the elements
             Image bigFeedbackImage = detectMenu.Find("Detect Big Feedback").GetComponent<Image>();
             Text bigFeedbackText = bigFeedbackImage.transform.GetChild(0).GetComponent<Text>();
@@ -328,6 +330,13 @@ namespace Edwon.VR.Gesture
                 bigFeedbackImage.color = Color.white;
                 bigFeedbackText.text = "";
             }
+
+            // wait a second, then clear everything visually
+            yield return new WaitForSeconds(clearDelay);
+            bigFeedbackImage.color = Color.white;
+            bigFeedbackText.text = "";
+
+            yield return null;
         }
 
         IEnumerator TrainingMenuDelay(float delay)
@@ -484,13 +493,13 @@ namespace Edwon.VR.Gesture
 
         void OnGestureDetected (string gestureName, double confidence)
         {
-            RefreshDetectLogs(gestureName, false, confidence, "Gesture Detected" );
+            StartCoroutine(RefreshDetectLogs(gestureName, false, confidence, "Gesture Detected" ));
             //detectLog.text = gestureName + "\n" + confidence.ToString("F3");
         }
 
         void OnGestureRejected(string error, string gestureName = null, double confidence = 0)
         {
-            RefreshDetectLogs(gestureName, true,confidence, error);
+            StartCoroutine(RefreshDetectLogs(gestureName, true,confidence, error));
             //detectLog.text = "null" + "\n" + error;
         }
 
