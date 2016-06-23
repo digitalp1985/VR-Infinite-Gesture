@@ -71,10 +71,7 @@ namespace Edwon.VR.Gesture
         private VRGestureRig rig;
         private IInput ControllerInputLeft;
         private IInput ControllerInputRight;
-        private SteamVR_ControllerManager ControllerManager;
         private Transform[] Controllers;
-        private SteamVR_TrackedObject[] SteamVRControllers;
-        private SteamVR_Controller.Device[] ControllerDevices;
 
         void SetInputModule()
         {
