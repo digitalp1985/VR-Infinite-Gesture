@@ -1,4 +1,4 @@
-﻿#define STEAMVR
+﻿//#define STEAMVR
 #if STEAMVR
 
 using UnityEngine;
