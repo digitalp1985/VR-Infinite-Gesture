@@ -34,9 +34,6 @@ namespace Edwon.VR.Gesture
         // PARENT
         Canvas rootCanvas; // the canvas on the main VRGestureUI object
 
-        [HideInInspector]
-        //public VRControllerUIInput vrInput;
-
         // RECORD MENU
         private List<Button> gestureButtons;
         [Tooltip("the title of the gesture list on the record menu")]
