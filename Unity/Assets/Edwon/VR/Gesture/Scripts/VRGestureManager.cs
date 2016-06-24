@@ -424,8 +424,6 @@ namespace Edwon.VR.Gesture
         //This should be called directly from UIController via instance
         public void BeginReadyToRecord(string gesture)
         {
-            //Debug.Log("BeginReadyToRecord in VRGestureManager: " + gesture);
-            //Put a one second delay on this.
             currentTrainer = new Trainer(gestureBank, currentNeuralNet);
             gestureToRecord = gesture;
             state = VRGestureManagerState.EnteringRecord;

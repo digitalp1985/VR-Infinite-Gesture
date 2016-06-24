@@ -1,6 +1,6 @@
 ﻿
 //#define OCULUSVR
-#define STEAMVR
+//#define STEAMVR
 
 using UnityEngine;
 using System.Collections;

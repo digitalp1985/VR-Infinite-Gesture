@@ -34,9 +34,6 @@ namespace Edwon.VR.Gesture
         // PARENT
         Canvas rootCanvas; // the canvas on the main VRGestureUI object
 
-        [HideInInspector]
-        //public VRControllerUIInput vrInput;
-
         // RECORD MENU
         private List<Button> gestureButtons;
         [Tooltip("the title of the gesture list on the record menu")]
@@ -86,7 +83,6 @@ namespace Edwon.VR.Gesture
             menuHandedness = (VRGestureManager.Instance.gestureHand == HandType.Left)? HandType.Right : HandType.Left;
 
             rootCanvas = GetComponent<Canvas>();
-            //vrInput = GetComponent<VRControllerUIInput>();
             vrHandUIPanel = transform.Find("Panels");
             
             // start with hand UI visible
@@ -218,7 +214,7 @@ namespace Edwon.VR.Gesture
         }
 
         // called when entering recording menu
-        public void BeginReadyToRecordGesture(string gestureName)
+        public void BeginRecordingMenu(string gestureName)
         {
             //Debug.Log("begin ready to record gesture of type " + gestureName);
             nowRecordingGestureLabel.text = gestureName;
@@ -295,8 +291,10 @@ namespace Edwon.VR.Gesture
             }
         }
 
-        void RefreshDetectLogs(string gestureName, bool isNull, double confidence, string info)
+        IEnumerator RefreshDetectLogs(string gestureName, bool isNull, double confidence, string info)
         {
+            float clearDelay = 1f;
+
             // get all the elements
             Image bigFeedbackImage = detectMenu.Find("Detect Big Feedback").GetComponent<Image>();
             Text bigFeedbackText = bigFeedbackImage.transform.GetChild(0).GetComponent<Text>();
@@ -328,6 +326,13 @@ namespace Edwon.VR.Gesture
                 bigFeedbackImage.color = Color.white;
                 bigFeedbackText.text = "";
             }
+
+            // wait a second, then clear everything visually
+            yield return new WaitForSeconds(clearDelay);
+            bigFeedbackImage.color = Color.white;
+            bigFeedbackText.text = "";
+
+            yield return null;
         }
 
         IEnumerator TrainingMenuDelay(float delay)
@@ -379,7 +384,7 @@ namespace Edwon.VR.Gesture
                 string gestureName = VRGestureManager.Instance.gestureBank[i];
                 if (gestureButtonsType == GestureButtonsType.Record)
                 {
-                    gestureButtons[i].onClick.AddListener(() => BeginReadyToRecordGesture(gestureName));
+                    gestureButtons[i].onClick.AddListener(() => BeginRecordingMenu(gestureName));
                     gestureButtons[i].onClick.AddListener(() => panelManager.FocusPanel("Recording Menu"));
                 }
                 else if (gestureButtonsType == GestureButtonsType.Edit)
@@ -484,13 +489,13 @@ namespace Edwon.VR.Gesture
 
         void OnGestureDetected (string gestureName, double confidence)
         {
-            RefreshDetectLogs(gestureName, false, confidence, "Gesture Detected" );
+            StartCoroutine(RefreshDetectLogs(gestureName, false, confidence, "Gesture Detected" ));
             //detectLog.text = gestureName + "\n" + confidence.ToString("F3");
         }
 
         void OnGestureRejected(string error, string gestureName = null, double confidence = 0)
         {
-            RefreshDetectLogs(gestureName, true,confidence, error);
+            StartCoroutine(RefreshDetectLogs(gestureName, true,confidence, error));
             //detectLog.text = "null" + "\n" + error;
         }
 
