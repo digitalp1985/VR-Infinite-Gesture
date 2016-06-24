@@ -523,7 +523,7 @@ namespace Edwon.VR.Gesture
             Utils.Instance.DeleteNeuralNetFiles(neuralNetName); // delete all the files
 
             if (neuralNets.Count > 0)
-                SelectNeuralNet(neuralNets[neuralNets.Count - 1]);
+                SelectNeuralNet(neuralNets[0]);
         }
 
         [ExecuteInEditMode]
@@ -560,7 +560,7 @@ namespace Edwon.VR.Gesture
         {
 			int index = gestureBank.IndexOf(gestureName);
             gestureBank.Remove(gestureName);
-			gestureBankTotalExamples.Remove(index);
+			gestureBankTotalExamples.RemoveAt(index);
             Utils.Instance.DeleteGestureFile(gestureName, currentNeuralNet);
             gestureBankPreEdit = new List<string>(gestureBank);
         }

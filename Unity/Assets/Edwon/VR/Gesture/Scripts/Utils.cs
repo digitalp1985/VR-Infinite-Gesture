@@ -336,6 +336,8 @@ namespace Edwon.VR.Gesture
 			// create the gesture file
             string fullPath = gestureFileLocation + gestureName + ".txt";
         	System.IO.StreamWriter file = new System.IO.StreamWriter(fullPath, true);
+            file.Dispose();
+            
 #if UNITY_EDITOR
             AssetDatabase.ImportAsset(fullPath);
 #endif
@@ -432,6 +434,7 @@ namespace Edwon.VR.Gesture
 			if (System.IO.Directory.Exists(path))
 			{
 #if UNITY_EDITOR
+                FileUtil.DeleteFileOrDirectory(path);
                 AssetDatabase.DeleteAsset(path);
 #endif
             }

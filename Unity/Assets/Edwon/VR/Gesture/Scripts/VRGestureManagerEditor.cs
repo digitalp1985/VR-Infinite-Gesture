@@ -331,7 +331,16 @@ namespace Edwon.VR.Gesture
                 else
                 {
                     vrGestureManager.CreateNewNeuralNet(newNeuralNetName);
-                    selectedNeuralNetIndex = vrGestureManager.neuralNets.IndexOf(newNeuralNetName);
+                    //This is incorrect because the list will always be sorted alphabetically
+                    //We need to find the list in alphbetical order.
+                    List<string> sortedList = new List<string>(vrGestureManager.neuralNets);
+                    sortedList.Sort(
+                        delegate (String s1, String s2)
+                        {
+                            return s1.CompareTo(s2);
+                        }
+                    );
+                    selectedNeuralNetIndex = sortedList.IndexOf(newNeuralNetName);
                     neuralNetGUIMode = NeuralNetGUIMode.ShowPopup;
                 }
             }
