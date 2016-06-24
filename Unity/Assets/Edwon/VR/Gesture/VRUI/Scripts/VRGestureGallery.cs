@@ -218,8 +218,10 @@ namespace Edwon.VR.Gesture
             LineRenderer lineRenderer = tmpObj.AddComponent<LineRenderer>();
             lineRenderer.useWorldSpace = false;
             lineRenderer.material = new Material(Shader.Find("Unlit/Color"));
+            //lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
             lineRenderer.SetColors(Color.blue, Color.green);
-            lineRenderer.SetWidth(lineWidth, lineWidth);
+            //Add a taper to the line
+            lineRenderer.SetWidth(lineWidth - (lineWidth*.5f), lineWidth + (lineWidth * .5f));
             lineRenderer.SetVertexCount(capturedLineAdjusted.Count);
             lineRenderer.SetPositions(capturedLineAdjusted.ToArray());
 

@@ -11,7 +11,7 @@ using Edwon.VR.Input;
 namespace Edwon.VR.Gesture
 {
 
-    public enum VRGestureManagerState { Idle, Edit, Editing, EnteringRecord, ReadyToRecord, Recording, Training, ReadyToDetect, Detecting };
+    public enum VRGestureManagerState { Idle, Edit, Editing, EnteringRecord, ReadyToRecord, Recording, Training, EnteringDetect, ReadyToDetect, Detecting };
     public enum VRGestureDetectType { Button, Continious };
 
     public class VRGestureManager : MonoBehaviour
@@ -25,13 +25,23 @@ namespace Edwon.VR.Gesture
 			{
 				if (instance == null)
 				{
-					instance = FindObjectOfType<VRGestureManager>();
-					if (instance == null)
-					{
-						GameObject obj = new GameObject();
-						obj.hideFlags = HideFlags.HideAndDontSave;
-						instance = obj.AddComponent<VRGestureManager>();
-					}
+					//instance = FindObjectOfType<VRGestureManager>();
+                    VRGestureManager[] instances = FindObjectsOfType<VRGestureManager>();
+                    if (instances.Length == 1)
+                    {
+                        instance = instances[0];
+                    }
+                    else if(instances.Length == 0)
+                    {
+                        GameObject obj = new GameObject();
+                        obj.hideFlags = HideFlags.HideAndDontSave;
+                        instance = obj.AddComponent<VRGestureManager>();
+                    }
+                    else
+                    {
+                        Debug.LogError("There are too many VRGestureManagers added to your scene. VRGestureManager behaves as a signleton. Please remove any extra VRGestureManager components.");
+                    }
+
 					instance.Init();
 				}
 				return instance;
@@ -48,6 +58,8 @@ namespace Edwon.VR.Gesture
         public HandType gestureHand = HandType.Right; // the hand to track
         [Tooltip("spawn simple controller art for hand position reference")]
         public bool spawnControllerModels = true;
+        [Tooltip("display default gesture trails")]
+        public bool displayGestureTrails = true;
         [Tooltip("the button that triggers gesture recognition")]
         InputOptions.Button triggerButton = InputOptions.Button.Trigger1;
         [Tooltip("the threshold over wich a gesture is considered correctly classified")]
@@ -141,11 +153,17 @@ namespace Edwon.VR.Gesture
         public static event GestureDetected GestureDetectedEvent;
         public delegate void GestureRejected(string error, string gestureName = null, double confidence = 0);
         public static event GestureRejected GestureRejectedEvent;
-            
-		#endregion
+        public delegate void StartCapture();
+        public static event StartCapture StartCaptureEvent;
+        public delegate void ContinueCapture(Vector3 capturePoint);
+        public static event ContinueCapture ContinueCaptureEvent;
+        public delegate void StopCapture();
+        public static event StopCapture StopCaptureEvent;
 
-		#region DEBUG VARIABLES
-		public string debugString;
+        #endregion
+
+        #region DEBUG VARIABLES
+        public string debugString;
 		#endregion
 
 		#region INITIALIZE
@@ -158,11 +176,7 @@ namespace Edwon.VR.Gesture
                 instance = this;
                 instance.Init();
             }
-            else
-            {
-                //Destroy(gameObject);
-                //Debug.Log("trying to destroy me");
-            }
+
         }
 
         void Init()
@@ -188,7 +202,11 @@ namespace Edwon.VR.Gesture
             currentTrainer = new Trainer(Gestures, currentNeuralNet);
 
             currentCapturedLine = new List<Vector3>();
-            myTrail = gameObject.AddComponent<GestureTrail>();
+            if (displayGestureTrails)
+            {
+                myTrail = gameObject.AddComponent<GestureTrail>();
+            }
+            
 
             perpTransform = new GameObject("Perpindicular Head").transform;
             perpTransform.parent = this.transform;
@@ -297,6 +315,7 @@ namespace Edwon.VR.Gesture
                     UpdateRecord();
                 }
                 else if (state == VRGestureManagerState.Detecting ||
+                         state == VRGestureManagerState.EnteringDetect ||
                             state == VRGestureManagerState.ReadyToDetect)
                 {
                     if (VRGestureManager.Instance.vrGestureDetectType == VRGestureDetectType.Continious)
@@ -339,7 +358,7 @@ namespace Edwon.VR.Gesture
                 StopRecording();
             }
 
-            if (input.GetButtonDown(triggerButton))
+            if (input.GetButtonDown(triggerButton) && state == VRGestureManagerState.ReadyToDetect)
             {
                 state = VRGestureManagerState.Detecting;
                 StartRecording();
@@ -354,8 +373,10 @@ namespace Edwon.VR.Gesture
         void StartRecording()
         {
             nextRenderTime = Time.time + renderRateLimit / 1000;
-            myTrail.StartTrail();
+            if (StartCaptureEvent != null)
+                StartCaptureEvent();
             CapturePoint();
+            
 
         }
 
@@ -364,7 +385,8 @@ namespace Edwon.VR.Gesture
             Vector3 rightHandPoint = playerHand.position;
             Vector3 localizedPoint = getLocalizedPoint(rightHandPoint);
             currentCapturedLine.Add(localizedPoint);
-            myTrail.CapturePoint(rightHandPoint);
+            if(ContinueCaptureEvent != null)
+                ContinueCaptureEvent(rightHandPoint);
         }
 
         void StopRecording()
@@ -376,7 +398,8 @@ namespace Edwon.VR.Gesture
                 currentCapturedLine.RemoveRange(0, currentCapturedLine.Count);
                 currentCapturedLine.Clear();
 
-                myTrail.StopTrail();
+                if(StopCaptureEvent != null)
+                    StopCaptureEvent();
             }
 
         }
@@ -437,7 +460,7 @@ namespace Edwon.VR.Gesture
         public void BeginDetect(string ignoreThisString)
         {
             gestureToRecord = "";
-            state = VRGestureManagerState.Detecting;
+            state = VRGestureManagerState.EnteringDetect;
             currentRecognizer = new GestureRecognizer(currentNeuralNet);
         }
 
