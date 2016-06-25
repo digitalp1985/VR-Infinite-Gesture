@@ -236,23 +236,43 @@ namespace Edwon.VR.Gesture
         void ShowSettings()
         {
             EditorGUILayout.Separator();
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("beginInDetectMode"));
+            SerializedProperty beginInDetectMode = serializedObject.FindProperty("beginInDetectMode");
+            EditorGUILayout.PropertyField(beginInDetectMode);
+            if (beginInDetectMode.boolValue == true)
+            {
+                if (vrGestureManager.neuralNets.Count > 0)
+                {
+                    ShowNeuralNetList(GetNeuralNetsList());
+                }
+                else
+                {
+                    EditorGUILayout.LabelField("You must create and process a neural network before using this option");
+                }
+            }
             EditorGUILayout.PropertyField(serializedObject.FindProperty("vrType"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("spawnControllerModels"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("gestureHand"));
+            //EditorGUILayout.PropertyField(serializedObject.FindProperty("gestureButton"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("confidenceThreshold"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("minimumGestureAxisLength"));
             //EditorGUILayout.PropertyField(serializedObject.FindProperty("vrGestureDetectType"));
+        }
+
+        string[] GetNeuralNetsList()
+        {
+            string[] stringArray = new string[0];
+            if (vrGestureManager.neuralNets.Count > 0)
+            {
+                stringArray = ConvertStringListPropertyToStringArray("neuralNets");
+            }
+            return stringArray;
         }
 
         void ShowNeuralNets()
         {
             EditorGUILayout.LabelField("NEURAL NETWORK");
 
-            string[] neuralNetsArray = new string[0];
-            if (vrGestureManager.neuralNets.Count > 0)
-                neuralNetsArray = ConvertStringListPropertyToStringArray("neuralNets");
-
+            string[] neuralNetsArray = GetNeuralNetsList();
 
             // STATE CONTROL
             if (neuralNetGUIMode == NeuralNetGUIMode.EnterNewNetName)
@@ -350,6 +370,31 @@ namespace Edwon.VR.Gesture
 
         void ShowNeuralNetPopup(string[] neuralNetsArray)
         {
+            ShowNeuralNetList(neuralNetsArray);
+
+            // + button
+            if (GUILayout.Button(duplicateButtonContent, EditorStyles.miniButtonMid, miniButtonWidth))
+            {
+                newNeuralNetName = "";
+                GUI.FocusControl("Clear");
+                neuralNetGUIMode = NeuralNetGUIMode.EnterNewNetName;
+
+            }
+
+            // - button
+            if (GUILayout.Button(deleteButtonContent, EditorStyles.miniButtonRight, miniButtonWidth))
+            {
+                if (ShowNeuralNetDeleteDialog(selectedNeuralNetName))
+                {
+                    vrGestureManager.DeleteNeuralNet(selectedNeuralNetName);
+                    if (vrGestureManager.neuralNets.Count > 0)
+                        selectedNeuralNetIndex = 0;
+                }
+            }
+        }
+
+        void ShowNeuralNetList (string[] neuralNetsArray)
+        {
             vrGestureManager.RefreshNeuralNetList();
 
             selectedNeuralNetIndex = EditorGUILayout.Popup(selectedNeuralNetIndex, neuralNetsArray);
@@ -370,26 +415,6 @@ namespace Edwon.VR.Gesture
             else
             {
                 selectedNeuralNetName = vrGestureManager.currentNeuralNet;
-            }
-
-            // + button
-            if (GUILayout.Button(duplicateButtonContent, EditorStyles.miniButtonMid, miniButtonWidth))
-            {
-                newNeuralNetName = "";
-                GUI.FocusControl("Clear");
-                neuralNetGUIMode = NeuralNetGUIMode.EnterNewNetName;
-
-            }
-
-            // - button
-            if (GUILayout.Button(deleteButtonContent, EditorStyles.miniButtonRight, miniButtonWidth))
-            {
-                if (ShowNeuralNetDeleteDialog(selectedNeuralNetName))
-                {
-                    vrGestureManager.DeleteNeuralNet(selectedNeuralNetName);
-                    if (vrGestureManager.neuralNets.Count > 0)
-                        selectedNeuralNetIndex = 0;
-                }
             }
         }
 

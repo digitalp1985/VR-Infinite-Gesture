@@ -61,7 +61,7 @@ namespace Edwon.VR.Gesture
         [Tooltip("display default gesture trails")]
         public bool displayGestureTrails = true;
         [Tooltip("the button that triggers gesture recognition")]
-        InputOptions.Button triggerButton = InputOptions.Button.Trigger1;
+        InputOptions.Button gestureButton = InputOptions.Button.Trigger1;
         [Tooltip("the threshold over wich a gesture is considered correctly classified")]
         public double confidenceThreshold = 0.98;
         [Tooltip("Your gesture must have one axis longer than this length in world size")]
@@ -341,13 +341,13 @@ namespace Edwon.VR.Gesture
 
         void UpdateRecord()
         {
-            if (input.GetButtonUp(triggerButton))
+            if (input.GetButtonUp(gestureButton))
             {
                 state = VRGestureManagerState.ReadyToRecord;
                 StopRecording();
             }
 
-            if (input.GetButtonDown(triggerButton) && state == VRGestureManagerState.ReadyToRecord)
+            if (input.GetButtonDown(gestureButton) && state == VRGestureManagerState.ReadyToRecord)
             {
                 state = VRGestureManagerState.Recording;
                 StartRecording();
@@ -361,13 +361,13 @@ namespace Edwon.VR.Gesture
 
         void UpdateDetectWithButtons()
         {
-            if (input.GetButtonUp(triggerButton))
+            if (input.GetButtonUp(gestureButton))
             {
                 state = VRGestureManagerState.ReadyToDetect;
                 StopRecording();
             }
 
-            if (input.GetButtonDown(triggerButton) && state == VRGestureManagerState.ReadyToDetect)
+            if (input.GetButtonDown(gestureButton) && state == VRGestureManagerState.ReadyToDetect)
             {
                 state = VRGestureManagerState.Detecting;
                 StartRecording();
