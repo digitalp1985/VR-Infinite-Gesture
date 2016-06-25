@@ -624,7 +624,6 @@ namespace Edwon.VR.Gesture
         public VRGestureManagerEditor.VRGestureRenameState RenameGesture(int gestureIndex)
         {
             //check to make sure the name has actually changed.
-            Debug.Log("Rename Gesture at index: " + gestureIndex);
             string newName = gestureBank[gestureIndex];
             string oldName = gestureBankPreEdit[gestureIndex];
             VRGestureManagerEditor.VRGestureRenameState renameState = VRGestureManagerEditor.VRGestureRenameState.Good;

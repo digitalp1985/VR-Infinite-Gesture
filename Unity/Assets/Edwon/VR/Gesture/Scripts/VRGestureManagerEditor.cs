@@ -508,7 +508,7 @@ namespace Edwon.VR.Gesture
                 EditorGUI.indentLevel -= 1;
         }
 
-        private static void ShowGestureListElements(SerializedProperty list, EditorListOption options)
+        private void ShowGestureListElements(SerializedProperty list, EditorListOption options)
         {
             if (!list.isArray)
             {
@@ -555,7 +555,7 @@ namespace Edwon.VR.Gesture
             }
         }
 
-		private static void ShowGestureListTotalExamples(SerializedProperty list, int index)
+		private void ShowGestureListTotalExamples(SerializedProperty list, int index)
 		{
             //Sometimes on the first repaint this will still be looking at the previous gestureBank
             //this means we will be checking the index intended for a different array.
@@ -566,12 +566,20 @@ namespace Edwon.VR.Gesture
             }
 		}
 
-        private static void ShowGestureListButtons(SerializedProperty list, int index)
+        private void ShowGestureListButtons(SerializedProperty list, int index)
         {
             // plus button
             if (GUILayout.Button(duplicateButtonContent, EditorStyles.miniButtonMid, miniButtonWidth))
             {
                 //list.InsertArrayElementAtIndex(index);
+ 
+                //Focus has changed from a Gesture Control.
+                if (IfGestureControl(selectedFocus))
+                {
+                    ChangeGestureName(selectedFocus);
+                }
+                selectedFocus = "";
+
                 int size = list.arraySize + 1;
                 vrGestureManager.CreateGesture("Gesture " + size);
             }
