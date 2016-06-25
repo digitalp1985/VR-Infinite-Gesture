@@ -66,6 +66,8 @@ namespace Edwon.VR.Gesture
         public double confidenceThreshold = 0.98;
         [Tooltip("Your gesture must have one axis longer than this length in world size")]
         public float minimumGestureAxisLength = 0.10f;
+        [Tooltip("use this option for builds when you don't want users to see the VR UI from this plugin")]
+        public bool beginInDetectMode = false;
         // whether to track when pressing trigger or all the time
         // continious mode is not supported yet
         // though you're welcome to try it out

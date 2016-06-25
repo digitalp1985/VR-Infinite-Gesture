@@ -236,6 +236,7 @@ namespace Edwon.VR.Gesture
         void ShowSettings()
         {
             EditorGUILayout.Separator();
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("beginInDetectMode"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("vrType"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("spawnControllerModels"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("gestureHand"));
