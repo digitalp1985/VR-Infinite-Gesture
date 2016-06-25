@@ -192,7 +192,14 @@ namespace Edwon.VR.Gesture
         void Start()
         {
             if (stateInitial == VRGestureManagerState.ReadyToDetect)
+            {
                 BeginDetect("");
+            }
+            else if (FindObjectOfType<VRGestureUI>() == null)
+            {
+                Debug.LogError("Cannot find VRGestureUI in scene. Please add");
+            }
+                
 
             state = stateInitial;
             stateLast = state;
