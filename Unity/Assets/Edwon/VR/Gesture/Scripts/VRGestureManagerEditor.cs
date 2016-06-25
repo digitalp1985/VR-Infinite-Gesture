@@ -50,6 +50,8 @@ namespace Edwon.VR.Gesture
         Texture2D bg1;
         Texture2D bg2;
 
+		int tabIndex;
+
         #endregion
 
         // NEURAL NET STUFF
@@ -71,9 +73,7 @@ namespace Edwon.VR.Gesture
                 vrGestureManager = VRGestureManager.Instance;
             }
         }
-
-		int tab = 0;
-
+			
         public override void OnInspectorGUI()
         {
             // TEXTURE SETUP
@@ -82,35 +82,39 @@ namespace Edwon.VR.Gesture
 
             serializedObject.Update();
 
-            SelectTab();
-            DisplayTabUpdate();
+            ShowToolbar();
+            ToolbarUpdate();
             FocusAndClickUpdate();
             serializedObject.ApplyModifiedProperties();
-        }
 
-        void SelectTab()
+			EditorUtility.SetDirty(target);
+        }
+			
+        void ShowToolbar()
         {
             GUILayout.BeginHorizontal();
 
-            tab = GUILayout.Toolbar(tab, new string[] { "Train", "Detect", "Settings" });
-            switch (tab)
+			string[] tabs = new string[] { "Neural Network", "Settings" };
+			tabIndex = GUILayout.Toolbar(tabIndex, tabs);
+            switch (tabIndex)
             {
                 case 0:
-                    vrGestureManager.stateInitial = VRGestureManagerState.Idle;
+//                    vrGestureManager.stateInitial = VRGestureManagerState.Idle;
                     showSettingsGUI = false;
                     break;
+//                case 1:
+//                    vrGestureManager.stateInitial = VRGestureManagerState.ReadyToDetect;
+//                    showSettingsGUI = false;
+//                    break;
                 case 1:
-                    vrGestureManager.stateInitial = VRGestureManagerState.ReadyToDetect;
-                    showSettingsGUI = false;
-                    break;
-                case 2:
                     showSettingsGUI = true;
                     break;
             }
+
             GUILayout.EndHorizontal();
         }
 
-        void DisplayTabUpdate()
+        void ToolbarUpdate()
         {
             if (showSettingsGUI)
                 ShowSettings();
@@ -234,6 +238,7 @@ namespace Edwon.VR.Gesture
             {
                 if (vrGestureManager.neuralNets.Count > 0)
                 {
+					vrGestureManager.stateInitial = VRGestureManagerState.ReadyToDetect;
                     EditorGUILayout.LabelField("Choose the neural network to detect with");
                     ShowNeuralNetPopup(GetNeuralNetsList());
                 }
@@ -242,6 +247,10 @@ namespace Edwon.VR.Gesture
                     EditorGUILayout.LabelField("You must create and process a neural network before using this option");
                 }
             }
+			else
+			{
+				vrGestureManager.stateInitial = VRGestureManagerState.Idle;
+			}
             EditorGUILayout.PropertyField(serializedObject.FindProperty("vrType"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("displayGestureTrail"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("spawnControllerModels"));
