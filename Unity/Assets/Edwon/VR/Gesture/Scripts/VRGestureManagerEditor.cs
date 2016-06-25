@@ -242,6 +242,7 @@ namespace Edwon.VR.Gesture
             {
                 if (vrGestureManager.neuralNets.Count > 0)
                 {
+                    EditorGUILayout.LabelField("Choose the neural network to detect with");
                     ShowNeuralNetList(GetNeuralNetsList());
                 }
                 else
