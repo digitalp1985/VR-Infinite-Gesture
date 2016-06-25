@@ -29,7 +29,15 @@ namespace Edwon.VR.Gesture.Test
 			choiceIndex = EditorGUILayout.Popup(choiceIndex, stringArray);
 
 			// Update the selected choice in the underlying object
-			testManager.choice = stringArray[choiceIndex];
+			if (stringArray.Length > 0)
+			{
+//				choiceIndex = 0;
+				testManager.choice = stringArray[choiceIndex];
+			}
+			else
+			{
+				testManager.choice = null;
+			}
 
 			EditorUtility.SetDirty(target);
 		}
