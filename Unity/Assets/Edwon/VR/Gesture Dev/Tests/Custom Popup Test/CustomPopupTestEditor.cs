@@ -18,9 +18,15 @@ namespace Edwon.VR.Gesture.Test
 
 			testManager = target as CustomPopupTest;
 
+			DrawPopup();
+
+			EditorUtility.SetDirty(target);
+		}
+
+		void DrawPopup()
+		{
 			String[] stringArray = ConvertStringListPropertyToStringArray("list");
 			choiceIndex = Array.IndexOf(stringArray, testManager.choice);
-
 
 			// If the choice is not in the array then the _choiceIndex will be -1 so set back to 0
 			if (choiceIndex < 0)
@@ -31,15 +37,13 @@ namespace Edwon.VR.Gesture.Test
 			// Update the selected choice in the underlying object
 			if (stringArray.Length > 0)
 			{
-//				choiceIndex = 0;
+				//				choiceIndex = 0;
 				testManager.choice = stringArray[choiceIndex];
 			}
 			else
 			{
 				testManager.choice = null;
 			}
-
-			EditorUtility.SetDirty(target);
 		}
 			
 		string[] ConvertStringListPropertyToStringArray(string listName)
