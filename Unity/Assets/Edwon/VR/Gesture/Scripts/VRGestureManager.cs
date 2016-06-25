@@ -59,7 +59,7 @@ namespace Edwon.VR.Gesture
         [Tooltip("spawn simple controller art for hand position reference")]
         public bool spawnControllerModels = true;
         [Tooltip("display default gesture trails")]
-        public bool displayGestureTrails = true;
+        public bool displayGestureTrail = true;
         [Tooltip("the button that triggers gesture recognition")]
         public InputOptions.Button gestureButton = InputOptions.Button.Trigger1;
         [Tooltip("the threshold over wich a gesture is considered correctly classified")]
@@ -197,7 +197,7 @@ namespace Edwon.VR.Gesture
             }
             else if (FindObjectOfType<VRGestureUI>() == null)
             {
-                Debug.LogError("Cannot find VRGestureUI in scene. Please add");
+                Debug.LogError("Cannot find VRGestureUI in scene. Please add it or select Begin In Detect Mode in the VR Gesture Manager Settings");
             }
                 
 
@@ -211,7 +211,7 @@ namespace Edwon.VR.Gesture
             currentTrainer = new Trainer(Gestures, currentNeuralNet);
 
             currentCapturedLine = new List<Vector3>();
-            if (displayGestureTrails)
+            if (displayGestureTrail)
             {
                 myTrail = gameObject.AddComponent<GestureTrail>();
             }
