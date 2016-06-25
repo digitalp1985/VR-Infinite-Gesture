@@ -70,14 +70,6 @@ namespace Edwon.VR.Gesture
             {
                 vrGestureManager = VRGestureManager.Instance;
             }
-            vrGestureManager.RefreshNeuralNetList();
-            string starterNet = null;
-            if(vrGestureManager.neuralNets.Count > 0)
-            {
-                starterNet = vrGestureManager.neuralNets[0];
-            }
-            vrGestureManager.SelectNeuralNet(starterNet);
-
         }
 
 		int tab = 0;
@@ -243,7 +235,7 @@ namespace Edwon.VR.Gesture
                 if (vrGestureManager.neuralNets.Count > 0)
                 {
                     EditorGUILayout.LabelField("Choose the neural network to detect with");
-                    ShowNeuralNetList(GetNeuralNetsList());
+                    ShowNeuralNetPopup(GetNeuralNetsList());
                 }
                 else
                 {
@@ -308,7 +300,7 @@ namespace Edwon.VR.Gesture
                     break;
                 // NEURAL NET POPUP
                 case (NeuralNetGUIMode.ShowPopup):
-                    ShowNeuralNetPopup(neuralNetsArray);
+                    ShowNeuralNetPopupGroup(neuralNetsArray);
                     GUILayout.EndHorizontal();
                     ShowNeuralNetTrainedGestures();
                     break;
@@ -370,9 +362,9 @@ namespace Edwon.VR.Gesture
 
         }
 
-        void ShowNeuralNetPopup(string[] neuralNetsArray)
+        void ShowNeuralNetPopupGroup(string[] neuralNetsArray)
         {
-            ShowNeuralNetList(neuralNetsArray);
+            ShowNeuralNetPopup(neuralNetsArray);
 
             // + button
             if (GUILayout.Button(duplicateButtonContent, EditorStyles.miniButtonMid, miniButtonWidth))
@@ -395,29 +387,27 @@ namespace Edwon.VR.Gesture
             }
         }
 
-        void ShowNeuralNetList (string[] neuralNetsArray)
+        void ShowNeuralNetPopup (string[] neuralNetsArray)
         {
             vrGestureManager.RefreshNeuralNetList();
 
+			selectedNeuralNetIndex = Array.IndexOf(neuralNetsArray, vrGestureManager.currentNeuralNet);
+
+			// If the choice is not in the array then the _choiceIndex will be -1 so set back to 0
+			if (selectedNeuralNetIndex < 0)
+				selectedNeuralNetIndex = 0;
+
             selectedNeuralNetIndex = EditorGUILayout.Popup(selectedNeuralNetIndex, neuralNetsArray);
-            EventType eventType = Event.current.type;
-            if (selectedNeuralNetIndex < neuralNetsArray.Length && eventType == EventType.used)
-            {
-                selectedNeuralNetName = neuralNetsArray[selectedNeuralNetIndex];
 
-                //Debug.Log(eventType + " " + selectedNeuralNetIndex + " " + neuralNetsArray.Length + " " + selectedNeuralNetName);
-
-                if (neuralNetsArray.Length == 1 || selectedNeuralNetIndex != selectedNeuralNetIndexLast)
-                {
-                    selectedNeuralNetIndexLast = selectedNeuralNetIndex;
-
-                    vrGestureManager.SelectNeuralNet(selectedNeuralNetName);
-                }
-            }
-            else
-            {
-                selectedNeuralNetName = vrGestureManager.currentNeuralNet;
-            }
+			// Update the selected choice in the underlying object
+			if (neuralNetsArray.Length > 0)
+			{
+				vrGestureManager.currentNeuralNet = neuralNetsArray[selectedNeuralNetIndex];
+			}
+			else
+			{
+				vrGestureManager.currentNeuralNet = null;
+			}
         }
 
         bool ShowNeuralNetDeleteDialog(string neuralNetName)
