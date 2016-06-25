@@ -61,7 +61,7 @@ namespace Edwon.VR.Gesture
         [Tooltip("display default gesture trails")]
         public bool displayGestureTrails = true;
         [Tooltip("the button that triggers gesture recognition")]
-        InputOptions.Button gestureButton = InputOptions.Button.Trigger1;
+        public InputOptions.Button gestureButton = InputOptions.Button.Trigger1;
         [Tooltip("the threshold over wich a gesture is considered correctly classified")]
         public double confidenceThreshold = 0.98;
         [Tooltip("Your gesture must have one axis longer than this length in world size")]
