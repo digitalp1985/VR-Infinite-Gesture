@@ -127,6 +127,8 @@ namespace Edwon.VR.Gesture
         [SerializeField]
         public string currentNeuralNet;
         [SerializeField]
+        public string lastNeuralNet; // used to know when to refresh gesture bank
+        [SerializeField]
         public List<string> neuralNets;
         private List<string> gestures;  // list of gestures already trained in currentNeuralNet
         public List<string> Gestures
@@ -540,6 +542,27 @@ namespace Edwon.VR.Gesture
         }
 
         [ExecuteInEditMode]
+        public void RefreshGestureBank()
+        {
+            if (currentNeuralNet != lastNeuralNet)
+            {
+                Debug.Log("refresh gesture bank");
+                if (currentNeuralNet != null && Utils.Instance.GetGestureBank(currentNeuralNet) != null)
+                {
+                    gestureBank = Utils.Instance.GetGestureBank(currentNeuralNet);
+                    gestureBankPreEdit = new List<string>(gestureBank);
+                    gestureBankTotalExamples = Utils.Instance.GetGestureBankTotalExamples(gestureBank);
+                }
+                else
+                {
+                    gestureBank = new List<string>();
+                    gestureBankPreEdit = new List<string>();
+                    gestureBankTotalExamples = new List<int>();
+                }
+            }
+        }
+
+        [ExecuteInEditMode]
         public void DeleteNeuralNet(string neuralNetName)
         {
             // get this neural nets index so we know which net to select next
@@ -559,21 +582,9 @@ namespace Edwon.VR.Gesture
         [ExecuteInEditMode]
         public void SelectNeuralNet(string neuralNetName)
         {
+            lastNeuralNet = currentNeuralNet;
             currentNeuralNet = neuralNetName;
-
-            if (neuralNetName !=null && Utils.Instance.GetGestureBank(neuralNetName) != null)
-            {
-                gestureBank = Utils.Instance.GetGestureBank(neuralNetName);
-                gestureBankPreEdit = new List<string>(gestureBank);
-				gestureBankTotalExamples = Utils.Instance.GetGestureBankTotalExamples(gestureBank);
-            }
-            else
-            {
-                gestureBank = new List<string>();
-                gestureBankPreEdit = new List<string>();
-                gestureBankTotalExamples = new List<int>();
-            }
-
+            Debug.Log("last neural net: " + lastNeuralNet + " current neural net: " + currentNeuralNet);
         }
 
         [ExecuteInEditMode]

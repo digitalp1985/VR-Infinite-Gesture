@@ -193,7 +193,9 @@ namespace Edwon.VR.Gesture
                 GUILayout.BeginVertical(gesturesSectionStyle);
                 // if a neural net is selected
                 if (neuralNetGUIMode == NeuralNetGUIMode.ShowPopup)
+                {
                     ShowGestures();
+                }
                 GUILayout.EndVertical();
 
                 // SEPARATOR
@@ -392,10 +394,11 @@ namespace Edwon.VR.Gesture
 			// Update the selected choice in the underlying object
 			if (neuralNetsArray.Length > 0)
 			{
-				vrGestureManager.currentNeuralNet = neuralNetsArray[selectedNeuralNetIndex];
+                vrGestureManager.SelectNeuralNet( neuralNetsArray[selectedNeuralNetIndex] );
 			}
 			else
 			{
+                vrGestureManager.gestureBank = null;
 				vrGestureManager.currentNeuralNet = null;
 			}
         }
@@ -411,9 +414,17 @@ namespace Edwon.VR.Gesture
 
         void ShowGestures()
         {
+            // first update the gesture bank
+            vrGestureManager.RefreshGestureBank();
+
+
             EditorGUILayout.LabelField("RECORDED GESTURES");
+
+            // then get the gesture bank
             SerializedProperty gesturesList = serializedObject.FindProperty("gestureBank");
             SerializedProperty size = gesturesList.FindPropertyRelative("Array.size");
+
+            // and finally draw the list
             ShowGestureList(gesturesList, EditorListOption.Buttons);
 
         }
@@ -488,6 +499,7 @@ namespace Edwon.VR.Gesture
 
         void ShowGestureList(SerializedProperty list, EditorListOption options = EditorListOption.Default)
         {
+
             bool showListLabel = (options & EditorListOption.ListLabel) != 0;
             bool showListSize = (options & EditorListOption.ListSize) != 0;
             if (showListLabel)
