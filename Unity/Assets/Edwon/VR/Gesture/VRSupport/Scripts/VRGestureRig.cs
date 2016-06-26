@@ -91,32 +91,21 @@ namespace Edwon.VR
         /// <returns></returns>
         public void CreateInputHelper()
         {
-            if (VRGestureManager.Instance.vrType == VRTYPE.SteamVR)
-            {
-                
-                #if EDWON_VR_STEAM
-                SteamVR_ControllerManager[] steamVR_cm = FindObjectsOfType<SteamVR_ControllerManager>();
-                leftController = steamVR_cm[0].left;
-                rightController = steamVR_cm[0].right;
+            #if EDWON_VR_STEAM
+            SteamVR_ControllerManager[] steamVR_cm = FindObjectsOfType<SteamVR_ControllerManager>();
+            leftController = steamVR_cm[0].left;
+            rightController = steamVR_cm[0].right;
 
-                inputLeft = gameObject.AddComponent<VRControllerInputSteam>().Init(HandType.Left, leftController);
-                inputRight = gameObject.AddComponent<VRControllerInputSteam>().Init(HandType.Right, rightController);
-				#endif
+            inputLeft = gameObject.AddComponent<VRControllerInputSteam>().Init(HandType.Left, leftController);
+            inputRight = gameObject.AddComponent<VRControllerInputSteam>().Init(HandType.Right, rightController);
+			#endif
 
-            }
-            else if (VRGestureManager.Instance.vrType == VRTYPE.OculusTouchVR)
-            {
-				#if EDWON_VR_OCULUS
-                inputLeft = handLeft.gameObject.AddComponent<VRControllerInputOculus>().Init(HandType.Left);
-                inputRight = handRight.gameObject.AddComponent<VRControllerInputOculus>().Init(HandType.Right);
-                if (spawnControllerModels)
-                    SpawnControllerModels();
-				#endif
-            }
-            else
-            {
-                Debug.Log("YOU NEED TO SELECT A BETTER VRTYPE in your config.");
-            }
+			#if EDWON_VR_OCULUS
+            inputLeft = handLeft.gameObject.AddComponent<VRControllerInputOculus>().Init(HandType.Left);
+            inputRight = handRight.gameObject.AddComponent<VRControllerInputOculus>().Init(HandType.Right);
+            if (spawnControllerModels)
+                SpawnControllerModels();
+			#endif
         }
 
         public void SpawnControllerModels ()

@@ -50,8 +50,6 @@ namespace Edwon.VR.Gesture
 		#endregion
 
         #region SETTINGS VARIABLES
-        // the type of vr to use
-        public VRTYPE vrType;
         // which hand to track
         [SerializeField]
         [Tooltip("which hand to track using the gesture")]
