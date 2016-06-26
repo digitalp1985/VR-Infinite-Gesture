@@ -56,8 +56,6 @@ namespace Edwon.VR.Gesture
         [SerializeField]
         [Tooltip("which hand to track using the gesture")]
         public HandType gestureHand = HandType.Right; // the hand to track
-        [Tooltip("spawn simple controller art for hand position reference")]
-        public bool spawnControllerModels = true;
         [Tooltip("display default gesture trails")]
         public bool displayGestureTrail = true;
         [Tooltip("the button that triggers gesture recognition")]

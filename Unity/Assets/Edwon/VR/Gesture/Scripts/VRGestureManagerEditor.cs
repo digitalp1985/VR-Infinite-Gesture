@@ -241,7 +241,6 @@ namespace Edwon.VR.Gesture
 			}
             EditorGUILayout.PropertyField(serializedObject.FindProperty("vrType"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("displayGestureTrail"));
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("spawnControllerModels"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("gestureHand"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("gestureButton"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("confidenceThreshold"));

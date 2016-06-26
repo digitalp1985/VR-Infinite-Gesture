@@ -8,6 +8,7 @@ namespace Edwon.VR
 {
     public class VRGestureRig : MonoBehaviour
     {
+
         //public VRRigAnchors vrRigAnchors;
         public Transform headTF;
         public Transform lHandTF;
@@ -15,6 +16,8 @@ namespace Edwon.VR
 
         GameObject leftController;
         GameObject rightController;
+
+        public bool spawnControllerModels = false;
 
         public GameObject leftControllerModelPrefab;
         public GameObject rightControllerModelPrefab;
@@ -25,6 +28,11 @@ namespace Edwon.VR
         void Awake()
         {
             CreateInputHelper();
+        }
+
+        public void SetupRig()
+        {
+            Debug.Log("setup rig");
         }
 
         public Transform GetHand(HandType handedness)
@@ -85,7 +93,7 @@ namespace Edwon.VR
 				#if OCULUSVR
                 inputLeft = lHandTF.gameObject.AddComponent<VRControllerInputOculus>().Init(HandType.Left);
                 inputRight = rHandTF.gameObject.AddComponent<VRControllerInputOculus>().Init(HandType.Right);
-                if (VRGestureManager.Instance.spawnControllerModels)
+                if (spawnControllerModels)
                     SpawnControllerModels();
 				#endif
             }
