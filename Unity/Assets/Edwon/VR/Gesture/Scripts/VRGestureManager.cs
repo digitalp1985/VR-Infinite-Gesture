@@ -546,7 +546,6 @@ namespace Edwon.VR.Gesture
         {
             if (currentNeuralNet != lastNeuralNet)
             {
-                Debug.Log("refresh gesture bank");
                 if (currentNeuralNet != null && Utils.Instance.GetGestureBank(currentNeuralNet) != null)
                 {
                     gestureBank = Utils.Instance.GetGestureBank(currentNeuralNet);
@@ -584,7 +583,7 @@ namespace Edwon.VR.Gesture
         {
             lastNeuralNet = currentNeuralNet;
             currentNeuralNet = neuralNetName;
-            Debug.Log("last neural net: " + lastNeuralNet + " current neural net: " + currentNeuralNet);
+            //Debug.Log("last neural net: " + lastNeuralNet + " current neural net: " + currentNeuralNet);
         }
 
         [ExecuteInEditMode]
