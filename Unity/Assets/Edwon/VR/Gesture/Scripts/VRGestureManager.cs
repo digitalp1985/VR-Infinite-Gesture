@@ -171,7 +171,6 @@ namespace Edwon.VR.Gesture
 
         public virtual void Awake()
         {
-			Debug.Log(stateInitial);
 
             DontDestroyOnLoad(this.gameObject);
             if (instance == null)
@@ -308,7 +307,6 @@ namespace Edwon.VR.Gesture
         // Update is called once per frame
         void Update()
         {
-			Debug.Log("state: " + state);
             if (state != stateLast)
             {
                 //Debug.Log(state);
