@@ -10,17 +10,25 @@ namespace Edwon.VR
     {
 
         //public VRRigAnchors vrRigAnchors;
+        [SerializeField]
         public Transform head;
+        [SerializeField]
         public Transform handLeft;
+        [SerializeField]
         public Transform handRight;
 
+        [SerializeField]
         GameObject leftController;
+        [SerializeField]
         GameObject rightController;
 
+        [SerializeField]
         public bool spawnControllerModels = false;
 
-        public GameObject leftControllerModelPrefab;
-        public GameObject rightControllerModelPrefab;
+        [SerializeField]
+        public GameObject handLeftModel;
+        [SerializeField]
+        public GameObject handRightModel;
 
         IInput inputLeft = null;
         IInput inputRight = null;
@@ -32,9 +40,15 @@ namespace Edwon.VR
 
         public void SetupRig()
         {
-            Debug.Log("setup rig");
+            #if EDWON_VR_OCULUS
+            OVRCameraRig ovrCameraRig = GetComponent<OVRCameraRig>();
+            head = ovrCameraRig.centerEyeAnchor;
+            handLeft = ovrCameraRig.leftHandAnchor;
+            handRight = ovrCameraRig.rightHandAnchor;
+            #endif
+            #if EDWON_VR_STEAM
 
-        
+            #endif
         }
 
         public Transform GetHand(HandType handedness)
@@ -107,8 +121,8 @@ namespace Edwon.VR
 
         public void SpawnControllerModels ()
         {
-            Transform leftModel = GameObject.Instantiate(leftControllerModelPrefab).transform;
-            Transform rightModel = GameObject.Instantiate(rightControllerModelPrefab).transform;
+            Transform leftModel = GameObject.Instantiate(handLeftModel).transform;
+            Transform rightModel = GameObject.Instantiate(handRightModel).transform;
             leftModel.parent = handLeft;
             rightModel.parent = handRight;
             leftModel.localPosition = Vector3.zero;

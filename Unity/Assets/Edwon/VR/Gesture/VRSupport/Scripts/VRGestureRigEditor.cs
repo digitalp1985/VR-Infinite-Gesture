@@ -10,12 +10,16 @@ namespace Edwon.VR
         SerializedProperty head;
         SerializedProperty handLeft;
         SerializedProperty handRight;
+        SerializedProperty handLeftModel;
+        SerializedProperty handRightModel;
 
         void OnEnable()
         {
             head = serializedObject.FindProperty("head");
             handLeft = serializedObject.FindProperty("handLeft");
             handRight = serializedObject.FindProperty("handRight");
+            handLeftModel = serializedObject.FindProperty("handLeftModel");
+            handRightModel = serializedObject.FindProperty("handRightModel");
         }
 
         public override void OnInspectorGUI()
@@ -33,8 +37,18 @@ namespace Edwon.VR
             EditorGUILayout.PropertyField(handLeft);
             EditorGUILayout.PropertyField(handRight);
 
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.PrefixLabel("Spawn Controller Models");
+            vrGestureRig.spawnControllerModels = EditorGUILayout.Toggle(vrGestureRig.spawnControllerModels);
+            EditorGUILayout.EndHorizontal();
+
+            if (vrGestureRig.spawnControllerModels)
+            {
+                EditorGUILayout.PropertyField(handLeftModel);
+                EditorGUILayout.PropertyField(handRightModel);
+            }
+
             serializedObject.ApplyModifiedProperties();
-            //DrawDefaultInspector();
         }
     }
 }
