@@ -1,5 +1,4 @@
-﻿//#define STEAMVR
-#if STEAMVR
+﻿#if STEAMVR
 
 using UnityEngine;
 using System.Collections;

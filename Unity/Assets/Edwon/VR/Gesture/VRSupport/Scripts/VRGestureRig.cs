@@ -1,8 +1,4 @@
-﻿
-//#define OCULUSVR
-//#define STEAMVR
-
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using System;
 using Edwon.VR.Gesture;

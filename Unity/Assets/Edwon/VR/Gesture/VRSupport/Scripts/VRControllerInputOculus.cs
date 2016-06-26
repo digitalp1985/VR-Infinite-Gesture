@@ -1,6 +1,4 @@
-﻿
-//#define OCULUSVR
-#if OCULUSVR
+﻿#if OCULUSVR
 
 using UnityEngine;
 using System.Collections;
