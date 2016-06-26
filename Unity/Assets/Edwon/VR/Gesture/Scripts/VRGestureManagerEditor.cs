@@ -226,7 +226,6 @@ namespace Edwon.VR.Gesture
                 {
 					vrGestureManager.stateInitial = VRGestureManagerState.ReadyToDetect;
                     EditorGUILayout.LabelField("Choose the neural network to detect with");
-                    vrGestureManager.RefreshNeuralNetList();
                     ShowNeuralNetPopup(GetNeuralNetsList());
                 }
                 else
@@ -250,6 +249,8 @@ namespace Edwon.VR.Gesture
 
         string[] GetNeuralNetsList()
         {
+            vrGestureManager.RefreshNeuralNetList();
+
             string[] stringArray = new string[0];
             if (vrGestureManager.neuralNets.Count > 0)
             {
@@ -296,18 +297,11 @@ namespace Edwon.VR.Gesture
                     break;
                 // NEURAL NET POPUP
                 case (NeuralNetGUIMode.ShowPopup):
-                    vrGestureManager.RefreshNeuralNetList();
                     ShowNeuralNetPopupGroup(neuralNetsArray);
                     GUILayout.EndHorizontal();
                     ShowNeuralNetTrainedGestures();
                     break;
             }
-
-            // TEMP
-
-            // DEBUG ONLY
-            //		ShowList(serializedObject.FindProperty("neuralNets"), EditorListOption.ListLabelButtons);
-
         }
 
         void ShowNeuralNetTrainedGestures()
