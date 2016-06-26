@@ -90,13 +90,13 @@ namespace Edwon.VR.Gesture
         void PositionGestureGallery()
         {
             // set position
-            Vector3 forward = rig.headTF.forward;
+            Vector3 forward = rig.head.forward;
             forward = Vector3.ProjectOnPlane(forward, Vector3.up);
-            Vector3 position = rig.headTF.position + (forward * distanceFromHead);
+            Vector3 position = rig.head.position + (forward * distanceFromHead);
             galleryRB.MovePosition( position );
 
             // set rotation
-            Vector3 toHead = position - rig.headTF.position;
+            Vector3 toHead = position - rig.head.position;
             Quaternion rotation = Quaternion.LookRotation(-toHead, Vector3.up);
             galleryRB.MoveRotation(rotation);
         }

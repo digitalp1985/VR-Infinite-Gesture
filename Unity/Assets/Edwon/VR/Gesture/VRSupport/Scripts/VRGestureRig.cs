@@ -10,9 +10,9 @@ namespace Edwon.VR
     {
 
         //public VRRigAnchors vrRigAnchors;
-        public Transform headTF;
-        public Transform lHandTF;
-        public Transform rHandTF;
+        public Transform head;
+        public Transform handLeft;
+        public Transform handRight;
 
         GameObject leftController;
         GameObject rightController;
@@ -33,17 +33,19 @@ namespace Edwon.VR
         public void SetupRig()
         {
             Debug.Log("setup rig");
+
+        
         }
 
         public Transform GetHand(HandType handedness)
         {
             if (handedness == HandType.Left)
             {
-                return lHandTF;
+                return handLeft;
             }
             else
             {
-                return rHandTF;
+                return handRight;
             }
         }
 
@@ -78,7 +80,7 @@ namespace Edwon.VR
             if (VRGestureManager.Instance.vrType == VRTYPE.SteamVR)
             {
                 
-                #if STEAMVR
+                #if EDWON_VR_STEAM
                 SteamVR_ControllerManager[] steamVR_cm = FindObjectsOfType<SteamVR_ControllerManager>();
                 leftController = steamVR_cm[0].left;
                 rightController = steamVR_cm[0].right;
@@ -90,9 +92,9 @@ namespace Edwon.VR
             }
             else if (VRGestureManager.Instance.vrType == VRTYPE.OculusTouchVR)
             {
-				#if OCULUSVR
-                inputLeft = lHandTF.gameObject.AddComponent<VRControllerInputOculus>().Init(HandType.Left);
-                inputRight = rHandTF.gameObject.AddComponent<VRControllerInputOculus>().Init(HandType.Right);
+				#if EDWON_VR_OCULUS
+                inputLeft = handLeft.gameObject.AddComponent<VRControllerInputOculus>().Init(HandType.Left);
+                inputRight = handRight.gameObject.AddComponent<VRControllerInputOculus>().Init(HandType.Right);
                 if (spawnControllerModels)
                     SpawnControllerModels();
 				#endif
@@ -107,8 +109,8 @@ namespace Edwon.VR
         {
             Transform leftModel = GameObject.Instantiate(leftControllerModelPrefab).transform;
             Transform rightModel = GameObject.Instantiate(rightControllerModelPrefab).transform;
-            leftModel.parent = lHandTF;
-            rightModel.parent = rHandTF;
+            leftModel.parent = handLeft;
+            rightModel.parent = handRight;
             leftModel.localPosition = Vector3.zero;
             rightModel.localPosition = Vector3.zero;
             leftModel.localRotation = Quaternion.identity;

@@ -23,9 +23,9 @@ namespace Edwon.VR.Gesture.Examples
 
             rb = GetComponent<Rigidbody>();
 
-            playerHead = myAvatar.headTF;
-            playerHandR = myAvatar.rHandTF;
-            playerHandL = myAvatar.lHandTF;
+            playerHead = myAvatar.head;
+            playerHandR = myAvatar.handRight;
+            playerHandL = myAvatar.handLeft;
 
             StartCoroutine(DestroySelf());
         }

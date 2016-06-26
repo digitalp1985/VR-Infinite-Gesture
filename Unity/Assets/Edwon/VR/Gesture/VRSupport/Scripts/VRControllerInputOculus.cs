@@ -1,4 +1,4 @@
-﻿#if OCULUSVR
+﻿#if EDWON_VR_OCULUS
 
 using UnityEngine;
 using System.Collections;

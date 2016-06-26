@@ -99,7 +99,7 @@ namespace Edwon.VR.Gesture
                 ControllerCamera.cullingMask = 0; // 1 << LayerMask.NameToLayer("UI"); 
                 ControllerCamera.nearClipPlane = 0.0001f;
 
-                Controllers = new Transform[] { rig.lHandTF, rig.rHandTF };
+                Controllers = new Transform[] { rig.handLeft, rig.handRight };
                 Cursors = new RectTransform[2];                
 
                 for (int index = 0; index < Cursors.Length; index++)

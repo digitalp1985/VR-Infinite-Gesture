@@ -22,9 +22,9 @@ namespace Edwon.VR.Gesture
         {
             rig = VRGestureManager.Instance.rig;
 
-            playerHead = rig.headTF;
-            playerHandR = rig.rHandTF;
-            playerHandL = rig.lHandTF;
+            playerHead = rig.head;
+            playerHandR = rig.handRight;
+            playerHandL = rig.handLeft;
 
             input = rig.GetInput(VRGestureManager.Instance.gestureHand);
         }

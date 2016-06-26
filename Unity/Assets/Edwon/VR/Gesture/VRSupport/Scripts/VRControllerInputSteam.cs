@@ -1,4 +1,4 @@
-﻿#if STEAMVR
+﻿#if EDWON_VR_STEAM
 
 using UnityEngine;
 using System.Collections;
