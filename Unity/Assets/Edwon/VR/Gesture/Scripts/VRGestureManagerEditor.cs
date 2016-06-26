@@ -120,9 +120,6 @@ namespace Edwon.VR.Gesture
                 ShowSettings();
             else if (vrGestureManager.stateInitial != VRGestureManagerState.ReadyToDetect)
                 ShowTrain();
-            else if (vrGestureManager.stateInitial == VRGestureManagerState.ReadyToDetect)
-                ShowDetect();
-
         }
 
         void FocusAndClickUpdate()
@@ -163,17 +160,6 @@ namespace Edwon.VR.Gesture
         }
 
         #region SHOW GUI SECTIONS
-
-        void ShowDetect()
-        {
-            GUILayout.BeginHorizontal();
-            EditorGUILayout.Separator();
-            GUILayout.EndHorizontal();
-
-            GUILayout.BeginVertical();
-            ShowNeuralNets();
-            GUILayout.EndVertical();
-        }
 
         void ShowTrain()
         {
@@ -240,6 +226,7 @@ namespace Edwon.VR.Gesture
                 {
 					vrGestureManager.stateInitial = VRGestureManagerState.ReadyToDetect;
                     EditorGUILayout.LabelField("Choose the neural network to detect with");
+                    vrGestureManager.RefreshNeuralNetList();
                     ShowNeuralNetPopup(GetNeuralNetsList());
                 }
                 else
@@ -309,6 +296,7 @@ namespace Edwon.VR.Gesture
                     break;
                 // NEURAL NET POPUP
                 case (NeuralNetGUIMode.ShowPopup):
+                    vrGestureManager.RefreshNeuralNetList();
                     ShowNeuralNetPopupGroup(neuralNetsArray);
                     GUILayout.EndHorizontal();
                     ShowNeuralNetTrainedGestures();
@@ -398,7 +386,6 @@ namespace Edwon.VR.Gesture
 
         void ShowNeuralNetPopup (string[] neuralNetsArray)
         {
-            vrGestureManager.RefreshNeuralNetList();
 
 			selectedNeuralNetIndex = Array.IndexOf(neuralNetsArray, vrGestureManager.currentNeuralNet);
 
