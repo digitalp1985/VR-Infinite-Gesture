@@ -414,9 +414,9 @@ namespace Edwon.VR.Gesture
 
         void ShowGestures()
         {
+            //Debug.Log("show gestures");
             // first update the gesture bank
             vrGestureManager.RefreshGestureBank();
-
 
             EditorGUILayout.LabelField("RECORDED GESTURES");
 
