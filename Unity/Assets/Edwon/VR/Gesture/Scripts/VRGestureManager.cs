@@ -181,10 +181,13 @@ namespace Edwon.VR.Gesture
 
         void Init()
         {
-            rig = FindObjectOfType<VRGestureRig>();
-            playerHead = rig.head;
-            playerHand = rig.GetHand(gestureHand);
-            input = rig.GetInput(gestureHand);
+            if (FindObjectOfType<VRGestureRig>() != null)
+            {
+                rig = FindObjectOfType<VRGestureRig>();
+                playerHead = rig.head;
+                playerHand = rig.GetHand(gestureHand);
+                input = rig.GetInput(gestureHand);
+            }
         }
 
         void Start()
