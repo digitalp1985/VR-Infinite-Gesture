@@ -40,15 +40,19 @@ namespace Edwon.VR
 
         public void SetupRig()
         {
-            #if EDWON_VR_OCULUS
+#if EDWON_VR_OCULUS
             OVRCameraRig ovrCameraRig = GetComponent<OVRCameraRig>();
             head = ovrCameraRig.centerEyeAnchor;
             handLeft = ovrCameraRig.leftHandAnchor;
             handRight = ovrCameraRig.rightHandAnchor;
-            #endif
-            #if EDWON_VR_STEAM
+#endif
+#if EDWON_VR_STEAM
+            SteamVR_ControllerManager steamVRControllerManager = GetComponent<SteamVR_ControllerManager>();
+            head = GetComponentInChildren<SteamVR_GameView>().transform;
+            handLeft = steamVRControllerManager.left.transform;
+            handRight = steamVRControllerManager.right.transform;
 
-            #endif
+#endif
         }
 
         public Transform GetHand(HandType handedness)
