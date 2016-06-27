@@ -38,20 +38,37 @@ namespace Edwon.VR
             CreateInputHelper();
         }
 
-        public void SetupRig()
+        public void AutoSetup()
         {
 #if EDWON_VR_OCULUS
-            OVRCameraRig ovrCameraRig = GetComponent<OVRCameraRig>();
-            head = ovrCameraRig.centerEyeAnchor;
-            handLeft = ovrCameraRig.leftHandAnchor;
-            handRight = ovrCameraRig.rightHandAnchor;
+            if (GetComponent<OVRCameraRig>() != null)
+            {
+                OVRCameraRig ovrCameraRig = GetComponent<OVRCameraRig>();
+                head = ovrCameraRig.centerEyeAnchor;
+                handLeft = ovrCameraRig.leftHandAnchor;
+                handRight = ovrCameraRig.rightHandAnchor;
+            }
+            else
+            {
+                Debug.Log(
+                    "Could not setup OculusVR rig, is this script on the top level of your OVRCameraRig?\nDid you define EDWON_VR_OCULUS in Project Settings > Player ?"
+                    );
+            }
 #endif
 #if EDWON_VR_STEAM
-            SteamVR_ControllerManager steamVRControllerManager = GetComponent<SteamVR_ControllerManager>();
-            head = GetComponentInChildren<SteamVR_GameView>().transform;
-            handLeft = steamVRControllerManager.left.transform;
-            handRight = steamVRControllerManager.right.transform;
-
+            if (GetComponent<SteamVR_ControllerManager>() != null)
+            {
+                SteamVR_ControllerManager steamVRControllerManager = GetComponent<SteamVR_ControllerManager>();
+                head = GetComponentInChildren<SteamVR_GameView>().transform;
+                handLeft = steamVRControllerManager.left.transform;
+                handRight = steamVRControllerManager.right.transform;
+            }
+            else
+            {
+                Debug.Log(
+                    "Could not setup SteamVR rig, is this script on the top level of your SteamVR camera prefab?\nDid you define EDWON_VR_STEAM in Project Settings > Player ?"
+                    );
+            }
 #endif
         }
 
@@ -95,21 +112,23 @@ namespace Edwon.VR
         /// <returns></returns>
         public void CreateInputHelper()
         {
-            #if EDWON_VR_STEAM
+#if EDWON_VR_STEAM
             SteamVR_ControllerManager[] steamVR_cm = FindObjectsOfType<SteamVR_ControllerManager>();
             leftController = steamVR_cm[0].left;
             rightController = steamVR_cm[0].right;
 
             inputLeft = gameObject.AddComponent<VRControllerInputSteam>().Init(HandType.Left, leftController);
             inputRight = gameObject.AddComponent<VRControllerInputSteam>().Init(HandType.Right, rightController);
-			#endif
+            if (spawnControllerModels)
+                SpawnControllerModels();
+#endif
 
-			#if EDWON_VR_OCULUS
+#if EDWON_VR_OCULUS
             inputLeft = handLeft.gameObject.AddComponent<VRControllerInputOculus>().Init(HandType.Left);
             inputRight = handRight.gameObject.AddComponent<VRControllerInputOculus>().Init(HandType.Right);
             if (spawnControllerModels)
                 SpawnControllerModels();
-			#endif
+#endif
         }
 
         public void SpawnControllerModels ()

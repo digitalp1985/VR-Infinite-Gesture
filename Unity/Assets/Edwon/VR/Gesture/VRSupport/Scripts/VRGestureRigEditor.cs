@@ -15,22 +15,22 @@ namespace Edwon.VR
 
         void OnEnable()
         {
-            head = serializedObject.FindProperty("head");
-            handLeft = serializedObject.FindProperty("handLeft");
-            handRight = serializedObject.FindProperty("handRight");
-            handLeftModel = serializedObject.FindProperty("handLeftModel");
-            handRightModel = serializedObject.FindProperty("handRightModel");
         }
 
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
 
+            head = serializedObject.FindProperty("head");
+            handLeft = serializedObject.FindProperty("handLeft");
+            handRight = serializedObject.FindProperty("handRight");
+            handLeftModel = serializedObject.FindProperty("handLeftModel");
+            handRightModel = serializedObject.FindProperty("handRightModel");
 
             VRGestureRig vrGestureRig = (VRGestureRig)target;
             if (GUILayout.Button("Auto Setup"))
             {
-                vrGestureRig.SetupRig();
+                vrGestureRig.AutoSetup();
             }
 
             EditorGUILayout.PropertyField(head);
