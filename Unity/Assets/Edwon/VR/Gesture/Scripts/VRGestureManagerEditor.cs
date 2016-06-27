@@ -118,7 +118,7 @@ namespace Edwon.VR.Gesture
         {
             if (showSettingsGUI)
                 ShowSettings();
-            else if (vrGestureManager.stateInitial != VRGestureManagerState.ReadyToDetect)
+            else
                 ShowTrain();
         }
 
