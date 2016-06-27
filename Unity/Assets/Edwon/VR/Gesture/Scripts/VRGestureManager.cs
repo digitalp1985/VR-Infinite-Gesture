@@ -16,22 +16,22 @@ namespace Edwon.VR.Gesture
 
     public class VRGestureManager : MonoBehaviour
     {
-		#region SINGLETON
-		static VRGestureManager instance;
+        #region SINGLETON
+        static VRGestureManager instance;
 
-		public static VRGestureManager Instance
-		{
-			get
-			{
-				if (instance == null)
-				{
-					//instance = FindObjectOfType<VRGestureManager>();
+        public static VRGestureManager Instance
+        {
+            get
+            {
+                if (instance == null)
+                {
+                    //instance = FindObjectOfType<VRGestureManager>();
                     VRGestureManager[] instances = FindObjectsOfType<VRGestureManager>();
                     if (instances.Length == 1)
                     {
                         instance = instances[0];
                     }
-                    else if(instances.Length == 0)
+                    else if (instances.Length == 0)
                     {
                         GameObject obj = new GameObject();
                         obj.hideFlags = HideFlags.HideAndDontSave;
@@ -42,12 +42,12 @@ namespace Edwon.VR.Gesture
                         Debug.LogError("There are too many VRGestureManagers added to your scene. VRGestureManager behaves as a signleton. Please remove any extra VRGestureManager components.");
                     }
 
-					instance.Init();
-				}
-				return instance;
-			}
-		}
-		#endregion
+                    instance.Init();
+                }
+                return instance;
+            }
+        }
+        #endregion
 
         #region SETTINGS VARIABLES
         // which hand to track
@@ -73,34 +73,38 @@ namespace Edwon.VR.Gesture
 
         #region STATE VARIABLES
         public VRGestureManagerState state;
-		[SerializeField]
+        [SerializeField]
         public VRGestureManagerState stateInitial;
-		[SerializeField]
+        [SerializeField]
         public VRGestureManagerState stateLast;
 
-		public bool readyToTrain
-		{
-			get
-			{
-				if (gestureBank.Count > 0)
-				{
-					foreach(int total in gestureBankTotalExamples)
-					{
-						if (total <= 0)
-							return false;
-					}
-					return true;
-				}
-				else
-					return false;
-			}
-		}
+        public bool readyToTrain
+        {
+            get
+            {
+                if (gestureBank != null)
+                {
+                    if (gestureBank.Count > 0)
+                    {
+                        foreach (int total in gestureBankTotalExamples)
+                        {
+                            if (total <= 0)
+                                return false;
+                        }
+                        return true;
+                    }
+                    else
+                        return false;
+                }
+                return false;
+            }
+        }
 
         #endregion
-        
+
         #region AVATAR VARIABLES
-		public VRGestureRig rig;
-		IInput input;
+        public VRGestureRig rig;
+        IInput input;
         Transform playerHead;
         Transform playerHand;
         Transform perpTransform;
@@ -109,12 +113,12 @@ namespace Edwon.VR.Gesture
         #region LINE CAPTURE VARIABLES
         GestureTrail myTrail;
         List<Vector3> currentCapturedLine;
-		public string gestureToRecord;
+        public string gestureToRecord;
 
-		float nextRenderTime = 0;
-		float renderRateLimit = Config.CAPTURE_RATE;
-		float nextTestTime = 0;
-		float testRateLimit = 500;
+        float nextRenderTime = 0;
+        float renderRateLimit = Config.CAPTURE_RATE;
+        float nextTestTime = 0;
+        float testRateLimit = 500;
         #endregion
 
         #region NEURAL NET VARIABLES
@@ -140,14 +144,14 @@ namespace Edwon.VR.Gesture
             }
         }
         public List<string> gestureBank; // list of recorded gesture for current neural net
-		public List<int> gestureBankTotalExamples;
+        public List<int> gestureBankTotalExamples;
 
-		Trainer currentTrainer;
-		GestureRecognizer currentRecognizer;
+        Trainer currentTrainer;
+        GestureRecognizer currentRecognizer;
 
         #endregion
 
-		#region EVENTS VARIABLES
+        #region EVENTS VARIABLES
         public delegate void GestureDetected(string gestureName, double confidence);
         public static event GestureDetected GestureDetectedEvent;
         public delegate void GestureRejected(string error, string gestureName = null, double confidence = 0);
@@ -163,9 +167,9 @@ namespace Edwon.VR.Gesture
 
         #region DEBUG VARIABLES
         public string debugString;
-		#endregion
+        #endregion
 
-		#region INITIALIZE
+        #region INITIALIZE
 
         public virtual void Awake()
         {
@@ -518,7 +522,7 @@ namespace Edwon.VR.Gesture
             gestures = new List<string>();
             gestureBank = new List<string>();
             gestureBankPreEdit = new List<string>();
-			gestureBankTotalExamples = new List<int>();
+            gestureBankTotalExamples = new List<int>();
 
             // select the new neural net
             SelectNeuralNet(neuralNetName);
