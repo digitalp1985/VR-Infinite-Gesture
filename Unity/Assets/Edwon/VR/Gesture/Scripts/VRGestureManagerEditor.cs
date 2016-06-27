@@ -74,6 +74,11 @@ namespace Edwon.VR.Gesture
             }
         }
 			
+        public void OnDisable()
+        {
+            vrGestureManager.RefreshGestureBank(false);
+        }
+
         public override void OnInspectorGUI()
         {
             // TEXTURE SETUP
@@ -392,6 +397,8 @@ namespace Edwon.VR.Gesture
 			if (selectedNeuralNetIndex < 0)
 				selectedNeuralNetIndex = 0;
 
+            if (Event.current.type == EventType.ExecuteCommand)
+                vrGestureManager.RefreshGestureBank(false);
             selectedNeuralNetIndex = EditorGUILayout.Popup(selectedNeuralNetIndex, neuralNetsArray);
 
 			// Update the selected choice in the underlying object
@@ -417,9 +424,8 @@ namespace Edwon.VR.Gesture
 
         void ShowGestures()
         {
-            //Debug.Log("show gestures");
             // first update the gesture bank
-            vrGestureManager.RefreshGestureBank();
+            vrGestureManager.RefreshGestureBank(true);
 
             EditorGUILayout.LabelField("RECORDED GESTURES");
 

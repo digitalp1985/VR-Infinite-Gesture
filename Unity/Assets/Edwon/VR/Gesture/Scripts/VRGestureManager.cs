@@ -545,23 +545,27 @@ namespace Edwon.VR.Gesture
         }
 
         [ExecuteInEditMode]
-        public void RefreshGestureBank()
+        public void RefreshGestureBank(bool checkNeuralNetChanged)
         {
-            if (currentNeuralNet != lastNeuralNet)
+            if (checkNeuralNetChanged)
             {
-                //Debug.Log("refresh gesture bank");
-                if (currentNeuralNet != null && Utils.Instance.GetGestureBank(currentNeuralNet) != null)
+                if (currentNeuralNet == lastNeuralNet)
                 {
-                    gestureBank = Utils.Instance.GetGestureBank(currentNeuralNet);
-                    gestureBankPreEdit = new List<string>(gestureBank);
-                    gestureBankTotalExamples = Utils.Instance.GetGestureBankTotalExamples(gestureBank);
+                    return;
                 }
-                else
-                {
-                    gestureBank = new List<string>();
-                    gestureBankPreEdit = new List<string>();
-                    gestureBankTotalExamples = new List<int>();
-                }
+            }
+
+            if (currentNeuralNet != null && Utils.Instance.GetGestureBank(currentNeuralNet) != null)
+            {
+                gestureBank = Utils.Instance.GetGestureBank(currentNeuralNet);
+                gestureBankPreEdit = new List<string>(gestureBank);
+                gestureBankTotalExamples = Utils.Instance.GetGestureBankTotalExamples(gestureBank);
+            }
+            else
+            {
+                gestureBank = new List<string>();
+                gestureBankPreEdit = new List<string>();
+                gestureBankTotalExamples = new List<int>();
             }
         }
 
@@ -587,8 +591,9 @@ namespace Edwon.VR.Gesture
         {
             lastNeuralNet = currentNeuralNet;
             currentNeuralNet = neuralNetName;
+            //Debug.Log("select neural net");
             //Debug.Log("last neural net: " + lastNeuralNet + " current neural net: " + currentNeuralNet);
-            RefreshGestureBank();
+            RefreshGestureBank(true);
         }
 
         [ExecuteInEditMode]
