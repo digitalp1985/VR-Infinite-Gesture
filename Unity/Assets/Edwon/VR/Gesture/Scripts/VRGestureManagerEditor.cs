@@ -378,6 +378,11 @@ namespace Edwon.VR.Gesture
             }
         }
 
+        /// <summary>
+        /// The Neural Network Dropdown List
+        /// For selecting the current neural network
+        /// </summary>
+        /// <param name="neuralNetsArray"></param>
         void ShowNeuralNetPopup (string[] neuralNetsArray)
         {
 
