@@ -291,24 +291,27 @@ namespace Edwon.VR.Gesture
         {
             List<string> gestureBank = new List<string>();
             string gesturesPath = Config.SAVE_FILE_PATH + networkName + "/gestures/";
-            string[] files = System.IO.Directory.GetFiles(gesturesPath, "*.txt");
-            if (files.Length == 0)
+            //Check if path exists
+            if (System.IO.Directory.Exists(gesturesPath))
             {
-                return null;
+                string[] files = System.IO.Directory.GetFiles(gesturesPath, "*.txt");
+                if (files.Length == 0)
+                {
+                    return null;
+                }
+                foreach (string path in files)
+                {
+                    //paramschar[] sep = { '/'};
+                    char[] stringSeparators = new char[] { '/' };
+                    string[] exploded = path.Split(stringSeparators);
+                    string iCareAbout = exploded[exploded.Length - 1];
+                    //scrub file extension
+                    int substrIndex = iCareAbout.LastIndexOf('.');
+                    string finalString = iCareAbout.Substring(0, substrIndex);
+                    //Debug.Log(finalString);
+                    gestureBank.Add(finalString);
+                }
             }
-            foreach(string path in files)
-            {
-                //paramschar[] sep = { '/'};
-                char[] stringSeparators = new char[] { '/' };
-                string[] exploded = path.Split(stringSeparators);
-                string iCareAbout = exploded[exploded.Length - 1];
-                //scrub file extension
-                int substrIndex = iCareAbout.LastIndexOf('.');
-                string finalString = iCareAbout.Substring(0, substrIndex);
-                //Debug.Log(finalString);
-                gestureBank.Add(finalString);
-            }
-
             return gestureBank;
         }
 

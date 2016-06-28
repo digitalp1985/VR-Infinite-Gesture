@@ -65,6 +65,8 @@ namespace Edwon.VR.Gesture
         enum NeuralNetGUIMode { None, EnterNewNetName, ShowPopup };
         NeuralNetGUIMode neuralNetGUIMode;
 
+        SerializedProperty gesturesList = null;
+
         public void OnEnable()
         {
             vrGestureManager = (VRGestureManager)target;
@@ -72,12 +74,13 @@ namespace Edwon.VR.Gesture
             {
                 vrGestureManager = VRGestureManager.Instance;
             }
+            vrGestureManager.RefreshNeuralNetList();
         }
 			
-        public void OnDisable()
-        {
-            vrGestureManager.RefreshGestureBank(false);
-        }
+        //public void OnDisable()
+        //{
+        //    vrGestureManager.RefreshGestureBank(false);
+        //}
 
         public override void OnInspectorGUI()
         {
@@ -92,7 +95,7 @@ namespace Edwon.VR.Gesture
             FocusAndClickUpdate();
             serializedObject.ApplyModifiedProperties();
 
-			EditorUtility.SetDirty(target);
+            EditorUtility.SetDirty(target);
         }
 			
         void ShowToolbar()
@@ -254,7 +257,7 @@ namespace Edwon.VR.Gesture
 
         string[] GetNeuralNetsList()
         {
-            vrGestureManager.RefreshNeuralNetList();
+            //vrGestureManager.RefreshNeuralNetList();
 
             string[] stringArray = new string[0];
             if (vrGestureManager.neuralNets.Count > 0)
@@ -285,23 +288,26 @@ namespace Edwon.VR.Gesture
             }
 
             // RENDER
-            GUILayout.BeginHorizontal();
+            
             switch (neuralNetGUIMode)
             {
                 case (NeuralNetGUIMode.None):
                     // PLUS + BUTTON
+                    GUILayout.BeginHorizontal();
                     if (GUILayout.Button(neuralNetNoneButtonContent))
                     {
                         newNeuralNetName = "";
                         GUI.FocusControl("Clear");
                         neuralNetGUIMode = NeuralNetGUIMode.EnterNewNetName;
                         newNeuralNetName = "";
-                        GUILayout.EndHorizontal();
+                        
 
                     }
+                    GUILayout.EndHorizontal();
                     break;
                 // NEURAL NET POPUP
                 case (NeuralNetGUIMode.ShowPopup):
+                    GUILayout.BeginHorizontal();
                     ShowNeuralNetPopupGroup(neuralNetsArray);
                     GUILayout.EndHorizontal();
                     ShowNeuralNetTrainedGestures();
@@ -397,8 +403,9 @@ namespace Edwon.VR.Gesture
 			if (selectedNeuralNetIndex < 0)
 				selectedNeuralNetIndex = 0;
 
-            if (Event.current.type == EventType.ExecuteCommand)
-                vrGestureManager.RefreshGestureBank(false);
+            //if (Event.current.type == EventType.ExecuteCommand)
+            //    vrGestureManager.RefreshGestureBank(false);
+
             selectedNeuralNetIndex = EditorGUILayout.Popup(selectedNeuralNetIndex, neuralNetsArray);
 
 			// Update the selected choice in the underlying object
@@ -425,16 +432,18 @@ namespace Edwon.VR.Gesture
         void ShowGestures()
         {
             // first update the gesture bank
-            vrGestureManager.RefreshGestureBank(true);
-
+            //vrGestureManager.RefreshGestureBank(true);
             EditorGUILayout.LabelField("RECORDED GESTURES");
-
             // then get the gesture bank
-            SerializedProperty gesturesList = serializedObject.FindProperty("gestureBank");
-            SerializedProperty size = gesturesList.FindPropertyRelative("Array.size");
+
+            gesturesList = serializedObject.FindProperty("gestureBank");
+            //if(Event.current.type == EventType.Layout)
+            //{
+
+            //}
 
             // and finally draw the list
-            ShowGestureList(gesturesList, EditorListOption.Buttons);
+            ShowGestureList(gesturesList);
 
         }
 
@@ -506,80 +515,27 @@ namespace Edwon.VR.Gesture
             return null;
         }
 
-        void ShowGestureList(SerializedProperty list, EditorListOption options = EditorListOption.Default)
+        void ShowGestureList(SerializedProperty list)
         {
-
-            bool showListLabel = (options & EditorListOption.ListLabel) != 0;
-            bool showListSize = (options & EditorListOption.ListSize) != 0;
-            if (showListLabel)
-            {
-                EditorGUILayout.PropertyField(list);
-                EditorGUI.indentLevel += 1;
-            }
-            if (!showListLabel || list.isExpanded)
-            {
-                SerializedProperty size = list.FindPropertyRelative("Array.size");
-                if (showListSize)
-                {
-                    EditorGUILayout.PropertyField(list.FindPropertyRelative("Array.size"));
-                }
-                if (size.hasMultipleDifferentValues)
-                {
-                    EditorGUILayout.HelpBox("Not showing lists with different sizes.", MessageType.Info);
-                }
-                else
-                {
-                    ShowGestureListElements(list, options);
-                }
-            }
-            if (showListLabel)
-                EditorGUI.indentLevel -= 1;
-        }
-
-        private void ShowGestureListElements(SerializedProperty list, EditorListOption options)
-        {
-            if (!list.isArray)
-            {
-                EditorGUILayout.HelpBox(list.name + " is neither an array nor a list", MessageType.Error);
-                return;
-            }
-
-            bool showElementLabels = (options & EditorListOption.ElementLabels) != 0;
-            bool showButtons = (options & EditorListOption.Buttons) != 0;
-
             // render the list
-            for (int i = 0; i < list.arraySize; i++)
+            if (list != null)
             {
-                string controlName = "Gesture Control " + i;
-
-                if (showButtons)
+                for (int i = 0; i < list.arraySize; i++)
                 {
+                    string controlName = "Gesture Control " + i;
                     EditorGUILayout.BeginHorizontal();
-                }
-                if (showElementLabels)
-                {
-                    EditorGUILayout.PropertyField(list.GetArrayElementAtIndex(i));
-                }
-                else
-                {
-                    //Was is this one?
                     GUI.SetNextControlName(controlName);
                     EditorGUILayout.PropertyField(list.GetArrayElementAtIndex(i), GUIContent.none);
-                }
-                if (showButtons)
-                {
-					ShowGestureListTotalExamples(list, i);
+                    ShowGestureListTotalExamples(list, i);
                     ShowGestureListButtons(list, i);
                     EditorGUILayout.EndHorizontal();
-
                 }
 
-            }
-
-            // if the list is empty show the plus + button
-            if (showButtons && list.arraySize == 0 && GUILayout.Button(addButtonContent, EditorStyles.miniButton))
-            {
-                vrGestureManager.CreateGesture("Gesture 1");
+                // if the list is empty show the plus + button
+                if (list.arraySize == 0 && GUILayout.Button(addButtonContent, EditorStyles.miniButton))
+                {
+                    vrGestureManager.CreateGesture("Gesture 1");
+                }
             }
         }
 

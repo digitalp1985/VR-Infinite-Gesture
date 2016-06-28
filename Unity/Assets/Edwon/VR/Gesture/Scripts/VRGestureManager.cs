@@ -554,8 +554,7 @@ namespace Edwon.VR.Gesture
                     return;
                 }
             }
-
-            if (currentNeuralNet != null && Utils.Instance.GetGestureBank(currentNeuralNet) != null)
+            if (currentNeuralNet != null && currentNeuralNet != "" && Utils.Instance.GetGestureBank(currentNeuralNet) != null)
             {
                 gestureBank = Utils.Instance.GetGestureBank(currentNeuralNet);
                 gestureBankPreEdit = new List<string>(gestureBank);
