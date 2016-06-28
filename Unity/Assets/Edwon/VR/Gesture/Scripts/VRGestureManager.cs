@@ -234,8 +234,6 @@ namespace Edwon.VR.Gesture
 
         public void LineCaught(List<Vector3> capturedLine)
         {
-            //Debug.Log("Line Caught");
-            //Debug.Log(state);
             if (state == VRGestureManagerState.Recording || state == VRGestureManagerState.ReadyToRecord)
             {
 
@@ -289,12 +287,10 @@ namespace Edwon.VR.Gesture
 
         public bool IsGestureBigEnough(List<Vector3> capturedLine)
         {
-            //C'mon rude boy - boy is it big enough?
             float check = Utils.Instance.FindMaxAxis(capturedLine);
             return (check > minimumGestureAxisLength);
         }
 		
-
 
 		//This will get points in relation to a users head.
 		public Vector3 getLocalizedPoint(Vector3 myDumbPoint)
@@ -312,12 +308,7 @@ namespace Edwon.VR.Gesture
         // Update is called once per frame
         void Update()
         {
-            if (state != stateLast)
-            {
-                //Debug.Log(state);
-            }
             stateLast = state;
-
             //get the position from the left anchor.
             //draw a point.
             if (rig != null)
@@ -481,11 +472,9 @@ namespace Edwon.VR.Gesture
         [ExecuteInEditMode]
         public void BeginTraining(Action<string> callback)
         {
-            //Debug.Log("Begin Training " + currentNeuralNet );
             state = VRGestureManagerState.Training;
             currentTrainer = new Trainer(gestureBank, currentNeuralNet);
             currentTrainer.TrainRecognizer();
-            //Debug.Log("Done Training " + currentNeuralNet );
             // finish training
             state = VRGestureManagerState.Idle;
             callback(currentNeuralNet);
@@ -494,7 +483,6 @@ namespace Edwon.VR.Gesture
         [ExecuteInEditMode]
         public void EndTraining(Action<string> callback)
         {
-            Debug.Log("Quit Training " + currentNeuralNet);
             state = VRGestureManagerState.Idle;
             callback(currentNeuralNet);
         }
@@ -513,7 +501,6 @@ namespace Edwon.VR.Gesture
         public void CreateNewNeuralNet(string neuralNetName)
         {
             // create new neural net folder
-            //System.IO.Directory.CreateDirectory(neuralNetFolderLocation);
             Utils.Instance.CreateFolder(neuralNetName);
             // create a gestures folder
             Utils.Instance.CreateFolder(neuralNetName + "/Gestures/");
@@ -526,7 +513,6 @@ namespace Edwon.VR.Gesture
 
             // select the new neural net
             SelectNeuralNet(neuralNetName);
-            Debug.Log("creating new neural net: " + neuralNetName);
         }
 
         [ExecuteInEditMode]
@@ -590,8 +576,6 @@ namespace Edwon.VR.Gesture
         {
             lastNeuralNet = currentNeuralNet;
             currentNeuralNet = neuralNetName;
-            //Debug.Log("select neural net");
-            //Debug.Log("last neural net: " + lastNeuralNet + " current neural net: " + currentNeuralNet);
             RefreshGestureBank(true);
         }
 

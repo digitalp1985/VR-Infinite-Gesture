@@ -54,10 +54,6 @@ namespace Edwon.VR.Gesture
 
         #endregion
 
-        // NEURAL NET STUFF
-        int selectedNeuralNetIndexLast;
-        string selectedNeuralNetName = "";
-
         // GUI MODES
         private bool showSettingsGUI = false;
         enum MenuTabs {Train, Detect, Settings};
@@ -374,9 +370,9 @@ namespace Edwon.VR.Gesture
             // - button
             if (GUILayout.Button(deleteButtonContent, EditorStyles.miniButtonRight, miniButtonWidth))
             {
-                if (ShowNeuralNetDeleteDialog(selectedNeuralNetName))
+                if (ShowNeuralNetDeleteDialog(vrGestureManager.currentNeuralNet))
                 {
-                    vrGestureManager.DeleteNeuralNet(selectedNeuralNetName);
+                    vrGestureManager.DeleteNeuralNet(vrGestureManager.currentNeuralNet);
                     if (vrGestureManager.neuralNets.Count > 0)
                         selectedNeuralNetIndex = 0;
                 }
@@ -470,7 +466,6 @@ namespace Edwon.VR.Gesture
         // callback that VRGestureManager should call upon training finished
         void OnFinishedTraining(string neuralNetName)
         {
-            //        Debug.Log("on finished training callback for: " + neuralNetName);
         }
 
         void OnQuitTraining(string neuralNetName)

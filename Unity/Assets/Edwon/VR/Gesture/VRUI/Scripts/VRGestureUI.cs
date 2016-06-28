@@ -112,9 +112,6 @@ namespace Edwon.VR.Gesture
                 ToggleVRGestureUI();
 
             Vector3 handToCamVector = vrCam.position - vrMenuHand.position;
-            //Debug.DrawRay(vrHand.position, handToCamVector);
-            //transform.position = vrHand.position + (offsetZ * handToCamVector);
-            //transform.rotation = Quaternion.LookRotation(transform.position - vrCam.position);
             vrHandUIPanel.position = vrMenuHand.position + (offsetZ * handToCamVector);
             if (-handToCamVector != Vector3.zero)
                 vrHandUIPanel.rotation = Quaternion.LookRotation(-handToCamVector, Vector3.up);
@@ -128,7 +125,6 @@ namespace Edwon.VR.Gesture
         }
 
         // toggles this UI's visibility on/off
-
         public void ToggleVRGestureUI ()
         {
             uiVisible = !uiVisible;
@@ -209,14 +205,12 @@ namespace Edwon.VR.Gesture
         // called when detect mode begins
         public void BeginDetectMode()
         {
-            //Debug.Log("begin detect mode");
             VRGestureManager.Instance.BeginDetect("");
         }
 
         // called when entering recording menu
         public void BeginRecordingMenu(string gestureName)
         {
-            //Debug.Log("begin ready to record gesture of type " + gestureName);
             nowRecordingGestureLabel.text = gestureName;
             VRGestureManager.Instance.BeginReadyToRecord(gestureName);
             RefreshTotalExamplesLabel();
@@ -464,10 +458,6 @@ namespace Edwon.VR.Gesture
                 float totalHeight = totalButtons * buttonHeight;
                 float y = (totalHeight / 2) + buttonHeight;
                 title.localPosition = new Vector3(0, y, 0);
-            }
-            else
-            {
-                //Debug.Log("the title is null, can't adjust position");
             }
         }
 

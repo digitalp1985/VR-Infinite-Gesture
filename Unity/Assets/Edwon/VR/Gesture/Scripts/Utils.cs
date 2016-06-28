@@ -281,7 +281,6 @@ namespace Edwon.VR.Gesture
                 char[] stringSeparators = new char[] { '/' };
                 string[] exploded = path.Split(stringSeparators);
                 string finalString = exploded[exploded.Length - 1];
-                //Debug.Log(finalString);
                 networkList.Add(finalString);
             }
             return networkList;
@@ -308,7 +307,6 @@ namespace Edwon.VR.Gesture
                     //scrub file extension
                     int substrIndex = iCareAbout.LastIndexOf('.');
                     string finalString = iCareAbout.Substring(0, substrIndex);
-                    //Debug.Log(finalString);
                     gestureBank.Add(finalString);
                 }
             }
@@ -368,7 +366,6 @@ namespace Edwon.VR.Gesture
 
         public void RenameGestureFile(string gestureOldName, string gestureNewName, string networkName)
         {
-            //Debug.Log("change: " + gestureOldName + " : name to: " + gestureNewName);
             string oldPath = Config.SAVE_FILE_PATH + networkName + "/Gestures/" + gestureOldName + ".txt";
             string newPath = Config.SAVE_FILE_PATH + networkName + "/Gestures/" + gestureNewName + ".txt";
             //get all them old gesture
@@ -386,7 +383,6 @@ namespace Edwon.VR.Gesture
 
 		public void ChangeGestureName(string gestureNameOld, string gestureNameNew, string networkName)
 		{
-			//Debug.Log("change: " + gestureNameOld + " : name to: " + gestureNameNew);
 			string path = Config.SAVE_FILE_PATH + networkName + "/Gestures/" + gestureNameOld + ".txt";
 #if UNITY_EDITOR
             AssetDatabase.RenameAsset(path, gestureNameNew);
