@@ -204,8 +204,7 @@ namespace Edwon.VR.Gesture
             {
                 Debug.LogError("Cannot find VRGestureUI in scene. Please add it or select Begin In Detect Mode in the VR Gesture Manager Settings");
             }
-                
-
+            
             state = stateInitial;
             stateLast = state;
             gestureToRecord = "";
@@ -220,7 +219,6 @@ namespace Edwon.VR.Gesture
             {
                 myTrail = gameObject.AddComponent<GestureTrail>();
             }
-            
 
             perpTransform = new GameObject("Perpindicular Head").transform;
             perpTransform.parent = this.transform;
