@@ -15,6 +15,14 @@ namespace Edwon.VR.Gesture
         Transform playerHand;
         Transform perpTransform;
 
+        Trainer currentTrainer;
+        GestureRecognizer currentRecognizer;
+        string gestureToRecord;
+
+
+        //Maybe have two states.
+        //One that is: Record, Detect, Idel, Edit, Train
+        //Another that is EnteringCapture, ReadyToCapture, Capturing
         VRGestureManagerState state;
         VRGestureManagerState stateLast;
         public InputOptions.Button gestureButton = InputOptions.Button.Trigger1;
@@ -27,6 +35,10 @@ namespace Edwon.VR.Gesture
         float nextTestTime = 0;
         float testRateLimit = 500;
 
+        public delegate void GestureDetected(string gestureName, double confidence);
+        public static event GestureDetected GestureDetectedEvent;
+        public delegate void GestureRejected(string error, string gestureName = null, double confidence = 0);
+        public static event GestureRejected GestureRejectedEvent;
         public delegate void StartCapture();
         public static event StartCapture StartCaptureEvent;
         public delegate void ContinueCapture(Vector3 capturePoint);
@@ -47,9 +59,72 @@ namespace Edwon.VR.Gesture
 
         }
 
-        void LineCaught(List<Vector3> captureLine)
+        public void LineCaught(List<Vector3> capturedLine)
+        {
+            if (state == VRGestureManagerState.Recording || state == VRGestureManagerState.ReadyToRecord)
+            {
+
+                TrainLine(gestureToRecord, capturedLine);
+            }
+            else if (state == VRGestureManagerState.Detecting || state == VRGestureManagerState.ReadyToDetect)
+            {
+                RecognizeLine(capturedLine);
+            }
+        }
+
+        public void TrainLine(string gesture, List<Vector3> capturedLine)
         {
 
+            currentTrainer.AddGestureToTrainingExamples(gesture, capturedLine);
+            VRGestureManager.Instance.debugString = "trained : " + gesture;
+        }
+
+        public void RecognizeLine(List<Vector3> capturedLine)
+        {
+            if (IsGestureBigEnough(capturedLine))
+            {
+                //Detect if the captured line meets minimum gesture size requirements
+                double[] networkInput = Utils.Instance.FormatLine(capturedLine);
+                string gesture = currentRecognizer.GetGesture(networkInput);
+                string confidenceValue = currentRecognizer.currentConfidenceValue.ToString("N3");
+
+                // broadcast gesture detected event
+                if (currentRecognizer.currentConfidenceValue > VRGestureManager.Instance.confidenceThreshold)
+                {
+                    VRGestureManager.Instance.debugString = gesture + " " + confidenceValue;
+                    if (GestureDetectedEvent != null)
+                        GestureDetectedEvent(gesture, currentRecognizer.currentConfidenceValue);
+                }
+                else
+                {
+                    VRGestureManager.Instance.debugString = "Null \n" + gesture + " " + confidenceValue;
+                    if (GestureRejectedEvent != null)
+                        GestureRejectedEvent("Confidence Too Low", gesture, currentRecognizer.currentConfidenceValue);
+                }
+            }
+            else
+            {
+                //broadcast that a gesture is too small??
+                VRGestureManager.Instance.debugString = "Gesture is too small!";
+                if (GestureRejectedEvent != null)
+                    GestureRejectedEvent("Gesture is too small");
+
+            }
+        }
+
+        public bool IsGestureBigEnough(List<Vector3> capturedLine)
+        {
+            float check = Utils.Instance.FindMaxAxis(capturedLine);
+            return (check > VRGestureManager.Instance.minimumGestureAxisLength);
+        }
+
+
+        //This will get points in relation to a users head.
+        public Vector3 getLocalizedPoint(Vector3 myDumbPoint)
+        {
+            perpTransform.position = playerHead.position;
+            perpTransform.rotation = Quaternion.Euler(0, playerHead.eulerAngles.y, 0);
+            return perpTransform.InverseTransformPoint(myDumbPoint);
         }
 
         #region UPDATE
@@ -158,12 +233,5 @@ namespace Edwon.VR.Gesture
         }
 
         #endregion
-
-        public Vector3 getLocalizedPoint(Vector3 myDumbPoint)
-        {
-            perpTransform.position = playerHead.position;
-            perpTransform.rotation = Quaternion.Euler(0, playerHead.eulerAngles.y, 0);
-            return perpTransform.InverseTransformPoint(myDumbPoint);
-        }
     }
 }
