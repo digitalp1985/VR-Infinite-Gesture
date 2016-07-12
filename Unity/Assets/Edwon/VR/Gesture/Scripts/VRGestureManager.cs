@@ -108,6 +108,8 @@ namespace Edwon.VR.Gesture
         Transform playerHead;
         Transform playerHand;
         Transform perpTransform;
+        CaptureHand leftCapture;
+        CaptureHand rightCapture;
         #endregion
 
         #region LINE CAPTURE VARIABLES
@@ -191,6 +193,14 @@ namespace Edwon.VR.Gesture
                 playerHead = rig.head;
                 playerHand = rig.GetHand(gestureHand);
                 input = rig.GetInput(gestureHand);
+
+                //maybe only init this if it does not exist.
+                perpTransform = new GameObject("Perpindicular Head").transform;
+                perpTransform.parent = this.transform;
+
+                //add a new capturehand to each of 
+                leftCapture = gameObject.AddComponent<CaptureHand>().Init(rig, perpTransform, HandType.Left);
+                rightCapture = gameObject.AddComponent<CaptureHand>().Init(rig, perpTransform, HandType.Right);
             }
         }
 
@@ -213,15 +223,7 @@ namespace Edwon.VR.Gesture
 
             //create a new Trainer
             currentTrainer = new Trainer(Gestures, currentNeuralNet);
-
             currentCapturedLine = new List<Vector3>();
-            if (displayGestureTrail)
-            {
-                myTrail = gameObject.AddComponent<GestureTrail>();
-            }
-
-            perpTransform = new GameObject("Perpindicular Head").transform;
-            perpTransform.parent = this.transform;
         }
 
 		#endregion
@@ -263,7 +265,7 @@ namespace Edwon.VR.Gesture
                 if (currentRecognizer.currentConfidenceValue > VRGestureManager.Instance.confidenceThreshold)
                 {
                     debugString = gesture + " " + confidenceValue;
-                    if (GestureDetectedEvent != null)
+                    if (VRGestureManager.GestureDetectedEvent != null)
                         GestureDetectedEvent(gesture, currentRecognizer.currentConfidenceValue);
                 }
                 else
@@ -288,160 +290,9 @@ namespace Edwon.VR.Gesture
             float check = Utils.Instance.FindMaxAxis(capturedLine);
             return (check > minimumGestureAxisLength);
         }
-		
-
-		//This will get points in relation to a users head.
-		public Vector3 getLocalizedPoint(Vector3 myDumbPoint)
-		{
-			perpTransform.position = playerHead.position;
-			perpTransform.rotation = Quaternion.Euler(0, playerHead.eulerAngles.y, 0);
-			return perpTransform.InverseTransformPoint(myDumbPoint);
-		}
-
-
-
 		#endregion
 
 		#region UPDATE
-        // Update is called once per frame
-        void Update()
-        {
-            stateLast = state;
-            //get the position from the left anchor.
-            //draw a point.
-            if (rig != null)
-            {
-                if (state == VRGestureManagerState.ReadyToRecord ||
-                    state == VRGestureManagerState.EnteringRecord ||
-                    state == VRGestureManagerState.Recording)
-                {
-                    UpdateRecord();
-                }
-                else if (state == VRGestureManagerState.Detecting ||
-                         state == VRGestureManagerState.EnteringDetect ||
-                            state == VRGestureManagerState.ReadyToDetect)
-                {
-                    if (VRGestureManager.Instance.vrGestureDetectType == VRGestureDetectType.Continious)
-                    {
-                        UpdateContinual();
-                    }
-                    else
-                    {
-                        UpdateDetectWithButtons();
-                    }
-                }
-            }
-        }
-
-        void UpdateRecord()
-        {
-            if (input.GetButtonUp(gestureButton))
-            {
-                state = VRGestureManagerState.ReadyToRecord;
-                StopRecording();
-            }
-
-            if (input.GetButtonDown(gestureButton) && state == VRGestureManagerState.ReadyToRecord)
-            {
-                state = VRGestureManagerState.Recording;
-                StartRecording();
-            }
-
-            if (state == VRGestureManagerState.Recording)
-            {
-                CapturePoint();
-            }
-        }
-
-        void UpdateDetectWithButtons()
-        {
-            if (input.GetButtonUp(gestureButton))
-            {
-                state = VRGestureManagerState.ReadyToDetect;
-                StopRecording();
-            }
-
-            if (input.GetButtonDown(gestureButton) && state == VRGestureManagerState.ReadyToDetect)
-            {
-                state = VRGestureManagerState.Detecting;
-                StartRecording();
-            }
-
-            if (state == VRGestureManagerState.Detecting)
-            {
-                CapturePoint();
-            }
-        }
-
-        void StartRecording()
-        {
-            nextRenderTime = Time.time + renderRateLimit / 1000;
-            if (StartCaptureEvent != null)
-                StartCaptureEvent();
-            CapturePoint();
-            
-
-        }
-
-        void CapturePoint()
-        {
-            Vector3 rightHandPoint = playerHand.position;
-            Vector3 localizedPoint = getLocalizedPoint(rightHandPoint);
-            currentCapturedLine.Add(localizedPoint);
-            if(ContinueCaptureEvent != null)
-                ContinueCaptureEvent(rightHandPoint);
-        }
-
-        void StopRecording()
-        {
-
-            if (currentCapturedLine.Count > 0)
-            {
-                LineCaught(currentCapturedLine);
-                currentCapturedLine.RemoveRange(0, currentCapturedLine.Count);
-                currentCapturedLine.Clear();
-
-                if(StopCaptureEvent != null)
-                    StopCaptureEvent();
-            }
-
-        }
-
-        /// <summary>
-        /// This is an experimental form of gesture detection. It will always attempt to
-        /// detect a gesture while it is running. This would allow a user to constantly 
-        /// be inputting various gesture in a more natural way.
-        /// </summary>
-        void UpdateContinual()
-        {
-            //		state = VRGestureManagerState.Detecting;
-            if (Time.time > nextRenderTime)
-            {
-                Vector3 rightHandPoint = playerHand.position;
-
-                nextRenderTime = Time.time + renderRateLimit / 1000;
-                //myTrail.CapturePoint(rightHandPoint, rightCapturedLine, lengthOfLineRenderer);
-                //IF currentCapturedLine is length greater than renderRateLimit v testRateLimit
-                //  30 / 1000 = every 0.03 seconds
-                // 100 / 1000 = every 0.10 seconds this will have only logged 3 points of data.
-                // 500 / 1000 = every 0.5 second this will always have 16 points of data. 
-                int maxLineLength = (int)testRateLimit / (int)renderRateLimit;
-                myTrail.CapturePoint(getLocalizedPoint(rightHandPoint), currentCapturedLine, maxLineLength);
-            }
-            //myTrail.RenderTrail(rightLineRenderer, rightCapturedLine);
-
-            //On Release
-            //@TODO: fix this magic number 14.
-            if (Time.time > nextTestTime && currentCapturedLine.Count > 14)
-            {
-                nextTestTime = Time.time + testRateLimit / 1000;
-                LineCaught(currentCapturedLine);
-                //currentRenderer.SetVertexCount(currentCapturedLine.Count);
-                //currentRenderer.SetPositions(currentCapturedLine.ToArray());
-            }
-
-
-        }
 
 		#endregion
 
@@ -452,7 +303,9 @@ namespace Edwon.VR.Gesture
         {
             currentTrainer = new Trainer(gestureBank, currentNeuralNet);
             gestureToRecord = gesture;
-            state = VRGestureManagerState.EnteringRecord;
+            state = VRGestureManagerState.Recording;
+            leftCapture.state = VRGestureCaptureState.EnteringCapture;
+            rightCapture.state = VRGestureCaptureState.EnteringCapture;
         }
 
         public void BeginEditing(string gesture)
@@ -463,7 +316,7 @@ namespace Edwon.VR.Gesture
         public void BeginDetect(string ignoreThisString)
         {
             gestureToRecord = "";
-            state = VRGestureManagerState.EnteringDetect;
+            state = VRGestureManagerState.Detecting;
             currentRecognizer = new GestureRecognizer(currentNeuralNet);
         }
 

@@ -4,13 +4,11 @@ using System.Collections.Generic;
 
 namespace Edwon.VR.Gesture
 {
-
+    
     public class GestureTrail : MonoBehaviour
     {
-
+        CaptureHand registeredHand;
         int lengthOfLineRenderer = 50;
-        LineRenderer rightLineRenderer;
-        List<Vector3> rightCapturedLine;
         List<Vector3> displayLine;
         LineRenderer currentRenderer;
         // Use this for initialization
@@ -20,18 +18,33 @@ namespace Edwon.VR.Gesture
             currentRenderer = CreateLineRenderer(Color.magenta, Color.magenta);
         }
 
+        public GestureTrail Init(CaptureHand _hand)
+        {
+            registeredHand = _hand;
+            SubscribeToEvents();
+            return this;
+        }
+
         void OnEnable()
         {
-            VRGestureManager.StartCaptureEvent += StartTrail;
-            VRGestureManager.ContinueCaptureEvent += CapturePoint;
-            VRGestureManager.StopCaptureEvent += StopTrail;
+            if(registeredHand != null)
+            {
+                SubscribeToEvents();
+            }
+        }
+
+        void SubscribeToEvents()
+        {
+            registeredHand.StartCaptureEvent += StartTrail;
+            registeredHand.ContinueCaptureEvent += CapturePoint;
+            registeredHand.StopCaptureEvent += StopTrail;
         }
 
         void OnDisable()
         {
-            VRGestureManager.StartCaptureEvent -= StartTrail;
-            VRGestureManager.ContinueCaptureEvent -= CapturePoint;
-            VRGestureManager.StopCaptureEvent -= StopTrail;
+            registeredHand.StartCaptureEvent -= StartTrail;
+            registeredHand.ContinueCaptureEvent -= CapturePoint;
+            registeredHand.StopCaptureEvent -= StopTrail;
         }
 
         LineRenderer CreateLineRenderer(Color c1, Color c2)
