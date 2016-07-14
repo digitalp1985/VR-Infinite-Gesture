@@ -577,6 +577,11 @@ namespace Edwon.VR.Gesture
             title.text = VRGestureManager.Instance.currentNeuralNet;
         }
 
+
+        //Maybe these could be fixed with Event Listeners for Start/Capture Events.
+        //This will be problemtatic for showing a left vs right recorded gesture.
+        //What happens when you start recording a gesture while another one is being recorded.
+        //This will create a lot of prolems.
         void UpdateNowRecordingStatus()
         {
 

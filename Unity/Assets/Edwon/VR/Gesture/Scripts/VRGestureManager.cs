@@ -33,6 +33,7 @@ namespace Edwon.VR.Gesture
                     }
                     else if (instances.Length == 0)
                     {
+                        
                         GameObject obj = new GameObject();
                         obj.hideFlags = HideFlags.HideAndDontSave;
                         instance = obj.AddComponent<VRGestureManager>();
@@ -158,12 +159,6 @@ namespace Edwon.VR.Gesture
         public static event GestureDetected GestureDetectedEvent;
         public delegate void GestureRejected(string error, string gestureName = null, double confidence = 0);
         public static event GestureRejected GestureRejectedEvent;
-        public delegate void StartCapture();
-        public static event StartCapture StartCaptureEvent;
-        public delegate void ContinueCapture(Vector3 capturePoint);
-        public static event ContinueCapture ContinueCaptureEvent;
-        public delegate void StopCapture();
-        public static event StopCapture StopCaptureEvent;
 
         #endregion
 
@@ -185,6 +180,11 @@ namespace Edwon.VR.Gesture
 
         }
 
+        public virtual void OnDestroy()
+        {
+
+        }
+
         void Init()
         {
             if (FindObjectOfType<VRGestureRig>() != null)
@@ -195,12 +195,24 @@ namespace Edwon.VR.Gesture
                 input = rig.GetInput(gestureHand);
 
                 //maybe only init this if it does not exist.
-                perpTransform = new GameObject("Perpindicular Head").transform;
-                perpTransform.parent = this.transform;
+                //Remove all game objects
+
+
+                perpTransform = transform.Find("Perpindicular Head");
+                if(perpTransform == null)
+                {
+                    Debug.Log("MAKING A NEW PERPS TRANSFORM");
+                    perpTransform = new GameObject("Perpindicular Head").transform;
+                    perpTransform.parent = this.transform;
+                }
+
 
                 //add a new capturehand to each of 
-                leftCapture = gameObject.AddComponent<CaptureHand>().Init(rig, perpTransform, HandType.Left);
-                rightCapture = gameObject.AddComponent<CaptureHand>().Init(rig, perpTransform, HandType.Right);
+                //Check if capture hand component exists.
+                //leftCapture = gameObject.AddComponent<CaptureHand>().Init(rig, perpTransform, HandType.Left);
+                //rightCapture = gameObject.AddComponent<CaptureHand>().Init(rig, perpTransform, HandType.Right);
+                leftCapture = new CaptureHand(rig, perpTransform, HandType.Left);
+                rightCapture = new CaptureHand(rig, perpTransform, HandType.Right);
             }
         }
 
@@ -226,9 +238,33 @@ namespace Edwon.VR.Gesture
             currentCapturedLine = new List<Vector3>();
         }
 
-		#endregion
-			
-		#region LINE CAPTURE
+        void OnEnable()
+        {
+            if (leftCapture != null && rightCapture != null)
+            {
+                SubscribeToEvents();
+            }
+        }
+
+        void SubscribeToEvents()
+        {
+            leftCapture.StartCaptureEvent += StartCapturing;
+            leftCapture.StopCaptureEvent += StopCapturing;
+            rightCapture.StartCaptureEvent += StartCapturing;
+            rightCapture.StopCaptureEvent += StopCapturing;
+        }
+
+        void OnDisable()
+        {
+            leftCapture.StartCaptureEvent -= StartCapturing;
+            leftCapture.StopCaptureEvent -= StopCapturing;
+            rightCapture.StartCaptureEvent -= StartCapturing;
+            rightCapture.StopCaptureEvent -= StopCapturing;
+        }
+
+        #endregion
+
+        #region LINE CAPTURE
 
 
 
@@ -247,7 +283,6 @@ namespace Edwon.VR.Gesture
 
         public void TrainLine(string gesture, List<Vector3> capturedLine)
         {
-
             currentTrainer.AddGestureToTrainingExamples(gesture, capturedLine);
             debugString = "trained : " + gesture;
         }
@@ -294,6 +329,50 @@ namespace Edwon.VR.Gesture
 
 		#region UPDATE
 
+        void Update()
+        {
+            if(leftCapture != null)
+            {
+                leftCapture.Update();
+            }
+            if (rightCapture != null)
+            {
+                rightCapture.Update();
+            }
+        }
+
+        void StartCapturing()
+        {
+            if(state == VRGestureManagerState.ReadyToRecord)
+            {
+                state = VRGestureManagerState.Recording;
+            }
+            else if(state == VRGestureManagerState.ReadyToDetect)
+            {
+                state = VRGestureManagerState.Detecting;
+            }
+        }
+
+        void StopCapturing()
+        {
+            if(leftCapture.state == VRGestureCaptureState.Capturing || rightCapture.state == VRGestureCaptureState.Capturing)
+            {
+                //do nothing
+            }
+            else
+            {
+                //set state to READY
+                if (state == VRGestureManagerState.Recording)
+                {
+                    state = VRGestureManagerState.ReadyToRecord;
+                }
+                else if (state == VRGestureManagerState.Detecting)
+                {
+                    state = VRGestureManagerState.ReadyToDetect;
+                }
+            }
+        }
+
 		#endregion
 
 		#region HIGH LEVEL METHODS
@@ -303,7 +382,7 @@ namespace Edwon.VR.Gesture
         {
             currentTrainer = new Trainer(gestureBank, currentNeuralNet);
             gestureToRecord = gesture;
-            state = VRGestureManagerState.Recording;
+            state = VRGestureManagerState.ReadyToRecord;
             leftCapture.state = VRGestureCaptureState.EnteringCapture;
             rightCapture.state = VRGestureCaptureState.EnteringCapture;
         }
@@ -316,7 +395,7 @@ namespace Edwon.VR.Gesture
         public void BeginDetect(string ignoreThisString)
         {
             gestureToRecord = "";
-            state = VRGestureManagerState.Detecting;
+            state = VRGestureManagerState.ReadyToDetect;
             currentRecognizer = new GestureRecognizer(currentNeuralNet);
         }
 

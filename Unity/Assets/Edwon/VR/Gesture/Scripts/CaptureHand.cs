@@ -5,9 +5,9 @@ using Edwon.VR.Input;
 
 namespace Edwon.VR.Gesture
 {
-    public enum VRGestureCaptureState {EnteringCapture, ReadyToCapture, Captureing };
+    public enum VRGestureCaptureState {EnteringCapture, ReadyToCapture, Capturing };
 
-    public class CaptureHand : MonoBehaviour {
+    public class CaptureHand {
 
         public VRGestureRig rig;
         IInput input;
@@ -18,6 +18,7 @@ namespace Edwon.VR.Gesture
         Trainer currentTrainer;
         GestureRecognizer currentRecognizer;
         string gestureToRecord;
+        HandType hand;
 
 
         //Maybe have two states.
@@ -41,16 +42,17 @@ namespace Edwon.VR.Gesture
         public delegate void StopCapture();
         public event StopCapture StopCaptureEvent;
 
-        public CaptureHand Init(VRGestureRig _rig, Transform _perp, HandType hand)
+        public CaptureHand (VRGestureRig _rig, Transform _perp, HandType _hand)
         {
 
             rig = _rig;
+            hand = _hand;
             playerHand = rig.GetHand(hand);
             playerHead = rig.head;
             perpTransform = _perp;
             input = rig.GetInput(hand);
             currentCapturedLine = new List<Vector3>();
-            return this;
+            Start();
         }
 
         // Use this for initialization
@@ -64,6 +66,8 @@ namespace Edwon.VR.Gesture
         public void LineCaught(List<Vector3> capturedLine)
         {
             VRGestureManager.Instance.LineCaught(capturedLine);
+            //This should send out an EVENT.
+            //Remove dependency from Instance.
         }
 
         //This will get points in relation to a users head.
@@ -76,7 +80,7 @@ namespace Edwon.VR.Gesture
 
         #region UPDATE
         // Update is called once per frame
-        void Update()
+        public void Update()
         {
             //get the position from the left anchor.
             //draw a point.
@@ -84,11 +88,11 @@ namespace Edwon.VR.Gesture
             if (rig != null)
             {
 
-                if (VRGestureManager.Instance.state == VRGestureManagerState.Recording)
+                if (VRGestureManager.Instance.state == VRGestureManagerState.Recording || VRGestureManager.Instance.state == VRGestureManagerState.ReadyToRecord)
                 {
                     UpdateRecord();
                 }
-                else if (VRGestureManager.Instance.state == VRGestureManagerState.Detecting)
+                else if (VRGestureManager.Instance.state == VRGestureManagerState.Detecting || VRGestureManager.Instance.state == VRGestureManagerState.ReadyToDetect)
                 {
                     if (VRGestureManager.Instance.vrGestureDetectType == VRGestureDetectType.Continious)
                     {
@@ -104,6 +108,13 @@ namespace Edwon.VR.Gesture
 
         void UpdateRecord()
         {
+            if(input == null)
+            {
+                Debug.Log("Input is NULL");
+                input = rig.GetInput(hand);
+            }
+
+
             if (input.GetButtonUp(gestureButton))
             {
                 state = VRGestureCaptureState.ReadyToCapture;
@@ -112,11 +123,11 @@ namespace Edwon.VR.Gesture
 
             if (input.GetButtonDown(gestureButton) && state == VRGestureCaptureState.ReadyToCapture)
             {
-                state = VRGestureCaptureState.Captureing;
+                state = VRGestureCaptureState.Capturing;
                 StartRecording();
             }
 
-            if (state == VRGestureCaptureState.Captureing)
+            if (state == VRGestureCaptureState.Capturing)
             {
                 CapturePoint();
             }
