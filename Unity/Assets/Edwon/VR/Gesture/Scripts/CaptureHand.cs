@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Edwon.VR.Input;
+using System;
 
 namespace Edwon.VR.Gesture
 {
@@ -35,6 +36,9 @@ namespace Edwon.VR.Gesture
         float nextTestTime = 0;
         float testRateLimit = 500;
 
+        public string lastGesture;
+        public DateTime lastDetected;
+
         public delegate void StartCapture();
         public event StartCapture StartCaptureEvent;
         public delegate void ContinueCapture(Vector3 capturePoint);
@@ -53,6 +57,26 @@ namespace Edwon.VR.Gesture
             input = rig.GetInput(hand);
             currentCapturedLine = new List<Vector3>();
             Start();
+        }
+
+        public bool CheckForSync(string gesture)
+        {
+            TimeSpan lapse = DateTime.Now.Subtract(lastDetected);
+            TimeSpan limit = new TimeSpan(0, 0, 0, 0, 500);
+            if (gesture == lastGesture && lapse.CompareTo(limit) <= 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public void SetRecognizedGesture(string newGesture)
+        {
+            lastGesture = newGesture;
+            lastDetected = DateTime.Now;
         }
 
         // Use this for initialization

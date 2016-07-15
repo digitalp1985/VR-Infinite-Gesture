@@ -1,5 +1,6 @@
 using UnityEngine;
 using Edwon.VR.Gesture;
+using Edwon.VR;
 
 namespace HutongGames.PlayMaker.Actions
 {
@@ -23,7 +24,7 @@ namespace HutongGames.PlayMaker.Actions
             VRGestureManager.GestureDetectedEvent -= OnGestureDetected;
         }
 
-        void OnGestureDetected (string _gestureName, double _confidence)
+        void OnGestureDetected (string _gestureName, double _confidence, HandType _hand)
         {
             if (_gestureName == gestureName.Value)
             {

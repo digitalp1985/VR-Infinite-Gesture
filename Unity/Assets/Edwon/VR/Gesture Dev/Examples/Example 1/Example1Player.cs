@@ -24,7 +24,7 @@ namespace Edwon.VR.Gesture.Examples
             VRGestureManager.GestureRejectedEvent -= OnGestureRejected;
         }
 
-        void OnGestureDetected(string gestureName, double confidence)
+        void OnGestureDetected(string gestureName, double confidence, HandType hand)
         {
             //string confidenceString = confidence.ToString().Substring(0, 4);
             //Debug.Log("detected gesture: " + gestureName + " with confidence: " + confidenceString);

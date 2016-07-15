@@ -323,7 +323,32 @@ namespace Edwon.VR.Gesture
                 {
                     debugString = gesture + " " + confidenceValue;
                     if (VRGestureManager.GestureDetectedEvent != null)
+                    {
                         GestureDetectedEvent(gesture, currentRecognizer.currentConfidenceValue, hand);
+                        //Check if the other hand has recently caught a gesture.
+                        //CheckForSyncGestures(gesture, hand);
+                        if(hand == HandType.Left)
+                        {
+                            leftCapture.SetRecognizedGesture(gesture);
+                            //FIRE BOTH GESTURE
+                            if (rightCapture.CheckForSync(gesture))
+                            {
+                                GestureDetectedEvent("BOTH: "+ gesture, 2.0, hand);
+                                debugString = "DOUBLE" + gesture;
+                            }
+                        }
+                        else if (hand == HandType.Right)
+                        {
+                            rightCapture.SetRecognizedGesture(gesture);
+                            //FIRE BOTH GESTURE
+                            if (leftCapture.CheckForSync(gesture))
+                            {
+                                GestureDetectedEvent("BOTH: "+ gesture, 2.0, hand);
+                                debugString = "DOUBLE" + gesture;
+                            }
+                        }
+                    }
+                        
                 }
                 else
                 {
