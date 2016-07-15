@@ -11,9 +11,13 @@ namespace Edwon.VR.Gesture
         int lengthOfLineRenderer = 50;
         List<Vector3> displayLine;
         LineRenderer currentRenderer;
+
+        bool currentlyInUse = false;
+
         // Use this for initialization
         void Start()
         {
+            currentlyInUse = true;
             displayLine = new List<Vector3>();
             currentRenderer = CreateLineRenderer(Color.magenta, Color.magenta);
         }
@@ -42,14 +46,35 @@ namespace Edwon.VR.Gesture
 
         void OnDisable()
         {
+            if (registeredHand != null)
+            {
+                UnsubscribeFromEvents();
+            }
+
+            
+        }
+
+        void UnsubscribeFromEvents()
+        {
             registeredHand.StartCaptureEvent -= StartTrail;
             registeredHand.ContinueCaptureEvent -= CapturePoint;
             registeredHand.StopCaptureEvent -= StopTrail;
         }
 
+        void UnsubscribeAll()
+        {
+            
+        }
+
+        void OnDestroy()
+        {
+            Debug.Log("GESTURE TRAIL DESTROY");
+            currentlyInUse = false;
+        }
+
         LineRenderer CreateLineRenderer(Color c1, Color c2)
         {
-            GameObject myGo = new GameObject();
+            GameObject myGo = new GameObject("Trail Renderer");
             myGo.transform.parent = transform;
             myGo.transform.localPosition = Vector3.zero;
 
@@ -102,6 +127,20 @@ namespace Edwon.VR.Gesture
         {
             Debug.Log("clear trail");
             currentRenderer.SetVertexCount(0);
+        }
+
+        public bool UseCheck()
+        {
+            Debug.Log("Use Check: " + currentlyInUse);
+            return currentlyInUse;
+        }
+
+        public void AssignHand(CaptureHand captureHand)
+        {
+            currentlyInUse = true;
+            registeredHand = captureHand;
+            SubscribeToEvents();
+
         }
 
         // Update is called once per frame

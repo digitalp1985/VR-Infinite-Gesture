@@ -266,7 +266,30 @@ namespace Edwon.VR.Gesture
 
         #region LINE CAPTURE
 
+        public GestureTrail GetOrAddGestureTrail(CaptureHand captureHand)
+        {
+            GestureTrail[] results = GetComponents<GestureTrail>();
+            GestureTrail thisOne = null;
 
+            if (results.Length <= 1)
+            {
+                thisOne = gameObject.AddComponent<GestureTrail>();
+            }
+            else
+            {
+                foreach(GestureTrail myTrail in results)
+                {
+                    if (!myTrail.UseCheck())
+                    {
+                        Debug.Log("found trail");
+                        thisOne = myTrail;
+                        thisOne.AssignHand(captureHand);
+                        break;
+                    }
+                }
+            }
+            return thisOne;
+        }
 
         public void LineCaught(List<Vector3> capturedLine)
         {

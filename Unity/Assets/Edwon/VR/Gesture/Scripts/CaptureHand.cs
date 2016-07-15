@@ -59,7 +59,8 @@ namespace Edwon.VR.Gesture
         void Start() {
             if (VRGestureManager.Instance.displayGestureTrail)
             {
-                myTrail = VRGestureManager.Instance.gameObject.AddComponent<GestureTrail>().Init(this);
+                //myTrail = VRGestureManager.Instance.gameObject.AddComponent<GestureTrail>().Init(this);
+                myTrail = VRGestureManager.Instance.GetOrAddGestureTrail(this);
             }
         }
 
