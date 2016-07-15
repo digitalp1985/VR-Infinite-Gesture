@@ -68,7 +68,6 @@ namespace Edwon.VR.Gesture
 
         void OnDestroy()
         {
-            Debug.Log("GESTURE TRAIL DESTROY");
             currentlyInUse = false;
         }
 
@@ -125,13 +124,11 @@ namespace Edwon.VR.Gesture
 
         public void ClearTrail()
         {
-            Debug.Log("clear trail");
             currentRenderer.SetVertexCount(0);
         }
 
         public bool UseCheck()
         {
-            Debug.Log("Use Check: " + currentlyInUse);
             return currentlyInUse;
         }
 

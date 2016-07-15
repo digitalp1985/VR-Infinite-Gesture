@@ -459,36 +459,40 @@ namespace Edwon.VR.Gesture
 
 
 
-[Serializable]
-public class GestureExample
+namespace Edwon.VR.Gesture
 {
-    public string name;
-    public List<Vector3> data;
-    public bool trained;
-    public bool raw;
-
-    public double[] GetAsArray()
+    [Serializable]
+    public class GestureExample
     {
-        List<double> tmpLine = new List<double>();
-        //gestures.Add(JsonUtility.FromJson<GestureExample>(currentLine));
-        foreach (Vector3 currentPoint in data)
-        {
-            tmpLine.Add(currentPoint.x);
-            tmpLine.Add(currentPoint.y);
-            tmpLine.Add(currentPoint.z);
-        }
-        return tmpLine.ToArray();
-    }
-}
+        public string name;
+        public List<Vector3> data;
+        public bool trained;
+        public bool raw;
+        public HandType hand;
 
-[Serializable]
-public class NeuralNetworkStub
-{
-    public int numInput;
-    public int numHidden;
-    public int numOutput;
-    public List<string> gestures;
-    public double[] weights;
+        public double[] GetAsArray()
+        {
+            List<double> tmpLine = new List<double>();
+            //gestures.Add(JsonUtility.FromJson<GestureExample>(currentLine));
+            foreach (Vector3 currentPoint in data)
+            {
+                tmpLine.Add(currentPoint.x);
+                tmpLine.Add(currentPoint.y);
+                tmpLine.Add(currentPoint.z);
+            }
+            return tmpLine.ToArray();
+        }
+    }
+
+    [Serializable]
+    public class NeuralNetworkStub
+    {
+        public int numInput;
+        public int numHidden;
+        public int numOutput;
+        public List<string> gestures;
+        public double[] weights;
+    }
 }
 
 

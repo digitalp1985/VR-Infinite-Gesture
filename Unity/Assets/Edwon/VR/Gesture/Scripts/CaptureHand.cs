@@ -66,7 +66,7 @@ namespace Edwon.VR.Gesture
 
         public void LineCaught(List<Vector3> capturedLine)
         {
-            VRGestureManager.Instance.LineCaught(capturedLine);
+            VRGestureManager.Instance.LineCaught(capturedLine, hand);
             //This should send out an EVENT.
             //Remove dependency from Instance.
         }
@@ -111,7 +111,6 @@ namespace Edwon.VR.Gesture
         {
             if(input == null)
             {
-                Debug.Log("Input is NULL");
                 input = rig.GetInput(hand);
             }
 
@@ -136,7 +135,6 @@ namespace Edwon.VR.Gesture
 
         void StartRecording()
         {
-            Debug.Log("Start Record");
             nextRenderTime = Time.time + renderRateLimit / 1000;
             if (StartCaptureEvent != null)
                 StartCaptureEvent();
@@ -154,7 +152,6 @@ namespace Edwon.VR.Gesture
 
         void StopRecording()
         {
-            Debug.Log("Stop Recording");
             if (currentCapturedLine.Count > 0)
             {
                 LineCaught(currentCapturedLine);

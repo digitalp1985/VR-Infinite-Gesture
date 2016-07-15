@@ -155,7 +155,7 @@ namespace Edwon.VR.Gesture
         #endregion
 
         #region EVENTS VARIABLES
-        public delegate void GestureDetected(string gestureName, double confidence);
+        public delegate void GestureDetected(string gestureName, double confidence, HandType hand);
         public static event GestureDetected GestureDetectedEvent;
         public delegate void GestureRejected(string error, string gestureName = null, double confidence = 0);
         public static event GestureRejected GestureRejectedEvent;
@@ -291,26 +291,25 @@ namespace Edwon.VR.Gesture
             return thisOne;
         }
 
-        public void LineCaught(List<Vector3> capturedLine)
+        public void LineCaught(List<Vector3> capturedLine, HandType hand)
         {
             if (state == VRGestureManagerState.Recording || state == VRGestureManagerState.ReadyToRecord)
             {
-
-                TrainLine(gestureToRecord, capturedLine);
+                TrainLine(gestureToRecord, capturedLine, hand);
             }
             else if (state == VRGestureManagerState.Detecting || state == VRGestureManagerState.ReadyToDetect)
             {
-                RecognizeLine(capturedLine);
+                RecognizeLine(capturedLine, hand);
             }
         }
 
-        public void TrainLine(string gesture, List<Vector3> capturedLine)
+        public void TrainLine(string gesture, List<Vector3> capturedLine, HandType hand)
         {
-            currentTrainer.AddGestureToTrainingExamples(gesture, capturedLine);
+            currentTrainer.AddGestureToTrainingExamples(gesture, capturedLine, hand);
             debugString = "trained : " + gesture;
         }
 
-        public void RecognizeLine(List<Vector3> capturedLine)
+        public void RecognizeLine(List<Vector3> capturedLine, HandType hand)
         {
             if (IsGestureBigEnough(capturedLine))
             {
@@ -324,7 +323,7 @@ namespace Edwon.VR.Gesture
                 {
                     debugString = gesture + " " + confidenceValue;
                     if (VRGestureManager.GestureDetectedEvent != null)
-                        GestureDetectedEvent(gesture, currentRecognizer.currentConfidenceValue);
+                        GestureDetectedEvent(gesture, currentRecognizer.currentConfidenceValue, hand);
                 }
                 else
                 {

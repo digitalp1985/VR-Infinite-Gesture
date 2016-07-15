@@ -52,7 +52,7 @@ namespace Edwon.VR.Gesture
 
         //Just Capture Data
         //Pass in an array for data points.
-        public void AddGestureToTrainingExamples(string gestureName, List<Vector3> capturedLine)
+        public void AddGestureToTrainingExamples(string gestureName, List<Vector3> capturedLine, HandType hand)
         {
             string gestureFileLocation = Config.SAVE_FILE_PATH + recognizerName + "/Gestures/";
             //we need to check if this directory exists.
@@ -73,6 +73,7 @@ namespace Edwon.VR.Gesture
                 GestureExample saveMe = new GestureExample();
                 saveMe.name = gestureName;
                 saveMe.data = capturedLine;
+                saveMe.hand = hand;
                 saveMe.raw = Config.USE_RAW_DATA;
                 //System.IO.StreamWriter file = new System.IO.StreamWriter(gestureFileLocation + gestureName + ".txt", true);
                 using (System.IO.StreamWriter file = new System.IO.StreamWriter(gestureFileLocation + gestureName + ".txt", true))
