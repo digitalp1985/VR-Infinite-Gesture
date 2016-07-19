@@ -314,7 +314,7 @@ namespace Edwon.VR.Gesture
             if (IsGestureBigEnough(capturedLine))
             {
                 //Detect if the captured line meets minimum gesture size requirements
-                double[] networkInput = Utils.Instance.FormatLine(capturedLine);
+                double[] networkInput = Utils.Instance.FormatLine(capturedLine, hand);
                 string gesture = currentRecognizer.GetGesture(networkInput);
                 string confidenceValue = currentRecognizer.currentConfidenceValue.ToString("N3");
 

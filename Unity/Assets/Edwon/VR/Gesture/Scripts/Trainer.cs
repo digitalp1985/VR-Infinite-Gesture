@@ -32,7 +32,7 @@ namespace Edwon.VR.Gesture
 
         public Trainer(List<string> gestureList, string name)
         {
-            numInput = 33;
+            numInput = 34;
             //This should be a number between input and output.
             //numHidden = 10;
             //AbsVal of numInput-numOutput + min of numInput/numOutput
@@ -66,9 +66,6 @@ namespace Edwon.VR.Gesture
                     capturedLine = Utils.Instance.SubDivideLine(capturedLine);
                     capturedLine = Utils.Instance.DownResLine(capturedLine);
                 }
-
-
-                
 
                 GestureExample saveMe = new GestureExample();
                 saveMe.name = gestureName;
@@ -143,6 +140,8 @@ namespace Edwon.VR.Gesture
                 }
 
                 List<double> tmpLine = new List<double>();
+                //First Add All Inputs
+                tmpLine.Add((int)myObject.hand);
                 tmpLine.AddRange(myObject.GetAsArray());
                 tmpLine.AddRange(CalculateOutputVector(myObject.name));
 

@@ -63,6 +63,16 @@ namespace Edwon.VR.Gesture
         {
             TimeSpan lapse = DateTime.Now.Subtract(lastDetected);
             TimeSpan limit = new TimeSpan(0, 0, 0, 0, 500);
+
+            //if gesture starts with an R or an L.
+            if(gesture.Contains("L--") || gesture.Contains("R--"))
+            {
+                //strip the gesture
+                gesture = gesture.Substring(2);
+                lastGesture = lastGesture.Substring(2);
+            }
+
+
             if (gesture == lastGesture && lapse.CompareTo(limit) <= 0)
             {
                 return true;
