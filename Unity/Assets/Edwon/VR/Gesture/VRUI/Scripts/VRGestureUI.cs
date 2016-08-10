@@ -610,7 +610,7 @@ namespace Edwon.VR.Gesture
         void RefreshTotalExamplesLabel ()
         {
             string gesture = VRGestureManager.Instance.gestureToRecord;
-            int totalExamples = Utils.Instance.GetGestureExamplesTotal(gesture);
+            int totalExamples = Utils.GetGestureExamplesTotal(gesture, VRGestureManager.Instance.currentNeuralNet);
             nowRecordingTotalExamplesLabel.text = totalExamples.ToString();
         }
 

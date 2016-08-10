@@ -63,8 +63,8 @@ namespace Edwon.VR.Gesture
             {
                 if (!Config.USE_RAW_DATA)
                 {
-                    capturedLine = Utils.Instance.SubDivideLine(capturedLine);
-                    capturedLine = Utils.Instance.DownResLine(capturedLine);
+                    capturedLine = Utils.SubDivideLine(capturedLine);
+                    capturedLine = Utils.DownResLine(capturedLine);
                 }
 
                 GestureExample saveMe = new GestureExample();
@@ -135,8 +135,8 @@ namespace Edwon.VR.Gesture
                 GestureExample myObject = JsonUtility.FromJson<GestureExample>(currentLine);
                 if (Config.USE_RAW_DATA)
                 {
-                    myObject.data = Utils.Instance.SubDivideLine(myObject.data);
-                    myObject.data = Utils.Instance.DownScaleLine(myObject.data);
+                    myObject.data = Utils.SubDivideLine(myObject.data);
+                    myObject.data = Utils.DownScaleLine(myObject.data);
                 }
 
                 List<double> tmpLine = new List<double>();

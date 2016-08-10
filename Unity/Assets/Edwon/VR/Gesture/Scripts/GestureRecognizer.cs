@@ -20,7 +20,7 @@ namespace Edwon.VR.Gesture
         //Load a SavedRecognizer from a file
         public void Load(string filename)
         {
-            NeuralNetworkStub stub = Utils.Instance.ReadNeuralNetworkStub(filename);
+            NeuralNetworkStub stub = Utils.ReadNeuralNetworkStub(filename);
             outputs = stub.gestures;
             neuralNet = new NeuralNetwork(stub.numInput, stub.numHidden, stub.numOutput);
             neuralNet.SetWeights(stub.weights);

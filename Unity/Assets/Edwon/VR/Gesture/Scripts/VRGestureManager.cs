@@ -138,7 +138,7 @@ namespace Edwon.VR.Gesture
         {
             get
             {
-                NeuralNetworkStub stub = Utils.Instance.ReadNeuralNetworkStub(currentNeuralNet);
+                NeuralNetworkStub stub = Utils.ReadNeuralNetworkStub(currentNeuralNet);
                 return stub.gestures;
             }
             set
@@ -314,7 +314,7 @@ namespace Edwon.VR.Gesture
             if (IsGestureBigEnough(capturedLine))
             {
                 //Detect if the captured line meets minimum gesture size requirements
-                double[] networkInput = Utils.Instance.FormatLine(capturedLine, hand);
+                double[] networkInput = Utils.FormatLine(capturedLine, hand);
                 string gesture = currentRecognizer.GetGesture(networkInput);
                 string confidenceValue = currentRecognizer.currentConfidenceValue.ToString("N3");
 
@@ -369,7 +369,7 @@ namespace Edwon.VR.Gesture
 
         public bool IsGestureBigEnough(List<Vector3> capturedLine)
         {
-            float check = Utils.Instance.FindMaxAxis(capturedLine);
+            float check = Utils.FindMaxAxis(capturedLine);
             return (check > minimumGestureAxisLength);
         }
 		#endregion
@@ -478,9 +478,9 @@ namespace Edwon.VR.Gesture
         public void CreateNewNeuralNet(string neuralNetName)
         {
             // create new neural net folder
-            Utils.Instance.CreateFolder(neuralNetName);
+            Utils.CreateFolder(neuralNetName);
             // create a gestures folder
-            Utils.Instance.CreateFolder(neuralNetName + "/Gestures/");
+            Utils.CreateFolder(neuralNetName + "/Gestures/");
 
             neuralNets.Add(neuralNetName);
             gestures = new List<string>();
@@ -517,11 +517,11 @@ namespace Edwon.VR.Gesture
                     return;
                 }
             }
-            if (currentNeuralNet != null && currentNeuralNet != "" && Utils.Instance.GetGestureBank(currentNeuralNet) != null)
+            if (currentNeuralNet != null && currentNeuralNet != "" && Utils.GetGestureBank(currentNeuralNet) != null)
             {
-                gestureBank = Utils.Instance.GetGestureBank(currentNeuralNet);
+                gestureBank = Utils.GetGestureBank(currentNeuralNet);
                 gestureBankPreEdit = new List<string>(gestureBank);
-                gestureBankTotalExamples = Utils.Instance.GetGestureBankTotalExamples(gestureBank);
+                gestureBankTotalExamples = Utils.GetGestureBankTotalExamples(gestureBank, currentNeuralNet);
             }
             else
             {
@@ -542,7 +542,7 @@ namespace Edwon.VR.Gesture
             gestureBank.Clear(); // clear the gestures list
             gestureBankPreEdit.Clear();
 			gestureBankTotalExamples.Clear();
-            Utils.Instance.DeleteNeuralNetFiles(neuralNetName); // delete all the files
+            Utils.DeleteNeuralNetFiles(neuralNetName); // delete all the files
 
             if (neuralNets.Count > 0)
                 SelectNeuralNet(neuralNets[0]);
@@ -561,7 +561,7 @@ namespace Edwon.VR.Gesture
         {
             gestureBank.Add(gestureName);
 			gestureBankTotalExamples.Add(0);
-            Utils.Instance.CreateGestureFile(gestureName, currentNeuralNet);
+            Utils.CreateGestureFile(gestureName, currentNeuralNet);
             gestureBankPreEdit = new List<string>(gestureBank);
         }
 
@@ -571,7 +571,7 @@ namespace Edwon.VR.Gesture
 			int index = gestureBank.IndexOf(gestureName);
             gestureBank.Remove(gestureName);
 			gestureBankTotalExamples.RemoveAt(index);
-            Utils.Instance.DeleteGestureFile(gestureName, currentNeuralNet);
+            Utils.DeleteGestureFile(gestureName, currentNeuralNet);
             gestureBankPreEdit = new List<string>(gestureBank);
         }
 			
@@ -613,7 +613,7 @@ namespace Edwon.VR.Gesture
                 if (CheckForDuplicateGestures(newName))
                 {
                     //ACTUALLY RENAME THAT SHIZZ
-                    Utils.Instance.RenameGestureFile(oldName, newName, currentNeuralNet);
+                    Utils.RenameGestureFile(oldName, newName, currentNeuralNet);
                     gestureBankPreEdit = new List<string>(gestureBank);
 
                 }

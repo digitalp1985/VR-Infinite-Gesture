@@ -74,14 +74,14 @@ namespace Edwon.VR.Gesture
 
         void RefreshGestureExamples()
         {
-			examples = Utils.Instance.GetGestureExamples(currentGesture);
+			examples = Utils.GetGestureExamples(currentGesture, currentNeuralNet);
             List<GestureExample> tmpList = new List<GestureExample>();
             foreach (GestureExample gesture in examples)
             {
                 if (gesture.raw)
                 {
-                    gesture.data = Utils.Instance.SubDivideLine(gesture.data);
-                    gesture.data = Utils.Instance.DownScaleLine(gesture.data);
+                    gesture.data = Utils.SubDivideLine(gesture.data);
+                    gesture.data = Utils.DownScaleLine(gesture.data);
                 }
 
             }
@@ -173,7 +173,7 @@ namespace Edwon.VR.Gesture
         {
             int lineNumber = examples.IndexOf(gestureExample);
             examples.Remove(gestureExample);
-            Utils.Instance.DeleteGestureExample(currentNeuralNet, currentGesture, lineNumber);
+            Utils.DeleteGestureExample(currentNeuralNet, currentGesture, lineNumber);
             GameObject.Destroy(frame);
             GameObject.Destroy(line);
         }

@@ -12,24 +12,7 @@ namespace Edwon.VR.Gesture
 {
     public class Utils
     {
-        private static Utils instance;
-
-        //constructor
-        private Utils() { }
-
-        public static Utils Instance
-        {
-            get
-            {
-                if (instance == null)
-                {
-                    instance = new Utils();
-                }
-                return instance;
-            }
-        }
-
-        public float FindMaxAxis(List<Vector3> capturedLine)
+        public static float FindMaxAxis(List<Vector3> capturedLine)
         {
             //find min and max for X,Y,Z
             float minX, maxX, minY, maxY, minZ, maxZ;
@@ -64,7 +47,7 @@ namespace Edwon.VR.Gesture
         }
 
         //Same as DownRes line but this will scale, rather than skew.
-        public List<Vector3> DownScaleLine(List<Vector3> capturedLine)
+        public static List<Vector3> DownScaleLine(List<Vector3> capturedLine)
         {
             //find min and max for X,Y,Z
             float minX, maxX, minY, maxY, minZ, maxZ;
@@ -123,7 +106,7 @@ namespace Edwon.VR.Gesture
 
         //This is warping gestures to be on a scale of (0-1) in every axis
         //It stretches the gesture along each axis for how far it goes.
-        public List<Vector3> DownResLine(List<Vector3> capturedLine)
+        public static List<Vector3> DownResLine(List<Vector3> capturedLine)
         {
             //find min and max for X,Y,Z
             float minX, maxX, minY, maxY, minZ, maxZ;
@@ -175,19 +158,19 @@ namespace Edwon.VR.Gesture
             // ok now we need to create a matrix to move all of these points to a normalized space.
         }
 
-        public float getMin(float min, float newMin)
+        public static float getMin(float min, float newMin)
         {
             if (newMin < min) { min = newMin;}
             return min;
         }
 
-        public float getMax(float max, float newMax)
+        public static float getMax(float max, float newMax)
         {
             if (newMax > max) { max = newMax;}
             return max;
         }
 
-        public List<Vector3> SubDivideLine(List<Vector3> capturedLine)
+        public static List<Vector3> SubDivideLine(List<Vector3> capturedLine)
         {
             //Make sure list is longer than 11.
             int outputLength = Config.FIDELITY;
@@ -210,7 +193,7 @@ namespace Edwon.VR.Gesture
         //Run formatting on them during training.
         //Allow users to changes and train different formats on
         //the same data set.
-        public double[] FormatLine(List<Vector3> capturedLine, HandType hand)
+        public static double[] FormatLine(List<Vector3> capturedLine, HandType hand)
         {
             capturedLine = SubDivideLine(capturedLine);
             if (Config.USE_RAW_DATA)
@@ -233,17 +216,7 @@ namespace Edwon.VR.Gesture
             return tmpLine.ToArray();
         }
 
-        public void ReadWeights()
-        {
-
-        }
-
-        public void SaveFile()
-        {
-
-        }
-
-        public NeuralNetworkStub ReadNeuralNetworkStub(string networkName)
+        public static NeuralNetworkStub ReadNeuralNetworkStub(string networkName)
         {
             string path = Config.SAVE_FILE_PATH + networkName + "/" + networkName + ".txt";
             if (System.IO.File.Exists(path))
@@ -265,7 +238,8 @@ namespace Edwon.VR.Gesture
             }
         }
 
-        public List<string> GetNetworksFromFile()
+        //For some reason this is not called from anywher @deprecated?
+        public static List<string> GetNetworksFromFile()
         {
             List<string> networkList = new List<string>();
             string networkPath = Config.SAVE_FILE_PATH;
@@ -287,7 +261,7 @@ namespace Edwon.VR.Gesture
             return networkList;
         }
 
-        public List<string> GetGestureBank(string networkName)
+        public static List<string> GetGestureBank(string networkName)
         {
             List<string> gestureBank = new List<string>();
             string gesturesPath = Config.SAVE_FILE_PATH + networkName + "/gestures/";
@@ -314,18 +288,19 @@ namespace Edwon.VR.Gesture
             return gestureBank;
         }
 
-		public List<int> GetGestureBankTotalExamples(List<string> gestureList)
+        //Consider refactoring this by creating an actual GestureBank class.
+		public static List<int> GetGestureBankTotalExamples(List<string> gestureList, string networkName)
 		{
 			List<int> totals = new List<int>();
 			foreach(string gesture in gestureList)
 			{
-				int total = GetGestureExamplesTotal(gesture);
+				int total = GetGestureExamplesTotal(gesture, networkName);
 				totals.Add(total);
 			}
 			return totals;
 		}
 
-        public void CreateGestureFile(string gestureName, string networkName)
+        public static void CreateGestureFile(string gestureName, string networkName)
         {
             string gestureFileLocation = Config.SAVE_FILE_PATH + networkName + "/Gestures/";
 			// if no gestures folder already
@@ -345,7 +320,7 @@ namespace Edwon.VR.Gesture
 #endif
         }
 
-		public void DeleteGestureFile(string gestureName, string networkName)
+		public static void DeleteGestureFile(string gestureName, string networkName)
 		{
 			string gestureFileLocation = Config.SAVE_FILE_PATH + networkName + "/Gestures/" + gestureName + ".txt";
 #if UNITY_EDITOR
@@ -354,7 +329,7 @@ namespace Edwon.VR.Gesture
 #endif
         }
 
-        public void DeleteGestureExample(string neuralNetwork, string gesture, int lineNumber)
+        public static void DeleteGestureExample(string neuralNetwork, string gesture, int lineNumber)
         {
             string gestureFileLocation = Config.SAVE_FILE_PATH + neuralNetwork + "/Gestures/" + gesture + ".txt"; ;
             List<string> tmpLines = new List<string>();
@@ -365,7 +340,7 @@ namespace Edwon.VR.Gesture
             System.IO.File.WriteAllLines(gestureFileLocation, lines);
         }
 
-        public void RenameGestureFile(string gestureOldName, string gestureNewName, string networkName)
+        public static void RenameGestureFile(string gestureOldName, string gestureNewName, string networkName)
         {
             string oldPath = Config.SAVE_FILE_PATH + networkName + "/Gestures/" + gestureOldName + ".txt";
             string newPath = Config.SAVE_FILE_PATH + networkName + "/Gestures/" + gestureNewName + ".txt";
@@ -382,7 +357,7 @@ namespace Edwon.VR.Gesture
             DeleteGestureFile(gestureOldName, networkName);
         }
 
-		public void ChangeGestureName(string gestureNameOld, string gestureNameNew, string networkName)
+		public static void ChangeGestureName(string gestureNameOld, string gestureNameNew, string networkName)
 		{
 			string path = Config.SAVE_FILE_PATH + networkName + "/Gestures/" + gestureNameOld + ".txt";
 #if UNITY_EDITOR
@@ -393,7 +368,7 @@ namespace Edwon.VR.Gesture
 #endif
         }
 
-        public List<string> GetGestureFiles(string networkName)
+        public static List<string> GetGestureFiles(string networkName)
         {
             string gesturesFilePath = Config.SAVE_FILE_PATH + networkName + "/Gestures/";
             string[] files = System.IO.Directory.GetFiles(gesturesFilePath, "*.txt");
@@ -401,9 +376,9 @@ namespace Edwon.VR.Gesture
         }
 
 		// get all the examples of this gesture and store in a GestureExample list
-		public List<GestureExample> GetGestureExamples(string gesture)
+		public static List<GestureExample> GetGestureExamples(string gesture, string networkName)
 		{
-			string[] lines = GetGestureLines(gesture);
+			string[] lines = GetGestureLines(gesture, networkName);
 			List<GestureExample> gestures = new List<GestureExample>();
 			foreach (string currentLine in lines)
 			{
@@ -413,22 +388,22 @@ namespace Edwon.VR.Gesture
 		}
 
 		// get the total amount of examples of this gesture
-		public int GetGestureExamplesTotal(string gesture)
+		public static int GetGestureExamplesTotal(string gesture, string networkName)
 		{
-			string[] lines = GetGestureLines(gesture);
+			string[] lines = GetGestureLines(gesture, networkName);
 			return lines.Length;
 		}
 
-		private string[] GetGestureLines(string gesture)
+		private static string[] GetGestureLines(string gesture, string networkName)
 		{
 			//read in the file
-			string filePath = Config.SAVE_FILE_PATH + VRGestureManager.Instance.currentNeuralNet + "/Gestures/";
+			string filePath = Config.SAVE_FILE_PATH + networkName + "/Gestures/";
 			string fileName = gesture + ".txt";
 			string[] lines = System.IO.File.ReadAllLines(filePath + fileName);
 			return lines;
 		}
 
-		public void DeleteNeuralNetFiles(string networkName)
+		public static void DeleteNeuralNetFiles(string networkName)
 		{
 			string path = Config.SAVE_FILE_PATH + networkName + "/";
 			if (System.IO.Directory.Exists(path))
@@ -445,7 +420,7 @@ namespace Edwon.VR.Gesture
 
         // create a folder in the save file path
         // return true if successful, false if not
-        public bool CreateFolder (string path)
+        public static bool CreateFolder (string path)
         {
             string folderPathNew = Config.SAVE_FILE_PATH + path;
             System.IO.Directory.CreateDirectory(folderPathNew);
