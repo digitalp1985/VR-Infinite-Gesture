@@ -59,7 +59,8 @@ namespace Edwon.VR
             if (GetComponent<SteamVR_ControllerManager>() != null)
             {
                 SteamVR_ControllerManager steamVRControllerManager = GetComponent<SteamVR_ControllerManager>();
-                head = GetComponentInChildren<SteamVR_GameView>().transform;
+                head = GetComponentInChildren<SteamVR_Camera>().transform;
+                //TODO: CHECK IN EARLIER VERSION OF UNITY. MIGHT NEED A OR for SteamVR_Gameview
                 handLeft = steamVRControllerManager.left.transform;
                 handRight = steamVRControllerManager.right.transform;
             }
@@ -114,6 +115,11 @@ namespace Edwon.VR
         {
 #if EDWON_VR_STEAM
             SteamVR_ControllerManager[] steamVR_cm = FindObjectsOfType<SteamVR_ControllerManager>();
+            //What happens when we get here and we ONLY have 1 controller online.
+            //Do both controllers end up getting the LEFT controller?
+
+
+
             leftController = steamVR_cm[0].left;
             rightController = steamVR_cm[0].right;
 

@@ -36,12 +36,12 @@ namespace Edwon.VR.Gesture
 
         void OnEnable()
         {
-            VRGestureManager.GestureDetectedEvent += OnGestureDetected;
+            GestureRecognizer.GestureDetectedEvent += OnGestureDetected;
         }
 
         void OnDisable()
         {
-            VRGestureManager.GestureDetectedEvent -= OnGestureDetected;
+            GestureRecognizer.GestureDetectedEvent -= OnGestureDetected;
         }
 
         void OnGestureDetected(string gestureName, double confidence, HandType hand)

@@ -105,23 +105,9 @@ namespace Edwon.VR.Gesture
 
         #region AVATAR VARIABLES
         public VRGestureRig rig;
-        IInput input;
-        Transform playerHead;
-        Transform playerHand;
         Transform perpTransform;
         CaptureHand leftCapture;
         CaptureHand rightCapture;
-        #endregion
-
-        #region LINE CAPTURE VARIABLES
-        GestureTrail myTrail;
-        List<Vector3> currentCapturedLine;
-        public string gestureToRecord;
-
-        float nextRenderTime = 0;
-        float renderRateLimit = Config.CAPTURE_RATE;
-        float nextTestTime = 0;
-        float testRateLimit = 500;
         #endregion
 
         #region NEURAL NET VARIABLES
@@ -149,16 +135,8 @@ namespace Edwon.VR.Gesture
         public List<string> gestureBank; // list of recorded gesture for current neural net
         public List<int> gestureBankTotalExamples;
 
-        Trainer currentTrainer;
+        public Trainer currentTrainer { get; set; }
         GestureRecognizer currentRecognizer;
-
-        #endregion
-
-        #region EVENTS VARIABLES
-        public delegate void GestureDetected(string gestureName, double confidence, HandType hand);
-        public static event GestureDetected GestureDetectedEvent;
-        public delegate void GestureRejected(string error, string gestureName = null, double confidence = 0);
-        public static event GestureRejected GestureRejectedEvent;
 
         #endregion
 
@@ -190,29 +168,28 @@ namespace Edwon.VR.Gesture
             if (FindObjectOfType<VRGestureRig>() != null)
             {
                 rig = FindObjectOfType<VRGestureRig>();
-                playerHead = rig.head;
-                playerHand = rig.GetHand(gestureHand);
-                input = rig.GetInput(gestureHand);
 
                 //maybe only init this if it does not exist.
                 //Remove all game objects
-
-
                 perpTransform = transform.Find("Perpindicular Head");
                 if(perpTransform == null)
                 {
-                    Debug.Log("MAKING A NEW PERPS TRANSFORM");
                     perpTransform = new GameObject("Perpindicular Head").transform;
                     perpTransform.parent = this.transform;
                 }
 
-
                 //add a new capturehand to each of 
                 //Check if capture hand component exists.
-                //leftCapture = gameObject.AddComponent<CaptureHand>().Init(rig, perpTransform, HandType.Left);
-                //rightCapture = gameObject.AddComponent<CaptureHand>().Init(rig, perpTransform, HandType.Right);
-                leftCapture = new CaptureHand(rig, perpTransform, HandType.Left);
-                rightCapture = new CaptureHand(rig, perpTransform, HandType.Right);
+                GestureTrail leftTrail = null;
+                GestureTrail rightTrail = null;
+
+                if (displayGestureTrail)
+                {
+                    leftTrail = gameObject.AddComponent<GestureTrail>();
+                    rightTrail = gameObject.AddComponent<GestureTrail>();
+                }
+                leftCapture = new CaptureHand(rig, perpTransform, HandType.Left, leftTrail);
+                rightCapture = new CaptureHand(rig, perpTransform, HandType.Right, rightTrail);
             }
         }
 
@@ -229,13 +206,8 @@ namespace Edwon.VR.Gesture
             
             state = stateInitial;
             stateLast = state;
-            gestureToRecord = "";
-
-            input = rig.GetInput(gestureHand);
-
             //create a new Trainer
             currentTrainer = new Trainer(Gestures, currentNeuralNet);
-            currentCapturedLine = new List<Vector3>();
         }
 
         void OnEnable()
@@ -265,116 +237,20 @@ namespace Edwon.VR.Gesture
         #endregion
 
         #region LINE CAPTURE
-
-        public GestureTrail GetOrAddGestureTrail(CaptureHand captureHand)
-        {
-            GestureTrail[] results = GetComponents<GestureTrail>();
-            GestureTrail thisOne = null;
-
-            if (results.Length <= 1)
-            {
-                thisOne = gameObject.AddComponent<GestureTrail>();
-            }
-            else
-            {
-                foreach(GestureTrail myTrail in results)
-                {
-                    if (!myTrail.UseCheck())
-                    {
-                        Debug.Log("found trail");
-                        thisOne = myTrail;
-                        thisOne.AssignHand(captureHand);
-                        break;
-                    }
-                }
-            }
-            return thisOne;
-        }
-
         public void LineCaught(List<Vector3> capturedLine, HandType hand)
         {
             if (state == VRGestureManagerState.Recording || state == VRGestureManagerState.ReadyToRecord)
             {
-                TrainLine(gestureToRecord, capturedLine, hand);
+                currentTrainer.TrainLine(capturedLine, hand);
             }
             else if (state == VRGestureManagerState.Detecting || state == VRGestureManagerState.ReadyToDetect)
             {
-                RecognizeLine(capturedLine, hand);
+                currentRecognizer.RecognizeLine(capturedLine, hand);
             }
         }
+        #endregion
 
-        public void TrainLine(string gesture, List<Vector3> capturedLine, HandType hand)
-        {
-            currentTrainer.AddGestureToTrainingExamples(gesture, capturedLine, hand);
-            debugString = "trained : " + gesture;
-        }
-
-        public void RecognizeLine(List<Vector3> capturedLine, HandType hand)
-        {
-            if (IsGestureBigEnough(capturedLine))
-            {
-                //Detect if the captured line meets minimum gesture size requirements
-                double[] networkInput = Utils.FormatLine(capturedLine, hand);
-                string gesture = currentRecognizer.GetGesture(networkInput);
-                string confidenceValue = currentRecognizer.currentConfidenceValue.ToString("N3");
-
-                // broadcast gesture detected event
-                if (currentRecognizer.currentConfidenceValue > VRGestureManager.Instance.confidenceThreshold)
-                {
-                    debugString = gesture + " " + confidenceValue;
-                    if (VRGestureManager.GestureDetectedEvent != null)
-                    {
-                        GestureDetectedEvent(gesture, currentRecognizer.currentConfidenceValue, hand);
-                        //Check if the other hand has recently caught a gesture.
-                        //CheckForSyncGestures(gesture, hand);
-                        if(hand == HandType.Left)
-                        {
-                            leftCapture.SetRecognizedGesture(gesture);
-                            //FIRE BOTH GESTURE
-                            if (rightCapture.CheckForSync(gesture))
-                            {
-                                GestureDetectedEvent("BOTH: "+ gesture, 2.0, hand);
-                                debugString = "DOUBLE" + gesture;
-                            }
-                        }
-                        else if (hand == HandType.Right)
-                        {
-                            rightCapture.SetRecognizedGesture(gesture);
-                            //FIRE BOTH GESTURE
-                            if (leftCapture.CheckForSync(gesture))
-                            {
-                                GestureDetectedEvent("BOTH: "+ gesture, 2.0, hand);
-                                debugString = "DOUBLE" + gesture;
-                            }
-                        }
-                    }
-                        
-                }
-                else
-                {
-                    debugString = "Null \n" + gesture + " " + confidenceValue;
-                    if (GestureRejectedEvent != null)
-                        GestureRejectedEvent("Confidence Too Low", gesture, currentRecognizer.currentConfidenceValue);
-                }
-            }
-            else
-            {
-                //broadcast that a gesture is too small??
-                debugString = "Gesture is too small!";
-                if (GestureRejectedEvent != null)
-                    GestureRejectedEvent("Gesture is too small");
-                
-            }
-        }
-
-        public bool IsGestureBigEnough(List<Vector3> capturedLine)
-        {
-            float check = Utils.FindMaxAxis(capturedLine);
-            return (check > minimumGestureAxisLength);
-        }
-		#endregion
-
-		#region UPDATE
+        #region UPDATE
 
         void Update()
         {
@@ -420,15 +296,15 @@ namespace Edwon.VR.Gesture
             }
         }
 
-		#endregion
+        #endregion
 
-		#region HIGH LEVEL METHODS
+        #region HIGH LEVEL METHODS
 
         //This should be called directly from UIController via instance
         public void BeginReadyToRecord(string gesture)
         {
             currentTrainer = new Trainer(gestureBank, currentNeuralNet);
-            gestureToRecord = gesture;
+            currentTrainer.CurrentGesture = gesture;
             state = VRGestureManagerState.ReadyToRecord;
             leftCapture.state = VRGestureCaptureState.EnteringCapture;
             rightCapture.state = VRGestureCaptureState.EnteringCapture;
@@ -436,12 +312,11 @@ namespace Edwon.VR.Gesture
 
         public void BeginEditing(string gesture)
         {
-            gestureToRecord = gesture;
+            currentTrainer.CurrentGesture = gesture;
         }
 
         public void BeginDetect(string ignoreThisString)
         {
-            gestureToRecord = "";
             state = VRGestureManagerState.ReadyToDetect;
             currentRecognizer = new GestureRecognizer(currentNeuralNet);
         }
@@ -541,7 +416,7 @@ namespace Edwon.VR.Gesture
             neuralNets.Remove(neuralNetName); // remove from list
             gestureBank.Clear(); // clear the gestures list
             gestureBankPreEdit.Clear();
-			gestureBankTotalExamples.Clear();
+            gestureBankTotalExamples.Clear();
             Utils.DeleteNeuralNetFiles(neuralNetName); // delete all the files
 
             if (neuralNets.Count > 0)
@@ -560,7 +435,7 @@ namespace Edwon.VR.Gesture
         public void CreateGesture(string gestureName)
         {
             gestureBank.Add(gestureName);
-			gestureBankTotalExamples.Add(0);
+            gestureBankTotalExamples.Add(0);
             Utils.CreateGestureFile(gestureName, currentNeuralNet);
             gestureBankPreEdit = new List<string>(gestureBank);
         }
@@ -568,13 +443,13 @@ namespace Edwon.VR.Gesture
         [ExecuteInEditMode]
         public void DeleteGesture(string gestureName)
         {
-			int index = gestureBank.IndexOf(gestureName);
+            int index = gestureBank.IndexOf(gestureName);
             gestureBank.Remove(gestureName);
-			gestureBankTotalExamples.RemoveAt(index);
+            gestureBankTotalExamples.RemoveAt(index);
             Utils.DeleteGestureFile(gestureName, currentNeuralNet);
             gestureBankPreEdit = new List<string>(gestureBank);
         }
-			
+            
         List<string> gestureBankPreEdit;
 
         bool CheckForDuplicateGestures(string newName)
@@ -596,7 +471,7 @@ namespace Edwon.VR.Gesture
             return dupeCheck;
         }
 
-		#endregion
+        #endregion
 
 
 #if UNITY_EDITOR

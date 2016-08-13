@@ -1,11 +1,25 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using System;
 
 namespace Edwon.VR.Gesture
 {
     public class GestureRecognizer
     {
+        public delegate void GestureDetected(string gestureName, double confidence, HandType hand);
+        public static event GestureDetected GestureDetectedEvent;
+        public delegate void GestureRejected(string error, string gestureName = null, double confidence = 0);
+        public static event GestureRejected GestureRejectedEvent;
+
+
+
+        string lastLeftGesture;
+        DateTime lastLeftDetected;
+        string lastRightGesture;
+        DateTime lastRightDetected;
+
+
         public double currentConfidenceValue;
 
         List<string> outputs;
@@ -25,6 +39,113 @@ namespace Edwon.VR.Gesture
             neuralNet = new NeuralNetwork(stub.numInput, stub.numHidden, stub.numOutput);
             neuralNet.SetWeights(stub.weights);
         }
+
+        //Almost all of this should get plugged into Recognizer
+        public void RecognizeLine(List<Vector3> capturedLine, HandType hand)
+        {
+            if (IsGestureBigEnough(capturedLine))
+            {
+                //Detect if the captured line meets minimum gesture size requirements
+                double[] networkInput = Utils.FormatLine(capturedLine, hand);
+                string gesture = GetGesture(networkInput);
+                string confidenceValue = currentConfidenceValue.ToString("N3");
+
+                // broadcast gesture detected event
+                if (currentConfidenceValue > VRGestureManager.Instance.confidenceThreshold)
+                {
+                    VRGestureManager.Instance.debugString = gesture + " " + confidenceValue;
+                    if (GestureDetectedEvent != null)
+                    {
+                        GestureDetectedEvent(gesture, currentConfidenceValue, hand);
+                        //Check if the other hand has recently caught a gesture.
+                        //CheckForSyncGestures(gesture, hand);
+                        if (hand == HandType.Left)
+                        {
+                            //leftCapture.SetRecognizedGesture(gesture);
+                            lastLeftGesture = gesture;
+                            lastLeftDetected = DateTime.Now;
+                        }
+                        else if (hand == HandType.Right)
+                        {
+                            //rightCapture.SetRecognizedGesture(gesture);
+                            lastRightGesture = gesture;
+                            lastRightDetected = DateTime.Now;
+
+                        }
+
+                        if (CheckForSync(gesture))
+                        {
+                            GestureDetectedEvent("BOTH: " + gesture, 2.0, hand);
+                            VRGestureManager.Instance.debugString = "DOUBLE" + gesture;
+                        }
+                    }
+
+                }
+                else
+                {
+                    VRGestureManager.Instance.debugString = "Null \n" + gesture + " " + confidenceValue;
+                    if (GestureRejectedEvent != null)
+                        GestureRejectedEvent("Confidence Too Low", gesture, currentConfidenceValue);
+                }
+            }
+            else
+            {
+                //broadcast that a gesture is too small??
+                VRGestureManager.Instance.debugString = "Gesture is too small!";
+                if (GestureRejectedEvent != null)
+                    GestureRejectedEvent("Gesture is too small");
+            }
+        }
+
+        public bool IsGestureBigEnough(List<Vector3> capturedLine)
+        {
+            float check = Utils.FindMaxAxis(capturedLine);
+            return (check > VRGestureManager.Instance.minimumGestureAxisLength);
+        }
+
+
+
+        public bool CheckForSync(string gesture)
+        {
+            //Check the diff in time between left and right timestamps.
+            TimeSpan lapse = lastLeftDetected.Subtract(lastRightDetected).Duration();
+            TimeSpan limit = new TimeSpan(0, 0, 0, 0, 500);
+
+            //if gesture starts with an R or an L.
+            string gestureA = lastLeftGesture;
+            string gestureB = lastRightGesture;
+            if (gesture.Contains("L--") || gesture.Contains("R--"))
+            {
+                //strip the gesture
+                gestureA = lastLeftGesture.Substring(2);
+                gestureB = lastRightGesture.Substring(2);
+            }
+
+
+            if (gestureA == gestureB && lapse.CompareTo(limit) <= 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         public string GetGesture(double[] input)
         {

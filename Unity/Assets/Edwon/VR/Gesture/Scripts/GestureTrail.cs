@@ -12,6 +12,8 @@ namespace Edwon.VR.Gesture
         List<Vector3> displayLine;
         LineRenderer currentRenderer;
 
+        public bool listening = false;
+
         bool currentlyInUse = false;
 
         // Use this for initialization
@@ -20,13 +22,6 @@ namespace Edwon.VR.Gesture
             currentlyInUse = true;
             displayLine = new List<Vector3>();
             currentRenderer = CreateLineRenderer(Color.magenta, Color.magenta);
-        }
-
-        public GestureTrail Init(CaptureHand _hand)
-        {
-            registeredHand = _hand;
-            SubscribeToEvents();
-            return this;
         }
 
         void OnEnable()
@@ -98,6 +93,7 @@ namespace Edwon.VR.Gesture
         {
             currentRenderer.SetColors(Color.magenta, Color.magenta);
             displayLine.Clear();
+            listening = true;
         }
 
         public void CapturePoint(Vector3 rightHandPoint)
@@ -119,6 +115,7 @@ namespace Edwon.VR.Gesture
         public void StopTrail()
         {
             currentRenderer.SetColors(Color.blue, Color.cyan);
+            listening = false;
         }
 
 

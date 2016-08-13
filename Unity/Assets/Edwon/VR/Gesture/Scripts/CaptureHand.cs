@@ -16,14 +16,10 @@ namespace Edwon.VR.Gesture
         Transform playerHand;
         Transform perpTransform;
 
-        Trainer currentTrainer;
-        GestureRecognizer currentRecognizer;
-        string gestureToRecord;
         HandType hand;
 
-
         //Maybe have two states.
-        //One that is: Record, Detect, Idel, Edit, Train
+        //One that is: Record, Detect, Idle, Edit, Train
         //Another that is EnteringCapture, ReadyToCapture, Capturing
         public VRGestureCaptureState state;
         public InputOptions.Button gestureButton = InputOptions.Button.Trigger1;
@@ -33,8 +29,6 @@ namespace Edwon.VR.Gesture
 
         float nextRenderTime = 0;
         float renderRateLimit = Config.CAPTURE_RATE;
-        float nextTestTime = 0;
-        float testRateLimit = 500;
 
         public string lastGesture;
         public DateTime lastDetected;
@@ -46,7 +40,7 @@ namespace Edwon.VR.Gesture
         public delegate void StopCapture();
         public event StopCapture StopCaptureEvent;
 
-        public CaptureHand (VRGestureRig _rig, Transform _perp, HandType _hand)
+        public CaptureHand (VRGestureRig _rig, Transform _perp, HandType _hand, GestureTrail _myTrail = null)
         {
 
             rig = _rig;
@@ -56,6 +50,9 @@ namespace Edwon.VR.Gesture
             perpTransform = _perp;
             input = rig.GetInput(hand);
             currentCapturedLine = new List<Vector3>();
+            myTrail = _myTrail;
+            myTrail.AssignHand(this);
+
             Start();
         }
 
@@ -91,11 +88,11 @@ namespace Edwon.VR.Gesture
 
         // Use this for initialization
         void Start() {
-            if (VRGestureManager.Instance.displayGestureTrail)
+            if(myTrail != null)
             {
-                //myTrail = VRGestureManager.Instance.gameObject.AddComponent<GestureTrail>().Init(this);
-                myTrail = VRGestureManager.Instance.GetOrAddGestureTrail(this);
+                //myTrail.AssignHand(this);
             }
+            
         }
 
         public void LineCaught(List<Vector3> capturedLine)

@@ -3,6 +3,7 @@
 using UnityEngine;
 using System.Collections;
 using Edwon.VR.Gesture;
+using Valve.VR;
 
 namespace Edwon.VR.Input
 {
@@ -10,7 +11,6 @@ namespace Edwon.VR.Input
     {
         [Header("SteamVR Options")]
         public int deviceIndex;
-        bool properlySetIndex = false;
         public GameObject _hand;
 
         public IInput Init(HandType handy, GameObject hand)
@@ -24,6 +24,12 @@ namespace Edwon.VR.Input
 
         IEnumerator RegisterIndex()
         {
+            //If the other controller as registered as the left and they get flopped before this one gets registered
+            //We sometimes will end up with two controllers and the same index.
+            //Steam always assumes that the first controller you turn on is the RIGHT hand controller.
+            //But sometimes it will flip flop them around when you turn on the left controller.
+            //It's not clear when or why this happens and it's a huge pain in the ass.
+            
             //yield return new WaitForSeconds(.2f);
             while (true)
             {
@@ -37,9 +43,17 @@ namespace Edwon.VR.Input
             }
         }
 
+        void OnEnable()
+        {
+            SteamVR_Utils.Event.Listen("device_connected", OnDeviceConnected);
+            SteamVR_Utils.Event.Listen("TrackedDeviceRoleChanged", OnTrackedDeviceRoleChanged);
+        }
+
         void OnDestroy()
         {
             //Debug.Log("I am being destroyed");
+            SteamVR_Utils.Event.Remove("device_connected", OnDeviceConnected);
+            SteamVR_Utils.Event.Remove("TrackedDeviceRoleChanged", OnTrackedDeviceRoleChanged);
         }
 
         void LateUpdate()
@@ -62,6 +76,116 @@ namespace Edwon.VR.Input
             }
 
         }
+
+
+
+
+
+
+        private void OnTrackedDeviceRoleChanged(params object[] args)
+        {
+            
+            Debug.Log("TRACKED DEVICE ROLE CHANGE");
+            Refresh();
+        }
+
+
+        private void OnDeviceConnected(params object[] args)
+        {
+
+            Debug.Log("THIS DEVICE DONE GOT CONNECTED!");
+            Refresh();
+
+
+            //var index = (uint)(int)args[0];
+            //bool changed = this.connected[index];
+            //this.connected[index] = false;
+
+            //var connected = (bool)args[1];
+            //if (connected)
+            //{
+            //    var system = OpenVR.System;
+            //    if (system != null && system.GetTrackedDeviceClass(index) == ETrackedDeviceClass.Controller)
+            //    {
+            //        this.connected[index] = true;
+            //        changed = !changed; // if we clear and set the same index, nothing has changed
+            //    }
+            //}
+
+            //if (changed)
+            //    Refresh();
+        }
+
+        public void Refresh()
+        {
+
+            uint leftIndex = 0;
+            uint rightIndex = 0;
+
+            var system = OpenVR.System;
+            if (system != null)
+            {
+                leftIndex = system.GetTrackedDeviceIndexForControllerRole(ETrackedControllerRole.LeftHand);
+                rightIndex = system.GetTrackedDeviceIndexForControllerRole(ETrackedControllerRole.RightHand);
+            }
+
+
+            Debug.Log("LEFT INDEX = " + leftIndex + " RIGHT INDEX =" + rightIndex);
+
+
+
+            //int objectIndex = 0;
+
+            //var system = OpenVR.System;
+            //if (system != null)
+            //{
+            //    leftIndex = system.GetTrackedDeviceIndexForControllerRole(ETrackedControllerRole.LeftHand);
+            //    rightIndex = system.GetTrackedDeviceIndexForControllerRole(ETrackedControllerRole.RightHand);
+            //}
+
+            //// If neither role has been assigned yet, try hooking up at least the right controller.
+            //if (leftIndex == OpenVR.k_unTrackedDeviceIndexInvalid && rightIndex == OpenVR.k_unTrackedDeviceIndexInvalid)
+            //{
+            //    for (uint deviceIndex = 0; deviceIndex < connected.Length; deviceIndex++)
+            //    {
+            //        if (connected[deviceIndex])
+            //        {
+            //            SetTrackedDeviceIndex(objectIndex++, deviceIndex);
+            //            break;
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    SetTrackedDeviceIndex(objectIndex++, (rightIndex < connected.Length && connected[rightIndex]) ? rightIndex : OpenVR.k_unTrackedDeviceIndexInvalid);
+            //    SetTrackedDeviceIndex(objectIndex++, (leftIndex < connected.Length && connected[leftIndex]) ? leftIndex : OpenVR.k_unTrackedDeviceIndexInvalid);
+
+            //    // Assign out any additional controllers only after both left and right have been assigned.
+            //    if (leftIndex != OpenVR.k_unTrackedDeviceIndexInvalid && rightIndex != OpenVR.k_unTrackedDeviceIndexInvalid)
+            //    {
+            //        for (uint deviceIndex = 0; deviceIndex < connected.Length; deviceIndex++)
+            //        {
+            //            if (objectIndex >= objects.Length)
+            //                break;
+
+            //            if (!connected[deviceIndex])
+            //                continue;
+
+            //            if (deviceIndex != leftIndex && deviceIndex != rightIndex)
+            //            {
+            //                SetTrackedDeviceIndex(objectIndex++, deviceIndex);
+            //            }
+            //        }
+            //    }
+            //}
+
+            //// Reset the rest.
+            //while (objectIndex < objects.Length)
+            //{
+            //    SetTrackedDeviceIndex(objectIndex++, OpenVR.k_unTrackedDeviceIndexInvalid);
+            //}
+        }
+
     }
 }
 

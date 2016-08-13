@@ -276,7 +276,7 @@ namespace Edwon.VR.Gesture
             if (panelName == "Editing Menu")
             {
                 VRGestureUI.ToggleCanvasGroup(canvasGroup, true);
-                currentGesture = VRGestureManager.Instance.gestureToRecord;
+                currentGesture = VRGestureManager.Instance.currentTrainer.CurrentGesture;
                 currentNeuralNet = VRGestureManager.Instance.currentNeuralNet;
                 RefreshGestureExamples();
                 PositionGestureGallery();

@@ -20,15 +20,14 @@ namespace Edwon.VR.Gesture
 
         //maybe the trainer is where we need an output of gestures
         List<string> outputs;
-        string currentlyTraining;
+        public string CurrentGesture { get; set; }
         string recognizerName;
 
         NeuralNetwork neuralNetwork;
 
-
-        //This should be a CONST
-        string examplesFileName = "trainingExamples.txt";
-        //WriteLines is my initial training file.
+        //The current trainer should keep track of  the Gestures and GestureBank.
+        //It should manage all DATA sets etc.
+        //Should keep a table of every gesture example types and total counts of each gesture.
 
         public Trainer(List<string> gestureList, string name)
         {
@@ -50,9 +49,15 @@ namespace Edwon.VR.Gesture
 
         }
 
+        public void TrainLine(List<Vector3> capturedLine, HandType hand)
+        {
+            AddGestureToTrainingExamples(capturedLine, hand);
+            VRGestureManager.Instance.debugString = "trained : " + CurrentGesture;
+        }
+
         //Just Capture Data
         //Pass in an array for data points.
-        public void AddGestureToTrainingExamples(string gestureName, List<Vector3> capturedLine, HandType hand)
+        public void AddGestureToTrainingExamples(List<Vector3> capturedLine, HandType hand)
         {
             string gestureFileLocation = Config.SAVE_FILE_PATH + recognizerName + "/Gestures/";
             //we need to check if this directory exists.
@@ -68,12 +73,12 @@ namespace Edwon.VR.Gesture
                 }
 
                 GestureExample saveMe = new GestureExample();
-                saveMe.name = gestureName;
+                saveMe.name = CurrentGesture;
                 saveMe.data = capturedLine;
                 saveMe.hand = hand;
                 saveMe.raw = Config.USE_RAW_DATA;
                 //System.IO.StreamWriter file = new System.IO.StreamWriter(gestureFileLocation + gestureName + ".txt", true);
-                using (System.IO.StreamWriter file = new System.IO.StreamWriter(gestureFileLocation + gestureName + ".txt", true))
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(gestureFileLocation + CurrentGesture + ".txt", true))
                 {
                     file.WriteLine(JsonUtility.ToJson(saveMe));
                 }
@@ -124,8 +129,6 @@ namespace Edwon.VR.Gesture
                 tmpLines.AddRange(System.IO.File.ReadAllLines(fileLocation));
             }
             string[] lines = tmpLines.ToArray();
-            //This need to read every file inside of gestures.
-            //string[] lines = System.IO.File.ReadAllLines(Config.SAVE_FILE_PATH + examplesFileName);
 
             double[][] readData = new double[lines.Length][];
             List<double[]> tmpAllData = new List<double[]>();

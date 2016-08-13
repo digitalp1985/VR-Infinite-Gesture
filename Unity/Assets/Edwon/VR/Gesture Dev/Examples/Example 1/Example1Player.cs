@@ -14,14 +14,14 @@ namespace Edwon.VR.Gesture.Examples
 
         void OnEnable()
         {
-            VRGestureManager.GestureDetectedEvent += OnGestureDetected;
-            VRGestureManager.GestureRejectedEvent += OnGestureRejected;
+            GestureRecognizer.GestureDetectedEvent += OnGestureDetected;
+            GestureRecognizer.GestureRejectedEvent += OnGestureRejected;
         }
 
         void OnDisable()
         {
-            VRGestureManager.GestureDetectedEvent -= OnGestureDetected;
-            VRGestureManager.GestureRejectedEvent -= OnGestureRejected;
+            GestureRecognizer.GestureDetectedEvent -= OnGestureDetected;
+            GestureRecognizer.GestureRejectedEvent -= OnGestureRejected;
         }
 
         void OnGestureDetected(string gestureName, double confidence, HandType hand)

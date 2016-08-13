@@ -81,6 +81,7 @@ namespace Edwon.VR.Gesture
             panelManager = GetComponentInChildren<VRGestureUIPanelManager>();
 
             menuHandedness = (VRGestureManager.Instance.gestureHand == HandType.Left)? HandType.Right : HandType.Left;
+            HandType oppositeHand = VRGestureManager.Instance.gestureHand == HandType.Left ? HandType.Right : HandType.Left;
 
             rootCanvas = GetComponent<Canvas>();
             vrHandUIPanel = transform.Find("Panels");
@@ -426,7 +427,7 @@ namespace Edwon.VR.Gesture
             {
                 // instantiate the button
                 GameObject button = GameObject.Instantiate(prefab);
-                button.transform.parent = parent;
+                button.transform.SetParent(parent);
                 button.transform.localPosition = Vector3.zero;
                 button.transform.localRotation = Quaternion.identity;
                 RectTransform buttonRect = button.GetComponent<RectTransform>();
@@ -463,16 +464,16 @@ namespace Edwon.VR.Gesture
 
         void OnEnable()
         {
-            VRGestureManager.GestureDetectedEvent += OnGestureDetected;
-            VRGestureManager.GestureRejectedEvent += OnGestureRejected;
+            GestureRecognizer.GestureDetectedEvent += OnGestureDetected;
+            GestureRecognizer.GestureRejectedEvent += OnGestureRejected;
             VRGestureUIPanelManager.OnPanelFocusChanged += PanelFocusChanged;
             VRControllerUIInput.OnVRGuiHitChanged += VRGuiHitChanged;
         }
 
         void OnDisable()
         {
-            VRGestureManager.GestureDetectedEvent -= OnGestureDetected;
-            VRGestureManager.GestureRejectedEvent -= OnGestureRejected;
+            GestureRecognizer.GestureDetectedEvent -= OnGestureDetected;
+            GestureRecognizer.GestureRejectedEvent -= OnGestureRejected;
             VRGestureUIPanelManager.OnPanelFocusChanged -= PanelFocusChanged;
             VRControllerUIInput.OnVRGuiHitChanged -= VRGuiHitChanged;
         }
@@ -609,7 +610,7 @@ namespace Edwon.VR.Gesture
         // refresh the label that says how many examples recorded
         void RefreshTotalExamplesLabel ()
         {
-            string gesture = VRGestureManager.Instance.gestureToRecord;
+            string gesture = VRGestureManager.Instance.currentTrainer.CurrentGesture;
             int totalExamples = Utils.GetGestureExamplesTotal(gesture, VRGestureManager.Instance.currentNeuralNet);
             nowRecordingTotalExamplesLabel.text = totalExamples.ToString();
         }
