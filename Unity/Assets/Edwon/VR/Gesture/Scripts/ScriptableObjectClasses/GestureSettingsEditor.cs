@@ -213,6 +213,10 @@ namespace Edwon.VR.Gesture
         {
             EditorGUILayout.Separator();
             SerializedProperty beginInDetectMode = serializedObject.FindProperty("beginInDetectMode");
+            SerializedProperty gestureRig = serializedObject.FindProperty("rig");
+            SerializedProperty gestureRigID = serializedObject.FindProperty("gestureRigID");
+            EditorGUILayout.PropertyField(gestureRigID);
+            EditorGUILayout.PropertyField(gestureRig);
             EditorGUILayout.PropertyField(beginInDetectMode);
             if (beginInDetectMode.boolValue == true)
             {
@@ -232,7 +236,6 @@ namespace Edwon.VR.Gesture
                 gestureSettings.stateInitial = VRGestureManagerState.Idle;
             }
             EditorGUILayout.PropertyField(serializedObject.FindProperty("displayGestureTrail"));
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("gestureHand"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("gestureButton"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("confidenceThreshold"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("minimumGestureAxisLength"));

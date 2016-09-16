@@ -97,7 +97,7 @@ namespace Edwon.VR.Gesture
 
         public void LineCaught(List<Vector3> capturedLine)
         {
-            VRGestureManager.Instance.LineCaught(capturedLine, hand);
+            rig.LineCaught(capturedLine, hand);
             //This should send out an EVENT.
             //Remove dependency from Instance.
         }
@@ -120,20 +120,27 @@ namespace Edwon.VR.Gesture
             if (rig != null)
             {
 
-                if (VRGestureManager.Instance.state == VRGestureManagerState.Recording || VRGestureManager.Instance.state == VRGestureManagerState.ReadyToRecord)
+                if (rig.state == VRGestureManagerState.Recording || rig.state == VRGestureManagerState.ReadyToRecord)
                 {
                     UpdateRecord();
                 }
-                else if (VRGestureManager.Instance.state == VRGestureManagerState.Detecting || VRGestureManager.Instance.state == VRGestureManagerState.ReadyToDetect)
+                else if (rig.state == VRGestureManagerState.Detecting || rig.state == VRGestureManagerState.ReadyToDetect)
                 {
-                    if (VRGestureManager.Instance.vrGestureDetectType == VRGestureDetectType.Continious)
-                    {
-                        //UpdateContinual();
-                    }
-                    else
-                    {
-                        UpdateRecord();
-                    }
+
+
+                    UpdateRecord();
+
+
+
+
+                    //if (VRGestureManager.Instance.vrGestureDetectType == VRGestureDetectType.Continious)
+                    //{
+                    //    //UpdateContinual();
+                    //}
+                    //else
+                    //{
+                    //    UpdateRecord();
+                    //}
                 }
             }
         }

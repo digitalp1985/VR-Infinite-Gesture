@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using Edwon.VR.Input;
+using UnityEditor;
 
 namespace Edwon.VR.Gesture
 {
@@ -42,9 +43,9 @@ namespace Edwon.VR.Gesture
 
         [HideInInspector]
         public CanvasGroup canvasGroup;
+        private GestureSettings gestureSettings;
 
         // INIT
-
         void Start()
         {
             canvasGroup = GetComponent<CanvasGroup>();
@@ -63,11 +64,9 @@ namespace Edwon.VR.Gesture
 
         void GetHands()
         {
-            HandType handedness = VRGestureManager.Instance.gestureHand; // needed to set it to something to prevent error
-
             rig = VRGestureManager.Instance.rig;
-            vrHand = rig.GetHand(handedness);
-            vrHandInput = rig.GetInput(handedness);
+            vrHand = rig.GetHand(rig.gestureHand);
+            vrHandInput = rig.GetInput(rig.gestureHand);
         }
 
         // CREATE THE GESTURE GALLERY
@@ -236,6 +235,7 @@ namespace Edwon.VR.Gesture
         }
 
         Vector3 lastHandPos; // used to calculate velocity of the vrHand to move the gesture gallery
+        
 
         void FixedUpdateGrabAndMove()
         {
@@ -264,6 +264,7 @@ namespace Edwon.VR.Gesture
         void OnEnable()
         {
             VRGestureUIPanelManager.OnPanelFocusChanged += PanelFocusChanged;
+            gestureSettings = AssetDatabase.LoadAssetAtPath("Assets/Edwon/VR/Gesture/Settings/Settings.asset", typeof(GestureSettings)) as GestureSettings;
         }
 
         void OnDisable()
@@ -276,8 +277,8 @@ namespace Edwon.VR.Gesture
             if (panelName == "Editing Menu")
             {
                 VRGestureUI.ToggleCanvasGroup(canvasGroup, true);
-                currentGesture = VRGestureManager.Instance.currentTrainer.CurrentGesture;
-                currentNeuralNet = VRGestureManager.Instance.currentNeuralNet;
+                currentGesture = rig.currentTrainer.CurrentGesture;
+                currentNeuralNet = gestureSettings.currentNeuralNet;
                 RefreshGestureExamples();
                 PositionGestureGallery();
                 GenerateGestureGallery();

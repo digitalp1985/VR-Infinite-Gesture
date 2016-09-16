@@ -10,9 +10,14 @@ using System;
 [CreateAssetMenu(fileName = "Settings", menuName = "VRInfiniteGesture/Settings", order = 1)]
 public class GestureSettings : ScriptableObject {
 
+    public VRGestureRig rig
+    {
+        get;
+        set;
+    }
+    public int gestureRigID = 0;
+
     [Header("VR Infinite Gesture")]
-    [Tooltip("which hand to track using the gesture")]
-    public HandType gestureHand = HandType.Right; // the hand to track
     [Tooltip("display default gesture trails")]
     public bool displayGestureTrail = true;
     [Tooltip("the button that triggers gesture recognition")]
@@ -50,15 +55,10 @@ public class GestureSettings : ScriptableObject {
     public List<string> gestureBank; // list of recorded gesture for current neural net
     public List<int> gestureBankTotalExamples;
 
-
-
-
-
-
+    public Trainer currentTrainer { get; set; }
 
     public VRGestureManagerState state = VRGestureManagerState.Idle;
     public VRGestureManagerState stateInitial;
-    public VRGestureManagerState stateLast;
 
     public bool readyToTrain
     {
@@ -85,62 +85,56 @@ public class GestureSettings : ScriptableObject {
     //List of Processed Gestures
     //List of New Gestures sitting in data.
 
+    public void OnEnable()
+    {
+        rig = VRGestureRig.GetPlayerRig(gestureRigID);
+    }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    #region HIGH LEVEL METHODS
-
+    #region NEURAL NETWORK ACTIVE METHODS
     //This should be called directly from UIController via instance
     public void BeginReadyToRecord(string gesture)
     {
-        //currentTrainer = new Trainer(gestureBank, currentNeuralNet);
-        //currentTrainer.CurrentGesture = gesture;
-        //state = VRGestureManagerState.ReadyToRecord;
-        //leftCapture.state = VRGestureCaptureState.EnteringCapture;
-        //rightCapture.state = VRGestureCaptureState.EnteringCapture;
+        rig.currentTrainer = new Trainer(currentNeuralNet, gestureBank);
+        rig.currentTrainer.CurrentGesture = gesture;
+        rig.state = VRGestureManagerState.ReadyToRecord;
+        rig.leftCapture.state = VRGestureCaptureState.EnteringCapture;
+        rig.rightCapture.state = VRGestureCaptureState.EnteringCapture;
     }
 
     public void BeginEditing(string gesture)
     {
-        //currentTrainer.CurrentGesture = gesture;
+        rig.currentTrainer.CurrentGesture = gesture;
     }
 
     public void BeginDetect(string ignoreThisString)
     {
-        //state = VRGestureManagerState.ReadyToDetect;
-        //currentRecognizer = new GestureRecognizer(currentNeuralNet);
+        rig.state = VRGestureManagerState.ReadyToDetect;
+        rig.currentRecognizer = new GestureRecognizer(currentNeuralNet);
     }
 
     [ExecuteInEditMode]
     public void BeginTraining(Action<string> callback)
     {
-        //state = VRGestureManagerState.Training;
-        //currentTrainer = new Trainer(gestureBank, currentNeuralNet);
-        //currentTrainer.TrainRecognizer();
-        //// finish training
-        //state = VRGestureManagerState.Idle;
-        //callback(currentNeuralNet);
+        rig.state = VRGestureManagerState.Training;
+        rig.currentTrainer = new Trainer(currentNeuralNet, gestureBank);
+        rig.currentTrainer.TrainRecognizer();
+        // finish training
+        rig.state = VRGestureManagerState.Idle;
+        callback(currentNeuralNet);
     }
 
     [ExecuteInEditMode]
     public void EndTraining(Action<string> callback)
     {
-        state = VRGestureManagerState.Idle;
+        rig.state = VRGestureManagerState.Idle;
         callback(currentNeuralNet);
     }
+    #endregion
 
+
+
+    #region NEURAL NETWORK EDIT METHODS
     [ExecuteInEditMode]
     public bool CheckForDuplicateNeuralNetName(string neuralNetName)
     {

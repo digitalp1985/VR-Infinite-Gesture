@@ -28,8 +28,10 @@ namespace Edwon.VR.Gesture
         //The current trainer should keep track of  the Gestures and GestureBank.
         //It should manage all DATA sets etc.
         //Should keep a table of every gesture example types and total counts of each gesture.
+        //Should not require a pass in for the gestureList.
+        //we almost always want the gesture bank.
 
-        public Trainer(List<string> gestureList, string name)
+        public Trainer( string name, List<string> gestureList = null)
         {
             numInput = 34;
             //This should be a number between input and output.
@@ -40,8 +42,14 @@ namespace Edwon.VR.Gesture
             numOutput = 3;
             //numOutput = gestureList.Count;
             recognizerName = name;
-
-            outputs = gestureList;
+            if(gestureList == null)
+            {
+                //outputs = VRGestureManager.Instance.s.gestureBank;
+            }
+            else
+            {
+                outputs = gestureList;
+            }
         }
 
         public void Load()
@@ -52,7 +60,6 @@ namespace Edwon.VR.Gesture
         public void TrainLine(List<Vector3> capturedLine, HandType hand)
         {
             AddGestureToTrainingExamples(capturedLine, hand);
-            VRGestureManager.Instance.debugString = "trained : " + CurrentGesture;
         }
 
         //Just Capture Data

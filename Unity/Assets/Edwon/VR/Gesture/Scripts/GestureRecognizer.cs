@@ -19,8 +19,9 @@ namespace Edwon.VR.Gesture
         string lastRightGesture;
         DateTime lastRightDetected;
 
-
+        public double confidenceThreshold = 0.98;
         public double currentConfidenceValue;
+        public double minimumGestureAxisLength = 0.1;
 
         List<string> outputs;
         NeuralNetwork neuralNet;
@@ -41,7 +42,7 @@ namespace Edwon.VR.Gesture
         }
 
         //Almost all of this should get plugged into Recognizer
-        public void RecognizeLine(List<Vector3> capturedLine, HandType hand)
+        public void RecognizeLine(List<Vector3> capturedLine, HandType hand, VRGestureRig sender)
         {
             if (IsGestureBigEnough(capturedLine))
             {
@@ -51,9 +52,8 @@ namespace Edwon.VR.Gesture
                 string confidenceValue = currentConfidenceValue.ToString("N3");
 
                 // broadcast gesture detected event
-                if (currentConfidenceValue > VRGestureManager.Instance.confidenceThreshold)
+                if (currentConfidenceValue > confidenceThreshold)
                 {
-                    VRGestureManager.Instance.debugString = gesture + " " + confidenceValue;
                     if (GestureDetectedEvent != null)
                     {
                         GestureDetectedEvent(gesture, currentConfidenceValue, hand);
@@ -76,14 +76,12 @@ namespace Edwon.VR.Gesture
                         if (CheckForSync(gesture))
                         {
                             GestureDetectedEvent("BOTH: " + gesture, 2.0, hand);
-                            VRGestureManager.Instance.debugString = "DOUBLE" + gesture;
                         }
                     }
 
                 }
                 else
                 {
-                    VRGestureManager.Instance.debugString = "Null \n" + gesture + " " + confidenceValue;
                     if (GestureRejectedEvent != null)
                         GestureRejectedEvent("Confidence Too Low", gesture, currentConfidenceValue);
                 }
@@ -91,7 +89,6 @@ namespace Edwon.VR.Gesture
             else
             {
                 //broadcast that a gesture is too small??
-                VRGestureManager.Instance.debugString = "Gesture is too small!";
                 if (GestureRejectedEvent != null)
                     GestureRejectedEvent("Gesture is too small");
             }
@@ -100,7 +97,7 @@ namespace Edwon.VR.Gesture
         public bool IsGestureBigEnough(List<Vector3> capturedLine)
         {
             float check = Utils.FindMaxAxis(capturedLine);
-            return (check > VRGestureManager.Instance.minimumGestureAxisLength);
+            return (check > minimumGestureAxisLength);
         }
 
 

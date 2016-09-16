@@ -12,6 +12,9 @@ namespace Edwon.VR
         SerializedProperty handRight;
         SerializedProperty handLeftModel;
         SerializedProperty handRightModel;
+        SerializedProperty gestureHand;
+        SerializedProperty displayGestureTrail;
+        SerializedProperty rigID;
 
         void OnEnable()
         {
@@ -26,6 +29,9 @@ namespace Edwon.VR
             handRight = serializedObject.FindProperty("handRight");
             handLeftModel = serializedObject.FindProperty("handLeftModel");
             handRightModel = serializedObject.FindProperty("handRightModel");
+            gestureHand = serializedObject.FindProperty("gestureHand");
+            displayGestureTrail = serializedObject.FindProperty("displayGestureTrail");
+            rigID = serializedObject.FindProperty("ID");
 
             VRGestureRig vrGestureRig = (VRGestureRig)target;
             if (GUILayout.Button("Auto Setup"))
@@ -36,6 +42,11 @@ namespace Edwon.VR
             EditorGUILayout.PropertyField(head);
             EditorGUILayout.PropertyField(handLeft);
             EditorGUILayout.PropertyField(handRight);
+
+            EditorGUILayout.PropertyField(gestureHand);
+            EditorGUILayout.PropertyField(rigID);
+
+            EditorGUILayout.PropertyField(displayGestureTrail);
 
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.PrefixLabel("Spawn Controller Models");

@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 
 namespace Edwon.VR.Gesture
 {
@@ -21,6 +22,12 @@ namespace Edwon.VR.Gesture
 
         [HideInInspector]
         public CanvasGroup canvasGroup;
+        private GestureSettings gestureSettings;
+
+        void OnEnable()
+        {
+            gestureSettings = AssetDatabase.LoadAssetAtPath("Assets/Edwon/VR/Gesture/Settings/Settings.asset", typeof(GestureSettings)) as GestureSettings;
+        }
 
         void Start()
         {
@@ -37,13 +44,13 @@ namespace Edwon.VR.Gesture
                 }
             }
 
-            if (VRGestureManager.Instance.stateInitial == VRGestureManagerState.ReadyToDetect)
+            if (gestureSettings.stateInitial == VRGestureManagerState.ReadyToDetect)
             {
                 initialPanel = "Detect Menu";
             }
 
             // initialize initial panel focused
-            if (VRGestureManager.Instance.neuralNets.Count <= 0)
+            if (gestureSettings.neuralNets.Count <= 0)
                 FocusPanel("No Neural Net Menu");
             else
                 FocusPanel(initialPanel);
