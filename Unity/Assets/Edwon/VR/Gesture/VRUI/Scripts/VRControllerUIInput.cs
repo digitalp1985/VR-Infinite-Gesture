@@ -379,7 +379,7 @@ namespace Edwon.VR.Gesture
                     pressed = ControllerInputLeft.GetButtonDown(InputOptions.Button.Trigger1);
                     if (pressed)
                     {
-                        //Debug.Log("Left Trigger " + pressed);
+                        Debug.Log("Left Trigger " + pressed);
                     }
                 }
                 //This is actually the RIGHT trigger
@@ -392,7 +392,7 @@ namespace Edwon.VR.Gesture
                     pressed = ControllerInputRight.GetButtonDown(InputOptions.Button.Trigger1);
                     if (pressed)
                     {
-                        //Debug.Log("Right Trigger " + pressed);
+                        Debug.Log("Right Trigger " + pressed);
                     }
                 }
                 return pressed;

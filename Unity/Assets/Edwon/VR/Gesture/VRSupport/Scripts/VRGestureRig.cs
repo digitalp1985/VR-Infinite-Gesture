@@ -16,6 +16,8 @@ namespace Edwon.VR
         public bool displayGestureTrail;
         public int ID = 0;
 
+        GestureSettings gestureSettings;
+
         //public VRRigAnchors vrRigAnchors;
         [SerializeField]
         public Transform head;
@@ -62,7 +64,6 @@ namespace Edwon.VR
                 if(_rig.ID == rigID)
                 {
                     rig = _rig;
-                    Debug.Log("I FOUND DAT SHIT");
                 }
             }
 
@@ -75,6 +76,8 @@ namespace Edwon.VR
 
         void Awake()
         {
+            gestureSettings = AssetDatabase.LoadAssetAtPath("Assets/Edwon/VR/Gesture/Settings/Settings.asset", typeof(GestureSettings)) as GestureSettings;
+
             CreateInputHelper();
             
         }
@@ -298,5 +301,41 @@ namespace Edwon.VR
             leftModel.localRotation = Quaternion.identity;
             rightModel.localRotation = Quaternion.identity;
         }
+
+
+        #region RECORDING/DETECTING
+        public void BeginReadyToRecord(string gesture)
+        {
+            currentTrainer = new Trainer(gestureSettings.currentNeuralNet, gestureSettings.gestureBank);
+            currentTrainer.CurrentGesture = gesture;
+            state = VRGestureManagerState.ReadyToRecord;
+            leftCapture.state = VRGestureCaptureState.EnteringCapture;
+            rightCapture.state = VRGestureCaptureState.EnteringCapture;
+        }
+
+        public void BeginEditing(string gesture)
+        {
+            currentTrainer.CurrentGesture = gesture;
+        }
+
+        public void BeginDetect()
+        {
+            state = VRGestureManagerState.ReadyToDetect;
+            currentRecognizer = new GestureRecognizer(gestureSettings.currentNeuralNet);
+        }
+
+
+        #endregion
     }
+
+
 }
+
+
+
+
+
+
+
+
+

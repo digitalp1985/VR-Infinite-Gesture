@@ -116,9 +116,6 @@ namespace Edwon.VR.Input
                 {
                     deviceIndex = (int)leftIndex;
                 }
-
-
-
             }
             Debug.Log("LEFT INDEX = " + leftIndex + " RIGHT INDEX =" + rightIndex);
         }

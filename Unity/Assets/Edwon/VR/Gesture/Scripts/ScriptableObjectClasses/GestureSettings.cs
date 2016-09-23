@@ -93,29 +93,11 @@ public class GestureSettings : ScriptableObject {
 
     #region NEURAL NETWORK ACTIVE METHODS
     //This should be called directly from UIController via instance
-    public void BeginReadyToRecord(string gesture)
-    {
-        rig.currentTrainer = new Trainer(currentNeuralNet, gestureBank);
-        rig.currentTrainer.CurrentGesture = gesture;
-        rig.state = VRGestureManagerState.ReadyToRecord;
-        rig.leftCapture.state = VRGestureCaptureState.EnteringCapture;
-        rig.rightCapture.state = VRGestureCaptureState.EnteringCapture;
-    }
-
-    public void BeginEditing(string gesture)
-    {
-        rig.currentTrainer.CurrentGesture = gesture;
-    }
-
-    public void BeginDetect(string ignoreThisString)
-    {
-        rig.state = VRGestureManagerState.ReadyToDetect;
-        rig.currentRecognizer = new GestureRecognizer(currentNeuralNet);
-    }
-
+    //Most of these should be moved into RIG as they are just editing vars in RIG.
     [ExecuteInEditMode]
     public void BeginTraining(Action<string> callback)
     {
+        rig = VRGestureRig.GetPlayerRig(gestureRigID);
         rig.state = VRGestureManagerState.Training;
         rig.currentTrainer = new Trainer(currentNeuralNet, gestureBank);
         rig.currentTrainer.TrainRecognizer();
@@ -127,6 +109,7 @@ public class GestureSettings : ScriptableObject {
     [ExecuteInEditMode]
     public void EndTraining(Action<string> callback)
     {
+        rig = VRGestureRig.GetPlayerRig(gestureRigID);
         rig.state = VRGestureManagerState.Idle;
         callback(currentNeuralNet);
     }

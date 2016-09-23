@@ -207,14 +207,15 @@ namespace Edwon.VR.Gesture
         // called when detect mode begins
         public void BeginDetectMode()
         {
-            gestureSettings.BeginDetect("");
+            rig.BeginDetect();
         }
 
         // called when entering recording menu
         public void BeginRecordingMenu(string gestureName)
         {
             nowRecordingGestureLabel.text = gestureName;
-            gestureSettings.BeginReadyToRecord(gestureName);
+            rig.BeginReadyToRecord(gestureName);
+            //gestureSettings.BeginReadyToRecord(gestureName);
             RefreshTotalExamplesLabel();
         }
 
@@ -224,7 +225,7 @@ namespace Edwon.VR.Gesture
             deleteGestureButton.onClick.RemoveAllListeners();
             deleteGestureButton.onClick.AddListener(() => panelManager.FocusPanel("Delete Confirm Menu")); // go to confirm delete menu
             deleteGestureButton.onClick.AddListener(() => BeginDeleteConfirm(gestureName));
-            gestureSettings.BeginEditing(gestureName);
+            rig.BeginEditing(gestureName);
         }
 
         public void BeginDeleteConfirm(string gestureName)
