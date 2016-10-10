@@ -233,7 +233,7 @@ namespace Edwon.VR.Gesture
 			else
 			{
 				NeuralNetworkStub stub = new NeuralNetworkStub();
-				stub.gestures = new List<string>();
+				stub.gestures = new List<Gesture>();
 				return stub;
 			}
 		}
@@ -261,7 +261,8 @@ namespace Edwon.VR.Gesture
 			return networkList;
 		}
 
-		public static List<string> GetGestureBank(string networkName)
+        //This one now just reads from the gesture bank file.
+		public static List<string> GetGestureBankOld(string networkName)
 		{
 			List<string> gestureBank = new List<string>();
 			string gesturesPath = Config.SAVE_FILE_PATH + networkName + "/gestures/";
@@ -288,11 +289,35 @@ namespace Edwon.VR.Gesture
 			return gestureBank;
 		}
 
-		//Consider refactoring this by creating an actual GestureBank class.
-		public static List<int> GetGestureBankTotalExamples(List<string> gestureList, string networkName)
+        //This one now just reads from the gesture bank file.
+        public static List<Gesture> GetGestureBank(string networkName)
+        {
+            List<Gesture> gestureBank = new List<Gesture>();
+            string gesturesPath = Config.SAVE_FILE_PATH + networkName + "/GestureBank.txt";
+            //Check if path exists
+
+            if (System.IO.File.Exists(gesturesPath))
+            {
+                string[] lines = System.IO.File.ReadAllLines(gesturesPath);
+                ////System.IO.File.
+                string inputLine = lines[0];
+
+                GestureBankStub stub = JsonUtility.FromJson<GestureBankStub>(inputLine);
+                return stub.gestures;
+            }
+            else
+            {
+                GestureBankStub stub = new GestureBankStub();
+                stub.gestures = new List<Gesture>();
+                return stub.gestures;
+            }
+        }
+
+        //Consider refactoring this by creating an actual GestureBank class.
+        public static List<int> GetGestureBankTotalExamples(List<Gesture> gestureList, string networkName)
 		{
 			List<int> totals = new List<int>();
-			foreach(string gesture in gestureList)
+			foreach(Gesture gesture in gestureList)
 			{
 				int total = GetGestureExamplesTotal(gesture, networkName);
 				totals.Add(total);
@@ -388,9 +413,9 @@ namespace Edwon.VR.Gesture
 		}
 
 		// get the total amount of examples of this gesture
-		public static int GetGestureExamplesTotal(string gesture, string networkName)
+		public static int GetGestureExamplesTotal(Gesture gesture, string networkName)
 		{
-			string[] lines = GetGestureLines(gesture, networkName);
+			string[] lines = GetGestureLines(gesture.name, networkName);
 			return lines.Length;
 		}
 
@@ -469,13 +494,20 @@ namespace Edwon.VR.Gesture
 		public int exampleCount = 0;
 	}
 
-	[Serializable]
+
+    [Serializable]
+    public class GestureBankStub
+    {
+        public List<Gesture> gestures;
+    }
+
+    [Serializable]
 	public class NeuralNetworkStub
 	{
 		public int numInput;
 		public int numHidden;
 		public int numOutput;
-		public List<string> gestures;
+		public List<Gesture> gestures;
 		public double[] weights;
 		//confidenceThreshold
 		//minimumGestureLength

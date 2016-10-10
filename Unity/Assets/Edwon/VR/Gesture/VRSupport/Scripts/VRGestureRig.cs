@@ -307,7 +307,7 @@ namespace Edwon.VR
         public void BeginReadyToRecord(string gesture)
         {
             currentTrainer = new Trainer(gestureSettings.currentNeuralNet, gestureSettings.gestureBank);
-            currentTrainer.CurrentGesture = gesture;
+            currentTrainer.CurrentGesture = gestureSettings.FindGesture(gesture); ;
             state = VRGestureManagerState.ReadyToRecord;
             leftCapture.state = VRGestureCaptureState.EnteringCapture;
             rightCapture.state = VRGestureCaptureState.EnteringCapture;
@@ -315,7 +315,7 @@ namespace Edwon.VR
 
         public void BeginEditing(string gesture)
         {
-            currentTrainer.CurrentGesture = gesture;
+            currentTrainer.CurrentGesture = gestureSettings.FindGesture(gesture); ;
         }
 
         public void BeginDetect()

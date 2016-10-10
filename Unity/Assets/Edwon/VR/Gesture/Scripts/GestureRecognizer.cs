@@ -23,7 +23,7 @@ namespace Edwon.VR.Gesture
         public double currentConfidenceValue;
         public double minimumGestureAxisLength = 0.1;
 
-        List<string> outputs;
+        List<Gesture> outputs;
         NeuralNetwork neuralNet;
         //save the array of gestures
         //This should always require a name to load.
@@ -177,36 +177,36 @@ namespace Edwon.VR.Gesture
             //maxVal is the confidence value.
             //Debug.Log("Confidence Value: "+ maxVal);
             currentConfidenceValue = maxVal;
-            return outputs[maxIndex];
+            return outputs[maxIndex].name;
         }
 
-        public double[] ConvertGestureToVector(string gestureName)
-        {
-            int vectorIndex = outputs.IndexOf(gestureName);
-            double[] outputVector = new double[outputs.Count];
-            for(int i = 0; i < outputVector.Length; i++)
-            {
-                outputVector[i] = 0;
-            }
-            outputVector[vectorIndex] = 1;
-            return outputVector;
-        }
+        //public double[] ConvertGestureToVector(string gestureName)
+        //{
+        //    int vectorIndex = outputs.IndexOf(gestureName);
+        //    double[] outputVector = new double[outputs.Count];
+        //    for(int i = 0; i < outputVector.Length; i++)
+        //    {
+        //        outputVector[i] = 0;
+        //    }
+        //    outputVector[vectorIndex] = 1;
+        //    return outputVector;
+        //}
 
-        public string ConvertVectorToGesture(double[] outputVector)
-        {
-            //Find maxIndex
-            int maxIndex = 0;
-            double maxValue = 0;
-            for (int i = 0; i < outputVector.Length; i++)
-            {
-                if(outputVector[i] > maxValue)
-                {
-                    maxValue = outputVector[i];
-                    maxIndex = i;
-                }
-            }
-            return outputs[maxIndex];
-        }
+        //public string ConvertVectorToGesture(double[] outputVector)
+        //{
+        //    //Find maxIndex
+        //    int maxIndex = 0;
+        //    double maxValue = 0;
+        //    for (int i = 0; i < outputVector.Length; i++)
+        //    {
+        //        if(outputVector[i] > maxValue)
+        //        {
+        //            maxValue = outputVector[i];
+        //            maxIndex = i;
+        //        }
+        //    }
+        //    return outputs[maxIndex];
+        //}
 
     }
 

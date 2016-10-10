@@ -20,7 +20,8 @@ namespace Edwon.VR.Gesture
 
         //maybe the trainer is where we need an output of gestures
         List<string> outputs;
-        public string CurrentGesture { get; set; }
+        List<Gesture> gestures;
+        public Gesture CurrentGesture { get; set; }
         string recognizerName;
 
         NeuralNetwork neuralNetwork;
@@ -31,7 +32,7 @@ namespace Edwon.VR.Gesture
         //Should not require a pass in for the gestureList.
         //we almost always want the gesture bank.
 
-        public Trainer( string name, List<string> gestureList = null)
+        public Trainer( string name, List<Gesture> gestureList = null)
         {
             numInput = 34;
             //This should be a number between input and output.
@@ -48,7 +49,11 @@ namespace Edwon.VR.Gesture
             }
             else
             {
-                outputs = gestureList;
+                gestures = gestureList;
+                foreach(Gesture g in gestureList)
+                {
+                    outputs.Add(g.name);
+                }
             }
         }
 
@@ -80,7 +85,7 @@ namespace Edwon.VR.Gesture
                 }
 
                 GestureExample saveMe = new GestureExample();
-                saveMe.name = CurrentGesture;
+                saveMe.name = CurrentGesture.name;
                 saveMe.data = capturedLine;
                 saveMe.hand = hand;
                 saveMe.raw = Config.USE_RAW_DATA;
@@ -213,7 +218,7 @@ namespace Edwon.VR.Gesture
             stub.numInput = numInput;
             stub.numHidden = numHidden;
             stub.numOutput = numOutput;
-            stub.gestures = outputs;
+            stub.gestures = gestures;
             stub.weights = weights;
             string filePath = Config.SAVE_FILE_PATH + recognizerName + "/" + recognizerName+".txt";
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(filePath, false))

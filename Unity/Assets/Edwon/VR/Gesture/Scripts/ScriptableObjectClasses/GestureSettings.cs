@@ -39,8 +39,8 @@ public class GestureSettings : ScriptableObject {
     public string currentNeuralNet;
     public string lastNeuralNet; // used to know when to refresh gesture bank
     public List<string> neuralNets;
-    private List<string> gestures;  // list of gestures already trained in currentNeuralNet
-    public List<string> Gestures
+    private List<Gesture> gestures;  // list of gestures already trained in currentNeuralNet
+    public List<Gesture> Gestures
     {
         get
         {
@@ -52,7 +52,7 @@ public class GestureSettings : ScriptableObject {
             value = gestures;
         }
     }
-    public List<string> gestureBank; // list of recorded gesture for current neural net
+    public List<Gesture> gestureBank; // list of recorded gesture for current neural net
     public List<int> gestureBankTotalExamples;
 
     public Trainer currentTrainer { get; set; }
@@ -137,9 +137,9 @@ public class GestureSettings : ScriptableObject {
         Utils.CreateFolder(neuralNetName + "/Gestures/");
 
         neuralNets.Add(neuralNetName);
-        gestures = new List<string>();
-        gestureBank = new List<string>();
-        gestureBankPreEdit = new List<string>();
+        gestures = new List<Gesture>();
+        gestureBank = new List<Gesture>();
+        gestureBankPreEdit = new List<Gesture>();
         gestureBankTotalExamples = new List<int>();
 
         // select the new neural net
@@ -178,13 +178,13 @@ public class GestureSettings : ScriptableObject {
         if (currentNeuralNet != null && currentNeuralNet != "" && Utils.GetGestureBank(currentNeuralNet) != null)
         {
             gestureBank = Utils.GetGestureBank(currentNeuralNet);
-            gestureBankPreEdit = new List<string>(gestureBank);
+            gestureBankPreEdit = new List<Gesture>(gestureBank);
             gestureBankTotalExamples = Utils.GetGestureBankTotalExamples(gestureBank, currentNeuralNet);
         }
         else
         {
-            gestureBank = new List<string>();
-            gestureBankPreEdit = new List<string>();
+            gestureBank = new List<Gesture>();
+            gestureBankPreEdit = new List<Gesture>();
             gestureBankTotalExamples = new List<int>();
         }
     }
@@ -218,31 +218,50 @@ public class GestureSettings : ScriptableObject {
     [ExecuteInEditMode]
     public void CreateGesture(string gestureName)
     {
-        gestureBank.Add(gestureName);
+        Gesture newGesture = new Gesture();
+        newGesture.name = gestureName;
+        newGesture.hand = HandType.Right;
+        newGesture.isSynchronous = false;
+        newGesture.exampleCount = 0;
+
+
+        gestureBank.Add(newGesture);
         gestureBankTotalExamples.Add(0);
         Utils.CreateGestureFile(gestureName, currentNeuralNet);
-        gestureBankPreEdit = new List<string>(gestureBank);
+        gestureBankPreEdit = new List<Gesture>(gestureBank);
     }
+
+    [ExecuteInEditMode]
+    public Gesture FindGesture(string gestureName)
+    {
+        //int index = gestureBank.IndexOf(gestureName);
+        Predicate<Gesture> gestureFinder = (Gesture g) => { return g.name == gestureName; };
+        Gesture gest = gestureBank.Find(gestureFinder);
+        return gest;
+    }
+
 
     [ExecuteInEditMode]
     public void DeleteGesture(string gestureName)
     {
-        int index = gestureBank.IndexOf(gestureName);
-        gestureBank.Remove(gestureName);
+        //int index = gestureBank.IndexOf(gestureName);
+        Predicate<Gesture> gestureFinder = (Gesture g) => { return g.name == gestureName; };
+        int index = gestureBank.FindIndex(gestureFinder);
+        gestureBank.RemoveAt(index);
         gestureBankTotalExamples.RemoveAt(index);
         Utils.DeleteGestureFile(gestureName, currentNeuralNet);
-        gestureBankPreEdit = new List<string>(gestureBank);
+        gestureBankPreEdit = new List<Gesture>(gestureBank);
     }
 
-    List<string> gestureBankPreEdit;
+    List<Gesture> gestureBankPreEdit;
 
     bool CheckForDuplicateGestures(string newName)
     {
         bool dupeCheck = true;
         int dupeCount = -1;
-        foreach (string gesture in gestureBank)
+        foreach (Gesture gesture in gestureBank)
         {
-            if (newName == gesture)
+            if (newName == gesture.name)
             {
                 dupeCount++;
             }
@@ -260,8 +279,8 @@ public class GestureSettings : ScriptableObject {
     public GestureSettingsEditor.VRGestureRenameState RenameGesture(int gestureIndex)
     {
         //check to make sure the name has actually changed.
-        string newName = gestureBank[gestureIndex];
-        string oldName = gestureBankPreEdit[gestureIndex];
+        string newName = gestureBank[gestureIndex].name;
+        string oldName = gestureBankPreEdit[gestureIndex].name;
         GestureSettingsEditor.VRGestureRenameState renameState = GestureSettingsEditor.VRGestureRenameState.Good;
 
         if (oldName != newName)
@@ -270,13 +289,13 @@ public class GestureSettings : ScriptableObject {
             {
                 //ACTUALLY RENAME THAT SHIZZ
                 Utils.RenameGestureFile(oldName, newName, currentNeuralNet);
-                gestureBankPreEdit = new List<string>(gestureBank);
+                gestureBankPreEdit = new List<Gesture>(gestureBank);
 
             }
             else
             {
                 //reset gestureBank
-                gestureBank = new List<string>(gestureBankPreEdit);
+                gestureBank = new List<Gesture>(gestureBankPreEdit);
                 renameState = GestureSettingsEditor.VRGestureRenameState.Duplicate;
             }
         }

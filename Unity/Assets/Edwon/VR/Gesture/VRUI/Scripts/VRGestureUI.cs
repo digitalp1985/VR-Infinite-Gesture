@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using Edwon.VR.Input;
 using UnityEditor;
+using System;
 
 namespace Edwon.VR.Gesture
 {
@@ -343,15 +344,30 @@ namespace Edwon.VR.Gesture
 
         #region GENERATIVE BUTTONS
 
+        List<string> gestureBankAsStringList()
+        {
+            List<string> gestureStringList = new List<string>();
+            foreach (Gesture g in gestureSettings.gestureBank)
+            {
+                gestureStringList.Add(g.name);
+            }
+            return gestureStringList;
+        }
+
         void GenerateRecordMenuButtons()
         {
-            GenerateGestureButtons(gestureSettings.gestureBank, recordMenu.transform, GestureButtonsType.Record);
+            GenerateGestureButtons(gestureBankAsStringList(), recordMenu.transform, GestureButtonsType.Record);
 
         }
 
         void GenerateEditMenuButtons()
         {
-            GenerateGestureButtons(gestureSettings.gestureBank, editMenu.transform, GestureButtonsType.Edit);
+            List<string> gestureStringList = new List<string>();
+            foreach (Gesture g in gestureSettings.gestureBank)
+            {
+                gestureStringList.Add(g.name);
+            }
+            GenerateGestureButtons(gestureBankAsStringList(), editMenu.transform, GestureButtonsType.Edit);
         }
 
         enum GestureButtonsType { Record, Edit };
@@ -378,7 +394,7 @@ namespace Edwon.VR.Gesture
             // set the functions that the button will call when pressed
             for (int i = 0; i < gestureButtons.Count; i++)
             {
-                string gestureName = gestureSettings.gestureBank[i];
+                string gestureName = gestureSettings.gestureBank[i].name;
                 if (gestureButtonsType == GestureButtonsType.Record)
                 {
                     gestureButtons[i].onClick.AddListener(() => BeginRecordingMenu(gestureName));
@@ -616,9 +632,12 @@ namespace Edwon.VR.Gesture
         // refresh the label that says how many examples recorded
         void RefreshTotalExamplesLabel ()
         {
-            string gesture = rig.currentTrainer.CurrentGesture;
+            Predicate<Gesture> gestureFinder = (Gesture g) => { return g.name == rig.currentTrainer.CurrentGesture.name; };
+            Gesture gesture = gestureSettings.gestureBank.Find(gestureFinder);
+            nowRecordingTotalExamplesLabel.text = gesture.exampleCount.ToString();
+            //string gesture = rig.currentTrainer.CurrentGesture;
             int totalExamples = Utils.GetGestureExamplesTotal(gesture, gestureSettings.currentNeuralNet);
-            nowRecordingTotalExamplesLabel.text = totalExamples.ToString();
+            //nowRecordingTotalExamplesLabel.text = totalExamples.ToString();
         }
 
         Text GetCurrentNeuralNetworkText()

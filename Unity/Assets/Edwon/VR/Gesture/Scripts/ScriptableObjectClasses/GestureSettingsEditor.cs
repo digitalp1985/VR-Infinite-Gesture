@@ -306,9 +306,9 @@ namespace Edwon.VR.Gesture
             EditorGUILayout.LabelField("PROCESSED GESTURES");
             GUILayout.EndVertical();
             GUILayout.BeginVertical(style);
-            foreach (string gesture in gestureSettings.Gestures)
+            foreach (Gesture gesture in gestureSettings.Gestures)
             {
-                EditorGUILayout.LabelField(gesture, style);
+                EditorGUILayout.LabelField(gesture.name, style);
             }
             GUILayout.EndVertical();
         }
