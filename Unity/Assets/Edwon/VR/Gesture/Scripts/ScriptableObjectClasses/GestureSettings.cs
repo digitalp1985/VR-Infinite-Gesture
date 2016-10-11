@@ -178,6 +178,8 @@ public class GestureSettings : ScriptableObject {
         if (currentNeuralNet != null && currentNeuralNet != "" && Utils.GetGestureBank(currentNeuralNet) != null)
         {
             gestureBank = Utils.GetGestureBank(currentNeuralNet);
+            Debug.Log("GESTURE REFRESH");
+ 
             gestureBankPreEdit = new List<Gesture>(gestureBank);
             gestureBankTotalExamples = Utils.GetGestureBankTotalExamples(gestureBank, currentNeuralNet);
         }

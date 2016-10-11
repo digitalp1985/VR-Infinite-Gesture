@@ -554,7 +554,7 @@ namespace Edwon.VR.Gesture
                 }
                 if (showElementLabels)
                 {
-                    EditorGUILayout.PropertyField(list.GetArrayElementAtIndex(i));
+                    EditorGUILayout.PropertyField(list.GetArrayElementAtIndex(i).name);
                 }
                 else
                 {

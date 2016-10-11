@@ -238,7 +238,7 @@ namespace Edwon.VR.Gesture
 			}
 		}
 
-		//For some reason this is not called from anywher @deprecated?
+		//For some reason this is not called from anywhere @deprecated?
 		public static List<string> GetNetworksFromFile()
 		{
 			List<string> networkList = new List<string>();
@@ -262,9 +262,9 @@ namespace Edwon.VR.Gesture
 		}
 
         //This one now just reads from the gesture bank file.
-		public static List<string> GetGestureBankOld(string networkName)
+		public static List<Gesture> GetGestureBankOld(string networkName)
 		{
-			List<string> gestureBank = new List<string>();
+			List<Gesture> gestureBank = new List<Gesture>();
 			string gesturesPath = Config.SAVE_FILE_PATH + networkName + "/gestures/";
 			//Check if path exists
 			if (System.IO.Directory.Exists(gesturesPath))
@@ -283,7 +283,10 @@ namespace Edwon.VR.Gesture
 					//scrub file extension
 					int substrIndex = iCareAbout.LastIndexOf('.');
 					string finalString = iCareAbout.Substring(0, substrIndex);
-					gestureBank.Add(finalString);
+                    Gesture newGesture = new Gesture();
+                    newGesture.name = finalString;
+                    Debug.Log(newGesture.name);
+					gestureBank.Add(newGesture);
 				}
 			}
 			return gestureBank;
@@ -294,10 +297,12 @@ namespace Edwon.VR.Gesture
         {
             List<Gesture> gestureBank = new List<Gesture>();
             string gesturesPath = Config.SAVE_FILE_PATH + networkName + "/GestureBank.txt";
+            string gesturesFolderPath = Config.SAVE_FILE_PATH + networkName + "/Gestures/";
             //Check if path exists
-
+            Debug.Log("Get gesture bank");
             if (System.IO.File.Exists(gesturesPath))
             {
+                Debug.Log("Found new file");
                 string[] lines = System.IO.File.ReadAllLines(gesturesPath);
                 ////System.IO.File.
                 string inputLine = lines[0];
@@ -305,8 +310,14 @@ namespace Edwon.VR.Gesture
                 GestureBankStub stub = JsonUtility.FromJson<GestureBankStub>(inputLine);
                 return stub.gestures;
             }
+            else if (System.IO.Directory.Exists(gesturesFolderPath))
+            {
+                Debug.Log("Old file");
+                return GetGestureBankOld(networkName);
+            }
             else
             {
+                Debug.Log("No files found");
                 GestureBankStub stub = new GestureBankStub();
                 stub.gestures = new List<Gesture>();
                 return stub.gestures;
