@@ -230,6 +230,7 @@ public class GestureSettings : ScriptableObject {
         gestureBank.Add(newGesture);
         gestureBankTotalExamples.Add(0);
         Utils.CreateGestureFile(gestureName, currentNeuralNet);
+        Utils.SaveGestureBank(gestureBank, currentNeuralNet);
         gestureBankPreEdit = new List<Gesture>(gestureBank);
     }
 

@@ -292,6 +292,21 @@ namespace Edwon.VR.Gesture
 			return gestureBank;
 		}
 
+        public static void SaveGestureBank(List<Gesture> gestureBank, string networkName)
+        {
+            GestureBankStub stub = new GestureBankStub();
+            stub.gestures = gestureBank;
+            string filePath = Config.SAVE_FILE_PATH + networkName + "/GestureBank.txt";
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(filePath, false))
+            {
+                //file.WriteLine(dumbString);
+                file.WriteLine(JsonUtility.ToJson(stub));
+            }
+#if UNITY_EDITOR
+            AssetDatabase.ImportAsset(filePath);
+#endif
+        }
+
         //This one now just reads from the gesture bank file.
         public static List<Gesture> GetGestureBank(string networkName)
         {
