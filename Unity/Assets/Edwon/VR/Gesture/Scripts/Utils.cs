@@ -223,11 +223,11 @@ namespace Edwon.VR.Gesture
 			{
 				string[] lines = System.IO.File.ReadAllLines(path);
 				////System.IO.File.
-				string inputLine = lines[0];
+				//string inputLine = lines[0];
 
 				
 
-				NeuralNetworkStub stub = JsonUtility.FromJson<NeuralNetworkStub>(inputLine);
+				NeuralNetworkStub stub = JsonUtility.FromJson<NeuralNetworkStub>(string.Concat(lines));
 				return stub;
 			}
 			else
@@ -285,7 +285,7 @@ namespace Edwon.VR.Gesture
 					string finalString = iCareAbout.Substring(0, substrIndex);
                     Gesture newGesture = new Gesture();
                     newGesture.name = finalString;
-                    Debug.Log(newGesture.name);
+                    //Debug.Log(newGesture.name);
 					gestureBank.Add(newGesture);
 				}
 			}
@@ -314,10 +314,8 @@ namespace Edwon.VR.Gesture
             string gesturesPath = Config.SAVE_FILE_PATH + networkName + "/GestureBank.txt";
             string gesturesFolderPath = Config.SAVE_FILE_PATH + networkName + "/Gestures/";
             //Check if path exists
-            Debug.Log("Get gesture bank");
             if (System.IO.File.Exists(gesturesPath))
             {
-                Debug.Log("Found new file");
                 string[] lines = System.IO.File.ReadAllLines(gesturesPath);
                 ////System.IO.File.
                 string inputLine = lines[0];
@@ -327,12 +325,10 @@ namespace Edwon.VR.Gesture
             }
             else if (System.IO.Directory.Exists(gesturesFolderPath))
             {
-                Debug.Log("Old file");
                 return GetGestureBankOld(networkName);
             }
             else
             {
-                Debug.Log("No files found");
                 GestureBankStub stub = new GestureBankStub();
                 stub.gestures = new List<Gesture>();
                 return stub.gestures;
