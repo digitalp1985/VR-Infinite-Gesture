@@ -222,11 +222,6 @@ namespace Edwon.VR.Gesture
 			if (System.IO.File.Exists(path))
 			{
 				string[] lines = System.IO.File.ReadAllLines(path);
-				////System.IO.File.
-				//string inputLine = lines[0];
-
-				
-
 				NeuralNetworkStub stub = JsonUtility.FromJson<NeuralNetworkStub>(string.Concat(lines));
 				return stub;
 			}
@@ -300,7 +295,7 @@ namespace Edwon.VR.Gesture
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(filePath, false))
             {
                 //file.WriteLine(dumbString);
-                file.WriteLine(JsonUtility.ToJson(stub));
+                file.WriteLine(JsonUtility.ToJson(stub, true));
             }
 #if UNITY_EDITOR
             AssetDatabase.ImportAsset(filePath);
@@ -317,10 +312,7 @@ namespace Edwon.VR.Gesture
             if (System.IO.File.Exists(gesturesPath))
             {
                 string[] lines = System.IO.File.ReadAllLines(gesturesPath);
-                ////System.IO.File.
-                string inputLine = lines[0];
-
-                GestureBankStub stub = JsonUtility.FromJson<GestureBankStub>(inputLine);
+                GestureBankStub stub = JsonUtility.FromJson<GestureBankStub>(string.Concat(lines));
                 return stub.gestures;
             }
             else if (System.IO.Directory.Exists(gesturesFolderPath))
