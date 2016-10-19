@@ -34,6 +34,8 @@ namespace Edwon.VR.Gesture
 
         public Trainer( string name, List<Gesture> gestureList = null)
         {
+            outputs = new List<string>();
+
             numInput = 34;
             //This should be a number between input and output.
             //numHidden = 10;
@@ -224,7 +226,7 @@ namespace Edwon.VR.Gesture
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(filePath, false))
             {
                 //file.WriteLine(dumbString);
-                file.WriteLine(JsonUtility.ToJson(stub));
+                file.WriteLine(JsonUtility.ToJson(stub, true));
             }
 #if UNITY_EDITOR
             AssetDatabase.ImportAsset(filePath);

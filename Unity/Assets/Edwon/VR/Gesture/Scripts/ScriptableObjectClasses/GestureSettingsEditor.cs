@@ -306,10 +306,20 @@ namespace Edwon.VR.Gesture
             EditorGUILayout.LabelField("PROCESSED GESTURES");
             GUILayout.EndVertical();
             GUILayout.BeginVertical(style);
-            foreach (Gesture gesture in gestureSettings.Gestures)
+
+            //SerializedProperty gesturesList = serializedObject.FindProperty("Gestures");
+            //for(int i = 0; i < gesturesList.arraySize; i++)
+            //{
+            //    EditorGUILayout.LabelField(gesturesList.GetArrayElementAtIndex(i).FindPropertyRelative("name").stringValue, style);
+            //}
+
+
+            foreach(Gesture g in gestureSettings.Gestures)
             {
-                EditorGUILayout.LabelField(gesture.name, style);
+                EditorGUILayout.LabelField(g.name, style);
             }
+
+
             GUILayout.EndVertical();
         }
 
@@ -560,7 +570,7 @@ namespace Edwon.VR.Gesture
                 {
                     //Was is this one?
                     GUI.SetNextControlName(controlName);
-                    EditorGUILayout.PropertyField(list.GetArrayElementAtIndex(i), GUIContent.none);
+                    EditorGUILayout.PropertyField(list.GetArrayElementAtIndex(i).FindPropertyRelative("name"), GUIContent.none);
                 }
                 if (showButtons)
                 {

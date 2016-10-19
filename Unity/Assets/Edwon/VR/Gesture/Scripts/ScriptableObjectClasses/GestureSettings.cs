@@ -149,7 +149,6 @@ public class GestureSettings : ScriptableObject {
     [ExecuteInEditMode]
     public void RefreshNeuralNetList()
     {
-        Debug.Log("IM GETTING CALLED ALL THE TIME");
         neuralNets = new List<string>();
         string path = Config.SAVE_FILE_PATH;
         foreach (string directoryPath in System.IO.Directory.GetDirectories(path))
@@ -178,7 +177,6 @@ public class GestureSettings : ScriptableObject {
         if (currentNeuralNet != null && currentNeuralNet != "" && Utils.GetGestureBank(currentNeuralNet) != null)
         {
             gestureBank = Utils.GetGestureBank(currentNeuralNet);
-            Debug.Log("GESTURE REFRESH");
  
             gestureBankPreEdit = new List<Gesture>(gestureBank);
             gestureBankTotalExamples = Utils.GetGestureBankTotalExamples(gestureBank, currentNeuralNet);
