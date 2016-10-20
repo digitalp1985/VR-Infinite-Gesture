@@ -48,6 +48,8 @@ namespace Edwon.VR.Gesture
         // INIT
         void Start()
         {
+            gestureSettings = AssetDatabase.LoadAssetAtPath("Assets/Edwon/VR/Gesture/Settings/Settings.asset", typeof(GestureSettings)) as GestureSettings;
+
             canvasGroup = GetComponent<CanvasGroup>();
 
             galleryStartPosition = transform.position;
@@ -64,7 +66,8 @@ namespace Edwon.VR.Gesture
 
         void GetHands()
         {
-            rig = VRGestureManager.Instance.rig;
+            //rig = VRGestureManager.Instance.rig;
+            rig = VRGestureRig.GetPlayerRig(gestureSettings.gestureRigID);
             vrHand = rig.GetHand(rig.gestureHand);
             vrHandInput = rig.GetInput(rig.gestureHand);
         }

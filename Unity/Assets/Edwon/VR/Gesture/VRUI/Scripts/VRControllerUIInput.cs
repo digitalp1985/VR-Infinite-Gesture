@@ -30,6 +30,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using Edwon.VR.Input;
+using UnityEditor;
 
 namespace Edwon.VR.Gesture
 {
@@ -68,6 +69,7 @@ namespace Edwon.VR.Gesture
         [Tooltip("Generated non rendering camera (used for raycasting ui)")]
         public Camera ControllerCamera;
 
+        private GestureSettings gestureSettings;
         private VRGestureRig rig;
         private IInput ControllerInputLeft;
         private IInput ControllerInputRight;
@@ -84,8 +86,11 @@ namespace Edwon.VR.Gesture
         {
             base.Start();
 
+            gestureSettings = AssetDatabase.LoadAssetAtPath("Assets/Edwon/VR/Gesture/Settings/Settings.asset", typeof(GestureSettings)) as GestureSettings;
+
             SetInputModule();
-            rig = VRGestureManager.Instance.rig;
+            //rig = VRGestureManager.Instance.rig;
+            rig = VRGestureRig.GetPlayerRig(gestureSettings.gestureRigID);
             ControllerInputLeft = rig.GetInput(HandType.Left);
             ControllerInputRight = rig.GetInput(HandType.Right);
 

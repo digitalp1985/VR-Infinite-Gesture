@@ -251,6 +251,7 @@ public class GestureSettings : ScriptableObject {
         gestureBank.RemoveAt(index);
         gestureBankTotalExamples.RemoveAt(index);
         Utils.DeleteGestureFile(gestureName, currentNeuralNet);
+        Utils.SaveGestureBank(gestureBank, currentNeuralNet);
         gestureBankPreEdit = new List<Gesture>(gestureBank);
     }
 
