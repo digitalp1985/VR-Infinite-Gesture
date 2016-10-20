@@ -95,11 +95,11 @@ namespace Edwon.VR.Gesture
             buttonRectScale = new Vector3(0.6666f, 1, 0.2f);
 
             // get vr player hand and camera
-            rig = VRGestureManager.Instance.rig;
+            rig = VRGestureRig.GetPlayerRig(gestureSettings.gestureRigID);
             menuHandedness = (rig.gestureHand == HandType.Left) ? HandType.Right : HandType.Left;
             HandType oppositeHand = rig.gestureHand == HandType.Left ? HandType.Right : HandType.Left;
             vrMenuHand = rig.GetHand(menuHandedness);
-            vrCam = VRGestureManager.Instance.rig.head;
+            vrCam = rig.head;
       
             GenerateRecordMenuButtons();
             GenerateEditMenuButtons();
@@ -482,14 +482,16 @@ namespace Edwon.VR.Gesture
 
         void OnEnable()
         {
+            gestureSettings = AssetDatabase.LoadAssetAtPath("Assets/Edwon/VR/Gesture/Settings/Settings.asset", typeof(GestureSettings)) as GestureSettings;
 
-            rig = VRGestureManager.Instance.rig;
+            rig = VRGestureRig.GetPlayerRig(gestureSettings.gestureRigID);
+
             GestureRecognizer.GestureDetectedEvent += OnGestureDetected;
             GestureRecognizer.GestureRejectedEvent += OnGestureRejected;
             VRGestureUIPanelManager.OnPanelFocusChanged += PanelFocusChanged;
             VRControllerUIInput.OnVRGuiHitChanged += VRGuiHitChanged;
 
-            gestureSettings = AssetDatabase.LoadAssetAtPath("Assets/Edwon/VR/Gesture/Settings/Settings.asset", typeof(GestureSettings)) as GestureSettings;
+            
         }
 
         void OnDisable()

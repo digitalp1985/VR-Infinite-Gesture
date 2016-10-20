@@ -621,7 +621,7 @@ namespace Edwon.VR.Gesture
             if (GUILayout.Button(deleteButtonContent, EditorStyles.miniButtonRight, miniButtonWidth))
             {
                 // new way to delete using vrGestureManager directly
-                string gestureName = list.GetArrayElementAtIndex(index).stringValue;
+                string gestureName = list.GetArrayElementAtIndex(index).FindPropertyRelative("name").stringValue;
                 gestureSettings.DeleteGesture(gestureName);
 
                 // old way to delete from property
