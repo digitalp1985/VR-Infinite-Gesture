@@ -10,7 +10,10 @@ using System.Linq;
 
 namespace Edwon.VR.Gesture
 {
-	public class Utils
+    public enum VRGestureManagerState { Idle, Edit, Editing, EnteringRecord, ReadyToRecord, Recording, Training, EnteringDetect, ReadyToDetect, Detecting };
+    public enum VRGestureDetectType { Button, Continious };
+
+    public class Utils
 	{
 		public static float FindMaxAxis(List<Vector3> capturedLine)
 		{
