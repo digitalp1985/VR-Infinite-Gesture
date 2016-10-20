@@ -11,6 +11,7 @@ namespace Edwon.VR
     public class VRGestureRig : MonoBehaviour
     {
         public HandType gestureHand = HandType.Right;
+        public InputOptions.Button gestureButton = InputOptions.Button.Trigger1;
         public VRGestureManagerState state = VRGestureManagerState.Idle;
         public VRGestureManagerState stateLast;
         public bool displayGestureTrail;

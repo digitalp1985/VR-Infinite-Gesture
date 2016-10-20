@@ -22,7 +22,6 @@ namespace Edwon.VR.Gesture
         //One that is: Record, Detect, Idle, Edit, Train
         //Another that is EnteringCapture, ReadyToCapture, Capturing
         public VRGestureCaptureState state;
-        public InputOptions.Button gestureButton = InputOptions.Button.Trigger1;
 
         GestureTrail myTrail;
         List<Vector3> currentCapturedLine;
@@ -153,13 +152,13 @@ namespace Edwon.VR.Gesture
             }
 
 
-            if (input.GetButtonUp(gestureButton))
+            if (input.GetButtonUp(rig.gestureButton))
             {
                 state = VRGestureCaptureState.ReadyToCapture;
                 StopRecording();
             }
 
-            if (input.GetButtonDown(gestureButton) && state == VRGestureCaptureState.ReadyToCapture)
+            if (input.GetButtonDown(rig.gestureButton) && state == VRGestureCaptureState.ReadyToCapture)
             {
                 state = VRGestureCaptureState.Capturing;
                 StartRecording();
