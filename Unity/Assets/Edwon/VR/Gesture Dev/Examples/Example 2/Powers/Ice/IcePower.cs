@@ -19,8 +19,11 @@ namespace Edwon.VR.Gesture.Examples
 
         void Start()
         {
-            myAvatar = VRGestureManager.Instance.rig;
-
+            myAvatar = FindObjectOfType<VRGestureRig>();
+            if (myAvatar == null)
+            {
+                Debug.Log("there is no VRGestureRig in the scene, please add one");
+            }
             rb = GetComponent<Rigidbody>();
 
             playerHead = myAvatar.head;

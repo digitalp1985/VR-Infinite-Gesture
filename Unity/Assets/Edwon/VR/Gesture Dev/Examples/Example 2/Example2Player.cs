@@ -20,7 +20,11 @@ namespace Edwon.VR.Gesture
 
         void Start()
         {
-            rig = VRGestureManager.Instance.rig;
+            rig = FindObjectOfType<VRGestureRig>();
+            if (rig == null)
+            {
+                Debug.Log("there is no VRGestureRig in the scene, please add one");
+            }
 
             playerHead = rig.head;
             playerHandR = rig.handRight;
