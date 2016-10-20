@@ -637,9 +637,8 @@ namespace Edwon.VR.Gesture
             Predicate<Gesture> gestureFinder = (Gesture g) => { return g.name == rig.currentTrainer.CurrentGesture.name; };
             Gesture gesture = gestureSettings.gestureBank.Find(gestureFinder);
             nowRecordingTotalExamplesLabel.text = gesture.exampleCount.ToString();
-            //string gesture = rig.currentTrainer.CurrentGesture;
             int totalExamples = Utils.GetGestureExamplesTotal(gesture, gestureSettings.currentNeuralNet);
-            //nowRecordingTotalExamplesLabel.text = totalExamples.ToString();
+            nowRecordingTotalExamplesLabel.text = totalExamples.ToString();
         }
 
         Text GetCurrentNeuralNetworkText()
