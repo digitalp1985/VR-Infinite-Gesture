@@ -12,8 +12,8 @@ namespace Edwon.VR
     {
         public HandType gestureHand = HandType.Right;
         public InputOptions.Button gestureButton = InputOptions.Button.Trigger1;
-        public VRGestureManagerState state = VRGestureManagerState.Idle;
-        public VRGestureManagerState stateLast;
+        public VRGestureUIState state = VRGestureUIState.Idle;
+        public VRGestureUIState stateLast;
         public bool displayGestureTrail;
         public int ID = 0;
 
@@ -136,6 +136,12 @@ namespace Edwon.VR
         #region UPDATE
         void Update()
         {
+            if (state != stateLast)
+            {
+                Debug.Log(state);
+            }
+            stateLast = state;
+
             if (leftCapture != null)
             {
                 leftCapture.Update();
@@ -148,13 +154,13 @@ namespace Edwon.VR
 
         void StartCapturing()
         {
-            if (state == VRGestureManagerState.ReadyToRecord)
+            if (state == VRGestureUIState.ReadyToRecord)
             {
-                state = VRGestureManagerState.Recording;
+                state = VRGestureUIState.Recording;
             }
-            else if (state == VRGestureManagerState.ReadyToDetect)
+            else if (state == VRGestureUIState.ReadyToDetect)
             {
-                state = VRGestureManagerState.Detecting;
+                state = VRGestureUIState.Detecting;
             }
         }
 
@@ -167,13 +173,13 @@ namespace Edwon.VR
             else
             {
                 //set state to READY
-                if (state == VRGestureManagerState.Recording)
+                if (state == VRGestureUIState.Recording)
                 {
-                    state = VRGestureManagerState.ReadyToRecord;
+                    state = VRGestureUIState.ReadyToRecord;
                 }
-                else if (state == VRGestureManagerState.Detecting)
+                else if (state == VRGestureUIState.Detecting)
                 {
-                    state = VRGestureManagerState.ReadyToDetect;
+                    state = VRGestureUIState.ReadyToDetect;
                 }
             }
         }
@@ -183,11 +189,11 @@ namespace Edwon.VR
         #region LINE CAPTURE
         public void LineCaught(List<Vector3> capturedLine, HandType hand)
         {
-            if (state == VRGestureManagerState.Recording || state == VRGestureManagerState.ReadyToRecord)
+            if (state == VRGestureUIState.Recording || state == VRGestureUIState.ReadyToRecord)
             {
                 currentTrainer.TrainLine(capturedLine, hand);
             }
-            else if (state == VRGestureManagerState.Detecting || state == VRGestureManagerState.ReadyToDetect)
+            else if (state == VRGestureUIState.Detecting || state == VRGestureUIState.ReadyToDetect)
             {
                 currentRecognizer.RecognizeLine(capturedLine, hand, this);
             }
@@ -309,7 +315,7 @@ namespace Edwon.VR
         {
             currentTrainer = new Trainer(gestureSettings.currentNeuralNet, gestureSettings.gestureBank);
             currentTrainer.CurrentGesture = gestureSettings.FindGesture(gesture); ;
-            state = VRGestureManagerState.ReadyToRecord;
+            state = VRGestureUIState.ReadyToRecord;
             leftCapture.state = VRGestureCaptureState.EnteringCapture;
             rightCapture.state = VRGestureCaptureState.EnteringCapture;
         }
@@ -321,7 +327,7 @@ namespace Edwon.VR
 
         public void BeginDetect()
         {
-            state = VRGestureManagerState.ReadyToDetect;
+            state = VRGestureUIState.ReadyToDetect;
             currentRecognizer = new GestureRecognizer(gestureSettings.currentNeuralNet);
         }
 

@@ -156,7 +156,7 @@ namespace Edwon.VR.Gesture
         void ShowTrain()
         {
             // TRAINING SETUP UI
-            if (gestureSettings.state != VRGestureManagerState.Training)
+            if (gestureSettings.state != VRGestureUIState.Training)
             {
                 // BACKGROUND / STYLE SETUP
                 GUIStyle neuralSectionStyle = new GUIStyle();
@@ -203,7 +203,7 @@ namespace Edwon.VR.Gesture
 
             }
             // TRAINING IS PROCESSING UI
-            else if (gestureSettings.state == VRGestureManagerState.Training)
+            else if (gestureSettings.state == VRGestureUIState.Training)
             {
                 ShowTrainingMode();
             }
@@ -222,7 +222,7 @@ namespace Edwon.VR.Gesture
             {
                 if (gestureSettings.neuralNets.Count > 0)
                 {
-                    gestureSettings.stateInitial = VRGestureManagerState.ReadyToDetect;
+                    gestureSettings.stateInitial = VRGestureUIState.ReadyToDetect;
                     EditorGUILayout.LabelField("Choose the neural network to detect with");
                     ShowNeuralNetPopup(GetNeuralNetsList());
                 }
@@ -233,7 +233,7 @@ namespace Edwon.VR.Gesture
             }
             else
             {
-                gestureSettings.stateInitial = VRGestureManagerState.Idle;
+                gestureSettings.stateInitial = VRGestureUIState.Idle;
             }
             EditorGUILayout.PropertyField(serializedObject.FindProperty("displayGestureTrail"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("gestureButton"));

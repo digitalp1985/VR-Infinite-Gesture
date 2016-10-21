@@ -44,6 +44,10 @@ namespace Edwon.VR.Gesture
         public CanvasRenderer editListTitle;
         public CanvasRenderer newGestureButton;
 
+        // NEW GESTURE SETTINGS MENU
+        public Button singleHandedButton;
+        public Button doubleHandedButton;
+
         // RECORDING MENU
         [Tooltip("the now recording indicator in the recording menu")]
         public Text nowRecordingLabel;
@@ -119,7 +123,7 @@ namespace Edwon.VR.Gesture
             if (-handToCamVector != Vector3.zero)
                 vrHandUIPanel.rotation = Quaternion.LookRotation(-handToCamVector, Vector3.up);
 
-            if(rig.state == VRGestureManagerState.Detecting)
+            if(rig.state == VRGestureUIState.Detecting)
                 UpdateDetectMenu();
 
             UpdateCurrentNeuralNetworkText();
@@ -211,12 +215,26 @@ namespace Edwon.VR.Gesture
             rig.BeginDetect();
         }
 
+        // called when entering "New Gesture Settings Menu" 
+        // where you choose single handed or double handed type of gesture to record
+        public void BeginNewGestureSettingsMenu()
+        {
+            panelManager.FocusPanel("New Gesture Settings Menu");
+            Debug.Log("Begin New Gesture Settings Menu");
+            string newGestureName = "Gesture " + (gestureSettings.gestureBank.Count + 1);
+            singleHandedButton.onClick.AddListener(() => CreateGesture(newGestureName, false));
+            singleHandedButton.onClick.AddListener(() => BeginRecordingMenu(newGestureName));
+            singleHandedButton.onClick.AddListener(() => panelManager.FocusPanel("Recording Menu"));
+            doubleHandedButton.onClick.AddListener(() => CreateGesture(newGestureName, true));
+            doubleHandedButton.onClick.AddListener(() => BeginRecordingMenu(newGestureName));
+            doubleHandedButton.onClick.AddListener(() => panelManager.FocusPanel("Recording Menu"));
+        }
+
         // called when entering recording menu
         public void BeginRecordingMenu(string gestureName)
         {
             nowRecordingGestureLabel.text = gestureName;
             rig.BeginReadyToRecord(gestureName);
-            //gestureSettings.BeginReadyToRecord(gestureName);
             RefreshTotalExamplesLabel();
         }
 
@@ -264,10 +282,9 @@ namespace Edwon.VR.Gesture
             StartCoroutine(TrainingMenuDelay(1f));
         }
 
-        public void CreateGesture()
+        public void CreateGesture(string gestureName, bool isSynchronized = false)
         {
-            string newGestureName = "Gesture " + (gestureSettings.gestureBank.Count + 1);
-            gestureSettings.CreateGesture(newGestureName);
+            gestureSettings.CreateGesture(gestureName, isSynchronized);
             GenerateRecordMenuButtons();
         }
 
@@ -518,7 +535,7 @@ namespace Edwon.VR.Gesture
         {
             if (hitBool)
             {
-                if (rig.state == VRGestureManagerState.ReadyToRecord)
+                if (rig.state == VRGestureUIState.ReadyToRecord)
                 {
                     TogglePanelAlpha("Recording Menu", 1f);
                     TogglePanelInteractivity("Recording Menu", true);
@@ -526,7 +543,7 @@ namespace Edwon.VR.Gesture
             }
             else if (!hitBool)
             {
-                if (rig.state == VRGestureManagerState.ReadyToRecord || rig.state == VRGestureManagerState.Recording)
+                if (rig.state == VRGestureUIState.ReadyToRecord || rig.state == VRGestureUIState.Recording)
                 {
                     TogglePanelAlpha("Recording Menu", .35f);
                     TogglePanelInteractivity("Recording Menu", false);
@@ -556,17 +573,22 @@ namespace Edwon.VR.Gesture
         {
             if (panelName == "Main Menu")
             {
-                rig.state = VRGestureManagerState.Idle;
+                rig.state = VRGestureUIState.Idle;
                 BeginMainMenu();
             }
             if (panelName == "Select Neural Net Menu")
             {
                 gestureSettings.RefreshNeuralNetList();
-                rig.state = VRGestureManagerState.Idle;
+                rig.state = VRGestureUIState.Idle;
             }
             if (panelName == "Record Menu")
             {
-                rig.state = VRGestureManagerState.Idle;
+                rig.state = VRGestureUIState.Idle;
+                GenerateRecordMenuButtons();
+            }
+            if (panelName == "New Gesture Settings Menu")
+            {
+                rig.state = VRGestureUIState.Idle;
                 GenerateRecordMenuButtons();
             }
             if (panelName == "Recording Menu")
@@ -576,16 +598,16 @@ namespace Edwon.VR.Gesture
             }
             if (panelName == "Edit Menu")
             {
-                rig.state = VRGestureManagerState.Edit;
+                rig.state = VRGestureUIState.Edit;
                 GenerateEditMenuButtons();
             }
             if (panelName == "Editing Menu")
             {
-                rig.state = VRGestureManagerState.Editing;
+                rig.state = VRGestureUIState.Editing;
             }
             if (panelName == "Delete Confirm Menu")
             {
-                rig.state = VRGestureManagerState.Editing;
+                rig.state = VRGestureUIState.Editing;
             }
             if (panelName == "Detect Menu")
             {
@@ -610,13 +632,13 @@ namespace Edwon.VR.Gesture
         void UpdateNowRecordingStatus()
         {
 
-            if (rig.state == VRGestureManagerState.ReadyToRecord
-                || rig.state == VRGestureManagerState.EnteringRecord)
+            if (rig.state == VRGestureUIState.ReadyToRecord
+                || rig.state == VRGestureUIState.EnteringRecord)
             {
                 nowRecordingBackground.color = Color.grey;
                 nowRecordingLabel.text = "ready to record";
             }
-            else if (rig.state == VRGestureManagerState.Recording)
+            else if (rig.state == VRGestureUIState.Recording)
             {
                 nowRecordingBackground.color = Color.red;
                 nowRecordingLabel.text = "RECORDING";
@@ -624,8 +646,9 @@ namespace Edwon.VR.Gesture
             // update gesture example count in UI if gesture just finished recording
             if (rig.state != rig.stateLast)
             {
-                if (rig.stateLast == VRGestureManagerState.Recording)
+                if (rig.stateLast == VRGestureUIState.Recording)
                 {
+                    Debug.Log("Last state was Recording state");
                     RefreshTotalExamplesLabel();
                 }
             }
@@ -637,9 +660,8 @@ namespace Edwon.VR.Gesture
             Predicate<Gesture> gestureFinder = (Gesture g) => { return g.name == rig.currentTrainer.CurrentGesture.name; };
             Gesture gesture = gestureSettings.gestureBank.Find(gestureFinder);
             nowRecordingTotalExamplesLabel.text = gesture.exampleCount.ToString();
-            //string gesture = rig.currentTrainer.CurrentGesture;
             int totalExamples = Utils.GetGestureExamplesTotal(gesture, gestureSettings.currentNeuralNet);
-            //nowRecordingTotalExamplesLabel.text = totalExamples.ToString();
+            nowRecordingTotalExamplesLabel.text = totalExamples.ToString();
         }
 
         Text GetCurrentNeuralNetworkText()
