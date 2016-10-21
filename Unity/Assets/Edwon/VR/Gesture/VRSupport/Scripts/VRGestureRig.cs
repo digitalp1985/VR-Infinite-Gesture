@@ -136,6 +136,12 @@ namespace Edwon.VR
         #region UPDATE
         void Update()
         {
+            if (state != stateLast)
+            {
+                Debug.Log(state);
+            }
+            stateLast = state;
+
             if (leftCapture != null)
             {
                 leftCapture.Update();

@@ -235,7 +235,6 @@ namespace Edwon.VR.Gesture
         {
             nowRecordingGestureLabel.text = gestureName;
             rig.BeginReadyToRecord(gestureName);
-            //gestureSettings.BeginReadyToRecord(gestureName);
             RefreshTotalExamplesLabel();
         }
 
@@ -649,6 +648,7 @@ namespace Edwon.VR.Gesture
             {
                 if (rig.stateLast == VRGestureUIState.Recording)
                 {
+                    Debug.Log("Last state was Recording state");
                     RefreshTotalExamplesLabel();
                 }
             }
