@@ -44,7 +44,7 @@ namespace Edwon.VR.Gesture
                 }
             }
 
-            if (gestureSettings.stateInitial == VRGestureManagerState.ReadyToDetect)
+            if (gestureSettings.stateInitial == VRGestureUIState.ReadyToDetect)
             {
                 initialPanel = "Detect Menu";
             }

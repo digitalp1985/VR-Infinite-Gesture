@@ -57,8 +57,8 @@ public class GestureSettings : ScriptableObject {
 
     public Trainer currentTrainer { get; set; }
 
-    public VRGestureManagerState state = VRGestureManagerState.Idle;
-    public VRGestureManagerState stateInitial;
+    public VRGestureUIState state = VRGestureUIState.Idle;
+    public VRGestureUIState stateInitial;
 
     public bool readyToTrain
     {
@@ -98,11 +98,11 @@ public class GestureSettings : ScriptableObject {
     public void BeginTraining(Action<string> callback)
     {
         rig = VRGestureRig.GetPlayerRig(gestureRigID);
-        rig.state = VRGestureManagerState.Training;
+        rig.state = VRGestureUIState.Training;
         rig.currentTrainer = new Trainer(currentNeuralNet, gestureBank);
         rig.currentTrainer.TrainRecognizer();
         // finish training
-        rig.state = VRGestureManagerState.Idle;
+        rig.state = VRGestureUIState.Idle;
         callback(currentNeuralNet);
     }
 
@@ -110,7 +110,7 @@ public class GestureSettings : ScriptableObject {
     public void EndTraining(Action<string> callback)
     {
         rig = VRGestureRig.GetPlayerRig(gestureRigID);
-        rig.state = VRGestureManagerState.Idle;
+        rig.state = VRGestureUIState.Idle;
         callback(currentNeuralNet);
     }
     #endregion
@@ -216,7 +216,7 @@ public class GestureSettings : ScriptableObject {
     }
 
     [ExecuteInEditMode]
-    public void CreateGesture(string gestureName)
+    public void CreateGesture(string gestureName, bool isSynchronized = false)
     {
         Gesture newGesture = new Gesture();
         newGesture.name = gestureName;

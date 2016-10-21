@@ -119,11 +119,11 @@ namespace Edwon.VR.Gesture
             if (rig != null)
             {
 
-                if (rig.state == VRGestureManagerState.Recording || rig.state == VRGestureManagerState.ReadyToRecord)
+                if (rig.state == VRGestureUIState.Recording || rig.state == VRGestureUIState.ReadyToRecord)
                 {
                     UpdateRecord();
                 }
-                else if (rig.state == VRGestureManagerState.Detecting || rig.state == VRGestureManagerState.ReadyToDetect)
+                else if (rig.state == VRGestureUIState.Detecting || rig.state == VRGestureUIState.ReadyToDetect)
                 {
 
 
