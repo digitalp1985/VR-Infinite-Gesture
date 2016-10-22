@@ -232,6 +232,29 @@ public class GestureSettings : ScriptableObject {
         gestureBankPreEdit = new List<Gesture>(gestureBank);
     }
 
+    public void CreateSingleGesture(string gestureName, HandType hand, bool isSynchronous)
+    {
+        Gesture newGesture = new Gesture();
+        newGesture.name = gestureName;
+        newGesture.hand = hand;
+        newGesture.isSynchronous = isSynchronous;
+        newGesture.exampleCount = 0;
+
+
+        gestureBank.Add(newGesture);
+        gestureBankTotalExamples.Add(0);
+        //Maybe name files based on isSync - Hand - name. i.e.: 1R-Helicopter 0B-Rainbow
+        Utils.CreateGestureFile(gestureName, currentNeuralNet);
+        Utils.SaveGestureBank(gestureBank, currentNeuralNet);
+        gestureBankPreEdit = new List<Gesture>(gestureBank);
+    }
+
+    public void CreateSyncGesture(string gestureName)
+    {
+        CreateSingleGesture(gestureName, HandType.Left, true);
+        CreateSingleGesture(gestureName, HandType.Right, true);
+    }
+
     [ExecuteInEditMode]
     public Gesture FindGesture(string gestureName)
     {

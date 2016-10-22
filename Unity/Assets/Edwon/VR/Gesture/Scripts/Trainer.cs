@@ -92,7 +92,7 @@ namespace Edwon.VR.Gesture
                 saveMe.hand = hand;
                 saveMe.raw = Config.USE_RAW_DATA;
                 //System.IO.StreamWriter file = new System.IO.StreamWriter(gestureFileLocation + gestureName + ".txt", true);
-                using (System.IO.StreamWriter file = new System.IO.StreamWriter(gestureFileLocation + CurrentGesture + ".txt", true))
+                using (System.IO.StreamWriter file = new System.IO.StreamWriter(gestureFileLocation + CurrentGesture.name + ".txt", true))
                 {
                     file.WriteLine(JsonUtility.ToJson(saveMe));
                 }

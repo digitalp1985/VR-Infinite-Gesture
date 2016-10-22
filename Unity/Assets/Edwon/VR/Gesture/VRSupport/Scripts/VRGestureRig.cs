@@ -322,7 +322,7 @@ namespace Edwon.VR
 
         public void BeginEditing(string gesture)
         {
-            currentTrainer.CurrentGesture = gestureSettings.FindGesture(gesture); ;
+            currentTrainer.CurrentGesture = gestureSettings.FindGesture(gesture);
         }
 
         public void BeginDetect()
