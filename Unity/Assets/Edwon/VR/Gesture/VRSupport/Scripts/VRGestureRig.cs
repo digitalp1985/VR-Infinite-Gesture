@@ -47,13 +47,11 @@ namespace Edwon.VR
         public CaptureHand leftCapture;
         public CaptureHand rightCapture;
 
-
         //current NeuralNetwork
         //current Recognizer?
         public GestureRecognizer currentRecognizer;
         public Trainer currentTrainer;
         //current Trainer?
-
 
         public static VRGestureRig GetPlayerRig(int rigID = -1)
         {
@@ -74,6 +72,23 @@ namespace Edwon.VR
             //}
             return rig;
         }
+        
+        #region INITIALIZATION
+
+        // Reset is called when the user hits the Reset button in the Inspector's context menu
+        // or when adding the component the first time. 
+        // This function is only called in editor mode. 
+        void Reset()
+        {
+            if (gameObject.GetComponent("OVRCameraRig") != null)
+            {
+                Utils.ChangeVRType(VRTYPE.OculusVR);
+            }
+            if (gameObject.GetComponent("SteamVR_ControllerManager") != null)
+            {
+                Utils.ChangeVRType(VRTYPE.SteamVR);
+            }
+        }
 
         void Awake()
         {
@@ -83,8 +98,6 @@ namespace Edwon.VR
             
         }
 
-
-        #region INITIALIZATION
         void Init()
         {
             //maybe only init this if it does not exist.

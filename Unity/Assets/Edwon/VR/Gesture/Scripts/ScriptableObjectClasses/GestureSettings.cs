@@ -87,9 +87,6 @@ public class GestureSettings : ScriptableObject
     public void OnEnable()
     {
         rig = VRGestureRig.GetPlayerRig(playerID);
-
-        foreach (String device in VRSettings.supportedDevices)
-            Debug.Log(device);
     }
 
 

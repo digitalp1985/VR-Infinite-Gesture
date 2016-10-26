@@ -471,6 +471,57 @@ namespace Edwon.VR.Gesture
 #endif
 			return true;
 		}
+
+        public static void ChangeVRType(VRTYPE vrType)
+        {
+            string defines = PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone);
+            List<string> definesList = defines.Split(new char[] { ';' }).ToList<string>();
+
+            // go through all the defines and edit the edwon vr specific ones to the new vr type
+            for (int i = definesList.Count-1; i >= 0; i--)
+            {
+                switch (definesList[i])
+                {
+                    case "EDWON_VR_OCULUS":
+                        {
+                            if (vrType == VRTYPE.SteamVR)
+                            {
+                                definesList[i] = "EDWON_VR_STEAM";
+                            }
+                        }
+                        break;
+                    case "EDWON_VR_STEAM":
+                        {
+                            if (vrType == VRTYPE.OculusVR)
+                            {
+                                definesList[i] = "EDWON_VR_OCULUS";
+                            }
+                        }
+                        break;
+                }
+            }
+
+            switch (vrType)
+            {
+                case VRTYPE.SteamVR:
+                    {
+                        if (!definesList.Contains("EDWON_VR_STEAM"))
+                            definesList.Add("EDWON_VR_STEAM");
+                    }
+                    break;
+                case VRTYPE.OculusVR:
+                    {
+                        if (!definesList.Contains("EDWON_VR_OCULUS"))
+                            definesList.Add("EDWON_VR_OCULUS");
+                    }
+                    break;
+            }
+
+            defines = String.Join(";", definesList.ToArray());
+
+            PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, defines);
+
+        }
 	}
 
 }
