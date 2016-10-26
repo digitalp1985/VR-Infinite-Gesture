@@ -83,19 +83,27 @@ namespace Edwon.VR
             if (gameObject.GetComponent("OVRCameraRig") != null)
             {
                 Utils.ChangeVRType(VRTYPE.OculusVR);
+                gestureSettings = GetGestureSettings();
+                gestureSettings.vrType = VRTYPE.OculusVR;
             }
             if (gameObject.GetComponent("SteamVR_ControllerManager") != null)
             {
                 Utils.ChangeVRType(VRTYPE.SteamVR);
+                gestureSettings = GetGestureSettings();
+                gestureSettings.vrType = VRTYPE.SteamVR;
             }
         }
 
         void Awake()
         {
-            gestureSettings = AssetDatabase.LoadAssetAtPath("Assets/Edwon/VR/Gesture/Settings/Settings.asset", typeof(GestureSettings)) as GestureSettings;
+            gestureSettings = GetGestureSettings();
 
             CreateInputHelper();
-            
+        }
+
+        GestureSettings GetGestureSettings ()
+        {
+            return AssetDatabase.LoadAssetAtPath("Assets/Edwon/VR/Gesture/Settings/Settings.asset", typeof(GestureSettings)) as GestureSettings;
         }
 
         void Init()
@@ -119,6 +127,7 @@ namespace Edwon.VR
             leftCapture = new CaptureHand(this, perpTransform, HandType.Left, leftTrail);
             rightCapture = new CaptureHand(this, perpTransform, HandType.Right, rightTrail);
         }
+        
 
         void OnEnable()
         {

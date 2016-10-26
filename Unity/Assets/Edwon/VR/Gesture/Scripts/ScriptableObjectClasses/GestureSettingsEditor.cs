@@ -217,7 +217,14 @@ namespace Edwon.VR.Gesture
             SerializedProperty vrType = serializedObject.FindProperty("vrType");
 
             EditorGUILayout.PropertyField(playerID);
+
+            EditorGUI.BeginChangeCheck();
             EditorGUILayout.PropertyField(vrType);
+            if (EditorGUI.EndChangeCheck())
+            {
+                Utils.ChangeVRType((VRTYPE)vrType.enumValueIndex);
+            }
+
             EditorGUILayout.PropertyField(beginInDetectMode);
             if (beginInDetectMode.boolValue == true)
             {
@@ -540,8 +547,6 @@ namespace Edwon.VR.Gesture
             if (showListLabel)
                 EditorGUI.indentLevel -= 1;
         }
-
-
 
         private void ShowGestureListElements(SerializedProperty list, EditorListOption options)
         {
