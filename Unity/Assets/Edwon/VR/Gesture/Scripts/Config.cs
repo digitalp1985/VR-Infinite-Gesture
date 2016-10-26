@@ -11,6 +11,7 @@ namespace Edwon.VR.Gesture
     public static class Config
     {
         public const string SAVE_FILE_PATH = @"Assets/Edwon/VR/Gesture/Data/";
+        public const string SETTINGS_ASSET_PATH = @"Assets/Edwon/VR/Gesture/Settings/Settings.asset";
 
         // records raw, unmodified tracking data when recording gestures
 		// this should probably always be true

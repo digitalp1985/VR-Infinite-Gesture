@@ -522,6 +522,11 @@ namespace Edwon.VR.Gesture
             PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, defines);
 
         }
+
+        public static GestureSettings GetGestureSettings()
+        {
+            return AssetDatabase.LoadAssetAtPath(Config.SETTINGS_ASSET_PATH, typeof(GestureSettings)) as GestureSettings;
+        }
 	}
 
 }

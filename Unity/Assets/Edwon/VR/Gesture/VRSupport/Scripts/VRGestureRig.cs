@@ -83,27 +83,22 @@ namespace Edwon.VR
             if (gameObject.GetComponent("OVRCameraRig") != null || gameObject.GetComponent("OVRManager") != null)
             {
                 Utils.ChangeVRType(VRTYPE.OculusVR);
-                gestureSettings = GetGestureSettings();
+                gestureSettings = Utils.GetGestureSettings();
                 gestureSettings.vrType = VRTYPE.OculusVR;
             }
             if (gameObject.GetComponent("SteamVR_ControllerManager") != null || gameObject.GetComponent("SteamVR_PlayArea") != null)
             {
                 Utils.ChangeVRType(VRTYPE.SteamVR);
-                gestureSettings = GetGestureSettings();
+                gestureSettings = Utils.GetGestureSettings();
                 gestureSettings.vrType = VRTYPE.SteamVR;
             }
         }
 
         void Awake()
         {
-            gestureSettings = GetGestureSettings();
+            gestureSettings = Utils.GetGestureSettings();
 
             CreateInputHelper();
-        }
-
-        GestureSettings GetGestureSettings ()
-        {
-            return AssetDatabase.LoadAssetAtPath("Assets/Edwon/VR/Gesture/Settings/Settings.asset", typeof(GestureSettings)) as GestureSettings;
         }
 
         void Init()
