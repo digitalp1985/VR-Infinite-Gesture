@@ -499,7 +499,7 @@ namespace Edwon.VR.Gesture
 
         void OnEnable()
         {
-            gestureSettings = AssetDatabase.LoadAssetAtPath("Assets/Edwon/VR/Gesture/Settings/Settings.asset", typeof(GestureSettings)) as GestureSettings;
+            gestureSettings = Utils.GetGestureSettings();
 
             rig = VRGestureRig.GetPlayerRig(gestureSettings.playerID);
 

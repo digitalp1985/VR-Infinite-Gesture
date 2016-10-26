@@ -62,7 +62,7 @@ namespace Edwon.VR.Gesture
 
         public void OnEnable()
         {
-            gestureSettings = AssetDatabase.LoadAssetAtPath("Assets/Edwon/VR/Gesture/Settings/Settings.asset", typeof(GestureSettings)) as GestureSettings;
+            gestureSettings = Utils.GetGestureSettings();
             gestureSettings.RefreshNeuralNetList();
         }
 

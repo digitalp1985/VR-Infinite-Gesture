@@ -86,7 +86,7 @@ namespace Edwon.VR.Gesture
         {
             base.Start();
 
-            gestureSettings = AssetDatabase.LoadAssetAtPath("Assets/Edwon/VR/Gesture/Settings/Settings.asset", typeof(GestureSettings)) as GestureSettings;
+            gestureSettings = Utils.GetGestureSettings();
 
             SetInputModule();
             //rig = VRGestureManager.Instance.rig;

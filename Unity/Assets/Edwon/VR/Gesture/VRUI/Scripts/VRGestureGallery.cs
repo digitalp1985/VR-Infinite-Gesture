@@ -48,7 +48,7 @@ namespace Edwon.VR.Gesture
         // INIT
         void Start()
         {
-            gestureSettings = AssetDatabase.LoadAssetAtPath("Assets/Edwon/VR/Gesture/Settings/Settings.asset", typeof(GestureSettings)) as GestureSettings;
+            gestureSettings = Utils.GetGestureSettings();
 
             canvasGroup = GetComponent<CanvasGroup>();
 
@@ -267,7 +267,7 @@ namespace Edwon.VR.Gesture
         void OnEnable()
         {
             VRGestureUIPanelManager.OnPanelFocusChanged += PanelFocusChanged;
-            gestureSettings = AssetDatabase.LoadAssetAtPath("Assets/Edwon/VR/Gesture/Settings/Settings.asset", typeof(GestureSettings)) as GestureSettings;
+            gestureSettings = Utils.GetGestureSettings();
         }
 
         void OnDisable()
