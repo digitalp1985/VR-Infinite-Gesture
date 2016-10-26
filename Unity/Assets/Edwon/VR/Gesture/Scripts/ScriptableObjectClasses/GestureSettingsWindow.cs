@@ -2,29 +2,39 @@
 using UnityEditor;
 using System.Collections;
 
-public class GestureSettingsWindow : EditorWindow
+namespace Edwon.VR.Gesture
 {
-    public GestureSettings settings;
-
-    [MenuItem("Tools/VR Infinite Gesture/Settings")]
-    public static void Init ()
+    public class GestureSettingsWindow : EditorWindow
     {
-        // get exisiting open window or if none make one
-        GestureSettingsWindow window = (
-            GestureSettingsWindow)EditorWindow.GetWindowWithRect(typeof(GestureSettingsWindow), 
-            new Rect(50, 50, 800, 500)
-            );
-    }
+        public GestureSettings gestureSettings;
 
-    void OnEnable ()
-    {
-        hideFlags = HideFlags.HideAndDontSave;
-        if (AssetDatabase.LoadAssetAtPath("Assets/Inventory/InventoryManager.asset", typeof(GestureSettings)) == null)
+        [MenuItem("Tools/VR Infinite Gesture/Settings")]
+        public static void Init()
         {
-            settings = CreateInstance<GestureSettings>();
+            // get exisiting open window or if none make one
+            GestureSettingsWindow window = (
+                GestureSettingsWindow)EditorWindow.GetWindowWithRect(typeof(GestureSettingsWindow),
+                new Rect(50, 50, 800, 500)
+                );
         }
-        else {
-            settings = (GestureSettings)AssetDatabase.LoadAssetAtPath("Assets/Inventory/InventoryManager.asset", typeof(GestureSettings));
+
+        void OnEnable()
+        {
+            hideFlags = HideFlags.HideAndDontSave;
+            if (Utils.GetGestureSettings() == null)
+            {
+                Debug.Log("no gesture settings asset, please make it or write a thing that does it automatically for people");
+                //gestureSettings = CreateInstance<GestureSettings>();
+            }
+            else
+            {
+                gestureSettings = Utils.GetGestureSettings();
+            }
+        }
+
+        void OnGUI ()
+        {
+            
         }
     }
 }
