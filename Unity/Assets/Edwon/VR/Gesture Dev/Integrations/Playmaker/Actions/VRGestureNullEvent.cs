@@ -1,3 +1,5 @@
+#if PLAYMAKER
+
 using UnityEngine;
 using Edwon.VR.Gesture;
 
@@ -29,3 +31,5 @@ namespace HutongGames.PlayMaker.Actions
     }
 
 }
+
+#endif
