@@ -91,7 +91,7 @@ namespace Edwon.VR.Gesture
         {
             GUILayout.BeginHorizontal();
 
-            string[] tabs = new string[] { "Neural Network", "Settings" };
+            string[] tabs = new string[] { "Neural Networks", "Settings" };
             tabIndex = GUILayout.Toolbar(tabIndex, tabs);
             switch (tabIndex)
             {
