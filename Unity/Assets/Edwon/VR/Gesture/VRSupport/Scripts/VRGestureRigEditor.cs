@@ -15,7 +15,7 @@ namespace Edwon.VR
         SerializedProperty gestureHand;
         SerializedProperty gestureButton;
         SerializedProperty displayGestureTrail;
-        SerializedProperty rigID;
+        SerializedProperty playerID;
 
         void OnEnable()
         {
@@ -33,7 +33,7 @@ namespace Edwon.VR
             gestureHand = serializedObject.FindProperty("gestureHand");
             gestureButton = serializedObject.FindProperty("gestureButton");
             displayGestureTrail = serializedObject.FindProperty("displayGestureTrail");
-            rigID = serializedObject.FindProperty("ID");
+            playerID = serializedObject.FindProperty("playerID");
 
             VRGestureRig vrGestureRig = (VRGestureRig)target;
             if (GUILayout.Button("Auto Setup"))
@@ -47,7 +47,7 @@ namespace Edwon.VR
 
             EditorGUILayout.PropertyField(gestureHand);
             EditorGUILayout.PropertyField(gestureButton);
-            EditorGUILayout.PropertyField(rigID);
+            EditorGUILayout.PropertyField(playerID);
 
             EditorGUILayout.PropertyField(displayGestureTrail);
 

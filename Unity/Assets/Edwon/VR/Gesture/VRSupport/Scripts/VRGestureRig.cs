@@ -15,7 +15,7 @@ namespace Edwon.VR
         public VRGestureUIState state = VRGestureUIState.Idle;
         public VRGestureUIState stateLast;
         public bool displayGestureTrail;
-        public int ID = 0;
+        public int playerID = 0;
 
         GestureSettings gestureSettings;
 
@@ -62,7 +62,7 @@ namespace Edwon.VR
             VRGestureRig[] rigs = FindObjectsOfType(typeof(VRGestureRig)) as VRGestureRig[];
             foreach (VRGestureRig _rig in rigs)
             {
-                if(_rig.ID == rigID)
+                if(_rig.playerID == rigID)
                 {
                     rig = _rig;
                 }

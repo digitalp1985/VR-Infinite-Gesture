@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.VR;
 using System.Collections;
 using System.Collections.Generic;
 using Edwon.VR;
@@ -8,14 +9,12 @@ using System.IO;
 using System;
 
 [CreateAssetMenu(fileName = "Settings", menuName = "VRInfiniteGesture/Settings", order = 1)]
-public class GestureSettings : ScriptableObject {
+public class GestureSettings : ScriptableObject
+{
 
-    public VRGestureRig rig
-    {
-        get;
-        set;
-    }
-    public int gestureRigID = 0;
+    public VRGestureRig rig;
+    public int playerID = 0;
+    public VRTYPE vrType;
 
     [Header("VR Infinite Gesture")]
     [Tooltip("display default gesture trails")]
@@ -87,7 +86,10 @@ public class GestureSettings : ScriptableObject {
 
     public void OnEnable()
     {
-        rig = VRGestureRig.GetPlayerRig(gestureRigID);
+        rig = VRGestureRig.GetPlayerRig(playerID);
+
+        foreach (String device in VRSettings.supportedDevices)
+            Debug.Log(device);
     }
 
 
@@ -97,7 +99,7 @@ public class GestureSettings : ScriptableObject {
     [ExecuteInEditMode]
     public void BeginTraining(Action<string> callback)
     {
-        rig = VRGestureRig.GetPlayerRig(gestureRigID);
+        rig = VRGestureRig.GetPlayerRig(playerID);
         rig.state = VRGestureUIState.Training;
         rig.currentTrainer = new Trainer(currentNeuralNet, gestureBank);
         rig.currentTrainer.TrainRecognizer();
@@ -109,7 +111,7 @@ public class GestureSettings : ScriptableObject {
     [ExecuteInEditMode]
     public void EndTraining(Action<string> callback)
     {
-        rig = VRGestureRig.GetPlayerRig(gestureRigID);
+        rig = VRGestureRig.GetPlayerRig(playerID);
         rig.state = VRGestureUIState.Idle;
         callback(currentNeuralNet);
     }

@@ -90,7 +90,7 @@ namespace Edwon.VR.Gesture
 
             SetInputModule();
             //rig = VRGestureManager.Instance.rig;
-            rig = VRGestureRig.GetPlayerRig(gestureSettings.gestureRigID);
+            rig = VRGestureRig.GetPlayerRig(gestureSettings.playerID);
             ControllerInputLeft = rig.GetInput(HandType.Left);
             ControllerInputRight = rig.GetInput(HandType.Right);
 

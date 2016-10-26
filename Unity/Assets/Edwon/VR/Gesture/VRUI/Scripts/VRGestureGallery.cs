@@ -67,7 +67,7 @@ namespace Edwon.VR.Gesture
         void GetHands()
         {
             //rig = VRGestureManager.Instance.rig;
-            rig = VRGestureRig.GetPlayerRig(gestureSettings.gestureRigID);
+            rig = VRGestureRig.GetPlayerRig(gestureSettings.playerID);
             vrHand = rig.GetHand(rig.gestureHand);
             vrHandInput = rig.GetInput(rig.gestureHand);
         }
