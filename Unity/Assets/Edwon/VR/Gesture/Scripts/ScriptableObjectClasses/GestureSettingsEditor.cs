@@ -137,7 +137,6 @@ namespace Edwon.VR.Gesture
 
         void ChangeGestureName(string controlName)
         {
-            Debug.Log(controlName);
             int listIndex = Int32.Parse(controlName.Substring(16));
             VRGestureRenameState checkState = gestureSettings.RenameGesture(listIndex);
             if (checkState == VRGestureRenameState.Duplicate)

@@ -177,7 +177,6 @@ public class GestureSettings : ScriptableObject
         {
             gestureBank = Utils.GetGestureBank(currentNeuralNet);
  
-            //gestureBankPreEdit = new List<Gesture>(gestureBank);
             gestureBankPreEdit = gestureBank.ConvertAll(gesture => gesture.Clone());
             gestureBankTotalExamples = Utils.GetGestureBankTotalExamples(gestureBank, currentNeuralNet);
         }
@@ -229,7 +228,6 @@ public class GestureSettings : ScriptableObject
         gestureBankTotalExamples.Add(0);
         Utils.CreateGestureFile(gestureName, currentNeuralNet);
         Utils.SaveGestureBank(gestureBank, currentNeuralNet);
-        //gestureBankPreEdit = new List<Gesture>(gestureBank);
         gestureBankPreEdit = gestureBank.ConvertAll(gesture => gesture.Clone());
     }
 
@@ -247,7 +245,6 @@ public class GestureSettings : ScriptableObject
         //Maybe name files based on isSync - Hand - name. i.e.: 1R-Helicopter 0B-Rainbow
         Utils.CreateGestureFile(gestureName, currentNeuralNet);
         Utils.SaveGestureBank(gestureBank, currentNeuralNet);
-        //gestureBankPreEdit = new List<Gesture>(gestureBank);
         gestureBankPreEdit = gestureBank.ConvertAll(gesture => gesture.Clone());
     }
 
@@ -260,7 +257,6 @@ public class GestureSettings : ScriptableObject
     [ExecuteInEditMode]
     public Gesture FindGesture(string gestureName)
     {
-        //int index = gestureBank.IndexOf(gestureName);
         Predicate<Gesture> gestureFinder = (Gesture g) => { return g.name == gestureName; };
         Gesture gest = gestureBank.Find(gestureFinder);
         return gest;
@@ -270,14 +266,12 @@ public class GestureSettings : ScriptableObject
     [ExecuteInEditMode]
     public void DeleteGesture(string gestureName)
     {
-        //int index = gestureBank.IndexOf(gestureName);
         Predicate<Gesture> gestureFinder = (Gesture g) => { return g.name == gestureName; };
         int index = gestureBank.FindIndex(gestureFinder);
         gestureBank.RemoveAt(index);
         gestureBankTotalExamples.RemoveAt(index);
         Utils.DeleteGestureFile(gestureName, currentNeuralNet);
         Utils.SaveGestureBank(gestureBank, currentNeuralNet);
-        //gestureBankPreEdit = new List<Gesture>(gestureBank);
         gestureBankPreEdit = gestureBank.ConvertAll(gesture => gesture.Clone());
     }
 
@@ -309,8 +303,6 @@ public class GestureSettings : ScriptableObject
         string newName = "";
         string oldName = "";
 
-        Debug.Log(gestureIndex);
-        
         //check to make sure the name has actually changed.
         if(gestureIndex < gestureBank.Count)
         {
@@ -323,28 +315,20 @@ public class GestureSettings : ScriptableObject
 
         GestureSettingsEditor.VRGestureRenameState renameState = GestureSettingsEditor.VRGestureRenameState.Good;
 
-        Debug.Log("OLD NAME: " + oldName);
-        Debug.Log("NEW NAME: " + newName);
-
-
         if (oldName != newName)
         {
             if (CheckForDuplicateGestures(newName))
             {
-                Debug.Log("WE GONE RENAME THAT!");
                 //ACTUALLY RENAME THAT SHIZZ
                 Utils.RenameGestureFile(oldName, newName, currentNeuralNet);
                 Utils.SaveGestureBank(gestureBank, currentNeuralNet);
 
                 gestureBankPreEdit = gestureBank.ConvertAll(gesture => gesture.Clone());
-                
-                //gestureBankPreEdit = new List<Gesture>(gestureBank);
-
             }
             else
             {
                 //reset gestureBank
-                gestureBank = new List<Gesture>(gestureBankPreEdit);
+                gestureBank = gestureBankPreEdit.ConvertAll(gesture => gesture.Clone());
                 renameState = GestureSettingsEditor.VRGestureRenameState.Duplicate;
             }
         }
