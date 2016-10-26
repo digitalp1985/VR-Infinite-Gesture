@@ -80,13 +80,13 @@ namespace Edwon.VR
         // This function is only called in editor mode. 
         void Reset()
         {
-            if (gameObject.GetComponent("OVRCameraRig") != null)
+            if (gameObject.GetComponent("OVRCameraRig") != null || gameObject.GetComponent("OVRManager") != null)
             {
                 Utils.ChangeVRType(VRTYPE.OculusVR);
                 gestureSettings = GetGestureSettings();
                 gestureSettings.vrType = VRTYPE.OculusVR;
             }
-            if (gameObject.GetComponent("SteamVR_ControllerManager") != null)
+            if (gameObject.GetComponent("SteamVR_ControllerManager") != null || gameObject.GetComponent("SteamVR_PlayArea") != null)
             {
                 Utils.ChangeVRType(VRTYPE.SteamVR);
                 gestureSettings = GetGestureSettings();
