@@ -178,7 +178,7 @@ namespace Edwon.VR.Gesture
             {
                 gestureBank = Utils.GetGestureBank(currentNeuralNet);
 
-                gestureBankPreEdit = new List<Gesture>(gestureBank);
+            gestureBankPreEdit = gestureBank.ConvertAll(gesture => gesture.Clone());
                 gestureBankTotalExamples = Utils.GetGestureBankTotalExamples(gestureBank, currentNeuralNet);
             }
             else
@@ -229,7 +229,7 @@ namespace Edwon.VR.Gesture
             gestureBankTotalExamples.Add(0);
             Utils.CreateGestureFile(gestureName, currentNeuralNet);
             Utils.SaveGestureBank(gestureBank, currentNeuralNet);
-            gestureBankPreEdit = new List<Gesture>(gestureBank);
+        gestureBankPreEdit = gestureBank.ConvertAll(gesture => gesture.Clone());
         }
 
         public void CreateSingleGesture(string gestureName, HandType hand, bool isSynchronous)
@@ -246,7 +246,7 @@ namespace Edwon.VR.Gesture
             //Maybe name files based on isSync - Hand - name. i.e.: 1R-Helicopter 0B-Rainbow
             Utils.CreateGestureFile(gestureName, currentNeuralNet);
             Utils.SaveGestureBank(gestureBank, currentNeuralNet);
-            gestureBankPreEdit = new List<Gesture>(gestureBank);
+        gestureBankPreEdit = gestureBank.ConvertAll(gesture => gesture.Clone());
         }
 
         public void CreateSyncGesture(string gestureName)
@@ -268,14 +268,13 @@ namespace Edwon.VR.Gesture
         [ExecuteInEditMode]
         public void DeleteGesture(string gestureName)
         {
-            //int index = gestureBank.IndexOf(gestureName);
             Predicate<Gesture> gestureFinder = (Gesture g) => { return g.name == gestureName; };
             int index = gestureBank.FindIndex(gestureFinder);
             gestureBank.RemoveAt(index);
             gestureBankTotalExamples.RemoveAt(index);
             Utils.DeleteGestureFile(gestureName, currentNeuralNet);
             Utils.SaveGestureBank(gestureBank, currentNeuralNet);
-            gestureBankPreEdit = new List<Gesture>(gestureBank);
+        gestureBankPreEdit = gestureBank.ConvertAll(gesture => gesture.Clone());
         }
 
         List<Gesture> gestureBankPreEdit;
@@ -303,9 +302,19 @@ namespace Edwon.VR.Gesture
         [ExecuteInEditMode]
         public GestureSettingsEditor.VRGestureRenameState RenameGesture(int gestureIndex)
         {
+        string newName = "";
+        string oldName = "";
+
             //check to make sure the name has actually changed.
-            string newName = gestureBank[gestureIndex].name;
-            string oldName = gestureBankPreEdit[gestureIndex].name;
+        if(gestureIndex < gestureBank.Count)
+        {
+            newName = gestureBank[gestureIndex].name;
+            oldName = gestureBankPreEdit[gestureIndex].name;
+        }else
+        {
+            Debug.LogError("Out of bounds");
+        }
+
             GestureSettingsEditor.VRGestureRenameState renameState = GestureSettingsEditor.VRGestureRenameState.Good;
 
             if (oldName != newName)
@@ -314,13 +323,14 @@ namespace Edwon.VR.Gesture
                 {
                     //ACTUALLY RENAME THAT SHIZZ
                     Utils.RenameGestureFile(oldName, newName, currentNeuralNet);
-                    gestureBankPreEdit = new List<Gesture>(gestureBank);
+                Utils.SaveGestureBank(gestureBank, currentNeuralNet);
 
+                gestureBankPreEdit = gestureBank.ConvertAll(gesture => gesture.Clone());
                 }
                 else
                 {
                     //reset gestureBank
-                    gestureBank = new List<Gesture>(gestureBankPreEdit);
+                gestureBank = gestureBankPreEdit.ConvertAll(gesture => gesture.Clone());
                     renameState = GestureSettingsEditor.VRGestureRenameState.Duplicate;
                 }
             }

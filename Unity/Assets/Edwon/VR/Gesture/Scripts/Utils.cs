@@ -565,6 +565,16 @@ namespace Edwon.VR.Gesture
 		public HandType hand = HandType.Right;
 		public bool isSynchronous = false;
 		public int exampleCount = 0;
+
+        public Gesture Clone()
+        {
+            Gesture g = new Gesture();
+            g.name = name;
+            g.hand = hand;
+            g.isSynchronous = isSynchronous;
+            g.exampleCount = exampleCount;
+            return g;
+        }
 	}
 
 
