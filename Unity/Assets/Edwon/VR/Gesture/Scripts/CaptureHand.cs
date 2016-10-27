@@ -49,8 +49,11 @@ namespace Edwon.VR.Gesture
             perpTransform = _perp;
             input = rig.GetInput(hand);
             currentCapturedLine = new List<Vector3>();
-            myTrail = _myTrail;
-            myTrail.AssignHand(this);
+            if (_myTrail != null)
+            {
+                myTrail = _myTrail;
+                myTrail.AssignHand(this);
+            }
 
             Start();
         }
