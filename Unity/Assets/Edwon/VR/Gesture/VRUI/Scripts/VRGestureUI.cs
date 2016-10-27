@@ -9,7 +9,7 @@ using System;
 namespace Edwon.VR.Gesture
 {
     [RequireComponent(typeof(CanvasRenderer))]
-    [RequireComponent(typeof(VRControllerUIInput))]
+    [RequireComponent(typeof(LaserPointerInputModule))]
     public class VRGestureUI : MonoBehaviour
     {
         VRGestureRig rig;
@@ -506,7 +506,7 @@ namespace Edwon.VR.Gesture
             GestureRecognizer.GestureDetectedEvent += OnGestureDetected;
             GestureRecognizer.GestureRejectedEvent += OnGestureRejected;
             VRGestureUIPanelManager.OnPanelFocusChanged += PanelFocusChanged;
-            VRControllerUIInput.OnVRGuiHitChanged += VRGuiHitChanged;
+            //VRControllerUIInput.OnVRGuiHitChanged += VRGuiHitChanged;
 
             
         }
@@ -516,7 +516,7 @@ namespace Edwon.VR.Gesture
             GestureRecognizer.GestureDetectedEvent -= OnGestureDetected;
             GestureRecognizer.GestureRejectedEvent -= OnGestureRejected;
             VRGestureUIPanelManager.OnPanelFocusChanged -= PanelFocusChanged;
-            VRControllerUIInput.OnVRGuiHitChanged -= VRGuiHitChanged;
+            //VRControllerUIInput.OnVRGuiHitChanged -= VRGuiHitChanged;
         }
 
         void OnGestureDetected (string gestureName, double confidence, HandType hand)

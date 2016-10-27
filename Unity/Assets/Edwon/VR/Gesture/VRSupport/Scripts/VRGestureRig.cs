@@ -82,15 +82,15 @@ namespace Edwon.VR
         {
             if (gameObject.GetComponent("OVRCameraRig") != null || gameObject.GetComponent("OVRManager") != null)
             {
-                Utils.ChangeVRType(VRTYPE.OculusVR);
+                Utils.ChangeVRType(VRType.OculusVR);
                 gestureSettings = Utils.GetGestureSettings();
-                gestureSettings.vrType = VRTYPE.OculusVR;
+                gestureSettings.vrType = VRType.OculusVR;
             }
             if (gameObject.GetComponent("SteamVR_ControllerManager") != null || gameObject.GetComponent("SteamVR_PlayArea") != null)
             {
-                Utils.ChangeVRType(VRTYPE.SteamVR);
+                Utils.ChangeVRType(VRType.SteamVR);
                 gestureSettings = Utils.GetGestureSettings();
-                gestureSettings.vrType = VRTYPE.SteamVR;
+                gestureSettings.vrType = VRType.SteamVR;
             }
         }
 
@@ -293,25 +293,36 @@ namespace Edwon.VR
         public void CreateInputHelper()
         {
             #if EDWON_VR_STEAM
-                SteamVR_ControllerManager[] steamVR_cm = FindObjectsOfType<SteamVR_ControllerManager>();
-                //What happens when we get here and we ONLY have 1 controller online.
-                //Do both controllers end up getting the LEFT controller?
 
-                leftController = steamVR_cm[0].left;
-                rightController = steamVR_cm[0].right;
+            SteamVR_ControllerManager[] steamVR_cm = FindObjectsOfType<SteamVR_ControllerManager>();
+            //What happens when we get here and we ONLY have 1 controller online.
+            //Do both controllers end up getting the LEFT controller?
 
-                inputLeft = gameObject.AddComponent<VRControllerInputSteam>().Init(HandType.Left, leftController);
-                inputRight = gameObject.AddComponent<VRControllerInputSteam>().Init(HandType.Right, rightController);
-                if (spawnControllerModels)
-                    SpawnControllerModels();
+            leftController = steamVR_cm[0].left;
+            rightController = steamVR_cm[0].right;
+
+            inputLeft = gameObject.AddComponent<VRControllerInputSteam>().Init(HandType.Left, leftController);
+            inputRight = gameObject.AddComponent<VRControllerInputSteam>().Init(HandType.Right, rightController);
+
             #endif
 
             #if EDWON_VR_OCULUS
-                inputLeft = handLeft.gameObject.AddComponent<VRControllerInputOculus>().Init(HandType.Left);
-                inputRight = handRight.gameObject.AddComponent<VRControllerInputOculus>().Init(HandType.Right);
-                if (spawnControllerModels)
-                    SpawnControllerModels();
+
+            inputLeft = handLeft.gameObject.AddComponent<VRControllerInputOculus>().Init(HandType.Left);
+            inputRight = handRight.gameObject.AddComponent<VRControllerInputOculus>().Init(HandType.Right);
+
             #endif
+
+            if (gestureSettings.showVRUI)
+            {
+                handLeft.gameObject.AddComponent<VRLaserPointer>();
+                handRight.gameObject.AddComponent<VRLaserPointer>();
+            }
+
+            if (spawnControllerModels)
+            {
+                SpawnControllerModels();
+            }
         }
 
         public void SpawnControllerModels ()

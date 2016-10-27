@@ -2,7 +2,7 @@
 namespace Edwon.VR
 {
     public enum HandType { Both, Left, Right };
-    public enum VRTYPE { OculusVR, SteamVR };
+    public enum VRType { OculusVR, SteamVR };
 }
 
 

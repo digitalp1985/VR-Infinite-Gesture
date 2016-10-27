@@ -15,11 +15,13 @@ namespace Edwon.VR.Gesture
 
         public VRGestureRig rig;
         public int playerID = 0;
-        public VRTYPE vrType;
+        public VRType vrType;
 
         [Header("VR Infinite Gesture")]
         [Tooltip("display default gesture trails")]
         public bool displayGestureTrail = true;
+        [Tooltip("if true automatically spawn the VR Gesture UI when the scene starts")]
+        public bool showVRUI = true;
         [Tooltip("the button that triggers gesture recognition")]
         public InputOptions.Button gestureButton = InputOptions.Button.Trigger1;
         [Tooltip("the threshold over wich a gesture is considered correctly classified")]

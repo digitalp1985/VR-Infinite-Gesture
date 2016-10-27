@@ -108,6 +108,8 @@ namespace Edwon.VR.Gesture
 
         void OnGUI ()
         {
+            serializedObject.Update();
+
             SetSerializedObject();
 
             // TEXTURE SETUP
@@ -117,12 +119,16 @@ namespace Edwon.VR.Gesture
             ShowToolbar();
             ToolbarUpdate();
             FocusAndClickUpdate();
+
+            serializedObject.ApplyModifiedProperties();
         }
 
         void SetSerializedObject()
         {
             if (serializedObject == null)
+            {
                 serializedObject = new SerializedObject(gestureSettings);
+            }
         }
 
         void ShowToolbar()
@@ -251,6 +257,7 @@ namespace Edwon.VR.Gesture
         {
             EditorGUILayout.Separator();
             SerializedProperty beginInDetectMode = serializedObject.FindProperty("beginInDetectMode");
+            SerializedProperty showVRUI = serializedObject.FindProperty("showVRUI");
             SerializedProperty playerID = serializedObject.FindProperty("playerID");
             SerializedProperty vrType = serializedObject.FindProperty("vrType");
 
@@ -260,7 +267,7 @@ namespace Edwon.VR.Gesture
             EditorGUILayout.PropertyField(vrType);
             if (EditorGUI.EndChangeCheck())
             {
-                Utils.ChangeVRType((VRTYPE)vrType.enumValueIndex);
+                Utils.ChangeVRType((VRType)vrType.enumValueIndex);
             }
 
             EditorGUILayout.PropertyField(beginInDetectMode);
@@ -281,6 +288,7 @@ namespace Edwon.VR.Gesture
             {
                 gestureSettings.stateInitial = VRGestureUIState.Idle;
             }
+            EditorGUILayout.PropertyField(showVRUI);
             EditorGUILayout.PropertyField(serializedObject.FindProperty("confidenceThreshold"));
             EditorGUILayout.PropertyField(serializedObject.FindProperty("minimumGestureAxisLength"));
 

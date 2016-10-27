@@ -472,7 +472,7 @@ namespace Edwon.VR.Gesture
 			return true;
 		}
 
-        public static void ChangeVRType(VRTYPE vrType)
+        public static void ChangeVRType(VRType vrType)
         {
             string defines = PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone);
             List<string> definesList = defines.Split(new char[] { ';' }).ToList<string>();
@@ -484,7 +484,7 @@ namespace Edwon.VR.Gesture
                 {
                     case "EDWON_VR_OCULUS":
                         {
-                            if (vrType == VRTYPE.SteamVR)
+                            if (vrType == VRType.SteamVR)
                             {
                                 definesList[i] = "EDWON_VR_STEAM";
                             }
@@ -492,7 +492,7 @@ namespace Edwon.VR.Gesture
                         break;
                     case "EDWON_VR_STEAM":
                         {
-                            if (vrType == VRTYPE.OculusVR)
+                            if (vrType == VRType.OculusVR)
                             {
                                 definesList[i] = "EDWON_VR_OCULUS";
                             }
@@ -503,13 +503,13 @@ namespace Edwon.VR.Gesture
 
             switch (vrType)
             {
-                case VRTYPE.SteamVR:
+                case VRType.SteamVR:
                     {
                         if (!definesList.Contains("EDWON_VR_STEAM"))
                             definesList.Add("EDWON_VR_STEAM");
                     }
                     break;
-                case VRTYPE.OculusVR:
+                case VRType.OculusVR:
                     {
                         if (!definesList.Contains("EDWON_VR_OCULUS"))
                             definesList.Add("EDWON_VR_OCULUS");
