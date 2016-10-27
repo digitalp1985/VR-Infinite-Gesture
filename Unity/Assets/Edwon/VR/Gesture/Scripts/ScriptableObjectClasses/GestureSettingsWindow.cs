@@ -32,6 +32,18 @@ namespace Edwon.VR.Gesture
             }
         }
 
+        void OnDestroy()
+        {
+            if (Utils.GetGestureSettings() == null)
+            {
+                //gestureSettings = CreateInstance<GestureSettings>();
+            }
+            else {
+                EditorUtility.SetDirty(gestureSettings);
+                AssetDatabase.SaveAssets();
+            }
+        }
+
         void OnGUI ()
         {
             
