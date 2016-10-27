@@ -72,7 +72,7 @@ namespace Edwon.VR.Gesture
             GestureSettingsWindow window = (
                 GestureSettingsWindow)EditorWindow.GetWindow<GestureSettingsWindow>(
                     false, 
-                    "VR Gesture Settings", 
+                    "VR Gesture", 
                     true );
         }
 
