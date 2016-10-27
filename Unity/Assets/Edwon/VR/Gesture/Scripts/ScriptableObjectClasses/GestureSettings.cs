@@ -300,7 +300,7 @@ namespace Edwon.VR.Gesture
 
 #if UNITY_EDITOR
         [ExecuteInEditMode]
-        public GestureSettingsEditor.VRGestureRenameState RenameGesture(int gestureIndex)
+        public GestureSettingsWindow.VRGestureRenameState RenameGesture(int gestureIndex)
         {
         string newName = "";
         string oldName = "";
@@ -315,7 +315,7 @@ namespace Edwon.VR.Gesture
             Debug.LogError("Out of bounds");
         }
 
-            GestureSettingsEditor.VRGestureRenameState renameState = GestureSettingsEditor.VRGestureRenameState.Good;
+            GestureSettingsWindow.VRGestureRenameState renameState = GestureSettingsWindow.VRGestureRenameState.Good;
 
             if (oldName != newName)
             {
@@ -331,12 +331,12 @@ namespace Edwon.VR.Gesture
                 {
                     //reset gestureBank
                 gestureBank = gestureBankPreEdit.ConvertAll(gesture => gesture.Clone());
-                    renameState = GestureSettingsEditor.VRGestureRenameState.Duplicate;
+                    renameState = GestureSettingsWindow.VRGestureRenameState.Duplicate;
                 }
             }
             else
             {
-                renameState = GestureSettingsEditor.VRGestureRenameState.NoChange;
+                renameState = GestureSettingsWindow.VRGestureRenameState.NoChange;
             }
 
             return renameState;
