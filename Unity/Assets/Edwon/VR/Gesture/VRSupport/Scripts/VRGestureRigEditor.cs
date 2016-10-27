@@ -19,6 +19,7 @@ namespace Edwon.VR
 
         void OnEnable()
         {
+
         }
 
         public override void OnInspectorGUI()
@@ -36,10 +37,13 @@ namespace Edwon.VR
             playerID = serializedObject.FindProperty("playerID");
 
             VRGestureRig vrGestureRig = (VRGestureRig)target;
+
+            #if EDWON_VR_OCULUS || EDWON_VR_STEAM
             if (GUILayout.Button("Auto Setup"))
             {
                 vrGestureRig.AutoSetup();
             }
+            #endif
 
             EditorGUILayout.PropertyField(head);
             EditorGUILayout.PropertyField(handLeft);
