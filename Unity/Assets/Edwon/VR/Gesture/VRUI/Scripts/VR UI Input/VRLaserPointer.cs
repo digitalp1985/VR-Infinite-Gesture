@@ -9,7 +9,7 @@ namespace Edwon.VR
     {
         public int playerID = 0;
 
-        public HandType handedness;
+        public HandType handType;
         InputOptions.Button selectButton;
 
         VRGestureRig rig;
@@ -19,8 +19,13 @@ namespace Edwon.VR
         {
             base.Initialize();
 
-            //handedness = VRDebugManager.Instance.handedness;
-            input = rig.GetInput(handedness);
+        }
+
+        // called by the VRGestureRig when created
+        public void InitRig(VRGestureRig _rig, HandType _handType)
+        {
+            rig = _rig;
+            input = rig.GetInput(_handType);
             selectButton = rig.gestureButton;
         }
 
@@ -34,7 +39,7 @@ namespace Edwon.VR
             //{
             //    // turn on laser
 
-                laserAlwaysOn = true;
+                //laserAlwaysOn = true;
 
             //    // cast a ray to find a VREditable
             //    Ray ray = new Ray(transform.position, transform.forward);

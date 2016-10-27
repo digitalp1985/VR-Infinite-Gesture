@@ -53,14 +53,14 @@ namespace Edwon.VR
         public Trainer currentTrainer;
         //current Trainer?
 
-        public static VRGestureRig GetPlayerRig(int rigID = -1)
+        public static VRGestureRig GetPlayerRig(int _playerID = -1)
         {
             VRGestureRig rig = null;
 
             VRGestureRig[] rigs = FindObjectsOfType(typeof(VRGestureRig)) as VRGestureRig[];
             foreach (VRGestureRig _rig in rigs)
             {
-                if(_rig.playerID == rigID)
+                if(_rig.playerID == _playerID)
                 {
                     rig = _rig;
                 }
@@ -315,8 +315,10 @@ namespace Edwon.VR
 
             if (gestureSettings.showVRUI)
             {
-                handLeft.gameObject.AddComponent<VRLaserPointer>();
-                handRight.gameObject.AddComponent<VRLaserPointer>();
+                VRLaserPointer laserLeft = handLeft.gameObject.AddComponent<VRLaserPointer>();
+                laserLeft.InitRig(this, HandType.Left);
+                VRLaserPointer laserRight = handRight.gameObject.AddComponent<VRLaserPointer>();
+                laserLeft.InitRig(this, HandType.Right);
             }
 
             if (spawnControllerModels)
