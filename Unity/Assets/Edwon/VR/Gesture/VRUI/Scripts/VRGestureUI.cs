@@ -257,6 +257,7 @@ namespace Edwon.VR.Gesture
 
         public void SelectNeuralNet(string neuralNetName)
         {
+            Debug.Log("select neural net");
             gestureSettings.SelectNeuralNet(neuralNetName);
         }
 

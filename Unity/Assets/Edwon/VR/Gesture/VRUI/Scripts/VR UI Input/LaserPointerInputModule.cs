@@ -32,7 +32,7 @@ namespace Edwon.VR
             }
             get
             {
-                return _controllers;
+                return _controllers; 
             }
         }
 
@@ -194,6 +194,15 @@ namespace Edwon.VR
 
                 // Send control enter and exit events to our controller
                 var hitControl = data.pointerEvent.pointerCurrentRaycast.gameObject;
+                if (hitControl == null)
+                {
+                    Debug.Log("Hit Control IS null");
+                }
+                else
+                {
+                    Debug.Log("Hit Control NOT null");
+                }
+
                 if(data.currentPoint != hitControl)
                 {
                     if(data.currentPoint != null)
@@ -211,7 +220,9 @@ namespace Edwon.VR
                 // Handle enter and exit events on the GUI controlls that are hit
                 base.HandlePointerExitAndEnter(data.pointerEvent, data.currentPoint);
 
-                if(controller.ButtonDown()) {
+                // button down begin
+                if ( controller.ButtonDown() )
+                {
                     ClearSelection();
 
                     data.pointerEvent.pressPosition = data.pointerEvent.position;
@@ -248,10 +259,12 @@ namespace Edwon.VR
                         data.pointerEvent.pointerDrag = data.currentPressed;
                         data.currentDragging = data.currentPressed;
                     }
-                }// button down end
+                }
+                // button down end
 
-
-                if(controller.ButtonUp()) {
+                // button up begin
+                if( controller.ButtonUp() )
+                {
                     if(data.currentDragging != null) {
                         ExecuteEvents.Execute(data.currentDragging, data.pointerEvent, ExecuteEvents.endDragHandler);
                         if(data.currentPoint != null) {
@@ -267,7 +280,7 @@ namespace Edwon.VR
                         data.currentPressed = null;
                     }
                 }
-
+                // button up end
 
                 // drag handling
                 if(data.currentDragging != null) {
