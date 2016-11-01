@@ -130,6 +130,13 @@ namespace Edwon.VR.Gesture
                 return false;
         }
 
+        // only called by VR UI when creating a new neural net in VR
+        public void CreateNewNeuralNet()
+        {
+            string newNeuralNetName = "Neural Net " + neuralNets.Count + 1;
+            CreateNewNeuralNet(newNeuralNetName);
+        }
+
         [ExecuteInEditMode]
         public void CreateNewNeuralNet(string neuralNetName)
         {

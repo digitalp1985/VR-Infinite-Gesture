@@ -72,6 +72,7 @@ namespace Edwon.VR.Gesture
         // SELECT NEURAL NET MENU
         [Tooltip("the panel of the Select Neural Net Menu")]
         public RectTransform neuralNetTitle;
+        List<Button> neuralNetButtons;
 
         // DETECT MENU
         private Slider thresholdSlider;
@@ -221,7 +222,6 @@ namespace Edwon.VR.Gesture
         public void BeginNewGestureSettingsMenu()
         {
             panelManager.FocusPanel("New Gesture Settings Menu");
-            Debug.Log("Begin New Gesture Settings Menu");
             string newGestureName = "Gesture " + (gestureSettings.gestureBank.Count + 1);
             singleHandedButton.onClick.AddListener(() => CreateGesture(newGestureName, false));
             singleHandedButton.onClick.AddListener(() => BeginRecordingMenu(newGestureName));
@@ -443,24 +443,45 @@ namespace Edwon.VR.Gesture
         {
             int neuralNetMenuButtonHeight = 30;
 
-            List<Button> buttons = GenerateButtonsFromList(gestureSettings.neuralNets, selectNeuralNetMenu.transform, buttonPrefab, neuralNetMenuButtonHeight);
+            neuralNetButtons = GenerateButtonsFromList(gestureSettings.neuralNets, selectNeuralNetMenu.transform, buttonPrefab, neuralNetMenuButtonHeight);
 
             // set the functions that the button will call when pressed
-            for (int i = 0; i < buttons.Count; i++)
+            for (int i = 0; i < neuralNetButtons.Count; i++)
             {
                 string neuralNetName = gestureSettings.neuralNets[i];
-                buttons[i].onClick.AddListener(() => panelManager.FocusPanel("Main Menu"));
-                buttons[i].onClick.AddListener(() => SelectNeuralNet(neuralNetName));
+                neuralNetButtons[i].onClick.AddListener(() => panelManager.FocusPanel("Main Menu"));
+                neuralNetButtons[i].onClick.AddListener(() => SelectNeuralNet(neuralNetName));
             }
 
-            AdjustListTitlePosition(neuralNetTitle.transform, buttons.Count, neuralNetMenuButtonHeight);
+            AdjustListTitlePosition(neuralNetTitle.transform, neuralNetButtons.Count, neuralNetMenuButtonHeight);
 
 
             // adjust new neural net button position
-            float totalHeight = buttons.Count * neuralNetMenuButtonHeight;
+            float totalHeight = neuralNetButtons.Count * neuralNetMenuButtonHeight;
             float y = -(totalHeight / 2);
             newNeuralNetButton.transform.localPosition = new Vector3(0, y, 0);
 
+            // add on click functions to new neural net button
+            Button newNeuralNetButtonButton = newNeuralNetButton.GetComponent<Button>();
+            newNeuralNetButtonButton.onClick.RemoveAllListeners();
+            newNeuralNetButtonButton.onClick.AddListener(gestureSettings.CreateNewNeuralNet);
+            newNeuralNetButtonButton.onClick.AddListener(RefreshNeuralNetMenu);
+        }
+
+        void RefreshNeuralNetMenu()
+        {
+            // delete all the neural net menu buttons
+            for (int i = neuralNetButtons.Count -1; i >= 0; i--)
+            {
+                Destroy(neuralNetButtons[i].gameObject);
+            }
+            neuralNetButtons.Clear();
+
+            // refresh the list
+            gestureSettings.RefreshNeuralNetList();
+
+            // create the neural net menu buttons again
+            GenerateNeuralNetMenuButtons();
         }
 
         List<Button> GenerateButtonsFromList(List<string> list, Transform parent, GameObject prefab, float buttonHeight)
@@ -632,7 +653,6 @@ namespace Edwon.VR.Gesture
             title.text = gestureSettings.currentNeuralNet;
         }
 
-
         //Maybe these could be fixed with Event Listeners for Start/Capture Events.
         //This will be problemtatic for showing a left vs right recorded gesture.
         //What happens when you start recording a gesture while another one is being recorded.
@@ -656,7 +676,6 @@ namespace Edwon.VR.Gesture
             {
                 if (rig.stateLast == VRGestureUIState.Recording)
                 {
-                    Debug.Log("Last state was Recording state");
                     RefreshTotalExamplesLabel();
                 }
             }
