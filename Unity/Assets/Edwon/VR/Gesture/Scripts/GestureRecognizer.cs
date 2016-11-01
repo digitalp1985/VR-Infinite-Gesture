@@ -7,7 +7,7 @@ namespace Edwon.VR.Gesture
 {
     public class GestureRecognizer
     {
-        public delegate void GestureDetected(string gestureName, double confidence, HandType hand);
+        public delegate void GestureDetected(string gestureName, double confidence, Handedness hand);
         public static event GestureDetected GestureDetectedEvent;
         public delegate void GestureRejected(string error, string gestureName = null, double confidence = 0);
         public static event GestureRejected GestureRejectedEvent;
@@ -42,7 +42,7 @@ namespace Edwon.VR.Gesture
         }
 
         //Almost all of this should get plugged into Recognizer
-        public void RecognizeLine(List<Vector3> capturedLine, HandType hand, VRGestureRig sender)
+        public void RecognizeLine(List<Vector3> capturedLine, Handedness hand, VRGestureRig sender)
         {
             if (IsGestureBigEnough(capturedLine))
             {
@@ -59,13 +59,13 @@ namespace Edwon.VR.Gesture
                         GestureDetectedEvent(gesture, currentConfidenceValue, hand);
                         //Check if the other hand has recently caught a gesture.
                         //CheckForSyncGestures(gesture, hand);
-                        if (hand == HandType.Left)
+                        if (hand == Handedness.Left)
                         {
                             //leftCapture.SetRecognizedGesture(gesture);
                             lastLeftGesture = gesture;
                             lastLeftDetected = DateTime.Now;
                         }
-                        else if (hand == HandType.Right)
+                        else if (hand == Handedness.Right)
                         {
                             //rightCapture.SetRecognizedGesture(gesture);
                             lastRightGesture = gesture;

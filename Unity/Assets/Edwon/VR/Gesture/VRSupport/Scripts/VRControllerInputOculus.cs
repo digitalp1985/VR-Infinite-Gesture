@@ -12,10 +12,10 @@ namespace Edwon.VR.Input
         // options for broken oculus touch that doesn't quite reach 1
         OVRInput.Controller controllerType;
 
-        public VRControllerInputOculus Init(HandType handy)
+        public VRControllerInputOculus Init(Handedness handy)
         {
             handedness = handy;
-            controllerType = (handy == HandType.Left) ? OVRInput.Controller.LTouch : OVRInput.Controller.RTouch;
+            controllerType = (handy == Handedness.Left) ? OVRInput.Controller.LTouch : OVRInput.Controller.RTouch;
             return this;
         }
 
@@ -26,7 +26,7 @@ namespace Edwon.VR.Input
         {
             // setup controller type variable (left or right)
             OVRInput.Controller controllerType = OVRInput.Controller.None;
-            controllerType = (handedness == HandType.Left) ? OVRInput.Controller.LTouch : OVRInput.Controller.RTouch;
+            controllerType = (handedness == Handedness.Left) ? OVRInput.Controller.LTouch : OVRInput.Controller.RTouch;
             return controllerType;
         }
 

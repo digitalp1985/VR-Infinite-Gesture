@@ -68,8 +68,8 @@ namespace Edwon.VR.Gesture
         {
             //rig = VRGestureManager.Instance.rig;
             rig = VRGestureRig.GetPlayerRig(gestureSettings.playerID);
-            vrHand = rig.GetHand(rig.gestureHand);
-            vrHandInput = rig.GetInput(rig.gestureHand);
+            vrHand = rig.GetHand(rig.mainHand);
+            vrHandInput = rig.GetInput(rig.mainHand);
         }
 
         // CREATE THE GESTURE GALLERY

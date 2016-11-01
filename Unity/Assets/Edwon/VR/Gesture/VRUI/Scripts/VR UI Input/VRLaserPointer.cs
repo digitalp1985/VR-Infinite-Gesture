@@ -9,7 +9,7 @@ namespace Edwon.VR
     {
         public int playerID = 0;
 
-        public HandType handType;
+        public Handedness handType;
         InputOptions.Button selectButton;
 
         VRGestureRig rig;
@@ -21,7 +21,7 @@ namespace Edwon.VR
         }
 
         // called by the VRGestureRig when created
-        public void InitRig(VRGestureRig _rig, HandType _handType)
+        public void InitRig(VRGestureRig _rig, Handedness _handType)
         {
             rig = _rig;
             handType = _handType;

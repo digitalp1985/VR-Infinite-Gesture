@@ -10,7 +10,10 @@ namespace Edwon.VR
 {
     public class VRGestureRig : MonoBehaviour
     {
-        public HandType gestureHand = HandType.Right;
+        // need a special enum in this class so you can't see "Both" in the inspector
+        // as that is irrelevent
+
+        public Handedness mainHand = Handedness.Right;
         public InputOptions.Button gestureButton = InputOptions.Button.Trigger1;
         public VRGestureUIState state = VRGestureUIState.Idle;
         public VRGestureUIState stateLast;
@@ -119,8 +122,8 @@ namespace Edwon.VR
                 leftTrail = gameObject.AddComponent<GestureTrail>();
                 rightTrail = gameObject.AddComponent<GestureTrail>();
             }
-            leftCapture = new CaptureHand(this, perpTransform, HandType.Left, leftTrail);
-            rightCapture = new CaptureHand(this, perpTransform, HandType.Right, rightTrail);
+            leftCapture = new CaptureHand(this, perpTransform, Handedness.Left, leftTrail);
+            rightCapture = new CaptureHand(this, perpTransform, Handedness.Right, rightTrail);
         }
         
 
@@ -204,7 +207,7 @@ namespace Edwon.VR
         #endregion
 
         #region LINE CAPTURE
-        public void LineCaught(List<Vector3> capturedLine, HandType hand)
+        public void LineCaught(List<Vector3> capturedLine, Handedness hand)
         {
             if (state == VRGestureUIState.Recording || state == VRGestureUIState.ReadyToRecord)
             {
@@ -252,9 +255,9 @@ namespace Edwon.VR
             #endif
         }
 
-        public Transform GetHand(HandType handedness)
+        public Transform GetHand(Handedness handedness)
         {
-            if (handedness == HandType.Left)
+            if (handedness == Handedness.Left)
             {
                 return handLeft;
             }
@@ -272,9 +275,9 @@ namespace Edwon.VR
         /// </summary>
         /// <param name="handedness"></param>
         /// <returns></returns>
-        public IInput GetInput(HandType handedness)
+        public IInput GetInput(Handedness handedness)
         {
-            if (handedness == HandType.Left)
+            if (handedness == Handedness.Left)
             {
                 return inputLeft;
             }
@@ -308,17 +311,17 @@ namespace Edwon.VR
 
             #if EDWON_VR_OCULUS
 
-            inputLeft = handLeft.gameObject.AddComponent<VRControllerInputOculus>().Init(HandType.Left);
-            inputRight = handRight.gameObject.AddComponent<VRControllerInputOculus>().Init(HandType.Right);
+            inputLeft = handLeft.gameObject.AddComponent<VRControllerInputOculus>().Init(Handedness.Left);
+            inputRight = handRight.gameObject.AddComponent<VRControllerInputOculus>().Init(Handedness.Right);
 
             #endif
 
             if (gestureSettings.showVRUI)
             {
                 VRLaserPointer laserLeft = handLeft.gameObject.AddComponent<VRLaserPointer>();
-                laserLeft.InitRig(this, HandType.Left);
+                laserLeft.InitRig(this, Handedness.Left);
                 VRLaserPointer laserRight = handRight.gameObject.AddComponent<VRLaserPointer>();
-                laserRight.InitRig(this, HandType.Right);
+                laserRight.InitRig(this, Handedness.Right);
             }
 
             if (spawnControllerModels)

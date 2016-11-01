@@ -230,7 +230,7 @@ namespace Edwon.VR.Gesture
         {
             Gesture newGesture = new Gesture();
             newGesture.name = gestureName;
-            newGesture.hand = HandType.Right;
+            newGesture.hand = Handedness.Right;
             newGesture.isSynchronous = false;
             newGesture.exampleCount = 0;
 
@@ -242,7 +242,7 @@ namespace Edwon.VR.Gesture
         gestureBankPreEdit = gestureBank.ConvertAll(gesture => gesture.Clone());
         }
 
-        public void CreateSingleGesture(string gestureName, HandType hand, bool isSynchronous)
+        public void CreateSingleGesture(string gestureName, Handedness hand, bool isSynchronous)
         {
             Gesture newGesture = new Gesture();
             newGesture.name = gestureName;
@@ -261,8 +261,8 @@ namespace Edwon.VR.Gesture
 
         public void CreateSyncGesture(string gestureName)
         {
-            CreateSingleGesture(gestureName, HandType.Left, true);
-            CreateSingleGesture(gestureName, HandType.Right, true);
+            CreateSingleGesture(gestureName, Handedness.Left, true);
+            CreateSingleGesture(gestureName, Handedness.Right, true);
         }
 
         [ExecuteInEditMode]

@@ -18,7 +18,7 @@ namespace Edwon.VR.Gesture
         bool uiVisible;
 
         [HideInInspector]
-        public HandType menuHandedness;
+        public Handedness menuHandedness;
         VRGestureUIPanelManager panelManager;
         Transform vrMenuHand; // the hand to attach the hand ui to
         Transform vrHandUIPanel; // the actual ui
@@ -102,8 +102,8 @@ namespace Edwon.VR.Gesture
 
             // get vr player hand and camera
             rig = VRGestureRig.GetPlayerRig(gestureSettings.playerID);
-            menuHandedness = (rig.gestureHand == HandType.Left) ? HandType.Right : HandType.Left;
-            HandType oppositeHand = rig.gestureHand == HandType.Left ? HandType.Right : HandType.Left;
+            menuHandedness = (rig.mainHand == Handedness.Left) ? Handedness.Right : Handedness.Left;
+            Handedness oppositeHand = rig.mainHand == Handedness.Left ? Handedness.Right : Handedness.Left;
             vrMenuHand = rig.GetHand(menuHandedness);
             vrCam = rig.head;
       
@@ -116,7 +116,7 @@ namespace Edwon.VR.Gesture
         void Update()
         {
             // if press Button1 on menu hand toggle menu on off
-            HandType oppositeHand = rig.gestureHand == HandType.Left ? HandType.Right : HandType.Left;
+            Handedness oppositeHand = rig.mainHand == Handedness.Left ? Handedness.Right : Handedness.Left;
             if (rig.GetInput(oppositeHand) != null && rig.GetInput(oppositeHand).GetButtonDown(InputOptions.Button.Button1))
                 ToggleVRGestureUI();
 
@@ -548,7 +548,7 @@ namespace Edwon.VR.Gesture
             //VRControllerUIInput.OnVRGuiHitChanged -= VRGuiHitChanged;
         }
 
-        void OnGestureDetected (string gestureName, double confidence, HandType hand)
+        void OnGestureDetected (string gestureName, double confidence, Handedness hand)
         {
             StartCoroutine(RefreshDetectLogs(gestureName, false, confidence, "Gesture Detected" ));
             //detectLog.text = gestureName + "\n" + confidence.ToString("F3");

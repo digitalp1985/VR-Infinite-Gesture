@@ -64,14 +64,14 @@ namespace Edwon.VR.Gesture
 
         }
 
-        public void TrainLine(List<Vector3> capturedLine, HandType hand)
+        public void TrainLine(List<Vector3> capturedLine, Handedness hand)
         {
             AddGestureToTrainingExamples(capturedLine, hand);
         }
 
         //Just Capture Data
         //Pass in an array for data points.
-        public void AddGestureToTrainingExamples(List<Vector3> capturedLine, HandType hand)
+        public void AddGestureToTrainingExamples(List<Vector3> capturedLine, Handedness hand)
         {
             string gestureFileLocation = Config.SAVE_FILE_PATH + recognizerName + "/Gestures/";
             //we need to check if this directory exists.

@@ -11,7 +11,7 @@ namespace Edwon.VR.Input
 {
     public class VRController : MonoBehaviour, IInput
     {
-        public HandType handedness;
+        public Handedness handedness;
 
         protected bool button1;
         protected bool button1Down;

@@ -31,7 +31,7 @@ namespace Edwon.VR
             handRight = serializedObject.FindProperty("handRight");
             handLeftModel = serializedObject.FindProperty("handLeftModel");
             handRightModel = serializedObject.FindProperty("handRightModel");
-            gestureHand = serializedObject.FindProperty("gestureHand");
+            gestureHand = serializedObject.FindProperty("mainHand");
             gestureButton = serializedObject.FindProperty("gestureButton");
             displayGestureTrail = serializedObject.FindProperty("displayGestureTrail");
             playerID = serializedObject.FindProperty("playerID");

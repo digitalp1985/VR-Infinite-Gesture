@@ -196,7 +196,7 @@ namespace Edwon.VR.Gesture
 		//Run formatting on them during training.
 		//Allow users to changes and train different formats on
 		//the same data set.
-		public static double[] FormatLine(List<Vector3> capturedLine, HandType hand)
+		public static double[] FormatLine(List<Vector3> capturedLine, Handedness hand)
 		{
 			capturedLine = SubDivideLine(capturedLine);
 			if (Config.USE_RAW_DATA)
@@ -542,7 +542,7 @@ namespace Edwon.VR.Gesture
 		public List<Vector3> data;
 		public bool trained;
 		public bool raw;
-		public HandType hand = HandType.Right;
+		public Handedness hand = Handedness.Right;
 
 		public double[] GetAsArray()
 		{
@@ -562,7 +562,7 @@ namespace Edwon.VR.Gesture
 	public class Gesture
 	{
 		public string name;
-		public HandType hand = HandType.Right;
+		public Handedness hand = Handedness.Right;
 		public bool isSynchronous = false;
 		public int exampleCount = 0;
 

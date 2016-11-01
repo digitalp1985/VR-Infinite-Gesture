@@ -16,7 +16,7 @@ namespace Edwon.VR.Gesture
         Transform playerHand;
         Transform perpTransform;
 
-        HandType hand;
+        Handedness hand;
 
         //Maybe have two states.
         //One that is: Record, Detect, Idle, Edit, Train
@@ -39,7 +39,7 @@ namespace Edwon.VR.Gesture
         public delegate void StopCapture();
         public event StopCapture StopCaptureEvent;
 
-        public CaptureHand (VRGestureRig _rig, Transform _perp, HandType _hand, GestureTrail _myTrail = null)
+        public CaptureHand (VRGestureRig _rig, Transform _perp, Handedness _hand, GestureTrail _myTrail = null)
         {
 
             rig = _rig;
