@@ -42,6 +42,7 @@ namespace Edwon.VR.Gesture
         [Tooltip("the title of the gesture list on the record menu")]
         public CanvasRenderer recordListTitle;
         public CanvasRenderer editListTitle;
+        public CanvasRenderer newNeuralNetButton;
         public CanvasRenderer newGestureButton;
 
         // NEW GESTURE SETTINGS MENU
@@ -453,6 +454,13 @@ namespace Edwon.VR.Gesture
             }
 
             AdjustListTitlePosition(neuralNetTitle.transform, buttons.Count, neuralNetMenuButtonHeight);
+
+
+            // adjust new neural net button position
+            float totalHeight = buttons.Count * neuralNetMenuButtonHeight;
+            float y = -(totalHeight / 2);
+            newNeuralNetButton.transform.localPosition = new Vector3(0, y, 0);
+
         }
 
         List<Button> GenerateButtonsFromList(List<string> list, Transform parent, GameObject prefab, float buttonHeight)
