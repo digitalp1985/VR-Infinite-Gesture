@@ -318,7 +318,7 @@ namespace Edwon.VR
                 VRLaserPointer laserLeft = handLeft.gameObject.AddComponent<VRLaserPointer>();
                 laserLeft.InitRig(this, HandType.Left);
                 VRLaserPointer laserRight = handRight.gameObject.AddComponent<VRLaserPointer>();
-                laserLeft.InitRig(this, HandType.Right);
+                laserRight.InitRig(this, HandType.Right);
             }
 
             if (spawnControllerModels)

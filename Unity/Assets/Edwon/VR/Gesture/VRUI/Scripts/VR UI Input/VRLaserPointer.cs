@@ -18,14 +18,14 @@ namespace Edwon.VR
         protected override void Initialize()
         {
             base.Initialize();
-
         }
 
         // called by the VRGestureRig when created
         public void InitRig(VRGestureRig _rig, HandType _handType)
         {
             rig = _rig;
-            input = rig.GetInput(_handType);
+            handType = _handType;
+            input = rig.GetInput(handType);
             selectButton = rig.gestureButton;
         }
 
