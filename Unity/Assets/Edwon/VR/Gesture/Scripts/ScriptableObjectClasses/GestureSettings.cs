@@ -55,6 +55,7 @@ namespace Edwon.VR.Gesture
             }
         }
         public List<Gesture> gestureBank; // list of recorded gesture for current neural net
+        List<Gesture> gestureBankPreEdit;
         public List<int> gestureBankTotalExamples;
 
         public Trainer currentTrainer { get; set; }
@@ -117,8 +118,6 @@ namespace Edwon.VR.Gesture
         }
         #endregion
 
-
-
         #region NEURAL NETWORK EDIT METHODS
         [ExecuteInEditMode]
         public bool CheckForDuplicateNeuralNetName(string neuralNetName)
@@ -174,8 +173,6 @@ namespace Edwon.VR.Gesture
         [ExecuteInEditMode]
         public void RefreshGestureBank(bool checkNeuralNetChanged)
         {
-            //Debug.Log("REFRESH GESTURE BANK");
-
             if (checkNeuralNetChanged)
             {
                 if (currentNeuralNet == lastNeuralNet)
@@ -188,7 +185,7 @@ namespace Edwon.VR.Gesture
             {
                 gestureBank = Utils.GetGestureBank(currentNeuralNet);
 
-            gestureBankPreEdit = gestureBank.ConvertAll(gesture => gesture.Clone());
+                gestureBankPreEdit = gestureBank.ConvertAll(gesture => gesture.Clone());
                 gestureBankTotalExamples = Utils.GetGestureBankTotalExamples(gestureBank, currentNeuralNet);
             }
             else
@@ -239,7 +236,7 @@ namespace Edwon.VR.Gesture
             gestureBankTotalExamples.Add(0);
             Utils.CreateGestureFile(gestureName, currentNeuralNet);
             Utils.SaveGestureBank(gestureBank, currentNeuralNet);
-        gestureBankPreEdit = gestureBank.ConvertAll(gesture => gesture.Clone());
+            gestureBankPreEdit = gestureBank.ConvertAll(gesture => gesture.Clone());
         }
 
         public void CreateSingleGesture(string gestureName, Handedness hand, bool isSynchronous)
@@ -256,7 +253,7 @@ namespace Edwon.VR.Gesture
             //Maybe name files based on isSync - Hand - name. i.e.: 1R-Helicopter 0B-Rainbow
             Utils.CreateGestureFile(gestureName, currentNeuralNet);
             Utils.SaveGestureBank(gestureBank, currentNeuralNet);
-        gestureBankPreEdit = gestureBank.ConvertAll(gesture => gesture.Clone());
+            gestureBankPreEdit = gestureBank.ConvertAll(gesture => gesture.Clone());
         }
 
         public void CreateSyncGesture(string gestureName)
@@ -284,10 +281,8 @@ namespace Edwon.VR.Gesture
             gestureBankTotalExamples.RemoveAt(index);
             Utils.DeleteGestureFile(gestureName, currentNeuralNet);
             Utils.SaveGestureBank(gestureBank, currentNeuralNet);
-        gestureBankPreEdit = gestureBank.ConvertAll(gesture => gesture.Clone());
+            gestureBankPreEdit = gestureBank.ConvertAll(gesture => gesture.Clone());
         }
-
-        List<Gesture> gestureBankPreEdit;
 
         bool CheckForDuplicateGestures(string newName)
         {
