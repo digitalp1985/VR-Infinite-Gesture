@@ -111,6 +111,7 @@ namespace Edwon.VR.Gesture
             GenerateEditMenuButtons();
             GenerateNeuralNetMenuButtons();
 
+            panelManager.FocusPanel("Select Neural Net Menu");
         }
 
         void Update()
@@ -222,8 +223,14 @@ namespace Edwon.VR.Gesture
         public void BeginNewGestureSettingsMenu()
         {
             panelManager.FocusPanel("New Gesture Settings Menu");
+
+            singleHandedButton.onClick.RemoveAllListeners();
+            doubleHandedButton.onClick.RemoveAllListeners();
+
             string newGestureName = "Gesture " + (gestureSettings.gestureBank.Count + 1);
+
             singleHandedButton.onClick.AddListener(() => CreateGesture(newGestureName, false));
+            //singleHandedButton.onClick.AddListener(() => gestureSettings.RefreshGestureBank(true));
             singleHandedButton.onClick.AddListener(() => BeginRecordingMenu(newGestureName));
             singleHandedButton.onClick.AddListener(() => panelManager.FocusPanel("Recording Menu"));
             doubleHandedButton.onClick.AddListener(() => CreateGesture(newGestureName, true));
