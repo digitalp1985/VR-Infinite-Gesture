@@ -100,8 +100,6 @@ namespace Edwon.VR.Gesture
             return (check > minimumGestureAxisLength);
         }
 
-
-
         public bool CheckForSync(string gesture)
         {
             //Check the diff in time between left and right timestamps.
@@ -128,21 +126,6 @@ namespace Edwon.VR.Gesture
                 return false;
             }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         public string GetGesture(double[] input)
         {
