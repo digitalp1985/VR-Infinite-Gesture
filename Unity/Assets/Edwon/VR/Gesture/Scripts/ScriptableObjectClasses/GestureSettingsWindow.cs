@@ -9,6 +9,8 @@ namespace Edwon.VR.Gesture
 {
     public class GestureSettingsWindow : EditorWindow
     {
+        int maxWidth = 300;
+
         public GestureSettings gestureSettings;
         public SerializedObject serializedObject;
 
@@ -117,9 +119,13 @@ namespace Edwon.VR.Gesture
             bg1 = AssetDatabase.LoadAssetAtPath<Texture2D>("");
             bg2 = AssetDatabase.LoadAssetAtPath<Texture2D>("");
 
+            GUILayout.BeginVertical(GUILayout.Width(EditorGUIUtility.currentViewWidth));
+
             ShowToolbar();
-            ToolbarUpdate();
+            ShowToolbarContent();
             FocusAndClickUpdate();
+
+            GUILayout.EndVertical();
 
             serializedObject.ApplyModifiedProperties();
         }
@@ -134,8 +140,6 @@ namespace Edwon.VR.Gesture
 
         void ShowToolbar()
         {
-            GUILayout.BeginHorizontal();
-
             string[] tabs = new string[] { "Neural Networks", "Settings" };
             tabIndex = GUILayout.Toolbar(tabIndex, tabs);
             switch (tabIndex)
@@ -147,16 +151,14 @@ namespace Edwon.VR.Gesture
                     showSettingsGUI = true;
                     break;
             }
-
-            GUILayout.EndHorizontal();
         }
 
-        void ToolbarUpdate()
+        void ShowToolbarContent()
         {
             if (showSettingsGUI)
-                ShowSettings();
+                ShowSettingsTab();
             else
-                ShowTrain();
+                ShowNeuralNetworksTab();
         }
 
         void FocusAndClickUpdate()
@@ -198,7 +200,7 @@ namespace Edwon.VR.Gesture
 
         #region SHOW GUI SECTIONS
 
-        void ShowTrain()
+        void ShowNeuralNetworksTab()
         {
             // TRAINING SETUP UI
             if (gestureSettings.state != VRGestureUIState.Training)
@@ -217,7 +219,9 @@ namespace Edwon.VR.Gesture
                 GUILayout.EndHorizontal();
 
                 // NEURAL NET SECTION
-                GUILayout.BeginVertical(neuralSectionStyle);
+                GUILayout.BeginVertical(neuralSectionStyle, 
+                    GUILayout.Width(EditorGUIUtility.currentViewWidth)
+                    );
                 ShowNeuralNets();
                 GUILayout.EndVertical();
 
@@ -254,7 +258,7 @@ namespace Edwon.VR.Gesture
             }
         }
 
-        void ShowSettings()
+        void ShowSettingsTab()
         {
             EditorGUILayout.Separator();
             SerializedProperty beginInDetectMode = serializedObject.FindProperty("beginInDetectMode");
@@ -311,7 +315,6 @@ namespace Edwon.VR.Gesture
 
         void ShowNeuralNets()
         {
-            EditorGUILayout.LabelField("NEURAL NETWORK");
 
             // must refresh the neural net list every OnGUI
             // to detect when the neural nets have been deleted from the folder
@@ -324,10 +327,16 @@ namespace Edwon.VR.Gesture
             // STATE CONTROL
             if (neuralNetGUIMode == NeuralNetGUIMode.EnterNewNetName)
             {
+                EditorGUILayout.LabelField("NAME THE NEW NEURAL NET");
                 ShowNeuralNetCreateNewOptions();
+                if ( GUILayout.Button("Back") )
+                {
+                    neuralNetGUIMode = NeuralNetGUIMode.None;
+                }
             }
             else if (neuralNetsArray.Length == 0) // if the neural nets list is empty show a big + button
             {
+                EditorGUILayout.LabelField("CREATE A NEW NEURAL NET");
                 neuralNetGUIMode = NeuralNetGUIMode.None;
             }
             else // draw the popup and little plus and minus buttons
