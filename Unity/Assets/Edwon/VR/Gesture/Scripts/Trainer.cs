@@ -16,9 +16,10 @@ namespace Edwon.VR.Gesture
         int numHidden;
         int numOutput;
 
-        
+
 
         //maybe the trainer is where we need an output of gestures
+        Dictionary<string, double[]> outputDict;
         List<string> outputs;
         List<Gesture> gestures;
         public Gesture CurrentGesture { get; set; }
@@ -54,8 +55,35 @@ namespace Edwon.VR.Gesture
                 gestures = gestureList;
                 foreach(Gesture g in gestureList)
                 {
-                    outputs.Add(g.name);
+                    if (g.isSynchronous)
+                    {
+                        //add it to the dictionary.
+                        outputs.Add(Handedness.Left+"--"+g.name);
+                        outputs.Add(Handedness.Right+"--"+g.name);
+                    }
+                    else
+                    {
+                        outputs.Add(g.name);
+                    }
                 }
+            }
+        }
+
+        public void BuildOutputDictionary()
+        {
+            outputDict = new Dictionary<string, double[]>();
+            foreach(string gestureName in outputs)
+            {
+                int gestureIndex = outputs.IndexOf(gestureName);
+
+                //Create output of length numOutputs, zero it out.
+                double[] output = new double[outputs.Count];
+                for (int i = 0; i < output.Length; i++)
+                {
+                    output[i] = 0.0;
+                }
+                output[gestureIndex] = 1.0;
+                outputDict.Add(gestureName, output);
             }
         }
 
@@ -91,6 +119,7 @@ namespace Edwon.VR.Gesture
                 saveMe.data = capturedLine;
                 saveMe.hand = hand;
                 saveMe.raw = Config.USE_RAW_DATA;
+                saveMe.isSynchronous = CurrentGesture.isSynchronous;
                 //System.IO.StreamWriter file = new System.IO.StreamWriter(gestureFileLocation + gestureName + ".txt", true);
                 using (System.IO.StreamWriter file = new System.IO.StreamWriter(gestureFileLocation + CurrentGesture.name + ".txt", true))
                 {
@@ -149,6 +178,7 @@ namespace Edwon.VR.Gesture
 
             foreach (string currentLine in lines)
             {
+                //Gesture Example will need to know if it is Sync.
                 GestureExample myObject = JsonUtility.FromJson<GestureExample>(currentLine);
                 if (Config.USE_RAW_DATA)
                 {
@@ -160,7 +190,7 @@ namespace Edwon.VR.Gesture
                 //First Add All Inputs
                 tmpLine.Add((int)myObject.hand);
                 tmpLine.AddRange(myObject.GetAsArray());
-                tmpLine.AddRange(CalculateOutputVector(myObject.name));
+                tmpLine.AddRange(FindOutputVector(myObject.name, myObject.hand, myObject.raw));
 
                 tmpAllData.Add(tmpLine.ToArray());
             }
@@ -168,22 +198,15 @@ namespace Edwon.VR.Gesture
             return tmpAllData.ToArray();
         }
 
-
-        public double[] CalculateOutputVector(string gestureName)
+        //Should just be a Dict<string, double[]>,  Calculate all of these at the start and save them.
+        public double[] FindOutputVector(string gestureName, Handedness hand, bool isSynchronized)
         {
-            //Find index of gestureName;
-            int gestureIndex = outputs.IndexOf(gestureName);
-            
-            //Create output of length numOutputs, zero it out.
-            double[] output = new double[outputs.Count];
-            for(int i=0; i< output.Length; i++)
+            if (isSynchronized)
             {
-                output[i] = 0.0;
+                gestureName = hand + "--" + gestureName;
             }
 
-            output[gestureIndex] = 1.0;
-
-            return output;
+            return outputDict[gestureName];
         }
 
         void SplitTrainTest(double[][] allData, double trainPct, int seed, out double[][] trainData, out double[][] testData)
