@@ -121,6 +121,8 @@ namespace Edwon.VR.Gesture
 
             GUILayout.BeginVertical(GUILayout.Width(EditorGUIUtility.currentViewWidth));
 
+            GUILayout.Space(5);
+
             ShowToolbar();
             ShowToolbarContent();
             FocusAndClickUpdate();
