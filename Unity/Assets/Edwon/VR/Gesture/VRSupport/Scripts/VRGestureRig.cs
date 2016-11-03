@@ -17,7 +17,7 @@ namespace Edwon.VR
         public InputOptions.Button gestureButton = InputOptions.Button.Trigger1;
         public VRGestureUIState state = VRGestureUIState.Idle;
         public VRGestureUIState stateLast;
-        public bool displayGestureTrail;
+        public bool displayGestureTrail = true;
         public int playerID = 0;
 
         GestureSettings gestureSettings;
