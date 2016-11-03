@@ -318,7 +318,7 @@ namespace Edwon.VR.Gesture
                 oldName = gestureBankPreEdit[gestureIndex].name;
             }else
             {
-                Debug.LogError("Out of bounds");
+                //Debug.LogError("Out of bounds");
             }
 
             GestureSettingsWindow.VRGestureRenameState renameState = GestureSettingsWindow.VRGestureRenameState.Good;
