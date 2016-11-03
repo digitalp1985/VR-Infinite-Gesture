@@ -284,7 +284,8 @@ namespace Edwon.VR.Gesture
             gestureBankPreEdit = gestureBank.ConvertAll(gesture => gesture.Clone());
         }
 
-        bool CheckForDuplicateGestures(string newName)
+        // return false if duplicates
+        public bool CheckForDuplicateGestures(string newName)
         {
             bool dupeCheck = true;
             int dupeCount = -1;
@@ -307,18 +308,18 @@ namespace Edwon.VR.Gesture
         [ExecuteInEditMode]
         public GestureSettingsWindow.VRGestureRenameState RenameGesture(int gestureIndex)
         {
-        string newName = "";
-        string oldName = "";
+            string newName = "";
+            string oldName = "";
 
-            //check to make sure the name has actually changed.
-        if(gestureIndex < gestureBank.Count)
-        {
-            newName = gestureBank[gestureIndex].name;
-            oldName = gestureBankPreEdit[gestureIndex].name;
-        }else
-        {
-            Debug.LogError("Out of bounds");
-        }
+                //check to make sure the name has actually changed.
+            if(gestureIndex < gestureBank.Count)
+            {
+                newName = gestureBank[gestureIndex].name;
+                oldName = gestureBankPreEdit[gestureIndex].name;
+            }else
+            {
+                Debug.LogError("Out of bounds");
+            }
 
             GestureSettingsWindow.VRGestureRenameState renameState = GestureSettingsWindow.VRGestureRenameState.Good;
 
