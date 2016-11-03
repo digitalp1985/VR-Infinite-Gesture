@@ -304,8 +304,8 @@ namespace Edwon.VR
             leftController = steamVR_cm[0].left;
             rightController = steamVR_cm[0].right;
 
-            inputLeft = gameObject.AddComponent<VRControllerInputSteam>().Init(HandType.Left, leftController);
-            inputRight = gameObject.AddComponent<VRControllerInputSteam>().Init(HandType.Right, rightController);
+            inputLeft = gameObject.AddComponent<VRControllerInputSteam>().Init(Handedness.Left, leftController);
+            inputRight = gameObject.AddComponent<VRControllerInputSteam>().Init(Handedness.Right, rightController);
 
             #endif
 
