@@ -102,6 +102,11 @@ namespace Edwon.VR
             gestureSettings = Utils.GetGestureSettings();
 
             CreateInputHelper();
+
+            if (gestureSettings.showVRUI)
+            {
+                CreateVRUI();
+            }
         }
 
         void Init()
@@ -328,6 +333,11 @@ namespace Edwon.VR
             {
                 SpawnControllerModels();
             }
+        }
+
+        public void CreateVRUI()
+        {
+            Instantiate(Resources.Load("VR Gesture UI"));
         }
 
         public void SpawnControllerModels ()
