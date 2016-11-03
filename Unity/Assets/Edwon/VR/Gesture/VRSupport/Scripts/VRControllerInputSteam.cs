@@ -13,7 +13,7 @@ namespace Edwon.VR.Input
         public int deviceIndex;
         public GameObject _hand;
 
-        public IInput Init(HandType handy, GameObject hand)
+        public IInput Init(Handedness handy, GameObject hand)
         {
             handedness = handy;
             _hand = hand;
@@ -108,7 +108,7 @@ namespace Edwon.VR.Input
             {
                 leftIndex = system.GetTrackedDeviceIndexForControllerRole(ETrackedControllerRole.LeftHand);
                 rightIndex = system.GetTrackedDeviceIndexForControllerRole(ETrackedControllerRole.RightHand);
-                if(handedness == HandType.Right)
+                if(handedness == Handedness.Right)
                 {
                     deviceIndex = (int)rightIndex;
                 }
