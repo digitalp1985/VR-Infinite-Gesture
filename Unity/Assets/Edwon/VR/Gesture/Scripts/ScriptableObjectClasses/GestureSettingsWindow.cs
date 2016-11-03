@@ -108,6 +108,7 @@ namespace Edwon.VR.Gesture
 
         void OnGUI ()
         {
+
             serializedObject.Update();
 
             SetSerializedObject();
@@ -312,7 +313,13 @@ namespace Edwon.VR.Gesture
         {
             EditorGUILayout.LabelField("NEURAL NETWORK");
 
+            // must refresh the neural net list every OnGUI
+            // to detect when the neural nets have been deleted from the folder
+            gestureSettings.RefreshNeuralNetList();
+
             string[] neuralNetsArray = GetNeuralNetsList();
+
+            //if (neuralNetsArray.Length == 0)
 
             // STATE CONTROL
             if (neuralNetGUIMode == NeuralNetGUIMode.EnterNewNetName)
@@ -667,7 +674,19 @@ namespace Edwon.VR.Gesture
                 selectedFocus = "";
 
                 int size = list.arraySize + 1;
-                gestureSettings.CreateGesture("Gesture " + size);
+
+                int counter = size;
+                bool createdGesture = false;
+                while (!createdGesture)
+                {
+                    string newGestureName = "Gesture " + counter;
+                    counter++;
+                    if (gestureSettings.CheckForDuplicateGestures(newGestureName))
+                    {
+                        createdGesture = true;
+                        gestureSettings.CreateGesture(newGestureName);
+                    }
+                }
             }
             // minus button
             if (GUILayout.Button(deleteButtonContent, EditorStyles.miniButtonRight, miniButtonWidth))
