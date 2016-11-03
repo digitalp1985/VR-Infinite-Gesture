@@ -5,8 +5,8 @@ namespace Edwon.VR {
     abstract public class ILaserPointer : MonoBehaviour
     {
 
-        public float laserThickness = 0.002f;
-        public float laserHitScale = 0.05f;
+        public float laserThickness = 0.001f;
+        public float laserHitScale = 0.01f;
         [HideInInspector]
         public bool laserAlwaysOn = false;
         public Color color;
