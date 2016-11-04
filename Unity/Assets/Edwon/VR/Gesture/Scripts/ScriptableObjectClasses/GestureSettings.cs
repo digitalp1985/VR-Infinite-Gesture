@@ -18,8 +18,6 @@ namespace Edwon.VR.Gesture
         public VRType vrType;
 
         [Header("VR Infinite Gesture")]
-        [Tooltip("display default gesture trails")]
-        public bool displayGestureTrail = true;
         [Tooltip("if true automatically spawn the VR Gesture UI when the scene starts")]
         public bool showVRUI = true;
         [Tooltip("the button that triggers gesture recognition")]
