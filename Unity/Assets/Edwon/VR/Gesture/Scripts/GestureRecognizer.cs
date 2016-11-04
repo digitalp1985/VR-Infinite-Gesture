@@ -24,6 +24,7 @@ namespace Edwon.VR.Gesture
         public double minimumGestureAxisLength = 0.1;
 
         List<Gesture> outputs;
+        Dictionary<double[], string> outputDict;
         NeuralNetwork neuralNet;
         //save the array of gestures
         //This should always require a name to load.
@@ -37,8 +38,40 @@ namespace Edwon.VR.Gesture
         {
             NeuralNetworkStub stub = Utils.ReadNeuralNetworkStub(filename);
             outputs = stub.gestures;
+            BuildOutputDictionary();
             neuralNet = new NeuralNetwork(stub.numInput, stub.numHidden, stub.numOutput);
             neuralNet.SetWeights(stub.weights);
+        }
+
+        public void BuildOutputDictionary()
+        {
+            List<string> outputCount = new List<string>();
+            foreach(Gesture g in outputs)
+            {
+                if (g.isSynchronous)
+                {
+                    outputCount.Add(Handedness.Left+"--"+g.name);
+                    outputCount.Add(Handedness.Right+"--"+g.name);
+                }
+                else
+                {
+                    outputCount.Add(g.name);
+                }
+            }
+            outputDict = new Dictionary<double[], string>();
+            foreach (string gestureName in outputCount)
+            {
+                int gestureIndex = outputCount.IndexOf(gestureName);
+
+                //Create output of length numOutputs, zero it out.
+                double[] output = new double[outputs.Count];
+                for (int i = 0; i < output.Length; i++)
+                {
+                    output[i] = 0.0;
+                }
+                output[gestureIndex] = 1.0;
+                outputDict.Add(output, gestureName);
+            }
         }
 
         //Almost all of this should get plugged into Recognizer
@@ -130,66 +163,20 @@ namespace Edwon.VR.Gesture
         public string GetGesture(double[] input)
         {
             double[] output = neuralNet.ComputeOutputs(input);
-
-            string actualDebugOutput = "[";
-            for(int i=0; i<output.Length; i++)
-            {
-                actualDebugOutput += output[i];
-                actualDebugOutput += ", ";
-            }
-            actualDebugOutput = actualDebugOutput.Substring(0, actualDebugOutput.Length - 2);
-            actualDebugOutput += "]";
-
+            //string actualDebugOutput = "[";
+            //for(int i=0; i<output.Length; i++)
+            //{
+            //    actualDebugOutput += output[i];
+            //    actualDebugOutput += ", ";
+            //}
+            //actualDebugOutput = actualDebugOutput.Substring(0, actualDebugOutput.Length - 2);
+            //actualDebugOutput += "]";
             //Debug.Log(actualDebugOutput);
-            return GetGestureFromVector(output);
+            return outputDict[output];
+
+            
+      
         }
-
-        public string GetGestureFromVector(double[] outputVector)
-        {
-            //find max index
-            int maxIndex = 0;
-            double maxVal = 0;
-            for (int i = 0; i < outputVector.Length; i++)
-            {
-                if (outputVector[i] > maxVal)
-                {
-                    maxIndex = i;
-                    maxVal = outputVector[i];
-                }
-            }
-            //maxVal is the confidence value.
-            //Debug.Log("Confidence Value: "+ maxVal);
-            currentConfidenceValue = maxVal;
-            return outputs[maxIndex].name;
-        }
-
-        //public double[] ConvertGestureToVector(string gestureName)
-        //{
-        //    int vectorIndex = outputs.IndexOf(gestureName);
-        //    double[] outputVector = new double[outputs.Count];
-        //    for(int i = 0; i < outputVector.Length; i++)
-        //    {
-        //        outputVector[i] = 0;
-        //    }
-        //    outputVector[vectorIndex] = 1;
-        //    return outputVector;
-        //}
-
-        //public string ConvertVectorToGesture(double[] outputVector)
-        //{
-        //    //Find maxIndex
-        //    int maxIndex = 0;
-        //    double maxValue = 0;
-        //    for (int i = 0; i < outputVector.Length; i++)
-        //    {
-        //        if(outputVector[i] > maxValue)
-        //        {
-        //            maxValue = outputVector[i];
-        //            maxIndex = i;
-        //        }
-        //    }
-        //    return outputs[maxIndex];
-        //}
 
     }
 

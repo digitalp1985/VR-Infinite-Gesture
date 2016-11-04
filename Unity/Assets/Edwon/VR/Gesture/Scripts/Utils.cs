@@ -542,6 +542,7 @@ namespace Edwon.VR.Gesture
 		public List<Vector3> data;
 		public bool trained;
 		public bool raw;
+        public bool isSynchronous = false;
 		public Handedness hand = Handedness.Right;
 
 		public double[] GetAsArray()
