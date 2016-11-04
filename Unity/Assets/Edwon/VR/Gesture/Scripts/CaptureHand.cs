@@ -121,38 +121,30 @@ namespace Edwon.VR.Gesture
             if (rig != null)
             {
 
-                if (rig.state == VRGestureUIState.Recording || rig.state == VRGestureUIState.ReadyToRecord)
+                if (rig.uiState == VRGestureUIState.Recording || rig.uiState == VRGestureUIState.ReadyToRecord)
                 {
                     UpdateRecord();
                 }
-                else if (rig.state == VRGestureUIState.Detecting || rig.state == VRGestureUIState.ReadyToDetect)
+                else if (rig.uiState == VRGestureUIState.Detecting || rig.uiState == VRGestureUIState.ReadyToDetect)
                 {
-
-
                     UpdateRecord();
-
-
-
-
-                    //if (VRGestureManager.Instance.vrGestureDetectType == VRGestureDetectType.Continious)
-                    //{
-                    //    //UpdateContinual();
-                    //}
-                    //else
-                    //{
-                    //    UpdateRecord();
-                    //}
+                }
+                else
+                {
+                    myTrail.ClearTrail();
                 }
             }
         }
 
         void UpdateRecord()
         {
+            // get input
             if(input == null)
             {
                 input = rig.GetInput(hand);
             }
 
+            // if not pressing gesture button stop recording
             if (!input.GetButton(rig.gestureButton))
             {
                 state = VRGestureCaptureState.ReadyToCapture;
@@ -162,23 +154,28 @@ namespace Edwon.VR.Gesture
                 }
             }
 
+            // if pressed button start recording
             if (input.GetButtonDown(rig.gestureButton) && state == VRGestureCaptureState.ReadyToCapture)
             {
                 state = VRGestureCaptureState.Capturing;
                 StartRecording();
             }
 
+            // if capturing, capture points
             if (state == VRGestureCaptureState.Capturing)
             {
                 CapturePoint();
             }
+
         }
 
         void StartRecording()
         {
             nextRenderTime = Time.time + renderRateLimit / 1000;
             if (StartCaptureEvent != null)
+            {
                 StartCaptureEvent();
+            }
             CapturePoint();
         }
 

@@ -99,11 +99,11 @@ namespace Edwon.VR.Gesture
         public void BeginTraining(Action<string> callback)
         {
             rig = VRGestureRig.GetPlayerRig(playerID);
-            rig.state = VRGestureUIState.Training;
+            rig.uiState = VRGestureUIState.Training;
             rig.currentTrainer = new Trainer(currentNeuralNet, gestureBank);
             rig.currentTrainer.TrainRecognizer();
             // finish training
-            rig.state = VRGestureUIState.Idle;
+            rig.uiState = VRGestureUIState.Idle;
             callback(currentNeuralNet);
         }
 
@@ -111,7 +111,7 @@ namespace Edwon.VR.Gesture
         public void EndTraining(Action<string> callback)
         {
             rig = VRGestureRig.GetPlayerRig(playerID);
-            rig.state = VRGestureUIState.Idle;
+            rig.uiState = VRGestureUIState.Idle;
             callback(currentNeuralNet);
         }
         #endregion

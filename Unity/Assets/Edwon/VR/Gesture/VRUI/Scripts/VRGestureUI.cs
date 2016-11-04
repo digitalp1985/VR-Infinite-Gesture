@@ -126,7 +126,7 @@ namespace Edwon.VR.Gesture
             if (-handToCamVector != Vector3.zero)
                 vrHandUIPanel.rotation = Quaternion.LookRotation(-handToCamVector, Vector3.up);
 
-            if(rig.state == VRGestureUIState.Detecting)
+            if(rig.uiState == VRGestureUIState.Detecting)
                 UpdateDetectMenu();
 
             UpdateCurrentNeuralNetworkText();
@@ -571,7 +571,7 @@ namespace Edwon.VR.Gesture
         {
             if (hitBool)
             {
-                if (rig.state == VRGestureUIState.ReadyToRecord)
+                if (rig.uiState == VRGestureUIState.ReadyToRecord)
                 {
                     TogglePanelAlpha("Recording Menu", 1f);
                     TogglePanelInteractivity("Recording Menu", true);
@@ -579,7 +579,7 @@ namespace Edwon.VR.Gesture
             }
             else if (!hitBool)
             {
-                if (rig.state == VRGestureUIState.ReadyToRecord || rig.state == VRGestureUIState.Recording)
+                if (rig.uiState == VRGestureUIState.ReadyToRecord || rig.uiState == VRGestureUIState.Recording)
                 {
                     TogglePanelAlpha("Recording Menu", .35f);
                     TogglePanelInteractivity("Recording Menu", false);
@@ -609,22 +609,22 @@ namespace Edwon.VR.Gesture
         {
             if (panelName == "Main Menu")
             {
-                rig.state = VRGestureUIState.Idle;
+                rig.uiState = VRGestureUIState.Idle;
                 BeginMainMenu();
             }
             if (panelName == "Select Neural Net Menu")
             {
                 gestureSettings.RefreshNeuralNetList();
-                rig.state = VRGestureUIState.Idle;
+                rig.uiState = VRGestureUIState.Idle;
             }
             if (panelName == "Record Menu")
             {
-                rig.state = VRGestureUIState.Idle;
+                rig.uiState = VRGestureUIState.Idle;
                 GenerateRecordMenuButtons();
             }
             if (panelName == "New Gesture Settings Menu")
             {
-                rig.state = VRGestureUIState.Idle;
+                rig.uiState = VRGestureUIState.Idle;
                 GenerateRecordMenuButtons();
             }
             if (panelName == "Recording Menu")
@@ -634,16 +634,16 @@ namespace Edwon.VR.Gesture
             }
             if (panelName == "Edit Menu")
             {
-                rig.state = VRGestureUIState.Edit;
+                rig.uiState = VRGestureUIState.Edit;
                 GenerateEditMenuButtons();
             }
             if (panelName == "Editing Menu")
             {
-                rig.state = VRGestureUIState.Editing;
+                rig.uiState = VRGestureUIState.Editing;
             }
             if (panelName == "Delete Confirm Menu")
             {
-                rig.state = VRGestureUIState.Editing;
+                rig.uiState = VRGestureUIState.Editing;
             }
             if (panelName == "Detect Menu")
             {
@@ -667,21 +667,21 @@ namespace Edwon.VR.Gesture
         void UpdateNowRecordingStatus()
         {
 
-            if (rig.state == VRGestureUIState.ReadyToRecord
-                || rig.state == VRGestureUIState.EnteringRecord)
+            if (rig.uiState == VRGestureUIState.ReadyToRecord
+                || rig.uiState == VRGestureUIState.EnteringRecord)
             {
                 nowRecordingBackground.color = Color.grey;
                 nowRecordingLabel.text = "ready to record";
             }
-            else if (rig.state == VRGestureUIState.Recording)
+            else if (rig.uiState == VRGestureUIState.Recording)
             {
                 nowRecordingBackground.color = Color.red;
                 nowRecordingLabel.text = "RECORDING";
             }
             // update gesture example count in UI if gesture just finished recording
-            if (rig.state != rig.stateLast)
+            if (rig.uiState != rig.uiStateLast)
             {
-                if (rig.stateLast == VRGestureUIState.Recording)
+                if (rig.uiStateLast == VRGestureUIState.Recording)
                 {
                     RefreshTotalExamplesLabel();
                 }
