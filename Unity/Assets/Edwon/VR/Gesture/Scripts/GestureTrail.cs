@@ -118,7 +118,6 @@ namespace Edwon.VR.Gesture
             listening = false;
         }
 
-
         public void ClearTrail()
         {
             currentRenderer.SetVertexCount(0);

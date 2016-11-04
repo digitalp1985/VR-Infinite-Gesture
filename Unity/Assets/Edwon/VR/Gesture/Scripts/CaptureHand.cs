@@ -41,7 +41,6 @@ namespace Edwon.VR.Gesture
 
         public CaptureHand (VRGestureRig _rig, Transform _perp, Handedness _hand, GestureTrail _myTrail = null)
         {
-
             rig = _rig;
             hand = _hand;
             playerHand = rig.GetHand(hand);
@@ -154,11 +153,13 @@ namespace Edwon.VR.Gesture
                 input = rig.GetInput(hand);
             }
 
-
-            if (input.GetButtonUp(rig.gestureButton))
+            if (!input.GetButton(rig.gestureButton))
             {
                 state = VRGestureCaptureState.ReadyToCapture;
-                StopRecording();
+                if (input.GetButtonUp(rig.gestureButton))
+                {
+                    StopRecording();
+                }
             }
 
             if (input.GetButtonDown(rig.gestureButton) && state == VRGestureCaptureState.ReadyToCapture)
