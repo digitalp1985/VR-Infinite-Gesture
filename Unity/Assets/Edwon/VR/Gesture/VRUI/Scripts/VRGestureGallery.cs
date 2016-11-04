@@ -170,13 +170,13 @@ namespace Edwon.VR.Gesture
             title.gameObject.SetActive(true);
 
             Text titleText = title.GetComponentInChildren<Text>();
-            if (currentGesture.isSynchronous)
+            if (!currentGesture.isSynchronous)
             {
-                titleText.text = "DOUBLE HANDED GESTURE";
+                titleText.text = currentGesture.name + "\nSingle Handed";
             }
             else
             {
-                titleText.text = "SINGLE HANDED GESTURE";
+                titleText.text = currentGesture.name + "\nDouble Handed";
             }
 
             galleryState = GestureGalleryState.Visible;
