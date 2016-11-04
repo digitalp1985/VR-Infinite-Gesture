@@ -24,13 +24,10 @@ namespace Edwon.VR.Gesture
         public CanvasGroup canvasGroup;
         private GestureSettings gestureSettings;
 
-        void OnEnable()
+        void Awake()
         {
             gestureSettings = Utils.GetGestureSettings();
-        }
 
-        void Start()
-        {
             // get the panels below me
             canvasGroup = gameObject.GetComponent<CanvasGroup>();
             panels = new List<CanvasGroup>();
