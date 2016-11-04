@@ -226,9 +226,8 @@ namespace Edwon.VR.Gesture
             Gesture newGesture = new Gesture();
             newGesture.name = gestureName;
             newGesture.hand = Handedness.Right;
-            newGesture.isSynchronous = false;
+            newGesture.isSynchronous = isSynchronized;
             newGesture.exampleCount = 0;
-
 
             gestureBank.Add(newGesture);
             gestureBankTotalExamples.Add(0);

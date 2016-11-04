@@ -24,10 +24,10 @@ namespace Edwon.VR.Gesture
         private Vector3 galleryStartPosition;
         public float grabVelocity = 650f;
 
-        public string currentGesture;
+        public Gesture currentGesture;
         private string currentNeuralNet;
 
-        public RectTransform instructions;
+        public RectTransform title;
 
         List<GestureExample> examples;
 
@@ -76,7 +76,7 @@ namespace Edwon.VR.Gesture
 
         void RefreshGestureExamples()
         {
-			examples = Utils.GetGestureExamples(currentGesture, currentNeuralNet);
+			examples = Utils.GetGestureExamples(currentGesture.name, currentNeuralNet);
             List<GestureExample> tmpList = new List<GestureExample>();
             foreach (GestureExample gesture in examples)
             {
@@ -165,8 +165,19 @@ namespace Edwon.VR.Gesture
 
             // instructions adjust
             // needs work
-            float instructionsPosY = ((row + 1) * gridUnitSize);
-            instructions.localPosition = new Vector3(0, instructionsPosY, 0);
+            float titlePosY = ((row) * (gridUnitSize/2) + gridUnitSize);
+            title.localPosition = new Vector3(-(gridUnitSize/2), titlePosY, 0);
+            title.gameObject.SetActive(true);
+
+            Text titleText = title.GetComponentInChildren<Text>();
+            if (currentGesture.isSynchronous)
+            {
+                titleText.text = "DOUBLE HANDED GESTURE";
+            }
+            else
+            {
+                titleText.text = "SINGLE HANDED GESTURE";
+            }
 
             galleryState = GestureGalleryState.Visible;
         }
@@ -175,7 +186,7 @@ namespace Edwon.VR.Gesture
         {
             int lineNumber = examples.IndexOf(gestureExample);
             examples.Remove(gestureExample);
-            Utils.DeleteGestureExample(currentNeuralNet, currentGesture, lineNumber);
+            Utils.DeleteGestureExample(currentNeuralNet, currentGesture.name, lineNumber);
             GameObject.Destroy(frame);
             GameObject.Destroy(line);
         }
@@ -187,10 +198,10 @@ namespace Edwon.VR.Gesture
             foreach (Transform child in transform) children.Add(child.gameObject);
 
             // remove things I don't want to destroy
-            children.Remove(instructions.gameObject);
+            children.Remove(title.gameObject);
 
             // un-enable those things
-            instructions.gameObject.SetActive(false);
+            title.gameObject.SetActive(false);
 
             // destroy the rest
             children.ForEach(child => Destroy(child));
@@ -239,7 +250,6 @@ namespace Edwon.VR.Gesture
 
         Vector3 lastHandPos; // used to calculate velocity of the vrHand to move the gesture gallery
         
-
         void FixedUpdateGrabAndMove()
         {
             if (galleryState == GestureGalleryState.Visible)
@@ -280,7 +290,7 @@ namespace Edwon.VR.Gesture
             if (panelName == "Editing Menu")
             {
                 VRGestureUI.ToggleCanvasGroup(canvasGroup, true);
-                currentGesture = rig.currentTrainer.CurrentGesture.name;
+                currentGesture = rig.currentTrainer.CurrentGesture;
                 currentNeuralNet = gestureSettings.currentNeuralNet;
                 RefreshGestureExamples();
                 PositionGestureGallery();

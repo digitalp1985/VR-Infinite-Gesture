@@ -161,10 +161,10 @@ namespace Edwon.VR
         #region UPDATE
         void Update()
         {
-            if (uiState != uiStateLast)
-            {
-                Debug.Log(uiState);
-            }
+            //if (uiState != uiStateLast)
+            //{
+            //    Debug.Log(uiState);
+            //}
             uiStateLast = uiState;
 
             if (leftCapture != null)
