@@ -365,6 +365,7 @@ namespace Edwon.VR
 
         public void BeginEditing(string gesture)
         {
+            currentTrainer = new Trainer(gestureSettings.currentNeuralNet, gestureSettings.gestureBank);
             currentTrainer.CurrentGesture = gestureSettings.FindGesture(gesture);
         }
 
