@@ -9,7 +9,6 @@ using System;
 
 namespace Edwon.VR.Gesture
 {
-    [CreateAssetMenu(fileName = "Settings", menuName = "VRInfiniteGesture/Settings", order = 1)]
     public class GestureSettings : ScriptableObject
     {
 

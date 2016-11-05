@@ -540,7 +540,8 @@ namespace Edwon.VR.Gesture
         {
             return AssetDatabase.LoadAssetAtPath(Config.SETTINGS_ASSET_PATH, typeof(GestureSettings)) as GestureSettings;
         }
-	}
+
+    }
 
 }
 

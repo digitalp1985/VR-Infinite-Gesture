@@ -81,17 +81,10 @@ namespace Edwon.VR.Gesture
         void OnEnable()
         {
             hideFlags = HideFlags.HideAndDontSave;
-            if (Utils.GetGestureSettings() == null)
-            {
-                Debug.Log("no gesture settings asset, please make it or write a thing that does it automatically for people");
-                //gestureSettings = CreateInstance<GestureSettings>();
-            }
-            else
-            {
-                gestureSettings = Utils.GetGestureSettings();
-            }
 
+            GetSetGestureSettings();
             SetSerializedObject();
+
             gestureSettings.RefreshNeuralNetList();
 
         }
@@ -113,6 +106,7 @@ namespace Edwon.VR.Gesture
 
             serializedObject.Update();
 
+            GetSetGestureSettings();
             SetSerializedObject();
 
             // TEXTURE SETUP
@@ -130,6 +124,28 @@ namespace Edwon.VR.Gesture
             GUILayout.EndVertical();
 
             serializedObject.ApplyModifiedProperties();
+        }
+
+        void GetSetGestureSettings()
+        {
+            if (Utils.GetGestureSettings() == null)
+            {
+                gestureSettings = CreateGestureSettingsAsset();
+            }
+            else
+            {
+                gestureSettings = Utils.GetGestureSettings();
+            }
+        }
+
+
+        public static GestureSettings CreateGestureSettingsAsset()
+        {
+            GestureSettings instance = CreateInstance<GestureSettings>();
+            //AssetDatabase.CreateFolder(Config.SETTINGS_FOLDER_PATH, Config.SETTINGS_FOLDER_NAME);
+            AssetDatabase.CreateAsset(instance, Config.SETTINGS_ASSET_PATH);
+            return instance;
+            //return null;
         }
 
         void SetSerializedObject()
