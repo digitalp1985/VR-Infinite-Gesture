@@ -85,7 +85,7 @@ namespace Edwon.VR.Input
         private void OnTrackedDeviceRoleChanged(params object[] args)
         {
             
-            Debug.Log("TRACKED DEVICE ROLE CHANGE");
+            //Debug.Log("TRACKED DEVICE ROLE CHANGE");
             Refresh();
         }
 
@@ -93,7 +93,7 @@ namespace Edwon.VR.Input
         private void OnDeviceConnected(params object[] args)
         {
 
-            Debug.Log("THIS DEVICE DONE GOT CONNECTED!");
+            //Debug.Log("THIS DEVICE DONE GOT CONNECTED!");
             Refresh();
         }
 
@@ -117,7 +117,7 @@ namespace Edwon.VR.Input
                     deviceIndex = (int)leftIndex;
                 }
             }
-            Debug.Log("LEFT INDEX = " + leftIndex + " RIGHT INDEX =" + rightIndex);
+            //Debug.Log("LEFT INDEX = " + leftIndex + " RIGHT INDEX =" + rightIndex);
         }
 
     }
