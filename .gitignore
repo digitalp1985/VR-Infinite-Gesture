@@ -64,3 +64,8 @@ Unity/Assets/Edwon/VR/Gesture/Data/
 /Unity/Assets/SymLinker/Editor/SymLinker.dll.meta
 Unity/Assets/Edwon/VR/Gesture Dev/Data/
 Unity/Assets/Edwon/VR/Gesture Dev/Data.meta
+Unity/Assets/EditorVR/
+Unity/Assets/libs/SixenseInput/
+Unity/Assets/libs.meta
+Unity/Assets/libs/SixenseInput.meta
+Unity/Assets/EditorVR.meta
