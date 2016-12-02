@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if UNITY_EDITOR_VR_DEV
+
+using System;
 using UnityEngine;
 using UnityEngine.InputNew;
 using UnityEngine.VR.Menus;
@@ -37,3 +39,5 @@ public class CreateTestPluginTool : MonoBehaviour, ITool, IStandardActionMap, IC
     }
 
 }
+
+#endif
