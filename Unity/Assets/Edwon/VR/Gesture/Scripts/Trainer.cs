@@ -67,6 +67,7 @@ namespace Edwon.VR.Gesture
                     }
                 }
             }
+            BuildOutputDictionary();
         }
 
         public void BuildOutputDictionary()
@@ -190,7 +191,7 @@ namespace Edwon.VR.Gesture
                 //First Add All Inputs
                 tmpLine.Add((int)myObject.hand);
                 tmpLine.AddRange(myObject.GetAsArray());
-                tmpLine.AddRange(FindOutputVector(myObject.name, myObject.hand, myObject.raw));
+                tmpLine.AddRange(FindOutputVector(myObject.name, myObject.hand, myObject.isSynchronous));
 
                 tmpAllData.Add(tmpLine.ToArray());
             }
