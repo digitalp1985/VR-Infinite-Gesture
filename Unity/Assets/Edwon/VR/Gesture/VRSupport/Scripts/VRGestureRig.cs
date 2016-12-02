@@ -36,7 +36,7 @@ namespace Edwon.VR
         GameObject rightController;
 
         [SerializeField]
-        public bool spawnControllerModels = false;
+        public bool spawnControllerModels = true;
         [SerializeField]
         public bool useCustomControllerModels = false;
 
