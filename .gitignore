@@ -26,6 +26,11 @@ ExportedObj/
 sysinfo.txt
 # Builds
 *.apk
+
+
+Unity/Assets/Edwon/VR/Gesture/Settings/Settings.asset
+
+
 Unity/Assets/EasyEditor/
 Unity/Assets/EdwonVR/
 Unity/Assets/OVR/
@@ -69,3 +74,4 @@ Unity/Assets/libs/SixenseInput/
 Unity/Assets/libs.meta
 Unity/Assets/libs/SixenseInput.meta
 Unity/Assets/EditorVR.meta
+
