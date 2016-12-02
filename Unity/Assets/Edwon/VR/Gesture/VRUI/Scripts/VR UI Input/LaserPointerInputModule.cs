@@ -58,6 +58,7 @@ namespace Edwon.VR
             
             // Create a new camera that will be used for raycasts
             UICamera = new GameObject("UI Camera").AddComponent<Camera>();
+            UICamera.transform.parent = transform;
             UICamera.clearFlags = CameraClearFlags.Nothing;
             UICamera.cullingMask = 0;
             UICamera.fieldOfView = .01f;
