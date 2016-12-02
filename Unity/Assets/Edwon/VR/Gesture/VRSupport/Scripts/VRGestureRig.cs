@@ -37,6 +37,8 @@ namespace Edwon.VR
 
         [SerializeField]
         public bool spawnControllerModels = false;
+        [SerializeField]
+        public bool useCustomControllerModels = false;
 
         [SerializeField]
         public GameObject handLeftModel;
@@ -342,6 +344,19 @@ namespace Edwon.VR
 
         public void SpawnControllerModels ()
         {
+            if (useCustomControllerModels == false)
+            {
+                if (gestureSettings.vrType == VRType.OculusVR)
+                {
+                    handLeftModel = Resources.Load("VR Controller Art/Oculus_Simple_Left") as GameObject;
+                    handRightModel = Resources.Load("VR Controller Art/Oculus_Simple_Right") as GameObject;
+                }
+                else if (gestureSettings.vrType == VRType.SteamVR)
+                {
+                    handLeftModel = Resources.Load("VR Controller Art/Vive_Simple") as GameObject;
+                    handRightModel = Resources.Load("VR Controller Art/Vive_Simple") as GameObject;
+                }
+            }
             Transform leftModel = GameObject.Instantiate(handLeftModel).transform;
             Transform rightModel = GameObject.Instantiate(handRightModel).transform;
             leftModel.parent = handLeft;
