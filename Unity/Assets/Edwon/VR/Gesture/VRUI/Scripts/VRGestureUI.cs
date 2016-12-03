@@ -23,7 +23,7 @@ namespace Edwon.VR.Gesture
         Transform vrMenuHand; // the hand to attach the hand ui to
         Transform vrHandUIPanel; // the actual ui
         Transform vrCam;
-        VRGestureGallery vrGestureGallery;
+        public VRGestureGallery vrGestureGallery;
         public float offsetZ;
 
         //public VRGestureManager VRGestureManagerInstance; // the VRGestureManager script we want to interact with
@@ -95,8 +95,6 @@ namespace Edwon.VR.Gesture
             // start with hand UI visible
             uiVisible = true;
             ToggleCanvasGroup(panelManager.canvasGroup, uiVisible);
-
-            vrGestureGallery = transform.GetComponentInChildren<VRGestureGallery>(true);
 
             buttonRectScale = new Vector3(0.6666f, 1, 0.2f);
 
