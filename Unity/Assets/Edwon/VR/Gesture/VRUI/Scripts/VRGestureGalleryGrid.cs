@@ -39,6 +39,14 @@ namespace Edwon.VR.Gesture
             gallery.galleryState = VRGestureGallery.GestureGalleryState.Visible;
         }
 
+        public void RefreshLineNumbers()
+        {
+            for(int i = 0; i < galleryExamples.Count; i++)
+            {
+                galleryExamples[i].lineNumber = i;
+            }
+        }
+
         //void SetTitleText()
         //{
         //    Text titleText = gallery.title.GetComponentInChildren<Text>();

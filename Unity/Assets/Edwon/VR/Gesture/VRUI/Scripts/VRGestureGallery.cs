@@ -147,24 +147,27 @@ namespace Edwon.VR.Gesture
         {
             Utils.DeleteGestureExample(currentNeuralNet, gestureExample.name, lineNumber);
             allExamples.Remove(gestureExample);
-            foreach(VRGestureGalleryGrid grid in grids)
+            for (int i = grids.Count - 1; i >= 0 ; i--)
             {
                 // delete the gesture example in the grid
-                if (grid.examples.Contains(gestureExample))
+                if (grids[i].examples.Contains(gestureExample))
                 {
-                    int gestureExampleIndex = grid.examples.IndexOf(gestureExample);
-                    grid.examples.RemoveAt(gestureExampleIndex);
+                    int gestureExampleIndex = grids[i].examples.IndexOf(gestureExample);
+                    grids[i].examples.RemoveAt(gestureExampleIndex);
                 }
 
                 // delete the gesture gallery example in the grid
-                for (int i = grid.galleryExamples.Count - 1; i >= 0; i--)
+                for (int j = grids[i].galleryExamples.Count - 1; j >= 0; j--)
                 { 
-                    if (grid.galleryExamples[i].example == gestureExample)
+                    if (grids[i].galleryExamples[j].example == gestureExample)
                     {
-                        Destroy(grid.galleryExamples[i].gameObject);
-                        grid.galleryExamples.RemoveAt(i);
+                        Destroy(grids[i].galleryExamples[j].gameObject);
+                        grids[i].galleryExamples.RemoveAt(j);
                     }
                 }
+
+                // reset all line number indexes on examples
+                grids[i].RefreshLineNumbers();
 
                 //DestroyGestureGalleryGrids();
                 //CreateGestureGalleryGrids();
