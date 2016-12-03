@@ -25,19 +25,19 @@ namespace Edwon.VR.Gesture
             example = _example;
             lineNumber = _lineNumber;
 
-            Vector3 localPos = Vector3.zero;
+            // draw the line
+            lineDrawing = DrawGesture(example.data, _lineNumber);
 
-            // draw the gesture
-            lineDrawing = DrawGesture(example.data, localPos, _lineNumber);
-
-            button.onClick.AddListener(() => grid.gallery.DeleteGestureExample(example, lineNumber));
-
-            // set the trash icon position
-            RectTransform trashTF = (RectTransform)trash.transform;
             transform.localPosition = Vector3.zero;
             transform.localScale = Vector3.one;
-            trashTF.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, grid.gallery.gridUnitSize * 2);
-            trashTF.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, grid.gallery.gridUnitSize * 2);
+
+            // set the trash icon position
+            //RectTransform trashTF = (RectTransform)trash.transform;
+            //trashTF.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, grid.gallery.gridUnitSize * 2);
+            //trashTF.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, grid.gallery.gridUnitSize * 2);
+
+            // add the button listener function
+            button.onClick.AddListener(() => grid.gallery.DeleteGestureExample(example, lineNumber));
         }
 
         public void OnPointerEnter()
@@ -50,14 +50,18 @@ namespace Edwon.VR.Gesture
             VRGestureUI.ToggleCanvasGroup(trash, false, 0);
         }
 
-        public GameObject DrawGesture(List<Vector3> capturedLine, Vector3 startCoords, int gestureExampleNumber)
+        public GameObject DrawGesture(List<Vector3> capturedLine, int gestureExampleNumber)
         {
-            // create a game object
-            //Debug.Log(startCoords);
+            // spawn a game object
             GameObject tmpObj = new GameObject();
             tmpObj.name = "Gesture Example " + gestureExampleNumber;
             tmpObj.transform.SetParent(transform);
-            tmpObj.transform.localPosition = startCoords;
+
+            // position the game object to the corner of the UI
+            RectTransform rt = (RectTransform)transform;
+            Vector3[] canvasCorners = new Vector3[4];
+            rt.GetWorldCorners(canvasCorners);
+            tmpObj.transform.position = canvasCorners[3];
             tmpObj.transform.forward = -transform.forward;
 
             // get the list of points in capturedLine and modify positions based on gestureDrawSize

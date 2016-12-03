@@ -19,10 +19,7 @@ namespace Edwon.VR.Gesture
 
         public float distanceFromHead = 2f;
         public float gestureDrawSize = 0.1f; // world size of one gesture drawing
-        public float gridUnitSize = 0.2f; // world size of one grid unit
         public int gridMaxColumns = 10;
-        [HideInInspector]
-        public Vector3 frameOffset;
         public float lineWidth = 0.01f;
         public Vector3 galleryPosition;
         private Vector3 galleryStartPosition;
@@ -64,8 +61,6 @@ namespace Edwon.VR.Gesture
 
             galleryState = GestureGalleryState.NotVisible;
 
-            frameOffset = new Vector3(0, gridUnitSize / 6 , -(gridUnitSize / 2));
-
             GetHands();
         }
 
@@ -106,21 +101,14 @@ namespace Edwon.VR.Gesture
             galleryRB.MoveRotation(rotation);
         }
 
-        void DestroyGestureGallery()
+        void DestroyGestureGalleryGrids()
         {
-            // get all children
-            var children = new List<GameObject>();
-            foreach (Transform child in transform) children.Add(child.gameObject);
-
-            // destroy the rest
-            children.ForEach(child => Destroy(child));
-
             galleryState = GestureGalleryState.Visible;
             galleryRB.MovePosition(galleryStartPosition);
 
-            for (int i = grids.Count - 1; i >= 0; i++)
+            for (int i = grids.Count - 1; i >= 0; i--)
             {
-                grids[i].DestroySelf();
+                grids[i].DestroyThisGrid();
             }
 
             grids.Clear();
@@ -177,6 +165,9 @@ namespace Edwon.VR.Gesture
                         grid.galleryExamples.RemoveAt(i);
                     }
                 }
+
+                //DestroyGestureGalleryGrids();
+                //CreateGestureGalleryGrids();
             }
         }
 
@@ -238,7 +229,7 @@ namespace Edwon.VR.Gesture
             else if (panelName == "Edit Menu")
             {
                 VRGestureUI.ToggleCanvasGroup(canvasGroup, false);
-                DestroyGestureGallery();
+                DestroyGestureGalleryGrids();
             }
 
         }

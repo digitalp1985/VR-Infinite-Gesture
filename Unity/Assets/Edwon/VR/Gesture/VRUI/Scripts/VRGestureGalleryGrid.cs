@@ -52,7 +52,7 @@ namespace Edwon.VR.Gesture
         //    }
         //}
 
-        public void DestroySelf()
+        public void DestroyThisGrid()
         {
             Debug.Log("destroy this grid");
             Destroy(gameObject);
