@@ -126,6 +126,7 @@ namespace Edwon.VR.Gesture
                 {
                     file.WriteLine(JsonUtility.ToJson(saveMe));
                 }
+                CurrentGesture.exampleCount++;
             }
         }
 

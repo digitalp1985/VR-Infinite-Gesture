@@ -660,7 +660,7 @@ namespace Edwon.VR.Gesture
                 }
                 if (showButtons)
                 {
-                    ShowGestureListTotalExamples(list, i);
+                    ShowGestureListTotalExamples(i);
                     ShowGestureListButtons(list, i);
                     EditorGUILayout.EndHorizontal();
 
@@ -675,14 +675,14 @@ namespace Edwon.VR.Gesture
             }
         }
 
-        private void ShowGestureListTotalExamples(SerializedProperty list, int index)
+        private void ShowGestureListTotalExamples(int index)
         {
             //Sometimes on the first repaint this will still be looking at the previous gestureBank
             //this means we will be checking the index intended for a different array.
-            if (index < gestureSettings.gestureBankTotalExamples.Count)
+            if (index < gestureSettings.gestureBank.Count)
             {
-                int totalExamples = gestureSettings.gestureBankTotalExamples[index];
-                GUILayout.Label(totalExamples.ToString(), EditorStyles.centeredGreyMiniLabel, GUILayout.Width(35f));
+                Gesture g = gestureSettings.gestureBank[index];
+                GUILayout.Label(g.exampleCount.ToString(), EditorStyles.centeredGreyMiniLabel, GUILayout.Width(35f));
             }
         }
 

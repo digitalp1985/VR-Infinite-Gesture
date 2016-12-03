@@ -283,7 +283,7 @@ namespace Edwon.VR.Gesture
 				string[] files = System.IO.Directory.GetFiles(gesturesPath, "*.txt");
 				if (files.Length == 0)
 				{
-					return null;
+					return gestureBank;
 				}
 				foreach (string path in files)
 				{
@@ -350,6 +350,7 @@ namespace Edwon.VR.Gesture
 			foreach(Gesture gesture in gestureList)
 			{
 				int total = GetGestureExamplesTotal(gesture, networkName);
+                gesture.exampleCount = total;
 				totals.Add(total);
 			}
 			return totals;
