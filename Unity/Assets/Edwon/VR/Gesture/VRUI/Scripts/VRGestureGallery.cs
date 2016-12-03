@@ -18,7 +18,7 @@ namespace Edwon.VR.Gesture
 
 
         public float distanceFromHead = 2f;
-        public float gestureDrawSize = 0.1f; // world size of one gesture drawing
+        public float gestureDrawSize = 40f; // local size of one gesture drawing
         public int gridMaxColumns = 10;
         public float lineWidth = 0.01f;
         public Vector3 galleryPosition;

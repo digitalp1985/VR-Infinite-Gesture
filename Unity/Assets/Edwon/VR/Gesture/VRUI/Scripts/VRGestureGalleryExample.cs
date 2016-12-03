@@ -53,16 +53,18 @@ namespace Edwon.VR.Gesture
         public GameObject DrawGesture(List<Vector3> capturedLine, int gestureExampleNumber)
         {
             // spawn a game object
-            GameObject tmpObj = new GameObject();
-            tmpObj.name = "Gesture Example " + gestureExampleNumber;
-            tmpObj.transform.SetParent(transform);
+            GameObject lineGO = new GameObject();
+            lineGO.name = "Gesture Example " + gestureExampleNumber;
+            lineGO.transform.SetParent(transform);
 
             // position the game object to the corner of the UI
             RectTransform rt = (RectTransform)transform;
             Vector3[] canvasCorners = new Vector3[4];
             rt.GetWorldCorners(canvasCorners);
-            tmpObj.transform.position = canvasCorners[3];
-            tmpObj.transform.forward = -transform.forward;
+            lineGO.transform.position = canvasCorners[3];
+            lineGO.transform.forward = -transform.forward;
+            // offset the line position in front of the frame
+            lineGO.transform.position += -lineGO.transform.forward * (grid.gallery.gestureDrawSize * 1.2f);
 
             // get the list of points in capturedLine and modify positions based on gestureDrawSize
             List<Vector3> capturedLineAdjusted = new List<Vector3>();
@@ -72,7 +74,7 @@ namespace Edwon.VR.Gesture
                 capturedLineAdjusted.Add(pointScaled);
             }
 
-            LineRenderer lineRenderer = tmpObj.AddComponent<LineRenderer>();
+            LineRenderer lineRenderer = lineGO.AddComponent<LineRenderer>();
             lineRenderer.useWorldSpace = false;
             lineRenderer.material = new Material(Shader.Find("Unlit/Color"));
             //lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
@@ -86,7 +88,7 @@ namespace Edwon.VR.Gesture
             lineRenderer.SetVertexCount(capturedLineAdjusted.Count);
             lineRenderer.SetPositions(capturedLineAdjusted.ToArray());
 
-            return tmpObj;
+            return lineGO;
         }
 
     }
