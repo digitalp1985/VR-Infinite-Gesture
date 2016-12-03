@@ -53,7 +53,6 @@ namespace Edwon.VR.Gesture
         }
         public List<Gesture> gestureBank; // list of recorded gesture for current neural net
         List<Gesture> gestureBankPreEdit;
-        public List<int> gestureBankTotalExamples;
 
         public Trainer currentTrainer { get; set; }
 
@@ -68,9 +67,9 @@ namespace Edwon.VR.Gesture
                 {
                     if (gestureBank.Count > 0)
                     {
-                        foreach (int total in gestureBankTotalExamples)
+                        foreach (Gesture g in gestureBank)
                         {
-                            if (total <= 0)
+                            if (g.exampleCount <= 0)
                                 return false;
                         }
                         return true;
@@ -146,7 +145,6 @@ namespace Edwon.VR.Gesture
             gestures = new List<Gesture>();
             gestureBank = new List<Gesture>();
             gestureBankPreEdit = new List<Gesture>();
-            gestureBankTotalExamples = new List<int>();
 
             // select the new neural net
             SelectNeuralNet(neuralNetName);
@@ -178,18 +176,16 @@ namespace Edwon.VR.Gesture
                 }
             }
 
-            if (currentNeuralNet != null && currentNeuralNet != "" && Utils.GetGestureBank(currentNeuralNet) != null)
+            if (currentNeuralNet != null && currentNeuralNet != "")
             {
                 gestureBank = Utils.GetGestureBank(currentNeuralNet);
 
                 gestureBankPreEdit = gestureBank.ConvertAll(gesture => gesture.Clone());
-                gestureBankTotalExamples = Utils.GetGestureBankTotalExamples(gestureBank, currentNeuralNet);
             }
             else
             {
                 gestureBank = new List<Gesture>();
                 gestureBankPreEdit = new List<Gesture>();
-                gestureBankTotalExamples = new List<int>();
             }
         }
 
@@ -203,7 +199,6 @@ namespace Edwon.VR.Gesture
             neuralNets.Remove(neuralNetName); // remove from list
             gestureBank.Clear(); // clear the gestures list
             gestureBankPreEdit.Clear();
-            gestureBankTotalExamples.Clear();
             Utils.DeleteNeuralNetFiles(neuralNetName); // delete all the files
 
             if (neuralNets.Count > 0)
@@ -213,6 +208,10 @@ namespace Edwon.VR.Gesture
         [ExecuteInEditMode]
         public void SelectNeuralNet(string neuralNetName)
         {
+            if (currentNeuralNet != null && currentNeuralNet != "" && gestureBank.Count > 0)
+            {
+                Utils.SaveGestureBank(gestureBank, currentNeuralNet);
+            }
 
             lastNeuralNet = currentNeuralNet;
             currentNeuralNet = neuralNetName;
@@ -229,7 +228,6 @@ namespace Edwon.VR.Gesture
             newGesture.exampleCount = 0;
 
             gestureBank.Add(newGesture);
-            gestureBankTotalExamples.Add(0);
             Utils.CreateGestureFile(gestureName, currentNeuralNet);
             Utils.SaveGestureBank(gestureBank, currentNeuralNet);
             gestureBankPreEdit = gestureBank.ConvertAll(gesture => gesture.Clone());
@@ -245,7 +243,6 @@ namespace Edwon.VR.Gesture
 
 
             gestureBank.Add(newGesture);
-            gestureBankTotalExamples.Add(0);
             //Maybe name files based on isSync - Hand - name. i.e.: 1R-Helicopter 0B-Rainbow
             Utils.CreateGestureFile(gestureName, currentNeuralNet);
             Utils.SaveGestureBank(gestureBank, currentNeuralNet);
@@ -274,7 +271,6 @@ namespace Edwon.VR.Gesture
             Predicate<Gesture> gestureFinder = (Gesture g) => { return g.name == gestureName; };
             int index = gestureBank.FindIndex(gestureFinder);
             gestureBank.RemoveAt(index);
-            gestureBankTotalExamples.RemoveAt(index);
             Utils.DeleteGestureFile(gestureName, currentNeuralNet);
             Utils.SaveGestureBank(gestureBank, currentNeuralNet);
             gestureBankPreEdit = gestureBank.ConvertAll(gesture => gesture.Clone());
