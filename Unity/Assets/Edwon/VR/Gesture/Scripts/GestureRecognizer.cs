@@ -12,19 +12,22 @@ namespace Edwon.VR.Gesture
         public delegate void GestureRejected(string error, string gestureName = null, double confidence = 0);
         public static event GestureRejected GestureRejectedEvent;
 
-
+        public GestureSettings gestureSettings;
 
         string lastLeftGesture;
         DateTime lastLeftDetected;
         string lastRightGesture;
         DateTime lastRightDetected;
 
-        public double confidenceThreshold = 0.98;
+        public double confidenceThreshold = 0.9;
         public double currentConfidenceValue;
         public double minimumGestureAxisLength = 0.1;
 
+        string LeftHandSyncPrefix = Handedness.Left + "--";
+        string RightHandSyncPrefix = Handedness.Right + "--";
+
         List<Gesture> outputs;
-        Dictionary<double[], string> outputDict;
+        Dictionary<int, string> outputDict;
         NeuralNetwork neuralNet;
         //save the array of gestures
         //This should always require a name to load.
@@ -36,6 +39,7 @@ namespace Edwon.VR.Gesture
         //Load a SavedRecognizer from a file
         public void Load(string filename)
         {
+            gestureSettings = Utils.GetGestureSettings();
             NeuralNetworkStub stub = Utils.ReadNeuralNetworkStub(filename);
             outputs = stub.gestures;
             BuildOutputDictionary();
@@ -50,27 +54,21 @@ namespace Edwon.VR.Gesture
             {
                 if (g.isSynchronous)
                 {
-                    outputCount.Add(Handedness.Left+"--"+g.name);
-                    outputCount.Add(Handedness.Right+"--"+g.name);
+                    outputCount.Add(LeftHandSyncPrefix+g.name);
+                    outputCount.Add(RightHandSyncPrefix+g.name);
                 }
                 else
                 {
                     outputCount.Add(g.name);
                 }
             }
-            outputDict = new Dictionary<double[], string>();
+            outputDict = new Dictionary<int, string>();
             foreach (string gestureName in outputCount)
             {
                 int gestureIndex = outputCount.IndexOf(gestureName);
+                int binOut = 1 << gestureIndex;
 
-                //Create output of length numOutputs, zero it out.
-                double[] output = new double[outputs.Count];
-                for (int i = 0; i < output.Length; i++)
-                {
-                    output[i] = 0.0;
-                }
-                output[gestureIndex] = 1.0;
-                outputDict.Add(output, gestureName);
+                outputDict.Add(binOut, gestureName);
             }
         }
 
@@ -85,7 +83,7 @@ namespace Edwon.VR.Gesture
                 string confidenceValue = currentConfidenceValue.ToString("N3");
 
                 // broadcast gesture detected event
-                if (currentConfidenceValue > confidenceThreshold)
+                if (currentConfidenceValue > gestureSettings.confidenceThreshold)
                 {
                     if (GestureDetectedEvent != null)
                     {
@@ -108,6 +106,7 @@ namespace Edwon.VR.Gesture
 
                         if (CheckForSync(gesture))
                         {
+                            gesture = lastLeftGesture.Substring(LeftHandSyncPrefix.Length);
                             GestureDetectedEvent("BOTH: " + gesture, 2.0, hand);
                         }
                     }
@@ -142,11 +141,11 @@ namespace Edwon.VR.Gesture
             //if gesture starts with an R or an L.
             string gestureA = lastLeftGesture;
             string gestureB = lastRightGesture;
-            if (gesture.Contains("L--") || gesture.Contains("R--"))
+            if (gesture.Contains(LeftHandSyncPrefix) || gesture.Contains(RightHandSyncPrefix))
             {
                 //strip the gesture
-                gestureA = lastLeftGesture.Substring(2);
-                gestureB = lastRightGesture.Substring(2);
+                gestureA = lastLeftGesture.Substring(LeftHandSyncPrefix.Length-1);
+                gestureB = lastRightGesture.Substring(RightHandSyncPrefix.Length-1);
             }
 
 
@@ -162,20 +161,22 @@ namespace Edwon.VR.Gesture
 
         public string GetGesture(double[] input)
         {
-            double[] output = neuralNet.ComputeOutputs(input);
-            //string actualDebugOutput = "[";
-            //for(int i=0; i<output.Length; i++)
-            //{
-            //    actualDebugOutput += output[i];
-            //    actualDebugOutput += ", ";
-            //}
-            //actualDebugOutput = actualDebugOutput.Substring(0, actualDebugOutput.Length - 2);
-            //actualDebugOutput += "]";
-            //Debug.Log(actualDebugOutput);
-            return outputDict[output];
+            double[] outputVector = neuralNet.ComputeOutputs(input);
+            int maxIndex = 0;
+            double maxVal = 0;
+            for (int i = 0; i < outputVector.Length; i++)
+            {
+                if (outputVector[i] > maxVal)
+                {
+                    maxIndex = i;
+                    maxVal = outputVector[i];
+                }
+            }
+            currentConfidenceValue = maxVal;
 
-            
-      
+            int output = 1 << maxIndex;
+
+            return outputDict[output];
         }
 
     }
