@@ -80,7 +80,6 @@ namespace Edwon.VR.Gesture
 
         public void DestroyThisGrid()
         {
-            Debug.Log("destroy this grid");
             Destroy(gameObject);
         }
     }

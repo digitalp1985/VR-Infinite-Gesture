@@ -120,6 +120,8 @@ namespace Edwon.VR.Gesture
             if (currentGesture.isSynchronous)
             {
                 // create two grids for left and right
+                CreateGestureGalleryGrid(FilterExamplesByHandedness(allExamples, Handedness.Left));
+                CreateGestureGalleryGrid(FilterExamplesByHandedness(allExamples, Handedness.Right));
             }
             // if single handed
             else
@@ -131,16 +133,32 @@ namespace Edwon.VR.Gesture
 
         void CreateGestureGalleryGrid(List<GestureExample> withExamples)
         {
-            GameObject newGridGO = Instantiate(gridPrefab.gameObject);
-            VRGestureGalleryGrid newGrid = newGridGO.GetComponent<VRGestureGalleryGrid>();
+            if (withExamples != null && withExamples.Count > 0)
+            {
+                GameObject newGridGO = Instantiate(gridPrefab.gameObject);
+                VRGestureGalleryGrid newGrid = newGridGO.GetComponent<VRGestureGalleryGrid>();
 
-            newGridGO.transform.parent = transform;
-            newGridGO.transform.position = transform.position;
-            newGridGO.transform.rotation = transform.rotation;
-            newGridGO.transform.localScale = Vector3.one;
+                newGridGO.transform.parent = transform;
+                newGridGO.transform.position = transform.position;
+                newGridGO.transform.rotation = transform.rotation;
+                newGridGO.transform.localScale = Vector3.one;
 
-            newGrid.Init(this, withExamples);
-            grids.Add(newGrid);
+                newGrid.Init(this, withExamples);
+                grids.Add(newGrid);
+            }
+        }
+
+        List<GestureExample> FilterExamplesByHandedness(List<GestureExample> _examples, Handedness handedness)
+        {
+            List<GestureExample> examplesFiltered = new List<GestureExample>();
+            for (int i = _examples.Count - 1; i >= 0; i--)
+            {
+                if (_examples[i].hand == handedness)
+                {
+                    examplesFiltered.Add(_examples[i]);
+                }
+            }
+            return examplesFiltered;
         }
 
         public void DeleteGestureExample(GestureExample gestureExample, int lineNumber)
