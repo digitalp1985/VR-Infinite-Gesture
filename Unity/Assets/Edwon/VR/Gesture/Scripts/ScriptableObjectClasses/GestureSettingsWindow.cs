@@ -138,7 +138,6 @@ namespace Edwon.VR.Gesture
             }
         }
 
-
         public static GestureSettings CreateGestureSettingsAsset()
         {
             GestureSettings instance = CreateInstance<GestureSettings>();
@@ -283,6 +282,8 @@ namespace Edwon.VR.Gesture
             SerializedProperty showVRUI = serializedObject.FindProperty("showVRUI");
             SerializedProperty playerID = serializedObject.FindProperty("playerID");
             SerializedProperty vrType = serializedObject.FindProperty("vrType");
+            SerializedProperty confidenceThreshold = serializedObject.FindProperty("confidenceThreshold");
+            SerializedProperty minimumGestureAxisLength = serializedObject.FindProperty("minimumGestureAxisLength");
 
             EditorGUILayout.PropertyField(playerID);
 
@@ -312,8 +313,18 @@ namespace Edwon.VR.Gesture
                 gestureSettings.stateInitial = VRGestureUIState.Idle;
             }
             EditorGUILayout.PropertyField(showVRUI);
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("confidenceThreshold"));
-            EditorGUILayout.PropertyField(serializedObject.FindProperty("minimumGestureAxisLength"));
+            
+            // confidence threshold slider
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.PrefixLabel("Confidence Threshold");
+            gestureSettings.confidenceThreshold = (double)EditorGUILayout.Slider((float)confidenceThreshold.doubleValue, 0.80f, 1);
+            EditorGUILayout.EndHorizontal();
+
+            // Minimum Gesture Size float
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.PrefixLabel("Minimum Gesture Size");
+            gestureSettings.minimumGestureAxisLength = EditorGUILayout.FloatField(minimumGestureAxisLength.floatValue);
+            EditorGUILayout.EndHorizontal();
 
             // this should come back in a later update
             //EditorGUILayout.PropertyField(serializedObject.FindProperty("vrGestureDetectType"));
