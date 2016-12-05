@@ -201,6 +201,7 @@ namespace Edwon.VR.Gesture
 
         void ChangeGestureName(string controlName)
         {
+
             int listIndex = Int32.Parse(controlName.Substring(16));
             VRGestureRenameState checkState = gestureSettings.RenameGesture(listIndex);
             if (checkState == VRGestureRenameState.Duplicate)
@@ -502,18 +503,25 @@ namespace Edwon.VR.Gesture
                 selectedNeuralNetIndex = 0;
 
             if (Event.current.type == EventType.ExecuteCommand)
+            {
+                //Debug.Log("execute command");
                 gestureSettings.RefreshGestureBank(false);
-            selectedNeuralNetIndex = EditorGUILayout.Popup(selectedNeuralNetIndex, neuralNetsArray);
-
-            // Update the selected choice in the underlying object
-            if (neuralNetsArray.Length > 0)
-            {
-                gestureSettings.SelectNeuralNet(neuralNetsArray[selectedNeuralNetIndex]);
             }
-            else
+
+            EditorGUI.BeginChangeCheck();
+            selectedNeuralNetIndex = EditorGUILayout.Popup(selectedNeuralNetIndex, neuralNetsArray);
+            if (EditorGUI.EndChangeCheck())
             {
-                gestureSettings.gestureBank = null;
-                gestureSettings.currentNeuralNet = null;
+                // Update the selected choice in the underlying object
+                if (neuralNetsArray.Length > 0)
+                {
+                    gestureSettings.SelectNeuralNet(neuralNetsArray[selectedNeuralNetIndex]);
+                }
+                else
+                {
+                    gestureSettings.gestureBank = null;
+                    gestureSettings.currentNeuralNet = null;
+                }
             }
         }
 
@@ -702,8 +710,6 @@ namespace Edwon.VR.Gesture
             // plus button
             if (GUILayout.Button(duplicateButtonContent, EditorStyles.miniButtonMid, miniButtonWidth))
             {
-                //list.InsertArrayElementAtIndex(index);
-
                 //Focus has changed from a Gesture Control.
                 if (IfGestureControl(selectedFocus))
                 {
