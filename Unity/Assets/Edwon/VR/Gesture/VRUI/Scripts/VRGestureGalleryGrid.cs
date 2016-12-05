@@ -47,7 +47,7 @@ namespace Edwon.VR.Gesture
             }
             else
             {
-                titleText.text = gallery.currentGesture.name + "\nDouble Handed";
+                titleText.text = gallery.currentGesture.name + "\n" + examples[0].hand.ToString() + " Hand";
             }
         }
 

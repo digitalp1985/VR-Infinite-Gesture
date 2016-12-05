@@ -120,8 +120,8 @@ namespace Edwon.VR.Gesture
             if (currentGesture.isSynchronous)
             {
                 // create two grids for left and right
-                CreateGestureGalleryGrid(FilterExamplesByHandedness(allExamples, Handedness.Left));
                 CreateGestureGalleryGrid(FilterExamplesByHandedness(allExamples, Handedness.Right));
+                CreateGestureGalleryGrid(FilterExamplesByHandedness(allExamples, Handedness.Left));
             }
             // if single handed
             else
