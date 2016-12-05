@@ -141,13 +141,17 @@ namespace Edwon.VR.Gesture
             //if gesture starts with an R or an L.
             string gestureA = lastLeftGesture;
             string gestureB = lastRightGesture;
-            if (gesture.Contains(LeftHandSyncPrefix) || gesture.Contains(RightHandSyncPrefix))
+            if (gesture != null)
             {
-                //strip the gesture
-                gestureA = lastLeftGesture.Substring(LeftHandSyncPrefix.Length-1);
-                gestureB = lastRightGesture.Substring(RightHandSyncPrefix.Length-1);
+                if (gesture.Contains(LeftHandSyncPrefix) || gesture.Contains(RightHandSyncPrefix))
+                {
+                    //strip the gesture
+                    if (lastLeftGesture != null)
+                        gestureA = lastLeftGesture.Substring(LeftHandSyncPrefix.Length - 1);
+                    if (lastRightGesture != null)
+                        gestureB = lastRightGesture.Substring(RightHandSyncPrefix.Length - 1);
+                }
             }
-
 
             if (gestureA == gestureB && lapse.CompareTo(limit) <= 0)
             {
