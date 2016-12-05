@@ -124,8 +124,8 @@ namespace Edwon.VR.Gesture
             if (-handToCamVector != Vector3.zero)
                 vrHandUIPanel.rotation = Quaternion.LookRotation(-handToCamVector, Vector3.up);
 
-            if(rig.uiState == VRGestureUIState.Detecting)
-                UpdateDetectMenu();
+            if (rig.uiState == VRGestureUIState.Detecting)
+                UpdateConfidenceThresholdUI();
 
             UpdateCurrentNeuralNetworkText();
             UpdateNowRecordingStatus();
@@ -207,7 +207,8 @@ namespace Edwon.VR.Gesture
 
         public void BeginDetectMenu()
         {
-            RefreshDetectLogs("begin", true, 0, "");
+            StartCoroutine(RefreshDetectLogs("begin", true, 0, ""));
+            UpdateConfidenceThresholdUI();
         }
 
         // called when detect mode begins
@@ -299,7 +300,7 @@ namespace Edwon.VR.Gesture
             gestureSettings.DeleteGesture(gestureName);
         }
 
-        void UpdateDetectMenu()
+        void UpdateConfidenceThresholdUI()
         {
             if (thresholdSlider != null)
             {
@@ -324,6 +325,9 @@ namespace Edwon.VR.Gesture
             Text infoLog = detectMenu.Find("Detect Log Info").GetChild(0).GetComponent<Text>();
             thresholdLog = detectMenu.Find("Detect Log Threshold").GetChild(0).GetComponent<Text>();
             thresholdSlider = detectMenu.Find("Threshold Slider").GetComponent<Slider>();
+
+            // at first set the slider to the stored confidence threshold
+            thresholdSlider.value = (float)gestureSettings.confidenceThreshold;
 
             // set the log text
             gestureLog.text = gestureName;
@@ -645,7 +649,7 @@ namespace Edwon.VR.Gesture
             }
             if (panelName == "Detect Menu")
             {
-
+                BeginDetectMenu();
             }
         }
 
