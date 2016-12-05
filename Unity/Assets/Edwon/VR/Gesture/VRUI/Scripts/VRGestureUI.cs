@@ -383,7 +383,8 @@ namespace Edwon.VR.Gesture
 
         void GenerateRecordMenuButtons()
         {
-            GenerateGestureButtons(gestureBankAsStringList(), recordMenu.transform, GestureButtonsType.Record);
+            Transform listPanelParent = recordMenu.Find("List Panel");
+            GenerateGestureButtons(gestureBankAsStringList(), listPanelParent, GestureButtonsType.Record);
 
         }
 
@@ -394,7 +395,8 @@ namespace Edwon.VR.Gesture
             {
                 gestureStringList.Add(g.name);
             }
-            GenerateGestureButtons(gestureBankAsStringList(), editMenu.transform, GestureButtonsType.Edit);
+            Transform listPanelParent = editMenu.Find("List Panel");
+            GenerateGestureButtons(gestureBankAsStringList(), listPanelParent.transform, GestureButtonsType.Edit);
         }
 
         enum GestureButtonsType { Record, Edit };
@@ -504,7 +506,7 @@ namespace Edwon.VR.Gesture
                 button.transform.localPosition = Vector3.zero;
                 button.transform.localRotation = Quaternion.identity;
                 RectTransform buttonRect = button.GetComponent<RectTransform>();
-                buttonRect.localScale = buttonRectScale;
+                buttonRect.localScale = Vector3.one;
                 button.transform.name = list[i] + " Button";
                 // set the button y position
                 float totalHeight = list.Count * buttonHeight;
@@ -712,7 +714,7 @@ namespace Edwon.VR.Gesture
             Transform currentPanelParent = vrHandUIPanel.Find(panelManager.currentPanel);
             if (currentPanelParent == null)
                 return null;
-            Transform currentNeuralNetworkTitle = currentPanelParent.FindChild("Current Neural Network");
+            Transform currentNeuralNetworkTitle = currentPanelParent.FindChild("Side Panel/Current Neural Network");
             if (currentNeuralNetworkTitle == null)
                 return null;
 
