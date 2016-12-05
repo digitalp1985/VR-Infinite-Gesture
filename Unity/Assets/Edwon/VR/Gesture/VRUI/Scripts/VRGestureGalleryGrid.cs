@@ -9,6 +9,7 @@ namespace Edwon.VR.Gesture
     {
         public List<GestureExample> examples; // the actual gesture examples
         public List<VRGestureGalleryExample> galleryExamples; // the UI representations of the samples
+        public List<int> lineNumbers;
 
         [HideInInspector]
         public VRGestureGallery gallery; // the vr gesture gallery that owns me
@@ -18,16 +19,17 @@ namespace Edwon.VR.Gesture
         RectTransform gridParent;
         RectTransform titleParent;
 
-        public void Init(VRGestureGallery _gallery, List<GestureExample> _examples)
+        public void Init(VRGestureGallery _gallery, List<GestureExample> _examples, List<int> _lineNumbers)
         {
             gallery = _gallery;
             examples = _examples;
+            lineNumbers = _lineNumbers;
 
             titleParent = (RectTransform)transform.Find("Title");
             gridParent = (RectTransform)transform.Find("Grid");
 
             GenerateTitle();
-            GenerateGestureGallery();
+            GenerateGestureGalleryGrid();
         }
 
         void GenerateTitle()
@@ -51,7 +53,7 @@ namespace Edwon.VR.Gesture
             }
         }
 
-        void GenerateGestureGallery()
+        void GenerateGestureGalleryGrid()
         {
             // go through all the gesture examples and draw them in a grid
             for (int i = 0; i < examples.Count; i++)
@@ -64,18 +66,10 @@ namespace Edwon.VR.Gesture
 
                 VRGestureGalleryExample galleryExample = galleryExampleGO.GetComponent<VRGestureGalleryExample>();
                 galleryExamples.Add(galleryExample);
-                galleryExample.Init(this, examples[i], i);
+                galleryExample.Init(this, examples[i], lineNumbers[i]);
             }
 
             gallery.galleryState = VRGestureGallery.GestureGalleryState.Visible;
-        }
-
-        public void RefreshLineNumbers()
-        {
-            for(int i = 0; i < galleryExamples.Count; i++)
-            {
-                galleryExamples[i].lineNumber = i;
-            }
         }
 
         public void DestroyThisGrid()

@@ -101,6 +101,11 @@ namespace Edwon.VR.Gesture
             galleryRB.MoveRotation(rotation);
         }
 
+        void PositionGestureGallery(Vector3 position)
+        {
+            galleryRB.MovePosition(position);
+        }
+
         void DestroyGestureGalleryGrids()
         {
             galleryState = GestureGalleryState.Visible;
@@ -120,18 +125,25 @@ namespace Edwon.VR.Gesture
             if (currentGesture.isSynchronous)
             {
                 // create two grids for left and right
-                CreateGestureGalleryGrid(FilterExamplesByHandedness(allExamples, Handedness.Right));
-                CreateGestureGalleryGrid(FilterExamplesByHandedness(allExamples, Handedness.Left));
+                List<GestureExample> examplesR = FilterExamplesByHandedness(allExamples, Handedness.Right);
+                CreateGestureGalleryGrid(examplesR, lineNumbersRightHand);
+                List<GestureExample> examplesL = FilterExamplesByHandedness(allExamples, Handedness.Left);
+                CreateGestureGalleryGrid(examplesL, lineNumbersLeftHand);
             }
             // if single handed
             else
             {
                 // create one grid
-                CreateGestureGalleryGrid(allExamples);
+                lineNumbersBothHands.Clear();
+                for (int i = 0; i < allExamples.Count; i++)
+                {
+                    lineNumbersBothHands.Add(i);
+                }
+                CreateGestureGalleryGrid(allExamples, lineNumbersBothHands);
             }
         }
 
-        void CreateGestureGalleryGrid(List<GestureExample> withExamples)
+        void CreateGestureGalleryGrid(List<GestureExample> withExamples, List<int> lineNumbers)
         {
             if (withExamples != null && withExamples.Count > 0)
             {
@@ -143,19 +155,43 @@ namespace Edwon.VR.Gesture
                 newGridGO.transform.rotation = transform.rotation;
                 newGridGO.transform.localScale = Vector3.one;
 
-                newGrid.Init(this, withExamples);
+                newGrid.Init(this, withExamples, lineNumbers);
                 grids.Add(newGrid);
             }
         }
 
+        public List<int> lineNumbersBothHands;
+        public List<int> lineNumbersLeftHand;
+        public List<int> lineNumbersRightHand;
+
         List<GestureExample> FilterExamplesByHandedness(List<GestureExample> _examples, Handedness handedness)
         {
+            // first clear the lineNumbers list we're working with
+            switch (handedness)
+            {
+                case Handedness.Left:
+                    lineNumbersLeftHand.Clear();
+                    break;
+                case Handedness.Right:
+                    lineNumbersRightHand.Clear();
+                    break;
+            }
+
             List<GestureExample> examplesFiltered = new List<GestureExample>();
             for (int i = _examples.Count - 1; i >= 0; i--)
             {
                 if (_examples[i].hand == handedness)
                 {
                     examplesFiltered.Add(_examples[i]);
+                    switch (handedness)
+                    {
+                        case Handedness.Left:
+                            lineNumbersLeftHand.Add(i);
+                            break;
+                        case Handedness.Right:
+                            lineNumbersRightHand.Add(i);
+                            break;
+                    }
                 }
             }
             return examplesFiltered;
@@ -184,11 +220,10 @@ namespace Edwon.VR.Gesture
                     }
                 }
 
-                // reset all line number indexes on examples
-                grids[i].RefreshLineNumbers();
-
-                //DestroyGestureGalleryGrids();
-                //CreateGestureGalleryGrids();
+                Vector3 lastPosition = galleryRB.position;
+                DestroyGestureGalleryGrids();
+                CreateGestureGalleryGrids();
+                PositionGestureGallery(lastPosition);
             }
         }
 
