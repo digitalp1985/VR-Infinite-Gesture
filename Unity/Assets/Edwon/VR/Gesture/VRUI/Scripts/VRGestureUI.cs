@@ -44,7 +44,6 @@ namespace Edwon.VR.Gesture
         public CanvasRenderer recordListTitle;
         public CanvasRenderer editListTitle;
         public CanvasRenderer newNeuralNetButton;
-        public CanvasRenderer newGestureButton;
 
         // NEW GESTURE SETTINGS MENU
         public Button singleHandedButton;
@@ -387,6 +386,7 @@ namespace Edwon.VR.Gesture
             Transform listPanelParent = recordMenu.Find("List Panel");
             gestureSettings.RefreshGestureBank(true);
             GenerateGestureButtons(gestureSettings.gestureBank, listPanelParent, GestureButtonsType.Record);
+            Transform newGestureButton = recordMenu.Find("List Panel/New Gesture Button");
             newGestureButton.transform.SetAsLastSibling();
         }
 
