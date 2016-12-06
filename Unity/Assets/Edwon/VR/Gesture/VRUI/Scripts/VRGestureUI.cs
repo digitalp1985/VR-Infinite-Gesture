@@ -28,8 +28,7 @@ namespace Edwon.VR.Gesture
 
         //public VRGestureManager VRGestureManagerInstance; // the VRGestureManager script we want to interact with
         public RectTransform mainMenu; // the top level transform of the main menu
-        public RectTransform recordMenu; // the top level transform of the recordMenu where we will generate gesture buttons'
-        public RectTransform editMenu; // the top level transform of the eidtMenu
+        public RectTransform gesturesMenu; // the top level transform of the gesturesMenu where we will generate gesture buttons'
         public RectTransform selectNeuralNetMenu; // the top level transform of the select neural net menu where we will generate buttons
         public RectTransform detectMenu;
         public GameObject neuralNetButtonPrefab;
@@ -38,11 +37,10 @@ namespace Edwon.VR.Gesture
         // PARENT
         Canvas rootCanvas; // the canvas on the main VRGestureUI object
 
-        // RECORD MENU
+        // GESTURES MENU
         private List<Button> gestureButtons;
-        [Tooltip("the title of the gesture list on the record menu")]
-        public CanvasRenderer recordListTitle;
-        public CanvasRenderer editListTitle;
+
+        // NEURAL NETS MENU
         public CanvasRenderer newNeuralNetButton;
 
         // NEW GESTURE SETTINGS MENU
@@ -107,8 +105,7 @@ namespace Edwon.VR.Gesture
             vrMenuHand = rig.GetHand(menuHandedness);
             vrCam = rig.head;
       
-            GenerateRecordMenuButtons();
-            GenerateEditMenuButtons();
+            GenerateGesturesMenu();
             GenerateNeuralNetMenuButtons();
 
             panelManager.FocusPanel("Select Neural Net Menu");
@@ -152,23 +149,17 @@ namespace Edwon.VR.Gesture
         public void BeginMainMenu()
         {
             // GET ALL THE BUTTONS IN MAIN MENU
-            CanvasGroup recordButton = new CanvasGroup();
-            CanvasGroup editButton = new CanvasGroup();
+            CanvasGroup gesturesButton = new CanvasGroup();
             CanvasGroup trainButton = new CanvasGroup();
             CanvasGroup detectButton = new CanvasGroup();
             CanvasGroup[] cgs = mainMenu.GetComponentsInChildren<CanvasGroup>();
             List<CanvasGroup> buttons = new List<CanvasGroup>();
             for (int i = 0; i < cgs.Length; i++)
             {
-                if (cgs[i].name == "Record Button")
+                if (cgs[i].name == "Gestures Button")
                 {
-                    recordButton = cgs[i];
-                    buttons.Add(recordButton);
-                }
-                if (cgs[i].name == "Edit Button")
-                {
-                    editButton = cgs[i];
-                    buttons.Add(editButton);
+                    gesturesButton = cgs[i];
+                    buttons.Add(gesturesButton);
                 }
                 if (cgs[i].name == "Train Button")
                 {
@@ -192,12 +183,11 @@ namespace Edwon.VR.Gesture
 
             // ENABLE BUTTONS DEPENDING ON TRAINING STATE
             // enable record button because always need it
-            ToggleCanvasGroup(recordButton, true, 1f);
+            ToggleCanvasGroup(gesturesButton, true, 1f);
 
             if (gestureSettings.gestureBank.Count > 0)
             {
                 // some gestures recorded, show edit and train buttons
-                ToggleCanvasGroup(editButton, true, 1f);
                 ToggleCanvasGroup(trainButton, true, 1f);
             }
             if (gestureSettings.Gestures.Count > 0)
@@ -262,7 +252,7 @@ namespace Edwon.VR.Gesture
             deleteGestureConfirmLabel.text = gestureName;
             deleteGestureConfirmButton.onClick.RemoveAllListeners();
             deleteGestureConfirmButton.onClick.AddListener(() => DeleteGesture(gestureName));
-            deleteGestureConfirmButton.onClick.AddListener(() => panelManager.FocusPanel("Edit Menu")); 
+            deleteGestureConfirmButton.onClick.AddListener(() => panelManager.FocusPanel("Gestures Menu")); 
         }
 
         public void SelectNeuralNet(string neuralNetName)
@@ -295,7 +285,7 @@ namespace Edwon.VR.Gesture
         public void CreateGesture(string gestureName, bool isSynchronized = false)
         {
             gestureSettings.CreateGesture(gestureName, isSynchronized);
-            GenerateRecordMenuButtons();
+            GenerateGesturesMenu();
         }
 
         public void DeleteGesture(string gestureName)
@@ -384,30 +374,16 @@ namespace Edwon.VR.Gesture
             return gestureStringList;
         }
 
-        void GenerateRecordMenuButtons()
+        void GenerateGesturesMenu()
         {
-            Transform listPanelParent = recordMenu.Find("List Panel");
+            Transform listPanelParent = gesturesMenu.Find("List Panel");
             gestureSettings.RefreshGestureBank(true);
-            GenerateGestureButtons(gestureSettings.gestureBank, listPanelParent, GestureButtonsType.Record);
-            Transform newGestureButton = recordMenu.Find("List Panel/New Gesture Button");
+            GenerateGestureButtons(gestureSettings.gestureBank, listPanelParent);
+            Transform newGestureButton = gesturesMenu.Find("List Panel/New Gesture Button");
             newGestureButton.transform.SetAsLastSibling();
         }
 
-        void GenerateEditMenuButtons()
-        {
-            List<string> gestureStringList = new List<string>();
-            foreach (Gesture g in gestureSettings.gestureBank)
-            {
-                gestureStringList.Add(g.name);
-            }
-            Transform listPanelParent = editMenu.Find("List Panel");
-            gestureSettings.RefreshGestureBank(true);
-            GenerateGestureButtons(gestureSettings.gestureBank, listPanelParent.transform, GestureButtonsType.Edit);
-        }
-
-        enum GestureButtonsType { Record, Edit };
-
-        void GenerateGestureButtons(List<Gesture> gesturesToGenerate, Transform buttonsParent, GestureButtonsType gestureButtonsType)
+        void GenerateGestureButtons(List<Gesture> gesturesToGenerate, Transform buttonsParent)
         {
             // first destroy the old gesture buttons if they are there
             if (gestureButtons != null)
@@ -430,29 +406,42 @@ namespace Edwon.VR.Gesture
             for (int i = 0; i < gestureButtons.Count; i++)
             {
                 string gestureName = gestureSettings.gestureBank[i].name;
-                if (gestureButtonsType == GestureButtonsType.Record)
-                {
-                    gestureButtons[i].onClick.AddListener(() => BeginRecordingMenu(gestureName));
-                    gestureButtons[i].onClick.AddListener(() => panelManager.FocusPanel("Recording Menu"));
-                }
-                else if (gestureButtonsType == GestureButtonsType.Edit)
-                {
-                    gestureButtons[i].onClick.AddListener(() => BeginEditGesture(gestureName));
-                    gestureButtons[i].onClick.AddListener(() => panelManager.FocusPanel("Editing Menu"));
-                }
+
+                Button recordButton = gestureButtons[i].transform.Find("Record Button").GetComponent<Button>();
+                recordButton.onClick.AddListener(() => BeginRecordingMenu(gestureName));
+                recordButton.onClick.AddListener(() => panelManager.FocusPanel("Recording Menu"));
+
+                Button editButton = gestureButtons[i].transform.Find("Edit Button").GetComponent<Button>();
+                editButton.onClick.AddListener(() => BeginEditGesture(gestureName));
+                editButton.onClick.AddListener(() => panelManager.FocusPanel("Editing Menu"));
 
                 // set the gesture total examples
                 Text totalExamplesText = gestureButtons[i].transform.Find("Gesture Total").GetComponentInChildren<Text>();
                 totalExamplesText.text = gesturesToGenerate[i].exampleCount.ToString();
                 // set the gesture handedness 
                 Text handednessText = gestureButtons[i].transform.Find("Gesture Handedness").GetComponentInChildren<Text>();
+                CanvasGroup doubleHandedIcon = gestureButtons[i].transform.Find("Gesture Handedness/Double Handed Icon").GetComponent<CanvasGroup>();
+                CanvasGroup singleHandedIcon = gestureButtons[i].transform.Find("Gesture Handedness/Single Handed Icon").GetComponent<CanvasGroup>();
+
                 switch (gesturesToGenerate[i].isSynchronous)
                 {
                     case true:
-                        handednessText.text = "Double";
+                        {
+                            handednessText.text = "Double";
+                            doubleHandedIcon.alpha = 1;
+                            doubleHandedIcon.gameObject.SetActive(true);
+                            singleHandedIcon.alpha = 0;
+                            singleHandedIcon.gameObject.SetActive(false);
+                        }
                         break;
                     case false:
-                        handednessText.text = "Single";
+                        {
+                            handednessText.text = "Single";
+                            doubleHandedIcon.alpha = 0;
+                            doubleHandedIcon.gameObject.SetActive(false);
+                            singleHandedIcon.alpha = 1;
+                            singleHandedIcon.gameObject.SetActive(true);
+                        }
                         break;
                 }
             }
@@ -519,7 +508,17 @@ namespace Edwon.VR.Gesture
                 y = (totalHeight / 2) - (i * buttonHeight);
                 buttonRect.localPosition = new Vector3(0, y, 0);
                 // set the button text
-                Text buttonText = button.transform.GetComponentInChildren<Text>(true);
+                Text buttonText = null;
+                if (button.transform.Find("Gesture Name") == true)
+                {
+                    // this is special for gesture buttons
+                    buttonText = button.transform.Find("Gesture Name").GetComponentInChildren<Text>();
+                }
+                else
+                {
+                    // this is special for neural net buttons
+                    buttonText = button.transform.GetComponentInChildren<Text>(true);
+                }
                 buttonText.text = strings[i];
                 buttons.Add(button.GetComponent<Button>());
             }
@@ -612,25 +611,20 @@ namespace Edwon.VR.Gesture
                 gestureSettings.RefreshNeuralNetList();
                 rig.uiState = VRGestureUIState.Idle;
             }
-            if (panelName == "Record Menu")
+            if (panelName == "Gestures Menu")
             {
-                rig.uiState = VRGestureUIState.Idle;
-                GenerateRecordMenuButtons();
+                rig.uiState = VRGestureUIState.Gestures;
+                GenerateGesturesMenu();
             }
             if (panelName == "New Gesture Settings Menu")
             {
                 rig.uiState = VRGestureUIState.Idle;
-                GenerateRecordMenuButtons();
+                GenerateGesturesMenu();
             }
             if (panelName == "Recording Menu")
             {
                 //vrGestureManager.state = VRGestureManagerState.ReadyToRecord;
                 //Not sure why this is in here. This re-introduced the sticky button bug.
-            }
-            if (panelName == "Edit Menu")
-            {
-                rig.uiState = VRGestureUIState.Edit;
-                GenerateEditMenuButtons();
             }
             if (panelName == "Editing Menu")
             {

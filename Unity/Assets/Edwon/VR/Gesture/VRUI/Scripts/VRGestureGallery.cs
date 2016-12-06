@@ -282,7 +282,7 @@ namespace Edwon.VR.Gesture
                 PositionGestureGallery();
                 CreateGestureGalleryGrids();
             }
-            else if (panelName == "Edit Menu")
+            else if (panelName == "Gestures Menu")
             {
                 VRGestureUI.ToggleCanvasGroup(canvasGroup, false);
                 DestroyGestureGalleryGrids();

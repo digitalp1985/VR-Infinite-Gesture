@@ -13,7 +13,7 @@ namespace Edwon.VR.Gesture
     public enum VRGestureUIState
     {
         Idle,
-        Edit,
+        Gestures,
         Editing,
         EnteringRecord,
         ReadyToRecord,
