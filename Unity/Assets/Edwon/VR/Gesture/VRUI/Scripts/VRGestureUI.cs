@@ -435,19 +435,6 @@ namespace Edwon.VR.Gesture
                     gestureButtons[i].onClick.AddListener(() => panelManager.FocusPanel("Editing Menu"));
                 }
             }
-
-            if (gestureButtonsType == GestureButtonsType.Record)
-                AdjustListTitlePosition(recordListTitle.transform, gestureButtons.Count, gestureButtonHeight);
-            else if (gestureButtonsType == GestureButtonsType.Edit)
-                AdjustListTitlePosition(editListTitle.transform, gestureButtons.Count, gestureButtonHeight);
-
-            if (gestureButtonsType == GestureButtonsType.Record)
-            {
-                // adjust new gesture button position
-                float totalHeight = gestureButtons.Count * gestureButtonHeight;
-                float y = -(totalHeight / 2);
-                newGestureButton.transform.localPosition = new Vector3(0, y, 0);
-            }
         }
 
         void GenerateNeuralNetMenuButtons()
@@ -464,19 +451,12 @@ namespace Edwon.VR.Gesture
                 neuralNetButtons[i].onClick.AddListener(() => SelectNeuralNet(neuralNetName));
             }
 
-            AdjustListTitlePosition(neuralNetTitle.transform, neuralNetButtons.Count, neuralNetMenuButtonHeight);
-
-
-            // adjust new neural net button position
-            float totalHeight = neuralNetButtons.Count * neuralNetMenuButtonHeight;
-            float y = -(totalHeight / 2);
-            newNeuralNetButton.transform.localPosition = new Vector3(0, y, 0);
-
             // add on click functions to new neural net button
             Button newNeuralNetButtonButton = newNeuralNetButton.GetComponent<Button>();
             newNeuralNetButtonButton.onClick.RemoveAllListeners();
             newNeuralNetButtonButton.onClick.AddListener(gestureSettings.CreateNewNeuralNet);
             newNeuralNetButtonButton.onClick.AddListener(RefreshNeuralNetMenu);
+            newNeuralNetButton.transform.SetAsLastSibling();
         }
 
         void RefreshNeuralNetMenu()
@@ -526,16 +506,6 @@ namespace Edwon.VR.Gesture
         }
 
         #endregion
-
-        void AdjustListTitlePosition(Transform title, int totalButtons, float buttonHeight)
-        {
-            if (title != null)
-            {
-                float totalHeight = totalButtons * buttonHeight;
-                float y = (totalHeight / 2) + buttonHeight;
-                title.localPosition = new Vector3(0, y, 0);
-            }
-        }
 
         void OnEnable()
         {
