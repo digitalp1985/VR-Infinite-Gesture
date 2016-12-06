@@ -1968,7 +1968,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -2668,7 +2668,7 @@ MonoBehaviour:
     type: 2}
   recordListTitle: {fileID: 222000013179669474}
   editListTitle: {fileID: 22292422}
-  newNeuralNetButton: {fileID: 22273280, guid: d67c2d769801ba5458571621b188f04e, type: 2}
+  newNeuralNetButton: {fileID: 222000013031891306}
   newGestureButton: {fileID: 222000013288340756, guid: c99721651191c5b4aa45aa773ccc1dd6,
     type: 2}
   singleHandedButton: {fileID: 114000010084455476}
@@ -4526,8 +4526,8 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.1, y: 0.6}
-  m_SizeDelta: {x: 641.6, y: 134}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &22419366
 RectTransform:
@@ -9375,7 +9375,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -13727,8 +13727,8 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.1, y: 0.6}
-  m_SizeDelta: {x: 641.6, y: 134}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224000014292598636
 RectTransform:

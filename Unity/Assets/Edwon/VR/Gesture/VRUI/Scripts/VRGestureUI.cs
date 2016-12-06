@@ -372,10 +372,10 @@ namespace Edwon.VR.Gesture
 
         #region GENERATIVE BUTTONS
 
-        List<string> gestureBankAsStringList()
+        List<string> GesturesAsStringList(List<Gesture> gesturesToConvert)
         {
             List<string> gestureStringList = new List<string>();
-            foreach (Gesture g in gestureSettings.gestureBank)
+            foreach (Gesture g in gesturesToConvert)
             {
                 gestureStringList.Add(g.name);
             }
@@ -385,7 +385,8 @@ namespace Edwon.VR.Gesture
         void GenerateRecordMenuButtons()
         {
             Transform listPanelParent = recordMenu.Find("List Panel");
-            GenerateGestureButtons(gestureBankAsStringList(), listPanelParent, GestureButtonsType.Record);
+            gestureSettings.RefreshGestureBank(true);
+            GenerateGestureButtons(gestureSettings.gestureBank, listPanelParent, GestureButtonsType.Record);
             newGestureButton.transform.SetAsLastSibling();
         }
 
@@ -397,12 +398,13 @@ namespace Edwon.VR.Gesture
                 gestureStringList.Add(g.name);
             }
             Transform listPanelParent = editMenu.Find("List Panel");
-            GenerateGestureButtons(gestureBankAsStringList(), listPanelParent.transform, GestureButtonsType.Edit);
+            gestureSettings.RefreshGestureBank(true);
+            GenerateGestureButtons(gestureSettings.gestureBank, listPanelParent.transform, GestureButtonsType.Edit);
         }
 
         enum GestureButtonsType { Record, Edit };
 
-        void GenerateGestureButtons(List<string> gesturesToGenerate, Transform buttonsParent, GestureButtonsType gestureButtonsType)
+        void GenerateGestureButtons(List<Gesture> gesturesToGenerate, Transform buttonsParent, GestureButtonsType gestureButtonsType)
         {
             // first destroy the old gesture buttons if they are there
             if (gestureButtons != null)
@@ -419,7 +421,7 @@ namespace Edwon.VR.Gesture
 
             float gestureButtonHeight = 30;
 
-            gestureButtons = GenerateButtonsFromList(gesturesToGenerate, buttonsParent, gestureButtonPrefab, gestureButtonHeight);
+            gestureButtons = GenerateButtonsFromList(GesturesAsStringList(gesturesToGenerate), buttonsParent, gestureButtonPrefab, gestureButtonHeight);
 
             // set the functions that the button will call when pressed
             for (int i = 0; i < gestureButtons.Count; i++)
@@ -434,6 +436,21 @@ namespace Edwon.VR.Gesture
                 {
                     gestureButtons[i].onClick.AddListener(() => BeginEditGesture(gestureName));
                     gestureButtons[i].onClick.AddListener(() => panelManager.FocusPanel("Editing Menu"));
+                }
+
+                // set the gesture total examples
+                Text totalExamplesText = gestureButtons[i].transform.Find("Gesture Total").GetComponentInChildren<Text>();
+                totalExamplesText.text = gesturesToGenerate[i].exampleCount.ToString();
+                // set the gesture handedness 
+                Text handednessText = gestureButtons[i].transform.Find("Gesture Handedness").GetComponentInChildren<Text>();
+                switch (gesturesToGenerate[i].isSynchronous)
+                {
+                    case true:
+                        handednessText.text = "Double";
+                        break;
+                    case false:
+                        handednessText.text = "Single";
+                        break;
                 }
             }
         }
@@ -476,10 +493,10 @@ namespace Edwon.VR.Gesture
             GenerateNeuralNetMenuButtons();
         }
 
-        List<Button> GenerateButtonsFromList(List<string> list, Transform parent, GameObject prefab, float buttonHeight)
+        List<Button> GenerateButtonsFromList(List<string> strings, Transform parent, GameObject prefab, float buttonHeight)
         {
             List<Button> buttons = new List<Button>();
-            for (int i = 0; i < list.Count; i++)
+            for (int i = 0; i < strings.Count; i++)
             {
                 // instantiate the button
                 GameObject button = GameObject.Instantiate(prefab);
@@ -488,9 +505,9 @@ namespace Edwon.VR.Gesture
                 button.transform.localRotation = Quaternion.identity;
                 RectTransform buttonRect = button.GetComponent<RectTransform>();
                 buttonRect.localScale = Vector3.one;
-                button.transform.name = list[i] + " Button";
+                button.transform.name = strings[i] + " Button";
                 // set the button y position
-                float totalHeight = list.Count * buttonHeight;
+                float totalHeight = strings.Count * buttonHeight;
                 float y = 0f;
                 if (i == 0)
                 {
@@ -500,7 +517,7 @@ namespace Edwon.VR.Gesture
                 buttonRect.localPosition = new Vector3(0, y, 0);
                 // set the button text
                 Text buttonText = button.transform.GetComponentInChildren<Text>(true);
-                buttonText.text = list[i];
+                buttonText.text = strings[i];
                 buttons.Add(button.GetComponent<Button>());
             }
             return buttons;
