@@ -55,6 +55,8 @@ namespace Edwon.VR.Gesture
         public Image nowRecordingBackground;
         [Tooltip("the label that tells you what gesture your recording currently")]
         public Text nowRecordingGestureLabel;
+        [Tooltip("the label that tells you the handedness of the gesture")]
+        public Text nowRecordingHandednessLabel;
         [Tooltip("the label that tells you how many examples you've recorded")]
         public Text nowRecordingTotalExamplesLabel;
 
@@ -243,6 +245,7 @@ namespace Edwon.VR.Gesture
             nowRecordingGestureLabel.text = gestureName;
             rig.BeginReadyToRecord(gestureName);
             RefreshTotalExamplesLabel();
+            RefreshHandednessLabel();
         }
 
         public void BeginEditGesture(string gestureName)
@@ -677,6 +680,22 @@ namespace Edwon.VR.Gesture
                 {
                     RefreshTotalExamplesLabel();
                 }
+            }
+        }
+
+        void RefreshHandednessLabel()
+        {
+            Predicate<Gesture> gestureFinder = (Gesture g) => { return g.name == rig.currentTrainer.CurrentGesture.name; };
+            Gesture gesture = gestureSettings.gestureBank.Find(gestureFinder);
+
+            switch (gesture.isSynchronous)
+            {
+                case true:
+                    nowRecordingHandednessLabel.text = "Double Handed";
+                    break;
+                case false:
+                    nowRecordingHandednessLabel.text = "Single Handed";
+                    break;
             }
         }
 
