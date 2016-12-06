@@ -32,7 +32,8 @@ namespace Edwon.VR.Gesture
         public RectTransform editMenu; // the top level transform of the eidtMenu
         public RectTransform selectNeuralNetMenu; // the top level transform of the select neural net menu where we will generate buttons
         public RectTransform detectMenu;
-        public GameObject buttonPrefab;
+        public GameObject neuralNetButtonPrefab;
+        public GameObject gestureButtonPrefab;
 
         // PARENT
         Canvas rootCanvas; // the canvas on the main VRGestureUI object
@@ -418,7 +419,7 @@ namespace Edwon.VR.Gesture
 
             float gestureButtonHeight = 30;
 
-            gestureButtons = GenerateButtonsFromList(gesturesToGenerate, buttonsParent, buttonPrefab, gestureButtonHeight);
+            gestureButtons = GenerateButtonsFromList(gesturesToGenerate, buttonsParent, gestureButtonPrefab, gestureButtonHeight);
 
             // set the functions that the button will call when pressed
             for (int i = 0; i < gestureButtons.Count; i++)
@@ -441,7 +442,7 @@ namespace Edwon.VR.Gesture
         {
             int neuralNetMenuButtonHeight = 30;
 
-            neuralNetButtons = GenerateButtonsFromList(gestureSettings.neuralNets, selectNeuralNetMenu.transform, buttonPrefab, neuralNetMenuButtonHeight);
+            neuralNetButtons = GenerateButtonsFromList(gestureSettings.neuralNets, selectNeuralNetMenu.transform, neuralNetButtonPrefab, neuralNetMenuButtonHeight);
 
             // set the functions that the button will call when pressed
             for (int i = 0; i < neuralNetButtons.Count; i++)
