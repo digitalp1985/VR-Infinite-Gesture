@@ -416,12 +416,12 @@ namespace Edwon.VR.Gesture
                 editButton.onClick.AddListener(() => panelManager.FocusPanel("Editing Menu"));
 
                 // set the gesture total examples
-                Text totalExamplesText = gestureButtons[i].transform.Find("Gesture Total").GetComponentInChildren<Text>();
+                Text totalExamplesText = gestureButtons[i].transform.Find("Gesture Info Parent/Gesture Total").GetComponentInChildren<Text>();
                 totalExamplesText.text = gesturesToGenerate[i].exampleCount.ToString();
                 // set the gesture handedness 
-                Text handednessText = gestureButtons[i].transform.Find("Gesture Handedness").GetComponentInChildren<Text>();
-                CanvasGroup doubleHandedIcon = gestureButtons[i].transform.Find("Gesture Handedness/Double Handed Icon").GetComponent<CanvasGroup>();
-                CanvasGroup singleHandedIcon = gestureButtons[i].transform.Find("Gesture Handedness/Single Handed Icon").GetComponent<CanvasGroup>();
+                Text handednessText = gestureButtons[i].transform.Find("Gesture Info Parent/Gesture Handedness").GetComponentInChildren<Text>();
+                CanvasGroup doubleHandedIcon = gestureButtons[i].transform.Find("Gesture Info Parent/Gesture Handedness/Double Handed Icon").GetComponent<CanvasGroup>();
+                CanvasGroup singleHandedIcon = gestureButtons[i].transform.Find("Gesture Info Parent/Gesture Handedness/Single Handed Icon").GetComponent<CanvasGroup>();
 
                 switch (gesturesToGenerate[i].isSynchronous)
                 {
@@ -509,10 +509,10 @@ namespace Edwon.VR.Gesture
                 buttonRect.localPosition = new Vector3(0, y, 0);
                 // set the button text
                 Text buttonText = null;
-                if (button.transform.Find("Gesture Name") == true)
+                if (button.transform.Find("Gesture Info Parent/Gesture Name") == true)
                 {
                     // this is special for gesture buttons
-                    buttonText = button.transform.Find("Gesture Name").GetComponentInChildren<Text>();
+                    buttonText = button.transform.Find("Gesture Info Parent/Gesture Name").GetComponentInChildren<Text>();
                 }
                 else
                 {
