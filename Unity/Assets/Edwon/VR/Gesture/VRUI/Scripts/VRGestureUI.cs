@@ -12,6 +12,9 @@ namespace Edwon.VR.Gesture
     [RequireComponent(typeof(LaserPointerInputModule))]
     public class VRGestureUI : MonoBehaviour
     {
+        [Tooltip("the animation delay as the lists of gestures and neural nets pop in")]
+        public float buttonListAnimationDelay;
+
         VRGestureRig rig;
         GestureSettings gestureSettings;
 
@@ -106,7 +109,7 @@ namespace Edwon.VR.Gesture
             vrCam = rig.head;
       
             GenerateGesturesMenu();
-            GenerateNeuralNetMenuButtons();
+            StartCoroutine (GenerateNeuralNetMenuButtons());
 
             panelManager.FocusPanel("Select Neural Net Menu");
         }
@@ -255,11 +258,6 @@ namespace Edwon.VR.Gesture
             deleteGestureConfirmButton.onClick.AddListener(() => panelManager.FocusPanel("Gestures Menu")); 
         }
 
-        public void SelectNeuralNet(string neuralNetName)
-        {
-            gestureSettings.SelectNeuralNet(neuralNetName);
-        }
-
         public void BeginTraining()
         {
             panelManager.FocusPanel("Training Menu");
@@ -376,15 +374,15 @@ namespace Edwon.VR.Gesture
 
         void GenerateGesturesMenu()
         {
-            Transform listPanelParent = gesturesMenu.Find("List Panel");
+            Transform listPanelParent = gesturesMenu.Find("List Panel/Buttons Parent");
             gestureSettings.RefreshGestureBank(true);
-            GenerateGestureButtons(gestureSettings.gestureBank, listPanelParent);
-            Transform newGestureButton = gesturesMenu.Find("List Panel/New Gesture Button");
-            newGestureButton.transform.SetAsLastSibling();
+            StartCoroutine(GenerateGestureButtons(gestureSettings.gestureBank, listPanelParent));
         }
 
-        void GenerateGestureButtons(List<Gesture> gesturesToGenerate, Transform buttonsParent)
+        IEnumerator GenerateGestureButtons(List<Gesture> gesturesToGenerate, Transform buttonsParent)
         {
+            Transform newGestureButton = gesturesMenu.Find("List Panel/New Gesture Button");
+
             // first destroy the old gesture buttons if they are there
             if (gestureButtons != null)
             {
@@ -400,7 +398,18 @@ namespace Edwon.VR.Gesture
 
             float gestureButtonHeight = 30;
 
-            gestureButtons = GenerateButtonsFromList(GesturesAsStringList(gesturesToGenerate), buttonsParent, gestureButtonPrefab, gestureButtonHeight);
+            yield return StartCoroutine
+            (
+                GenerateButtonsFromList
+                (
+                    GesturesAsStringList(gesturesToGenerate),
+                    buttonsParent, 
+                    gestureButtonPrefab, 
+                    gestureButtonHeight, 
+                    buttonListAnimationDelay,
+                    value => gestureButtons = value
+                )
+            );
 
             // set the functions that the button will call when pressed
             for (int i = 0; i < gestureButtons.Count; i++)
@@ -445,20 +454,35 @@ namespace Edwon.VR.Gesture
                         break;
                 }
             }
+
+            newGestureButton.transform.SetAsLastSibling();
+
+            yield break;
         }
 
-        void GenerateNeuralNetMenuButtons()
+        IEnumerator GenerateNeuralNetMenuButtons()
         {
+
             int neuralNetMenuButtonHeight = 30;
 
-            neuralNetButtons = GenerateButtonsFromList(gestureSettings.neuralNets, selectNeuralNetMenu.transform, neuralNetButtonPrefab, neuralNetMenuButtonHeight);
+            yield return StartCoroutine
+            (
+                GenerateButtonsFromList
+                (
+                    gestureSettings.neuralNets,
+                    selectNeuralNetMenu.transform.Find("Buttons Parent"),
+                    neuralNetButtonPrefab,
+                    neuralNetMenuButtonHeight,
+                    buttonListAnimationDelay,
+                    value => neuralNetButtons = value
+                )
+            );
 
             // set the functions that the button will call when pressed
             for (int i = 0; i < neuralNetButtons.Count; i++)
             {
-                string neuralNetName = gestureSettings.neuralNets[i];
                 neuralNetButtons[i].onClick.AddListener(() => panelManager.FocusPanel("Main Menu"));
-                neuralNetButtons[i].onClick.AddListener(() => SelectNeuralNet(neuralNetName));
+                AddSelectNeuralNetListener(i);
             }
 
             // add on click functions to new neural net button
@@ -467,6 +491,14 @@ namespace Edwon.VR.Gesture
             newNeuralNetButtonButton.onClick.AddListener(gestureSettings.CreateNewNeuralNet);
             newNeuralNetButtonButton.onClick.AddListener(RefreshNeuralNetMenu);
             newNeuralNetButton.transform.SetAsLastSibling();
+
+            yield break;
+        }
+
+        void AddSelectNeuralNetListener(int index)
+        {
+            string neuralNetName = gestureSettings.neuralNets[index];
+            neuralNetButtons[index].onClick.AddListener(() => gestureSettings.SelectNeuralNet(neuralNetName));
         }
 
         void RefreshNeuralNetMenu()
@@ -482,10 +514,10 @@ namespace Edwon.VR.Gesture
             gestureSettings.RefreshNeuralNetList();
 
             // create the neural net menu buttons again
-            GenerateNeuralNetMenuButtons();
+            StartCoroutine(GenerateNeuralNetMenuButtons());
         }
 
-        List<Button> GenerateButtonsFromList(List<string> strings, Transform parent, GameObject prefab, float buttonHeight)
+        IEnumerator GenerateButtonsFromList(List<string> strings, Transform parent, GameObject prefab, float buttonHeight, float instantiateDelay, Action<List<Button>> buttonList)
         {
             List<Button> buttons = new List<Button>();
             for (int i = 0; i < strings.Count; i++)
@@ -521,8 +553,11 @@ namespace Edwon.VR.Gesture
                 }
                 buttonText.text = strings[i];
                 buttons.Add(button.GetComponent<Button>());
+
+                yield return new WaitForSeconds(instantiateDelay);
             }
-            return buttons;
+            buttonList(buttons);
+            yield break;
         }
 
         #endregion
