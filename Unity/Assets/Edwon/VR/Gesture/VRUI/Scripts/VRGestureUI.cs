@@ -320,11 +320,11 @@ namespace Edwon.VR.Gesture
             // get all the elements
             Image bigFeedbackImage = detectMenu.Find("List Panel/Detect Big Feedback").GetComponent<Image>();
             Text bigFeedbackText = bigFeedbackImage.transform.GetChild(0).GetComponent<Text>();
-            Text gestureLog = detectMenu.Find("List Panel/Detect Log Gesture").GetChild(0).GetComponent<Text>();
-            Text confidenceLog = detectMenu.Find("List Panel/Detect Log Confidence").GetChild(0).GetComponent<Text>();
-            Text infoLog = detectMenu.Find("List Panel/Detect Log Info").GetChild(0).GetComponent<Text>();
-            thresholdLog = detectMenu.Find("List Panel/Detect Log Threshold").GetChild(0).GetComponent<Text>();
-            thresholdSlider = detectMenu.Find("List Panel/Threshold Slider").GetComponent<Slider>();
+            Text gestureLog = detectMenu.Find("List Panel/Sub Panel/Right Panel/Detect Log Gesture").GetChild(0).GetComponent<Text>();
+            Text confidenceLog = detectMenu.Find("List Panel/Sub Panel/Right Panel/Detect Log Confidence").GetChild(0).GetComponent<Text>();
+            Text infoLog = detectMenu.Find("List Panel/Sub Panel/Right Panel/Detect Log Info").GetChild(0).GetComponent<Text>();
+            thresholdLog = detectMenu.Find("List Panel/Threshold Sub Panel/Detect Log Threshold").GetChild(0).GetComponent<Text>();
+            thresholdSlider = detectMenu.Find("List Panel/Threshold Sub Panel/Threshold Slider").GetComponent<Slider>();
 
             // at first set the slider to the stored confidence threshold
             thresholdSlider.value = (float)gestureSettings.confidenceThreshold;
