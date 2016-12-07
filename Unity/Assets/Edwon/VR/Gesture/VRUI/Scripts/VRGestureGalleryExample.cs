@@ -42,12 +42,12 @@ namespace Edwon.VR.Gesture
 
         public void OnPointerEnter()
         {
-            VRGestureUI.ToggleCanvasGroup(trash, false, 1);
+            Utils.ToggleCanvasGroup(trash, false, 1);
         }
 
         public void OnPointerExit()
         {
-            VRGestureUI.ToggleCanvasGroup(trash, false, 0);
+            Utils.ToggleCanvasGroup(trash, false, 0);
         }
 
         public GameObject DrawGesture(List<Vector3> capturedLine, int gestureExampleNumber)

@@ -8,6 +8,8 @@ namespace Edwon.VR.Gesture
     {
         private GestureSettings gestureSettings;
 
+        public string initialPanel;
+
         new public void Awake()
         {
             base.Awake();
@@ -26,21 +28,5 @@ namespace Edwon.VR.Gesture
                 FocusPanel(initialPanel);
         }
 
-        public new void FocusPanel(string panelName)
-        {
-            base.FocusPanel(panelName);
-
-            foreach (CanvasGroup panel in panels)
-            {
-                if (panel.gameObject.name == panelName)
-                {
-                    VRGestureUI.ToggleCanvasGroup(panel, true);
-                }
-                else
-                {
-                    VRGestureUI.ToggleCanvasGroup(panel, false);
-                }
-            }
-        }
     }
 }

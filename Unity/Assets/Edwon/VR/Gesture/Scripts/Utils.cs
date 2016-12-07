@@ -542,6 +542,45 @@ namespace Edwon.VR.Gesture
             return AssetDatabase.LoadAssetAtPath(Config.SETTINGS_ASSET_PATH, typeof(GestureSettings)) as GestureSettings;
         }
 
+        #region UI
+
+        public static void ToggleCanvasGroup(CanvasGroup cg, bool on)
+        {
+            if (on)
+            {
+                // turn panel on
+                cg.alpha = 1f;
+                cg.interactable = true;
+                cg.blocksRaycasts = true;
+            }
+            else
+            {
+                // turn panel off
+                cg.alpha = 0f;
+                cg.interactable = false;
+                cg.blocksRaycasts = false;
+            }
+        }
+
+        public static void ToggleCanvasGroup(CanvasGroup cg, bool on, float alpha)
+        {
+            if (on)
+            {
+                // turn panel on
+                cg.alpha = alpha;
+                cg.interactable = true;
+                cg.blocksRaycasts = true;
+            }
+            else
+            {
+                // turn panel off
+                cg.alpha = alpha;
+                cg.interactable = false;
+                cg.blocksRaycasts = false;
+            }
+        }
+
+        #endregion
     }
 
 }

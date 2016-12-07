@@ -275,7 +275,7 @@ namespace Edwon.VR.Gesture
         {
             if (panelName == "Editing Menu")
             {
-                VRGestureUI.ToggleCanvasGroup(canvasGroup, true);
+                Utils.ToggleCanvasGroup(canvasGroup, true);
                 currentGesture = rig.currentTrainer.CurrentGesture;
                 currentNeuralNet = gestureSettings.currentNeuralNet;
                 RefreshGestureExamples();
@@ -284,7 +284,7 @@ namespace Edwon.VR.Gesture
             }
             else if (panelName == "Gestures Menu")
             {
-                VRGestureUI.ToggleCanvasGroup(canvasGroup, false);
+                Utils.ToggleCanvasGroup(canvasGroup, false);
                 DestroyGestureGalleryGrids();
             }
 

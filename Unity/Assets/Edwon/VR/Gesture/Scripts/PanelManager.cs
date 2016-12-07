@@ -7,7 +7,6 @@ namespace Edwon.VR.Gesture
     public class PanelManager : MonoBehaviour
     {
 
-        public string initialPanel;
         [HideInInspector]
         public string currentPanel;
 
@@ -45,10 +44,23 @@ namespace Edwon.VR.Gesture
         {
             currentPanel = panelName;
 
+            foreach (CanvasGroup panel in panels)
+            {
+                if (panel.gameObject.name == panelName)
+                {
+                    Utils.ToggleCanvasGroup(panel, true);
+                }
+                else
+                {
+                    Utils.ToggleCanvasGroup(panel, false);
+                }
+            }
+
             if (OnPanelFocusChanged != null)
             {
                 OnPanelFocusChanged(panelName);
             }
+
         }
 
     }

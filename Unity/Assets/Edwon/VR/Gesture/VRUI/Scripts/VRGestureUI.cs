@@ -98,7 +98,7 @@ namespace Edwon.VR.Gesture
             
             // start with hand UI visible
             uiVisible = true;
-            ToggleCanvasGroup(panelManager.canvasGroup, uiVisible);
+            Utils.ToggleCanvasGroup(panelManager.canvasGroup, uiVisible);
 
             buttonRectScale = new Vector3(0.6666f, 1, 0.2f);
 
@@ -141,10 +141,10 @@ namespace Edwon.VR.Gesture
             uiVisible = !uiVisible;
 
             if (vrGestureGallery != null)
-                ToggleCanvasGroup(vrGestureGallery.canvasGroup, uiVisible);
+                Utils.ToggleCanvasGroup(vrGestureGallery.canvasGroup, uiVisible);
 
             if (vrHandUIPanel != null)
-                ToggleCanvasGroup(vrHandUIPanel.GetComponent<CanvasGroup>(), uiVisible);
+                Utils.ToggleCanvasGroup(vrHandUIPanel.GetComponent<CanvasGroup>(), uiVisible);
         }
 
         #region CALLED BY BUTTON METHODS
@@ -187,17 +187,17 @@ namespace Edwon.VR.Gesture
 
             // ENABLE BUTTONS DEPENDING ON TRAINING STATE
             // enable record button because always need it
-            ToggleCanvasGroup(gesturesButton, true, 1f);
+            Utils.ToggleCanvasGroup(gesturesButton, true, 1f);
 
             if (gestureSettings.gestureBank.Count > 0)
             {
                 // some gestures recorded, show edit and train buttons
-                ToggleCanvasGroup(trainButton, true, 1f);
+                Utils.ToggleCanvasGroup(trainButton, true, 1f);
             }
             if (gestureSettings.Gestures.Count > 0)
             {
                 // some gestures trained, show detect button
-                ToggleCanvasGroup(detectButton, true, 1f);
+                Utils.ToggleCanvasGroup(detectButton, true, 1f);
             }
         }
 
@@ -769,42 +769,6 @@ namespace Edwon.VR.Gesture
 
             Text title = currentNeuralNetworkTitle.FindChild("neural network name").GetComponent<Text>();
             return title;
-        }
-
-        public static void ToggleCanvasGroup(CanvasGroup cg, bool on)
-        {
-            if (on)
-            {
-                // turn panel on
-                cg.alpha = 1f;
-                cg.interactable = true;
-                cg.blocksRaycasts = true;
-            }
-            else
-            {
-                // turn panel off
-                cg.alpha = 0f;
-                cg.interactable = false;
-                cg.blocksRaycasts = false;
-            }
-        }
-
-        public static void ToggleCanvasGroup(CanvasGroup cg, bool on, float alpha)
-        {
-            if (on)
-            {
-                // turn panel on
-                cg.alpha = alpha;
-                cg.interactable = true;
-                cg.blocksRaycasts = true;
-            }
-            else
-            {
-                // turn panel off
-                cg.alpha = alpha;
-                cg.interactable = false;
-                cg.blocksRaycasts = false;
-            }
         }
     }
 }

@@ -2595,7 +2595,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentPanel: Select Neural Net Menu
+  panels: []
   canvasGroup: {fileID: 22520596}
+  initialPanel: Select Neural Net Menu
 --- !u!114 &11460622
 MonoBehaviour:
   m_ObjectHideFlags: 1
