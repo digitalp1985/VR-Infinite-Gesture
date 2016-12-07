@@ -32,6 +32,7 @@ namespace Edwon.VR.Gesture
         //public VRGestureManager VRGestureManagerInstance; // the VRGestureManager script we want to interact with
         public RectTransform mainMenu; // the top level transform of the main menu
         public RectTransform gesturesMenu; // the top level transform of the gesturesMenu where we will generate gesture buttons'
+        public RectTransform recordingMenu;
         public RectTransform selectNeuralNetMenu; // the top level transform of the select neural net menu where we will generate buttons
         public RectTransform detectMenu;
         public GameObject neuralNetButtonPrefab;
@@ -414,15 +415,7 @@ namespace Edwon.VR.Gesture
             // set the functions that the button will call when pressed
             for (int i = 0; i < gestureButtons.Count; i++)
             {
-                string gestureName = gestureSettings.gestureBank[i].name;
-
-                Button recordButton = gestureButtons[i].transform.Find("Record Button").GetComponent<Button>();
-                recordButton.onClick.AddListener(() => BeginRecordingMenu(gestureName));
-                recordButton.onClick.AddListener(() => panelManager.FocusPanel("Recording Menu"));
-
-                Button editButton = gestureButtons[i].transform.Find("Edit Button").GetComponent<Button>();
-                editButton.onClick.AddListener(() => BeginEditGesture(gestureName));
-                editButton.onClick.AddListener(() => panelManager.FocusPanel("Editing Menu"));
+                AddGestureButtonListeners(i);
 
                 // set the gesture total examples
                 Text totalExamplesText = gestureButtons[i].transform.Find("Gesture Info Parent/Gesture Total").GetComponentInChildren<Text>();
@@ -458,6 +451,19 @@ namespace Edwon.VR.Gesture
             newGestureButton.transform.SetAsLastSibling();
 
             yield break;
+        }
+
+        void AddGestureButtonListeners(int index)
+        {
+            string gestureName = gestureSettings.gestureBank[index].name;
+
+            Button recordButton = gestureButtons[index].transform.Find("Record Button").GetComponent<Button>();
+            recordButton.onClick.AddListener(() => BeginRecordingMenu(gestureName));
+            recordButton.onClick.AddListener(() => panelManager.FocusPanel("Recording Menu"));
+
+            Button editButton = gestureButtons[index].transform.Find("Edit Button").GetComponent<Button>();
+            editButton.onClick.AddListener(() => BeginEditGesture(gestureName));
+            editButton.onClick.AddListener(() => panelManager.FocusPanel("Editing Menu"));
         }
 
         IEnumerator GenerateNeuralNetMenuButtons()
@@ -716,14 +722,21 @@ namespace Edwon.VR.Gesture
         {
             Predicate<Gesture> gestureFinder = (Gesture g) => { return g.name == rig.currentTrainer.CurrentGesture.name; };
             Gesture gesture = gestureSettings.gestureBank.Find(gestureFinder);
+            Text instructionsText = recordingMenu.Find("List Panel/Instructions Label/Text").GetComponent<Text>();
 
             switch (gesture.isSynchronous)
             {
                 case true:
-                    nowRecordingHandednessLabel.text = "Double Handed";
+                    {
+                        nowRecordingHandednessLabel.text = "Double Handed";
+                        instructionsText.text = "hold left and right triggers to record";
+                    }
                     break;
                 case false:
-                    nowRecordingHandednessLabel.text = "Single Handed";
+                    {
+                        nowRecordingHandednessLabel.text = "Single Handed";
+                        instructionsText.text = "hold trigger to record";
+                    }
                     break;
             }
         }
@@ -750,7 +763,7 @@ namespace Edwon.VR.Gesture
             Transform currentPanelParent = vrHandUIPanel.Find(panelManager.currentPanel);
             if (currentPanelParent == null)
                 return null;
-            Transform currentNeuralNetworkTitle = currentPanelParent.FindChild("Side Panel/Current Neural Network");
+            Transform currentNeuralNetworkTitle = currentPanelParent.FindChild("Top Panel/Current Neural Network");
             if (currentNeuralNetworkTitle == null)
                 return null;
 
