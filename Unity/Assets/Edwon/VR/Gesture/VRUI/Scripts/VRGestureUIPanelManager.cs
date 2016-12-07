@@ -1,45 +1,18 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 
 namespace Edwon.VR.Gesture
 {
-    [RequireComponent(typeof(CanvasGroup))]
     // this script should be placed on the panels parent
-    public class VRGestureUIPanelManager : MonoBehaviour
+    public class VRGestureUIPanelManager : PanelManager
     {
-
-        private string initialPanel = "Select Neural Net Menu";
-        [HideInInspector]
-        public string currentPanel;
-
-        public delegate void PanelFocusChanged(string panelName);
-        public static event PanelFocusChanged OnPanelFocusChanged;
-
-        List<CanvasGroup> panels;
-
-        [HideInInspector]
-        public CanvasGroup canvasGroup;
         private GestureSettings gestureSettings;
 
-        void Awake()
+        new public void Awake()
         {
-            gestureSettings = Utils.GetGestureSettings();
+            base.Awake();
 
-            // get the panels below me
-            canvasGroup = gameObject.GetComponent<CanvasGroup>();
-            panels = new List<CanvasGroup>();
-            CanvasGroup[] panelsTemp = transform.GetComponentsInChildren<CanvasGroup>();
-            for (int i = 0; i < panelsTemp.Length; i++)
-            {
-                if (panelsTemp[i] != canvasGroup)
-                {
-                    if (panelsTemp[i].transform.parent == transform)
-                        panels.Add(panelsTemp[i]);
-                }
-            }
+            gestureSettings = Utils.GetGestureSettings();
 
             if (gestureSettings.stateInitial == VRGestureUIState.ReadyToDetect)
             {
@@ -53,15 +26,9 @@ namespace Edwon.VR.Gesture
                 FocusPanel(initialPanel);
         }
 
-        public void FocusPanel(string panelName)
+        public new void FocusPanel(string panelName)
         {
-
-            currentPanel = panelName;
-
-            if (OnPanelFocusChanged != null)
-            {
-                OnPanelFocusChanged(panelName);
-            }
+            base.FocusPanel(panelName);
 
             foreach (CanvasGroup panel in panels)
             {
@@ -75,6 +42,5 @@ namespace Edwon.VR.Gesture
                 }
             }
         }
-
     }
 }
