@@ -18,23 +18,13 @@ MonoBehaviour:
   gestureButton: 5
   confidenceThreshold: 0.9800000190734863
   minimumGestureAxisLength: 0.1
-  beginInDetectMode: 1
+  beginInDetectMode: 0
   vrGestureDetectType: 0
   currentNeuralNet: Neural Net 1
-  lastNeuralNet: Neural Net 1
+  lastNeuralNet: Neural Net 2
   neuralNets:
   - Neural Net 1
-  - Neural Net 3
-  - Neural Net 4
-  - THE BEST DIPE NETWORK
-  gestureBank:
-  - name: dipe
-    hand: 1
-    isSynchronous: 0
-    exampleCount: 27
-  - name: Gesture 2
-    hand: 1
-    isSynchronous: 0
-    exampleCount: 4
+  - Neural Net 2
+  gestureBank: []
   state: 0
-  stateInitial: 8
+  stateInitial: 0

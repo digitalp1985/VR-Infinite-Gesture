@@ -12,7 +12,7 @@ namespace Edwon.VR.Gesture
         public delegate void GestureRejected(string error, string gestureName = null, double confidence = 0);
         public static event GestureRejected GestureRejectedEvent;
 
-        public GestureSettings gestureSettings;
+        public VRGestureSettings gestureSettings;
 
         string lastLeftGesture;
         DateTime lastLeftDetected;

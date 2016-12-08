@@ -160,6 +160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7806f37abda0d8642bad2a5bbfc0731a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentTutorialStep: 1
 --- !u!224 &298262368
 RectTransform:
   m_ObjectHideFlags: 0
@@ -258,7 +259,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Open the settings window and choose your VR Type from
+  m_Text: 'Open the VR Gesture Settings and choose your VR Type from
 
     Tools > VR Infinite Gesture > Settings'
 --- !u!222 &494320391
@@ -329,9 +330,9 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 729056590}
   m_Enabled: 1
-  m_Alpha: 0
-  m_Interactable: 0
-  m_BlocksRaycasts: 0
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!114 &729056593
 MonoBehaviour:
@@ -464,9 +465,9 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1040604065}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &1040604068
 MonoBehaviour:
@@ -529,9 +530,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 085bd720f96807846bcb4176771bed5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentPanel: {fileID: 0}
-  panels: []
-  parentCanvasGroup: {fileID: 0}
+  currentPanel: {fileID: 729056593}
+  panels:
+  - {fileID: 1040604068}
+  - {fileID: 729056593}
+  parentCanvasGroup: {fileID: 1479191457}
   initialPanel: 1
 --- !u!225 &1479191457
 CanvasGroup:
@@ -599,7 +602,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2079952974}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 1

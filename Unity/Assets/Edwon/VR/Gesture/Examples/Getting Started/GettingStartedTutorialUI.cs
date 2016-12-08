@@ -10,6 +10,8 @@ namespace Edwon.VR.Gesture
 
         GettingStartedTutorialUIPanelManager panelManager;
 
+        public int currentTutorialStep = 1;
+
         void Start()
         {
             panelManager = GetComponentInChildren<GettingStartedTutorialUIPanelManager>();
@@ -19,14 +21,29 @@ namespace Edwon.VR.Gesture
 
         IEnumerator IETutorialSequence()
         {
-            panelManager.FocusPanel("2");
+            panelManager.FocusPanel(2.ToString());
 
             yield break;
         }
 
-        void OnApplicationQuit()
+
+        #region EVENTS
+
+        void OnEnable()
         {
-            Debug.Log("onquit");
+            PanelManager.OnPanelFocusChanged += PanelFocusChanged;
         }
+
+        void OnDisable()
+        {
+            PanelManager.OnPanelFocusChanged -= PanelFocusChanged;
+        }
+
+        void PanelFocusChanged(Panel panel)
+        {
+
+        }
+
+        #endregion
     }
 }

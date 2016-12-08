@@ -9,7 +9,7 @@ namespace Edwon.VR.Gesture
         [HideInInspector]
         public Panel currentPanel;
 
-        public delegate void PanelFocusChanged(string panelName);
+        public delegate void PanelFocusChanged(Panel panel);
         public static event PanelFocusChanged OnPanelFocusChanged;
 
         [HideInInspector]
@@ -54,6 +54,12 @@ namespace Edwon.VR.Gesture
                 {
                     panel.TogglePanelVisibility(true);
                     currentPanel = panel;
+
+                    // send event
+                    if (OnPanelFocusChanged != null)
+                    {
+                        OnPanelFocusChanged(panel);
+                    }
                 }
                 else
                 {
@@ -61,14 +67,9 @@ namespace Edwon.VR.Gesture
                 }
             }
 
-            // send event
-            if (OnPanelFocusChanged != null)
-            {
-                OnPanelFocusChanged(panelName);
-            }
         }
 
-        public void FocusPanelNone()
+        public void FocusNoPanels()
         {
             currentPanel = null;
 

@@ -20,7 +20,7 @@ namespace Edwon.VR
         public bool displayGestureTrail = true;
         public int playerID = 0;
 
-        GestureSettings gestureSettings;
+        VRGestureSettings gestureSettings;
 
         //public VRRigAnchors vrRigAnchors;
         [SerializeField]

@@ -537,9 +537,9 @@ namespace Edwon.VR.Gesture
 
         }
 
-        public static GestureSettings GetGestureSettings()
+        public static VRGestureSettings GetGestureSettings()
         {
-            return AssetDatabase.LoadAssetAtPath(Config.SETTINGS_ASSET_PATH, typeof(GestureSettings)) as GestureSettings;
+            return AssetDatabase.LoadAssetAtPath(Config.SETTINGS_ASSET_PATH, typeof(VRGestureSettings)) as VRGestureSettings;
         }
 
         #region UI

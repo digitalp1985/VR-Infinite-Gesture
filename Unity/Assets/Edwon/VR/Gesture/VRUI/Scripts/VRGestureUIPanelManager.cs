@@ -6,7 +6,7 @@ namespace Edwon.VR.Gesture
     // this script should be placed on the panels parent
     public class VRGestureUIPanelManager : PanelManager
     {
-        private GestureSettings gestureSettings;
+        private VRGestureSettings gestureSettings;
 
         public string initialPanel;
 

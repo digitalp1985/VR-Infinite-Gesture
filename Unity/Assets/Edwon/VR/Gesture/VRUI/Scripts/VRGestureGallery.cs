@@ -42,7 +42,7 @@ namespace Edwon.VR.Gesture
 
         [HideInInspector]
         public CanvasGroup canvasGroup;
-        private GestureSettings gestureSettings;
+        private VRGestureSettings gestureSettings;
 
         // INIT
         void Start()
@@ -271,9 +271,9 @@ namespace Edwon.VR.Gesture
             VRGestureUIPanelManager.OnPanelFocusChanged -= PanelFocusChanged;
         }
 
-        void PanelFocusChanged(string panelName)
+        void PanelFocusChanged(Panel panel)
         {
-            if (panelName == "Editing Menu")
+            if (panel.name == "Editing Menu")
             {
                 Utils.ToggleCanvasGroup(canvasGroup, true);
                 currentGesture = rig.currentTrainer.CurrentGesture;
@@ -282,7 +282,7 @@ namespace Edwon.VR.Gesture
                 PositionGestureGallery();
                 CreateGestureGalleryGrids();
             }
-            else if (panelName == "Gestures Menu")
+            else if (panel.name == "Gestures Menu")
             {
                 Utils.ToggleCanvasGroup(canvasGroup, false);
                 DestroyGestureGalleryGrids();

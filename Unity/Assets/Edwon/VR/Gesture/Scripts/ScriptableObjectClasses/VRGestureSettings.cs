@@ -9,7 +9,7 @@ using System;
 
 namespace Edwon.VR.Gesture
 {
-    public class GestureSettings : ScriptableObject
+    public class VRGestureSettings : ScriptableObject
     {
 
         public VRGestureRig rig;
@@ -298,7 +298,7 @@ namespace Edwon.VR.Gesture
 
 #if UNITY_EDITOR
         [ExecuteInEditMode]
-        public GestureSettingsWindow.VRGestureRenameState RenameGesture(int gestureIndex)
+        public VRGestureSettingsWindow.VRGestureRenameState RenameGesture(int gestureIndex)
         {
             string newName = "";
             string oldName = "";
@@ -313,7 +313,7 @@ namespace Edwon.VR.Gesture
                 //Debug.LogError("Out of bounds");
             }
 
-            GestureSettingsWindow.VRGestureRenameState renameState = GestureSettingsWindow.VRGestureRenameState.Good;
+            VRGestureSettingsWindow.VRGestureRenameState renameState = VRGestureSettingsWindow.VRGestureRenameState.Good;
 
             if (oldName != newName)
             {
@@ -329,12 +329,12 @@ namespace Edwon.VR.Gesture
                 {
                     //reset gestureBank
                 gestureBank = gestureBankPreEdit.ConvertAll(gesture => gesture.Clone());
-                    renameState = GestureSettingsWindow.VRGestureRenameState.Duplicate;
+                    renameState = VRGestureSettingsWindow.VRGestureRenameState.Duplicate;
                 }
             }
             else
             {
-                renameState = GestureSettingsWindow.VRGestureRenameState.NoChange;
+                renameState = VRGestureSettingsWindow.VRGestureRenameState.NoChange;
             }
 
             return renameState;

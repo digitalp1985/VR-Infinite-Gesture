@@ -16,7 +16,7 @@ namespace Edwon.VR.Gesture
         public float buttonListAnimationDelay;
 
         VRGestureRig rig;
-        GestureSettings gestureSettings;
+        VRGestureSettings gestureSettings;
 
         bool uiVisible;
 
@@ -640,42 +640,42 @@ namespace Edwon.VR.Gesture
             }
         }
 
-        void PanelFocusChanged(string panelName)
+        void PanelFocusChanged(Panel panel)
         {
-            if (panelName == "Main Menu")
+            if (panel.name == "Main Menu")
             {
                 rig.uiState = VRGestureUIState.Idle;
                 BeginMainMenu();
             }
-            if (panelName == "Select Neural Net Menu")
+            if (panel.name == "Select Neural Net Menu")
             {
                 gestureSettings.RefreshNeuralNetList();
                 rig.uiState = VRGestureUIState.Idle;
             }
-            if (panelName == "Gestures Menu")
+            if (panel.name == "Gestures Menu")
             {
                 rig.uiState = VRGestureUIState.Gestures;
                 GenerateGesturesMenu();
             }
-            if (panelName == "New Gesture Settings Menu")
+            if (panel.name == "New Gesture Settings Menu")
             {
                 rig.uiState = VRGestureUIState.Idle;
                 GenerateGesturesMenu();
             }
-            if (panelName == "Recording Menu")
+            if (panel.name == "Recording Menu")
             {
                 //vrGestureManager.state = VRGestureManagerState.ReadyToRecord;
                 //Not sure why this is in here. This re-introduced the sticky button bug.
             }
-            if (panelName == "Editing Menu")
+            if (panel.name == "Editing Menu")
             {
                 rig.uiState = VRGestureUIState.Editing;
             }
-            if (panelName == "Delete Confirm Menu")
+            if (panel.name == "Delete Confirm Menu")
             {
                 rig.uiState = VRGestureUIState.Editing;
             }
-            if (panelName == "Detect Menu")
+            if (panel.name == "Detect Menu")
             {
                 BeginDetectMenu();
             }

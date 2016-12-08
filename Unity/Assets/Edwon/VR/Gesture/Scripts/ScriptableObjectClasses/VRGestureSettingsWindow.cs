@@ -7,11 +7,11 @@ using System;
 
 namespace Edwon.VR.Gesture
 {
-    public class GestureSettingsWindow : EditorWindow
+    public class VRGestureSettingsWindow : EditorWindow
     {
         int maxWidth = 300;
 
-        public GestureSettings gestureSettings;
+        public VRGestureSettings gestureSettings;
         public SerializedObject serializedObject;
 
         #region GUI VARIABLES
@@ -71,8 +71,8 @@ namespace Edwon.VR.Gesture
         public static void Init()
         {
             // get exisiting open window or if none make one
-            GestureSettingsWindow window = (
-                GestureSettingsWindow)EditorWindow.GetWindow<GestureSettingsWindow>(
+            VRGestureSettingsWindow window = (
+                VRGestureSettingsWindow)EditorWindow.GetWindow<VRGestureSettingsWindow>(
                     false, 
                     "VR Gesture", 
                     true );
@@ -138,9 +138,9 @@ namespace Edwon.VR.Gesture
             }
         }
 
-        public static GestureSettings CreateGestureSettingsAsset()
+        public static VRGestureSettings CreateGestureSettingsAsset()
         {
-            GestureSettings instance = CreateInstance<GestureSettings>();
+            VRGestureSettings instance = CreateInstance<VRGestureSettings>();
             //AssetDatabase.CreateFolder(Config.SETTINGS_FOLDER_PATH, Config.SETTINGS_FOLDER_NAME);
             AssetDatabase.CreateAsset(instance, Config.SETTINGS_ASSET_PATH);
             return instance;
