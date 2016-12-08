@@ -42,6 +42,11 @@ namespace Edwon.VR.Gesture
 
         public void FocusPanel(string panelName)
         {
+            if (panels == null || panels.Count == 0)
+            {
+                InitPanels();
+            }
+
             // focus panel
             foreach (Panel panel in panels)
             {

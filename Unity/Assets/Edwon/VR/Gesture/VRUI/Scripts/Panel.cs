@@ -46,6 +46,13 @@ namespace Edwon.VR.Gesture
             }
         }
 
+        public void SoloPanelVisibility()
+        {
+            Init();
+
+            panelManager.FocusPanel(gameObject.name);
+        }
+
         void ToggleOtherStuff(CanvasGroup cg, bool enabled)
         {
             // toggle movies

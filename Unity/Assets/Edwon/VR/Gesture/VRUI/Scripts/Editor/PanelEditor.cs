@@ -25,6 +25,11 @@ namespace Edwon.VR.Gesture
                     myPanel.TogglePanelVisibility(true);
                 }
             }
+            if (GUILayout.Button("Solo Panel"))
+            {
+                myPanel.SoloPanelVisibility();
+            }
+
         }
     }
 }
