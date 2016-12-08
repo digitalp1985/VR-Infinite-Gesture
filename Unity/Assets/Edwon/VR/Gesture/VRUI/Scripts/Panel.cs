@@ -6,6 +6,7 @@ namespace Edwon.VR.Gesture
 {
     public class Panel : MonoBehaviour
     {
+        [HideInInspector]
         public bool visible;
         PanelManager panelManager;
         [HideInInspector]
@@ -28,20 +29,18 @@ namespace Edwon.VR.Gesture
             }
         }
 
-        public void TogglePanelVisibility(bool _visible)
+        public virtual void TogglePanelVisibility(bool _visible)
         {
             Init();
 
             if (_visible == false)
             {
                 Utils.ToggleCanvasGroup(canvasGroup, false);
-                ToggleOtherStuff(canvasGroup, false);
                 visible = false;
             }
             else
             {
                 Utils.ToggleCanvasGroup(canvasGroup, true);
-                ToggleOtherStuff(canvasGroup, true);
                 visible = true;
             }
         }
@@ -51,20 +50,6 @@ namespace Edwon.VR.Gesture
             Init();
 
             panelManager.FocusPanel(gameObject.name);
-        }
-
-        void ToggleOtherStuff(CanvasGroup cg, bool enabled)
-        {
-            // toggle movies
-            MovieLooping[] movies = cg.GetComponentsInChildren<MovieLooping>();
-            if (movies != null)
-            {
-                foreach (MovieLooping movie in movies)
-                {
-                    movie.ToggleVisibility(enabled);
-                }
-
-            }
         }
 
     }

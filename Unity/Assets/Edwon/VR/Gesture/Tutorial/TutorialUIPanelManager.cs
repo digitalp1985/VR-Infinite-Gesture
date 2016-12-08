@@ -3,7 +3,7 @@ using System.Collections;
 
 namespace Edwon.VR.Gesture
 {
-    public class GettingStartedTutorialUIPanelManager : PanelManager
+    public class TutorialUIPanelManager : PanelManager
     {
         public string initialPanel;
 
@@ -11,14 +11,6 @@ namespace Edwon.VR.Gesture
         {
             base.Awake();
             FocusPanel(initialPanel);
-        }
-
-        void Update()
-        {
-            if (UnityEngine.Input.GetKeyDown(KeyCode.D))
-            {
-                FocusPanel("2");
-            }
         }
 
     }

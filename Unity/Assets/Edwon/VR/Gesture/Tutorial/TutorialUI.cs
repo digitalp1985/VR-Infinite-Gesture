@@ -5,16 +5,16 @@ using System.Collections;
 namespace Edwon.VR.Gesture
 {
     [ExecuteInEditMode]
-    public class GettingStartedTutorialUI : MonoBehaviour
+    public class TutorialUI : MonoBehaviour
     {
 
-        GettingStartedTutorialUIPanelManager panelManager;
+        TutorialUIPanelManager panelManager;
 
         public int currentTutorialStep = 1;
 
         void Start()
         {
-            panelManager = GetComponentInChildren<GettingStartedTutorialUIPanelManager>();
+            panelManager = GetComponentInChildren<TutorialUIPanelManager>();
 
             StartCoroutine(IETutorialSequence());
         }
@@ -41,7 +41,7 @@ namespace Edwon.VR.Gesture
 
         void PanelFocusChanged(Panel panel)
         {
-
+            
         }
 
         #endregion
