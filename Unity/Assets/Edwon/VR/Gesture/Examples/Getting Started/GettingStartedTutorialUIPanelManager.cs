@@ -9,9 +9,16 @@ namespace Edwon.VR.Gesture
 
         new public void Awake ()
         {
-            Debug.Log("awake");
             base.Awake();
             FocusPanel(initialPanel);
+        }
+
+        void Update()
+        {
+            if (UnityEngine.Input.GetKeyDown(KeyCode.D))
+            {
+                FocusPanel("2");
+            }
         }
 
     }

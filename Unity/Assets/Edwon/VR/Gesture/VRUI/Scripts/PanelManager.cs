@@ -6,18 +6,17 @@ namespace Edwon.VR.Gesture
     [RequireComponent(typeof(CanvasGroup))]
     public class PanelManager : MonoBehaviour
     {
-
         [HideInInspector]
-        public string currentPanel;
+        public Panel currentPanel;
 
         public delegate void PanelFocusChanged(string panelName);
         public static event PanelFocusChanged OnPanelFocusChanged;
 
         [HideInInspector]
-        public List<CanvasGroup> panels;
+        public List<Panel> panels;
 
         [HideInInspector]
-        public CanvasGroup canvasGroup;
+        public CanvasGroup parentCanvasGroup;
 
         public void Awake()
         {
@@ -27,12 +26,13 @@ namespace Edwon.VR.Gesture
         void InitPanels()
         {
             // get the panels below me
-            canvasGroup = gameObject.GetComponent<CanvasGroup>();
-            panels = new List<CanvasGroup>();
-            CanvasGroup[] panelsTemp = transform.GetComponentsInChildren<CanvasGroup>();
+            parentCanvasGroup = gameObject.GetComponent<CanvasGroup>();
+
+            panels = new List<Panel>();
+            Panel[] panelsTemp = transform.GetComponentsInChildren<Panel>();
             for (int i = 0; i < panelsTemp.Length; i++)
             {
-                if (panelsTemp[i] != canvasGroup)
+                if (panelsTemp[i] != parentCanvasGroup)
                 {
                     if (panelsTemp[i].transform.parent == transform)
                         panels.Add(panelsTemp[i]);
@@ -42,25 +42,42 @@ namespace Edwon.VR.Gesture
 
         public void FocusPanel(string panelName)
         {
-            currentPanel = panelName;
-
-            foreach (CanvasGroup panel in panels)
+            // focus panel
+            foreach (Panel panel in panels)
             {
                 if (panel.gameObject.name == panelName)
                 {
-                    Utils.ToggleCanvasGroup(panel, true);
+                    panel.TogglePanelVisibility(true);
+                    currentPanel = panel;
                 }
                 else
                 {
-                    Utils.ToggleCanvasGroup(panel, false);
+                    panel.TogglePanelVisibility(false);
                 }
             }
 
+            // send event
             if (OnPanelFocusChanged != null)
             {
                 OnPanelFocusChanged(panelName);
             }
+        }
 
+        public void FocusPanelNone()
+        {
+            currentPanel = null;
+
+            // hide all panels
+            foreach (Panel panel in panels)
+            {
+                panel.TogglePanelVisibility(false);
+            }
+
+            // send event
+            if (OnPanelFocusChanged != null)
+            {
+                OnPanelFocusChanged(null);
+            }
         }
 
     }

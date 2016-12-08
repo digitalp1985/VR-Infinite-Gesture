@@ -98,7 +98,7 @@ namespace Edwon.VR.Gesture
             
             // start with hand UI visible
             uiVisible = true;
-            Utils.ToggleCanvasGroup(panelManager.canvasGroup, uiVisible);
+            Utils.ToggleCanvasGroup(panelManager.parentCanvasGroup, uiVisible);
 
             buttonRectScale = new Vector3(0.6666f, 1, 0.2f);
 
@@ -758,9 +758,9 @@ namespace Edwon.VR.Gesture
                 return null;
             if (vrHandUIPanel == null)
                 return null;
-            if (vrHandUIPanel.Find(panelManager.currentPanel) == null)
+            if (vrHandUIPanel.Find(panelManager.currentPanel.name) == null)
                 return null;
-            Transform currentPanelParent = vrHandUIPanel.Find(panelManager.currentPanel);
+            Transform currentPanelParent = vrHandUIPanel.Find(panelManager.currentPanel.name);
             if (currentPanelParent == null)
                 return null;
             Transform currentNeuralNetworkTitle = currentPanelParent.FindChild("Top Panel/Current Neural Network");

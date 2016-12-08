@@ -326,6 +326,7 @@ GameObject:
   - 224: {fileID: 22462150}
   - 225: {fileID: 22556166}
   - 114: {fileID: 114000013383921192}
+  - 114: {fileID: 114000011626854630}
   m_Layer: 5
   m_Name: Training Menu
   m_TagString: Untagged
@@ -379,6 +380,7 @@ GameObject:
   - 224: {fileID: 22461670}
   - 225: {fileID: 22535794}
   - 114: {fileID: 114000012745452968}
+  - 114: {fileID: 114000014220335946}
   m_Layer: 5
   m_Name: Editing Menu
   m_TagString: Untagged
@@ -465,6 +467,7 @@ GameObject:
   - 224: {fileID: 22431822}
   - 225: {fileID: 22586552}
   - 114: {fileID: 114000014130895666}
+  - 114: {fileID: 114000013194765580}
   m_Layer: 5
   m_Name: Select Neural Net Menu
   m_TagString: Untagged
@@ -589,6 +592,7 @@ GameObject:
   - 224: {fileID: 22448746}
   - 225: {fileID: 22579050}
   - 114: {fileID: 114000011089314992}
+  - 114: {fileID: 114000011798726678}
   m_Layer: 5
   m_Name: New Gesture Settings Menu
   m_TagString: Untagged
@@ -820,6 +824,7 @@ GameObject:
   - 224: {fileID: 22414062}
   - 225: {fileID: 22519758}
   - 114: {fileID: 114000010418357826}
+  - 114: {fileID: 114000013072889808}
   m_Layer: 5
   m_Name: Delete Confirm Menu
   m_TagString: Untagged
@@ -1034,6 +1039,7 @@ GameObject:
   - 224: {fileID: 22467226}
   - 225: {fileID: 22594174}
   - 114: {fileID: 114000013396145752}
+  - 114: {fileID: 114000011655590788}
   m_Layer: 5
   m_Name: Detect Menu
   m_TagString: Untagged
@@ -1105,6 +1111,7 @@ GameObject:
   - 224: {fileID: 22404676}
   - 225: {fileID: 22555738}
   - 114: {fileID: 114000013505350528}
+  - 114: {fileID: 114000013784294166}
   m_Layer: 5
   m_Name: Recording Menu
   m_TagString: Untagged
@@ -2594,9 +2601,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 697b3757baa2e434e88fc855e53df601, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentPanel: Select Neural Net Menu
+  currentPanel: {fileID: 0}
   panels: []
-  canvasGroup: {fileID: 22520596}
+  parentCanvasGroup: {fileID: 0}
   initialPanel: Select Neural Net Menu
 --- !u!114 &11460622
 MonoBehaviour:
@@ -5552,6 +5559,7 @@ GameObject:
   - 224: {fileID: 224000013883437620}
   - 225: {fileID: 22549134}
   - 114: {fileID: 114000011522767744}
+  - 114: {fileID: 114000010778474620}
   m_Layer: 5
   m_Name: Main Menu
   m_TagString: Untagged
@@ -5622,6 +5630,7 @@ GameObject:
   - 224: {fileID: 224000014022421578}
   - 225: {fileID: 225000013104725142}
   - 114: {fileID: 114000011337341616}
+  - 114: {fileID: 114000012297452064}
   m_Layer: 5
   m_Name: Gestures Menu
   m_TagString: Untagged
@@ -7514,6 +7523,19 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
+--- !u!114 &114000010778474620
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011264932886}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06903fa65241c444f9b3652773aa2a58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visible: 0
+  canvasGroup: {fileID: 0}
 --- !u!114 &114000010837067722
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8510,6 +8532,19 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: hold trigger to record
+--- !u!114 &114000011626854630
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 130248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06903fa65241c444f9b3652773aa2a58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visible: 0
+  canvasGroup: {fileID: 0}
 --- !u!114 &114000011631858304
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8528,6 +8563,19 @@ MonoBehaviour:
   m_PreferredHeight: 50
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+--- !u!114 &114000011655590788
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 188608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06903fa65241c444f9b3652773aa2a58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visible: 0
+  canvasGroup: {fileID: 0}
 --- !u!114 &114000011661026936
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -8666,6 +8714,19 @@ MonoBehaviour:
   m_Spacing: 0
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
+--- !u!114 &114000011798726678
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 157864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06903fa65241c444f9b3652773aa2a58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visible: 0
+  canvasGroup: {fileID: 0}
 --- !u!114 &114000011835081398
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -9121,6 +9182,19 @@ MonoBehaviour:
   m_Spacing: 0
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
+--- !u!114 &114000012297452064
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000011387235378}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06903fa65241c444f9b3652773aa2a58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visible: 0
+  canvasGroup: {fileID: 0}
 --- !u!114 &114000012327246138
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10277,6 +10351,19 @@ MonoBehaviour:
   m_PreferredHeight: 50
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+--- !u!114 &114000013072889808
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 167662}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06903fa65241c444f9b3652773aa2a58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visible: 0
+  canvasGroup: {fileID: 0}
 --- !u!114 &114000013131668188
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -10362,6 +10449,19 @@ MonoBehaviour:
   m_Spacing: 0
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
+--- !u!114 &114000013194765580
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 143824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06903fa65241c444f9b3652773aa2a58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visible: 0
+  canvasGroup: {fileID: 0}
 --- !u!114 &114000013201284314
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11061,6 +11161,19 @@ MonoBehaviour:
   m_PreferredHeight: 30
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+--- !u!114 &114000013784294166
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 190992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06903fa65241c444f9b3652773aa2a58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visible: 0
+  canvasGroup: {fileID: 0}
 --- !u!114 &114000013787816916
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11544,6 +11657,19 @@ MonoBehaviour:
   m_Spacing: 0
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
+--- !u!114 &114000014220335946
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 137766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06903fa65241c444f9b3652773aa2a58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  visible: 0
+  canvasGroup: {fileID: 0}
 --- !u!114 &114000014221991444
 MonoBehaviour:
   m_ObjectHideFlags: 1
