@@ -48,6 +48,7 @@ namespace Edwon.VR.Gesture
         public virtual void SoloPanelVisibility()
         {
             Init();
+            panelManager.InitPanels();
 
             panelManager.FocusPanel(gameObject.name);
         }

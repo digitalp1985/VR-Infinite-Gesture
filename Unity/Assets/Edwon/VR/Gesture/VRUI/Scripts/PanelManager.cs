@@ -23,7 +23,7 @@ namespace Edwon.VR.Gesture
             InitPanels();
         }
 
-        void InitPanels()
+        public void InitPanels()
         {
             // get the panels below me
             parentCanvasGroup = gameObject.GetComponent<CanvasGroup>();
