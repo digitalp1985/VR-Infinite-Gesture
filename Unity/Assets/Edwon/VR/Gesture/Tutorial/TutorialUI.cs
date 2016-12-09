@@ -38,5 +38,6 @@ namespace Edwon.VR.Gesture
             currentTutorialStep -= 1;
             panelManager.FocusPanel(currentTutorialStep.ToString());
         }
+
     }
 }
