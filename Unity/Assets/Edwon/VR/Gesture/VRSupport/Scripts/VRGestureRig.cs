@@ -21,6 +21,17 @@ namespace Edwon.VR
         public int playerID = 0;
 
         VRGestureSettings gestureSettings;
+        VRGestureSettings GestureSettings
+        {
+            get
+            {
+                if (gestureSettings == null)
+                {
+                    gestureSettings = Utils.GetGestureSettings();
+                }
+                return gestureSettings;
+            }
+        }
 
         //public VRRigAnchors vrRigAnchors;
         [SerializeField]
@@ -88,14 +99,12 @@ namespace Edwon.VR
             if (gameObject.GetComponent("OVRCameraRig") != null || gameObject.GetComponent("OVRManager") != null)
             {
                 Utils.ChangeVRType(VRType.OculusVR);
-                gestureSettings = Utils.GetGestureSettings();
-                gestureSettings.vrType = VRType.OculusVR;
+                GestureSettings.vrType = VRType.OculusVR;
             }
             if (gameObject.GetComponent("SteamVR_ControllerManager") != null || gameObject.GetComponent("SteamVR_PlayArea") != null)
             {
                 Utils.ChangeVRType(VRType.SteamVR);
-                gestureSettings = Utils.GetGestureSettings();
-                gestureSettings.vrType = VRType.SteamVR;
+                GestureSettings.vrType = VRType.SteamVR;
             }
         }
 
@@ -106,11 +115,9 @@ namespace Edwon.VR
 
         void Init()
         {
-            gestureSettings = Utils.GetGestureSettings();
-
             CreateInputHelper();
 
-            if (gestureSettings.showVRUI)
+            if (GestureSettings.showVRUI)
             {
                 CreateVRUI();
             }
@@ -320,7 +327,7 @@ namespace Edwon.VR
 
             #endif
 
-            if (gestureSettings.showVRUI)
+            if (GestureSettings.showVRUI)
             {
                 VRLaserPointer laserLeft = handLeft.gameObject.AddComponent<VRLaserPointer>();
                 laserLeft.InitRig(this, Handedness.Left);
@@ -343,12 +350,12 @@ namespace Edwon.VR
         {
             if (useCustomControllerModels == false)
             {
-                if (gestureSettings.vrType == VRType.OculusVR)
+                if (GestureSettings.vrType == VRType.OculusVR)
                 {
                     handLeftModel = Resources.Load("VR Controller Art/Oculus_Simple_Left") as GameObject;
                     handRightModel = Resources.Load("VR Controller Art/Oculus_Simple_Right") as GameObject;
                 }
-                else if (gestureSettings.vrType == VRType.SteamVR)
+                else if (GestureSettings.vrType == VRType.SteamVR)
                 {
                     handLeftModel = Resources.Load("VR Controller Art/Vive_Simple") as GameObject;
                     handRightModel = Resources.Load("VR Controller Art/Vive_Simple") as GameObject;
@@ -368,8 +375,8 @@ namespace Edwon.VR
         #region RECORDING/DETECTING
         public void BeginReadyToRecord(string gesture)
         {
-            currentTrainer = new Trainer(gestureSettings.currentNeuralNet, gestureSettings.gestureBank);
-            currentTrainer.CurrentGesture = gestureSettings.FindGesture(gesture); ;
+            currentTrainer = new Trainer(GestureSettings.currentNeuralNet, GestureSettings.gestureBank);
+            currentTrainer.CurrentGesture = GestureSettings.FindGesture(gesture); ;
             uiState = VRGestureUIState.ReadyToRecord;
             leftCapture.state = VRGestureCaptureState.EnteringCapture;
             rightCapture.state = VRGestureCaptureState.EnteringCapture;
@@ -377,14 +384,14 @@ namespace Edwon.VR
 
         public void BeginEditing(string gesture)
         {
-            currentTrainer = new Trainer(gestureSettings.currentNeuralNet, gestureSettings.gestureBank);
-            currentTrainer.CurrentGesture = gestureSettings.FindGesture(gesture);
+            currentTrainer = new Trainer(GestureSettings.currentNeuralNet, GestureSettings.gestureBank);
+            currentTrainer.CurrentGesture = GestureSettings.FindGesture(gesture);
         }
 
         public void BeginDetect()
         {
             uiState = VRGestureUIState.ReadyToDetect;
-            currentRecognizer = new GestureRecognizer(gestureSettings.currentNeuralNet);
+            currentRecognizer = new GestureRecognizer(GestureSettings.currentNeuralNet);
         }
 
 
