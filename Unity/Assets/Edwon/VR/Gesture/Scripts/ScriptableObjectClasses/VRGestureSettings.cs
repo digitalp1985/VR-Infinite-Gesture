@@ -11,8 +11,18 @@ namespace Edwon.VR.Gesture
 {
     public class VRGestureSettings : ScriptableObject
     {
-
-        public VRGestureRig rig;
+        private VRGestureRig rig;
+        public VRGestureRig Rig
+        {
+            get
+            {
+                if (rig == null)
+                {
+                    rig = VRGestureRig.GetPlayerRig(playerID);
+                }
+                return rig;
+            }
+        }
         public int playerID = 0;
         public VRType vrType;
 
@@ -83,32 +93,24 @@ namespace Edwon.VR.Gesture
         //List of Processed Gestures
         //List of New Gestures sitting in data.
 
-        public void OnEnable()
-        {
-            rig = VRGestureRig.GetPlayerRig(playerID);
-        }
-
-
         #region NEURAL NETWORK ACTIVE METHODS
         //This should be called directly from UIController via instance
         //Most of these should be moved into RIG as they are just editing vars in RIG.
         [ExecuteInEditMode]
         public void BeginTraining(Action<string> callback)
         {
-            rig = VRGestureRig.GetPlayerRig(playerID);
-            rig.uiState = VRGestureUIState.Training;
-            rig.currentTrainer = new Trainer(currentNeuralNet, gestureBank);
-            rig.currentTrainer.TrainRecognizer();
+            Rig.uiState = VRGestureUIState.Training;
+            Rig.currentTrainer = new Trainer(currentNeuralNet, gestureBank);
+            Rig.currentTrainer.TrainRecognizer();
             // finish training
-            rig.uiState = VRGestureUIState.Idle;
+            Rig.uiState = VRGestureUIState.Idle;
             callback(currentNeuralNet);
         }
 
         [ExecuteInEditMode]
         public void EndTraining(Action<string> callback)
         {
-            rig = VRGestureRig.GetPlayerRig(playerID);
-            rig.uiState = VRGestureUIState.Idle;
+            Rig.uiState = VRGestureUIState.Idle;
             callback(currentNeuralNet);
         }
         #endregion
