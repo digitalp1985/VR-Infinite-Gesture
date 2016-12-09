@@ -44,6 +44,7 @@ namespace Edwon.VR.Gesture
                 if (ToggleByVRType(parentCG, enabled, VRType.OculusVR))
                 {
                     ToggleByVRType(parentCG, false, VRType.SteamVR);
+                    ToggleNavButtons(parentCG.transform, enabled);
                 }
                 else
                 {
@@ -56,6 +57,7 @@ namespace Edwon.VR.Gesture
                 if (ToggleByVRType(parentCG, enabled, VRType.SteamVR))
                 {
                     ToggleByVRType(parentCG, false, VRType.OculusVR);
+                    ToggleNavButtons(parentCG.transform, enabled);
                 }
                 else
                 {
@@ -86,7 +88,6 @@ namespace Edwon.VR.Gesture
             return false;
         }
 
-
         void ToggleChildMovies(Transform parent, bool enabled)
         {
             MovieLooping[] movies = parent.GetComponentsInChildren<MovieLooping>();
@@ -100,5 +101,10 @@ namespace Edwon.VR.Gesture
 
         }
 
+        void ToggleNavButtons(Transform parent, bool enabled)
+        {
+            CanvasGroup cg = parent.Find("Nav Buttons").GetComponent<CanvasGroup>();
+            Utils.ToggleCanvasGroup(cg, enabled);
+        }
     }
 }

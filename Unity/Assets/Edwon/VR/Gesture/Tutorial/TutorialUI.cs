@@ -22,28 +22,21 @@ namespace Edwon.VR.Gesture
         IEnumerator IETutorialSequence()
         {
             panelManager.FocusPanel(2.ToString());
+            currentTutorialStep = 2;
 
             yield break;
         }
 
-
-        #region EVENTS
-
-        void OnEnable()
+        public void OnButtonNext()
         {
-            PanelManager.OnPanelFocusChanged += PanelFocusChanged;
+            currentTutorialStep += 1;
+            panelManager.FocusPanel(currentTutorialStep.ToString());
         }
 
-        void OnDisable()
+        public void OnButtonBack()
         {
-            PanelManager.OnPanelFocusChanged -= PanelFocusChanged;
+            currentTutorialStep -= 1;
+            panelManager.FocusPanel(currentTutorialStep.ToString());
         }
-
-        void PanelFocusChanged(Panel panel)
-        {
-            
-        }
-
-        #endregion
     }
 }
