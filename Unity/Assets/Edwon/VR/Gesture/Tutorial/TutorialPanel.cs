@@ -25,17 +25,17 @@ namespace Edwon.VR.Gesture
 
             if (_visible == false)
             {
-                ToggleOtherStuff(canvasGroup, false);
+                ToggleEverything(canvasGroup, false);
                 visible = false;
             }
             else
             {
-                ToggleOtherStuff(canvasGroup, true);
+                ToggleEverything(canvasGroup, true);
                 visible = true;
             }
         }
 
-        void ToggleOtherStuff(CanvasGroup _canvasGroup, bool enabled)
+        void ToggleEverything(CanvasGroup _canvasGroup, bool enabled)
         {
             Init();
 

@@ -14,7 +14,15 @@ namespace Edwon.VR.Gesture
 
         void Start ()
         {
-            movieRenderer = GetComponent<Renderer>();
+            Init();
+        }
+
+        void Init()
+        {
+            if (movieRenderer == null)
+            {
+                movieRenderer = GetComponent<Renderer>();
+            }
         }
 
         void OnRenderObject()
@@ -87,6 +95,8 @@ namespace Edwon.VR.Gesture
 
         public void ToggleVisibility (bool enabled)
         {
+            Init();
+
             if (movieRenderer != null)
             {
                 movieRenderer.enabled = enabled;
