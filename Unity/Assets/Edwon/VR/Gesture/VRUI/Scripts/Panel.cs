@@ -17,7 +17,7 @@ namespace Edwon.VR.Gesture
             Init();
         }
 
-        void Init()
+        public virtual void Init()
         {
             if (panelManager == null)
             {
@@ -45,7 +45,7 @@ namespace Edwon.VR.Gesture
             }
         }
 
-        public void SoloPanelVisibility()
+        public virtual void SoloPanelVisibility()
         {
             Init();
 
