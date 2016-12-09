@@ -101,6 +101,11 @@ namespace Edwon.VR
 
         void Awake()
         {
+            Init();
+        }
+
+        void Init()
+        {
             gestureSettings = Utils.GetGestureSettings();
 
             CreateInputHelper();
@@ -109,10 +114,7 @@ namespace Edwon.VR
             {
                 CreateVRUI();
             }
-        }
 
-        void Init()
-        {
             //maybe only init this if it does not exist.
             //Remove all game objects
             perpTransform = transform.Find("Perpindicular Head");
@@ -131,12 +133,7 @@ namespace Edwon.VR
             }
             leftCapture = new CaptureHand(this, perpTransform, Handedness.Left, leftTrail);
             rightCapture = new CaptureHand(this, perpTransform, Handedness.Right, rightTrail);
-        }
-        
 
-        void OnEnable()
-        {
-            Init();
             if (leftCapture != null && rightCapture != null)
             {
                 SubscribeToEvents();
