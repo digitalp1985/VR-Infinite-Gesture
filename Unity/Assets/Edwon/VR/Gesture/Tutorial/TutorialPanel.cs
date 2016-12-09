@@ -35,33 +35,57 @@ namespace Edwon.VR.Gesture
             }
         }
 
-        void ToggleEverything(CanvasGroup _canvasGroup, bool enabled)
+        void ToggleEverything(CanvasGroup parentCG, bool enabled)
         {
             Init();
 
-            CanvasGroup[] cgs = _canvasGroup.GetComponentsInChildren<CanvasGroup>();
-            foreach(CanvasGroup cg in cgs)
+            if (gestureSettings.vrType == VRType.OculusVR)
             {
-                // if oculus ui, toggle that
-                if (gestureSettings.vrType == VRType.OculusVR && cg.gameObject.name == "Oculus")
+                if (ToggleByVRType(parentCG, enabled, VRType.OculusVR))
                 {
-                    Utils.ToggleCanvasGroup(cg, enabled);
-                    ToggleChildMovies(cg.transform, enabled);
+                    ToggleByVRType(parentCG, false, VRType.SteamVR);
                 }
-                // if steam ui, toggle that
-                else if (gestureSettings.vrType == VRType.SteamVR && cg.gameObject.name == "Steam")
-                {
-                    Utils.ToggleCanvasGroup(cg, enabled);
-                    ToggleChildMovies(cg.transform, enabled);
-                }
-                // else toggle the whole thing
                 else
                 {
-                    Utils.ToggleCanvasGroup(canvasGroup, enabled);
-                    ToggleChildMovies(canvasGroup.transform, enabled);
+                    ToggleNormally(parentCG, enabled);
                 }
             }
+
+            if (gestureSettings.vrType == VRType.SteamVR)
+            {
+                if (ToggleByVRType(parentCG, enabled, VRType.SteamVR))
+                {
+                    ToggleByVRType(parentCG, false, VRType.OculusVR);
+                }
+                else
+                {
+                    ToggleNormally(parentCG, enabled);
+                }
+            }
+
         }
+
+        void ToggleNormally(CanvasGroup parentCG, bool enabled)
+        {
+            Utils.ToggleCanvasGroup(parentCG, enabled);
+            ToggleChildMovies(parentCG.transform, enabled);
+        }
+
+        bool ToggleByVRType(CanvasGroup parentCG, bool enabled, VRType vrType)
+        {
+            CanvasGroup[] cgs = parentCG.GetComponentsInChildren<CanvasGroup>();
+            foreach (CanvasGroup cg in cgs)
+            {
+                if (cg.gameObject.name == vrType.ToString())
+                {
+                    Utils.ToggleCanvasGroup(cg, enabled);
+                    ToggleChildMovies(cg.transform, enabled);
+                    return true;
+                }
+            }
+            return false;
+        }
+
 
         void ToggleChildMovies(Transform parent, bool enabled)
         {
