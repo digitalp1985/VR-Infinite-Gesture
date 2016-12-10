@@ -44,7 +44,7 @@ namespace Edwon.VR.Gesture
                 if (ToggleByVRType(parentCG, enabled, VRType.OculusVR))
                 {
                     ToggleByVRType(parentCG, false, VRType.SteamVR);
-                    ToggleNavButtons(parentCG.transform, enabled);
+                    ToggleOtherStuff(parentCG.transform, enabled);
                 }
                 else
                 {
@@ -57,7 +57,7 @@ namespace Edwon.VR.Gesture
                 if (ToggleByVRType(parentCG, enabled, VRType.SteamVR))
                 {
                     ToggleByVRType(parentCG, false, VRType.OculusVR);
-                    ToggleNavButtons(parentCG.transform, enabled);
+                    ToggleOtherStuff(parentCG.transform, enabled);
                 }
                 else
                 {
@@ -101,10 +101,18 @@ namespace Edwon.VR.Gesture
 
         }
 
-        void ToggleNavButtons(Transform parent, bool enabled)
+        void ToggleOtherStuff(Transform parent, bool enabled)
         {
-            CanvasGroup cg = parent.Find("Nav Buttons").GetComponent<CanvasGroup>();
-            Utils.ToggleCanvasGroup(cg, enabled);
+            if (parent.Find("Nav Buttons") != null)
+            {
+                CanvasGroup navButtonsCG = parent.Find("Nav Buttons").GetComponent<CanvasGroup>();
+                Utils.ToggleCanvasGroup(navButtonsCG, enabled);
+            }
+            if (parent.Find("Caution Sign") != null)
+            {
+                CanvasGroup cautionSignCG = parent.Find("Caution Sign").GetComponent<CanvasGroup>();
+                Utils.ToggleCanvasGroup(cautionSignCG, enabled);
+            }
         }
     }
 }

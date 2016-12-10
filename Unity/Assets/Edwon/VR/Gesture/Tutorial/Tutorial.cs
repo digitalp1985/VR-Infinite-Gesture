@@ -75,18 +75,28 @@ namespace Edwon.VR.Gesture
 
         void Start()
         {
-            if (ReadTutorialSettings() == null)
+            // start - when play mode starts
+            if (EditorApplication.isPlaying)
             {
-                //if first time go to step to
-                GoToTutorialStep(2);
-            }
-            else
-            {
+                // if no file yet
+                if (ReadTutorialSettings() == null)
+                {
+                    //if first time go to step to
+                    GoToTutorialStep(2);
+                }
+
                 TutorialSettings = ReadTutorialSettings();
-                GoToTutorialStep(TutorialSettings.currentTutorialStep);
+                if (TutorialSettings.currentTutorialStep == 1)
+                {
+                    GoToTutorialStep(2);
+                }
+                else
+                {
+                    GoToTutorialStep(TutorialSettings.currentTutorialStep);
+                }
             }
 
-            //// start is also called when you exit play mode
+            // start - when edit mode starts
             if (!EditorApplication.isPlaying)
             {
                 RefreshTutorialSettings();
