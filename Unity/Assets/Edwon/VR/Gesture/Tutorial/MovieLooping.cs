@@ -7,7 +7,6 @@ namespace Edwon.VR.Gesture
     public class MovieLooping : MonoBehaviour
     {
 
-        public Texture movieFile;
         Renderer movieRenderer;
         RawImage movieImage; // ui version
         MovieTexture movieTexture;
@@ -34,15 +33,6 @@ namespace Edwon.VR.Gesture
             }
             if (movieRenderer != null)
             {
-                if (movieFile == null)
-                {
-                    Debug.Log("add a movie file to " + gameObject.name + " please");
-                }
-                else
-                {
-                    movieRenderer.sharedMaterial.mainTexture = movieFile;
-                }
-
                 if (movieTexture == null)
                 {
                     movieTexture = (MovieTexture)movieRenderer.sharedMaterial.mainTexture;
@@ -67,15 +57,6 @@ namespace Edwon.VR.Gesture
                 }
                 else
                 {
-                    if (movieFile == null)
-                    {
-                        Debug.Log("add a movie file to " + gameObject.name + " please");
-                    }
-                    else
-                    {
-                        movieImage.texture = movieFile;
-                    }
-
                     if (movieTexture == null)
                     {
                         movieTexture = (MovieTexture)movieImage.material.mainTexture;

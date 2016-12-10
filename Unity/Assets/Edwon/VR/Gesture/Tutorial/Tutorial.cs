@@ -111,6 +111,21 @@ namespace Edwon.VR.Gesture
             SwitchTutorialState(tutorialState);
         }
 
+        void Update()
+        {
+            if (UnityEngine.Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                GoToTutorialStep(TutorialSettings.currentTutorialStep + 1);
+            }
+            if (UnityEngine.Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                if (TutorialSettings.currentTutorialStep - 1 >= 1)
+                {
+                    GoToTutorialStep(TutorialSettings.currentTutorialStep - 1);
+                }
+            }
+        }
+
         void GoToTutorialStep(int step)
         {
             TutorialSettings.currentTutorialStep = step;
