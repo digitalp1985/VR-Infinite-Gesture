@@ -725,12 +725,12 @@ namespace Edwon.VR.Gesture
                 {
                     case false:
                         {
-                            GUILayout.Label("👌", EditorStyles.centeredGreyMiniLabel, GUILayout.Width(35f));
+                            GUILayout.Label("one", EditorStyles.centeredGreyMiniLabel, GUILayout.Width(35f));
                         }
                         break;
                     case true:
                         {
-                            GUILayout.Label("👌👌", EditorStyles.centeredGreyMiniLabel, GUILayout.Width(35f));
+                            GUILayout.Label("two", EditorStyles.centeredGreyMiniLabel, GUILayout.Width(35f));
                         }
                         break;
                 }
