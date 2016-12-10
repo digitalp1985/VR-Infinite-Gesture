@@ -284,6 +284,7 @@ namespace Edwon.VR.Gesture
             SerializedProperty playerID = serializedObject.FindProperty("playerID");
             SerializedProperty vrType = serializedObject.FindProperty("vrType");
             SerializedProperty confidenceThreshold = serializedObject.FindProperty("confidenceThreshold");
+            SerializedProperty gestureSyncDelay = serializedObject.FindProperty("gestureSyncDelay");
             SerializedProperty minimumGestureAxisLength = serializedObject.FindProperty("minimumGestureAxisLength");
 
             EditorGUILayout.PropertyField(playerID);
@@ -330,6 +331,8 @@ namespace Edwon.VR.Gesture
             EditorGUILayout.PrefixLabel("Minimum Gesture Size");
             gestureSettings.minimumGestureAxisLength = EditorGUILayout.FloatField(minimumGestureAxisLength.floatValue);
             EditorGUILayout.EndHorizontal();
+
+            EditorGUILayout.PropertyField(gestureSyncDelay);
 
             // this should come back in a later update
             //EditorGUILayout.PropertyField(serializedObject.FindProperty("vrGestureDetectType"));
@@ -709,6 +712,13 @@ namespace Edwon.VR.Gesture
             }
         }
 
+
+        private void DisplayDialogForMutliCreation()
+        {
+
+        }
+
+
         private void ShowGestureListButtons(SerializedProperty list, int index)
         {
             // plus button
@@ -721,20 +731,28 @@ namespace Edwon.VR.Gesture
                 }
                 selectedFocus = "";
 
-                int size = list.arraySize + 1;
-
-                int counter = size;
-                bool createdGesture = false;
-                while (!createdGesture)
+                var option = EditorUtility.DisplayDialogComplex(
+                "Create Gesture",
+                "How many hands are in this gesture.",
+                "Single Gesture",
+                "Double Gesture",
+                "cancel");
+                switch (option)
                 {
-                    string newGestureName = "Gesture " + counter;
-                    counter++;
-                    if (gestureSettings.CheckForDuplicateGestures(newGestureName))
-                    {
-                        createdGesture = true;
-                        gestureSettings.CreateGesture(newGestureName);
-                    }
+                    // Create Single Gesture
+                    case 0:
+                        CreateNewGesture(list, false);
+                        break;
+                    // Create Double Gesture
+                    case 1:
+                        CreateNewGesture(list, true);
+                        break;
+                    // Cancel - do nothing
+                    case 2:
+                        break;
                 }
+
+                
             }
             // minus button
             if (GUILayout.Button(deleteButtonContent, EditorStyles.miniButtonRight, miniButtonWidth))
@@ -751,6 +769,23 @@ namespace Edwon.VR.Gesture
             }
         }
 
+        private void CreateNewGesture(SerializedProperty list, bool isDouble)
+        {
+            int size = list.arraySize + 1;
+
+            int counter = size;
+            bool createdGesture = false;
+            while (!createdGesture)
+            {
+                string newGestureName = "Gesture " + counter;
+                counter++;
+                if (gestureSettings.CheckForDuplicateGestures(newGestureName))
+                {
+                    createdGesture = true;
+                    gestureSettings.CreateGesture(newGestureName, isDouble);
+                }
+            }
+        }
     }
 }
 

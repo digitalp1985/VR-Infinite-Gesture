@@ -593,13 +593,13 @@ namespace Edwon.VR.Gesture
 	public class GestureExample
 	{
 		public string name;
-		public List<Vector3> data;
 		public bool trained;
 		public bool raw;
         public bool isSynchronous = false;
 		public Handedness hand = Handedness.Right;
+        public List<Vector3> data;
 
-		public double[] GetAsArray()
+        public double[] GetAsArray()
 		{
 			List<double> tmpLine = new List<double>();
 			//gestures.Add(JsonUtility.FromJson<GestureExample>(currentLine));
