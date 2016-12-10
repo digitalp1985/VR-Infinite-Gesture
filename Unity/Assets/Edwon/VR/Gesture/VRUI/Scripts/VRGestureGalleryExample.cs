@@ -32,9 +32,9 @@ namespace Edwon.VR.Gesture
             transform.localScale = Vector3.one;
 
             // set the trash icon position
-            //RectTransform trashTF = (RectTransform)trash.transform;
-            //trashTF.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, grid.gallery.gridUnitSize * 2);
-            //trashTF.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, grid.gallery.gridUnitSize * 2);
+            RectTransform trashTF = (RectTransform)trash.transform;
+            trashTF.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, grid.gallery.gestureDrawSize * 2);
+            trashTF.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, grid.gallery.gestureDrawSize * 2);
 
             // add the button listener function
             button.onClick.AddListener(() => grid.gallery.DeleteGestureExample(example, lineNumber));

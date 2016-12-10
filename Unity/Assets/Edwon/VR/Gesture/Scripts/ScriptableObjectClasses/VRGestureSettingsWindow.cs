@@ -91,11 +91,8 @@ namespace Edwon.VR.Gesture
 
         void OnDestroy()
         {
-            if (Utils.GetGestureSettings() == null)
+            if (Utils.GetGestureSettings() != null)
             {
-                //gestureSettings = CreateInstance<GestureSettings>();
-            }
-            else {
                 EditorUtility.SetDirty(gestureSettings);
                 AssetDatabase.SaveAssets();
             }
@@ -141,10 +138,8 @@ namespace Edwon.VR.Gesture
         public static VRGestureSettings CreateGestureSettingsAsset()
         {
             VRGestureSettings instance = CreateInstance<VRGestureSettings>();
-            //AssetDatabase.CreateFolder(Config.SETTINGS_FOLDER_PATH, Config.SETTINGS_FOLDER_NAME);
             AssetDatabase.CreateAsset(instance, Config.SETTINGS_ASSET_PATH);
             return instance;
-            //return null;
         }
 
         void SetSerializedObject()
