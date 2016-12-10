@@ -19,6 +19,8 @@ namespace Edwon.VR.Gesture
             SerializedProperty currentTutorialStep = serializedObject.FindProperty("currentTutorialStep");
             SerializedProperty tutorialState = serializedObject.FindProperty("tutorialState");
 
+            EditorGUILayout.PropertyField(currentTutorialStep);
+
             EditorGUI.BeginChangeCheck();
             EditorGUILayout.PropertyField(tutorialState);
             if (EditorGUI.EndChangeCheck())

@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEditor;
+using UnityEngine.UI;
 using System.Collections;
 
 namespace Edwon.VR.Gesture
@@ -39,7 +41,7 @@ namespace Edwon.VR.Gesture
         public TutorialState tutorialState;
 
         Camera cameraUI;
-        Camera CameraUI
+        public Camera CameraUI
         {
             get
             {
@@ -65,6 +67,11 @@ namespace Edwon.VR.Gesture
             else
             {
                 GoToTutorialStep(2);
+            }
+
+            if (tutorialState == TutorialState.InitialSetup)
+            {
+                GetComponent<Canvas>().worldCamera = CameraUI;
             }
         }
 
@@ -95,6 +102,13 @@ namespace Edwon.VR.Gesture
                     {
                         Debug.Log("initial setup");
                         CameraUI.enabled = true;
+                        EnableTutorialUISystem(true);
+                        PlayerSettings.virtualRealitySupported = false;
+                        if (GestureSettings.Rig != null)
+                        {
+                            GestureSettings.Rig.GetComponent<OVRCameraRig>().enabled = false;
+                            GestureSettings.Rig.head.GetComponent<Camera>().enabled = false;
+                        }
                     }
                     break;
                 case TutorialState.VRSetupComplete:
@@ -106,9 +120,24 @@ namespace Edwon.VR.Gesture
                 case TutorialState.InVR:
                     {
                         Debug.Log("in VR");
+                        CameraUI.enabled = false;
+                        EnableTutorialUISystem(false);
+                        PlayerSettings.virtualRealitySupported = true;
+                        if (GestureSettings.Rig != null)
+                        {
+                            GestureSettings.Rig.GetComponent<OVRCameraRig>().enabled = true;
+                            GestureSettings.Rig.head.GetComponent<Camera>().enabled = true;
+                        }
                     }
                     break;
             }
+        }
+
+        void EnableTutorialUISystem(bool enabled)
+        {
+            GetComponent<EventSystem>().enabled = enabled;
+            GetComponent<Canvas>().worldCamera = CameraUI;
+            //GetComponent<StandaloneInputModule>().enabled = enabled;
         }
 
         #region BUTTONS
