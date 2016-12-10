@@ -543,8 +543,10 @@ namespace Edwon.VR.Gesture
 
         void ShowGestures()
         {
-            // first update the gesture bank
-            gestureSettings.RefreshGestureBank(true);
+            if (gestureSettings.gestureBankPreEdit.Count != gestureSettings.gestureBank.Count)
+            {
+                gestureSettings.RefreshGestureBank(false);
+            }
 
             EditorGUILayout.LabelField("RECORDED GESTURES");
 
@@ -682,6 +684,7 @@ namespace Edwon.VR.Gesture
                 {
                     //Was is this one?
                     GUI.SetNextControlName(controlName);
+                    //We cannot use BeginCheck() on this because that will fire and event on EVERY keystroke.
                     EditorGUILayout.PropertyField(list.GetArrayElementAtIndex(i).FindPropertyRelative("name"), GUIContent.none);
                 }
                 if (showButtons)
