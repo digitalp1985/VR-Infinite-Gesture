@@ -107,6 +107,8 @@ namespace Edwon.VR.Gesture
             {
                 GetComponent<Canvas>().worldCamera = CameraUI;
             }
+
+            SwitchTutorialState(tutorialState);
         }
 
         void GoToTutorialStep(int step)
@@ -129,8 +131,14 @@ namespace Edwon.VR.Gesture
                         PlayerSettings.virtualRealitySupported = false;
                         if (GestureSettings.Rig != null)
                         {
+                            #if EDWON_VR_OCULUS
                             GestureSettings.Rig.GetComponent<OVRCameraRig>().enabled = false;
+                            GestureSettings.Rig.GetComponent<OVRManager>().enabled = false;
+#endif
+                            CameraUI.tag = "MainCamera";
+                            GestureSettings.Rig.head.GetComponent<Camera>().tag = "Untagged";
                             GestureSettings.Rig.head.GetComponent<Camera>().enabled = false;
+                            GestureSettings.Rig.enabled = false;
                         }
                     }
                     break;
@@ -148,8 +156,14 @@ namespace Edwon.VR.Gesture
                         PlayerSettings.virtualRealitySupported = true;
                         if (GestureSettings.Rig != null)
                         {
+                            #if EDWON_VR_OCULUS
                             GestureSettings.Rig.GetComponent<OVRCameraRig>().enabled = true;
+                            GestureSettings.Rig.GetComponent<OVRManager>().enabled = true;
+                            #endif
+                            CameraUI.tag = "Untagged";
+                            GestureSettings.Rig.head.GetComponent<Camera>().tag = "MainCamera";
                             GestureSettings.Rig.head.GetComponent<Camera>().enabled = true;
+                            GestureSettings.Rig.enabled = true;
                         }
                     }
                     break;
