@@ -32,6 +32,8 @@ namespace Edwon.VR.Gesture
         public InputOptions.Button gestureButton = InputOptions.Button.Trigger1;
         [Tooltip("the threshold over wich a gesture is considered correctly classified")]
         public double confidenceThreshold = 0.98;
+        [Tooltip("the amount of miliseconds allowed between two gestures performed simultaneously")]
+        public int gestureSyncDelay = 500;
         [Tooltip("Your gesture must have one axis longer than this length in world size")]
         public float minimumGestureAxisLength = 0.10f;
         [Tooltip("use this option for builds when you don't want users to see the VR UI from this plugin")]
@@ -61,7 +63,7 @@ namespace Edwon.VR.Gesture
             }
         }
         public List<Gesture> gestureBank; // list of recorded gesture for current neural net
-        List<Gesture> gestureBankPreEdit;
+        public List<Gesture> gestureBankPreEdit;
 
         public Trainer currentTrainer { get; set; }
 
@@ -322,14 +324,14 @@ namespace Edwon.VR.Gesture
                 {
                     //ACTUALLY RENAME THAT SHIZZ
                     Utils.RenameGestureFile(oldName, newName, currentNeuralNet);
-                Utils.SaveGestureBank(gestureBank, currentNeuralNet);
+                    Utils.SaveGestureBank(gestureBank, currentNeuralNet);
 
-                gestureBankPreEdit = gestureBank.ConvertAll(gesture => gesture.Clone());
+                    gestureBankPreEdit = gestureBank.ConvertAll(gesture => gesture.Clone());
                 }
                 else
                 {
                     //reset gestureBank
-                gestureBank = gestureBankPreEdit.ConvertAll(gesture => gesture.Clone());
+                    gestureBank = gestureBankPreEdit.ConvertAll(gesture => gesture.Clone());
                     renameState = VRGestureSettingsWindow.VRGestureRenameState.Duplicate;
                 }
             }

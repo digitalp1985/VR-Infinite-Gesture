@@ -26,7 +26,7 @@ namespace HutongGames.PlayMaker.Actions
             GestureRecognizer.GestureDetectedEvent -= OnGestureDetected;
         }
 
-        void OnGestureDetected (string _gestureName, double _confidence, Handedness _hand)
+        void OnGestureDetected (string _gestureName, double _confidence, Handedness _hand, bool isDouble)
         {
             if (_gestureName == gestureName.Value)
             {

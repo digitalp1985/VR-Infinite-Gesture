@@ -199,6 +199,9 @@ namespace Edwon.VR.Gesture
 
         public void DeleteGestureExample(GestureExample gestureExample, int lineNumber)
         {
+            Gesture g = gestureSettings.FindGesture(gestureExample.name);
+            g.exampleCount--;
+
             Utils.DeleteGestureExample(currentNeuralNet, gestureExample.name, lineNumber);
             allExamples.Remove(gestureExample);
             for (int i = grids.Count - 1; i >= 0 ; i--)

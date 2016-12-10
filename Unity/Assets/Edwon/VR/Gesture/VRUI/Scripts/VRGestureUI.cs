@@ -590,7 +590,7 @@ namespace Edwon.VR.Gesture
             //VRControllerUIInput.OnVRGuiHitChanged -= VRGuiHitChanged;
         }
 
-        void OnGestureDetected (string gestureName, double confidence, Handedness hand)
+        void OnGestureDetected (string gestureName, double confidence, Handedness hand, bool isDouble)
         {
             StartCoroutine(RefreshDetectLogs(gestureName, false, confidence, "Gesture Detected" ));
             //detectLog.text = gestureName + "\n" + confidence.ToString("F3");

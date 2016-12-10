@@ -7,7 +7,7 @@ namespace Edwon.VR.Gesture
 {
     public class GestureRecognizer
     {
-        public delegate void GestureDetected(string gestureName, double confidence, Handedness hand);
+        public delegate void GestureDetected(string gestureName, double confidence, Handedness hand, bool isDouble=false);
         public static event GestureDetected GestureDetectedEvent;
         public delegate void GestureRejected(string error, string gestureName = null, double confidence = 0);
         public static event GestureRejected GestureRejectedEvent;
@@ -15,8 +15,10 @@ namespace Edwon.VR.Gesture
         public VRGestureSettings gestureSettings;
 
         string lastLeftGesture;
+        double lastLeftConfidenceValue;
         DateTime lastLeftDetected;
         string lastRightGesture;
+        double lastRightConfidenceValue;
         DateTime lastRightDetected;
 
         public double confidenceThreshold = 0.9;
@@ -94,12 +96,14 @@ namespace Edwon.VR.Gesture
                         {
                             //leftCapture.SetRecognizedGesture(gesture);
                             lastLeftGesture = gesture;
+                            lastLeftConfidenceValue = currentConfidenceValue;
                             lastLeftDetected = DateTime.Now;
                         }
                         else if (hand == Handedness.Right)
                         {
                             //rightCapture.SetRecognizedGesture(gesture);
                             lastRightGesture = gesture;
+                            lastRightConfidenceValue = currentConfidenceValue;
                             lastRightDetected = DateTime.Now;
 
                         }
@@ -107,7 +111,7 @@ namespace Edwon.VR.Gesture
                         if (CheckForSync(gesture))
                         {
                             gesture = lastLeftGesture.Substring(LeftHandSyncPrefix.Length);
-                            GestureDetectedEvent("BOTH: " + gesture, 2.0, hand);
+                            GestureDetectedEvent(gesture, (lastLeftConfidenceValue+lastRightConfidenceValue)/2, hand, true);
                         }
                     }
 
@@ -136,7 +140,7 @@ namespace Edwon.VR.Gesture
         {
             //Check the diff in time between left and right timestamps.
             TimeSpan lapse = lastLeftDetected.Subtract(lastRightDetected).Duration();
-            TimeSpan limit = new TimeSpan(0, 0, 0, 0, 500);
+            TimeSpan limit = new TimeSpan(0, 0, 0, 0, gestureSettings.gestureSyncDelay);
 
             //if gesture starts with an R or an L.
             string gestureA = lastLeftGesture;

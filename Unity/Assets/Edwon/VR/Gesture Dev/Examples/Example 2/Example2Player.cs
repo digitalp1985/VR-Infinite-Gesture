@@ -48,7 +48,7 @@ namespace Edwon.VR.Gesture
             GestureRecognizer.GestureDetectedEvent -= OnGestureDetected;
         }
 
-        void OnGestureDetected(string gestureName, double confidence, Handedness hand)
+        void OnGestureDetected(string gestureName, double confidence, Handedness hand, bool isDouble)
         {
             string confidenceString = confidence.ToString().Substring(0, 4);
             //Debug.Log("detected gesture: " + gestureName + " with confidence: " + confidenceString);
