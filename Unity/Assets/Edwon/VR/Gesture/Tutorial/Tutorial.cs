@@ -9,6 +9,24 @@ namespace Edwon.VR.Gesture
     [ExecuteInEditMode]
     public class Tutorial : MonoBehaviour
     {
+        TutorialSettings tutorialSettings;
+        public TutorialSettings TutorialSettings
+        {
+            get
+            {
+                if (tutorialSettings == null)
+                {
+                    tutorialSettings = new TutorialSettings();
+                    return tutorialSettings;
+                }
+                return tutorialSettings;                
+            }
+            set
+            {
+                tutorialSettings = value;
+            }
+        }
+
         VRGestureSettings gestureSettings;
         VRGestureSettings GestureSettings
         {
@@ -35,8 +53,6 @@ namespace Edwon.VR.Gesture
             }
         }
 
-        public int currentTutorialStep = 1;
-
         public enum TutorialState { InitialSetup, VRSetupComplete, InVR };
         public TutorialState tutorialState;
 
@@ -59,14 +75,32 @@ namespace Edwon.VR.Gesture
 
         void Start()
         {
-            // start is also called when you exit play mode
+            // start - when play mode starts
+            if (EditorApplication.isPlaying)
+            {
+                // if no file yet
+                if (ReadTutorialSettings() == null)
+                {
+                    //if first time go to step to
+                    GoToTutorialStep(2);
+                }
+
+                TutorialSettings = ReadTutorialSettings();
+                if (TutorialSettings.currentTutorialStep == 1)
+                {
+                    GoToTutorialStep(2);
+                }
+                else
+                {
+                    GoToTutorialStep(TutorialSettings.currentTutorialStep);
+                }
+            }
+
+            // start - when edit mode starts
             if (!EditorApplication.isPlaying)
             {
-                ResetPanel();
-            }
-            else
-            {
-                GoToTutorialStep(2);
+                RefreshTutorialSettings();
+                GoToTutorialStep(TutorialSettings.currentTutorialStep);
             }
 
             if (tutorialState == TutorialState.InitialSetup)
@@ -75,22 +109,11 @@ namespace Edwon.VR.Gesture
             }
         }
 
-        void OnGUI()
-        {
-            if (UnityEngine.Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                OnButtonNext();
-            }
-        }
-
-        void ResetPanel()
-        {
-            GoToTutorialStep(1);
-        }
-
         void GoToTutorialStep(int step)
         {
-            currentTutorialStep = step;
+            TutorialSettings.currentTutorialStep = step;
+            SaveTutorialSettings(TutorialSettings);
+
             PanelManager.FocusPanel(step.ToString());
         }
 
@@ -106,9 +129,7 @@ namespace Edwon.VR.Gesture
                         PlayerSettings.virtualRealitySupported = false;
                         if (GestureSettings.Rig != null)
                         {
-                            #if EDWON_VR_OCULUS
                             GestureSettings.Rig.GetComponent<OVRCameraRig>().enabled = false;
-                            #endif
                             GestureSettings.Rig.head.GetComponent<Camera>().enabled = false;
                         }
                     }
@@ -127,9 +148,7 @@ namespace Edwon.VR.Gesture
                         PlayerSettings.virtualRealitySupported = true;
                         if (GestureSettings.Rig != null)
                         {
-                            #if EDWON_VR_OCULUS
                             GestureSettings.Rig.GetComponent<OVRCameraRig>().enabled = true;
-                            #endif
                             GestureSettings.Rig.head.GetComponent<Camera>().enabled = true;
                         }
                     }
@@ -144,19 +163,40 @@ namespace Edwon.VR.Gesture
             //GetComponent<StandaloneInputModule>().enabled = enabled;
         }
 
-#region BUTTONS
+        public void SaveTutorialSettings(TutorialSettings instance)
+        {
+            string json = JsonUtility.ToJson(instance, true);
+            System.IO.File.WriteAllText(TutorialSettings.TUTORIAL_SAVE_PATH, json);
+        }
+
+        void RefreshTutorialSettings()
+        {
+            TutorialSettings = ReadTutorialSettings();
+        }
+
+        public TutorialSettings ReadTutorialSettings()
+        {
+            if (System.IO.File.Exists(TutorialSettings.TUTORIAL_SAVE_PATH))
+            {
+                string text = System.IO.File.ReadAllText(TutorialSettings.TUTORIAL_SAVE_PATH);
+                return JsonUtility.FromJson<TutorialSettings>(text);
+            }
+            return null;
+        }
+
+        #region BUTTONS
 
         public void OnButtonNext()
         {
-            GoToTutorialStep(currentTutorialStep + 1);
+            GoToTutorialStep(TutorialSettings.currentTutorialStep + 1);
         }
 
         public void OnButtonBack()
         {
-            GoToTutorialStep(currentTutorialStep - 1);
+            GoToTutorialStep(TutorialSettings.currentTutorialStep - 1);
         }
 
-#endregion
+        #endregion
 
     }
 }

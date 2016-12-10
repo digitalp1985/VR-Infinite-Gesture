@@ -6,7 +6,6 @@ namespace Edwon.VR.Gesture
 {
     public class Panel : MonoBehaviour
     {
-        [HideInInspector]
         public bool visible;
         PanelManager panelManager;
         [HideInInspector]

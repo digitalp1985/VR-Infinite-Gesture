@@ -16,10 +16,9 @@ namespace Edwon.VR.Gesture
             //DrawDefaultInspector();
             tutorial = (Tutorial)target;
 
-            SerializedProperty currentTutorialStep = serializedObject.FindProperty("currentTutorialStep");
             SerializedProperty tutorialState = serializedObject.FindProperty("tutorialState");
 
-            EditorGUILayout.PropertyField(currentTutorialStep);
+            EditorGUILayout.IntField(tutorial.TutorialSettings.currentTutorialStep);
 
             EditorGUI.BeginChangeCheck();
             EditorGUILayout.PropertyField(tutorialState);
