@@ -734,9 +734,9 @@ namespace Edwon.VR.Gesture
         {
             return EditorUtility.DisplayDialogComplex(
                 "Create Gesture",
-                "How many hands are in this gesture.",
-                "Single Gesture",
-                "Double Gesture",
+                "Create a one or two handed gesture?",
+                "One Handed",
+                "Two Handed",
                 "cancel");
         }
 
