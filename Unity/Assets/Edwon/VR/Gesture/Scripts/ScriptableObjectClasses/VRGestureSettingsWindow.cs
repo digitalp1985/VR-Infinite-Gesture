@@ -689,6 +689,7 @@ namespace Edwon.VR.Gesture
                 }
                 if (showButtons)
                 {
+                    ShowGestureListHandedness(i);
                     ShowGestureListTotalExamples(i);
                     ShowGestureListButtons(list, i);
                     EditorGUILayout.EndHorizontal();
@@ -718,6 +719,29 @@ namespace Edwon.VR.Gesture
             }
         }
 
+        private void ShowGestureListHandedness(int index)
+        {
+            //Sometimes on the first repaint this will still be looking at the previous gestureBank
+            //this means we will be checking the index intended for a different array.
+            if (index < gestureSettings.gestureBank.Count)
+            {
+                Gesture g = gestureSettings.gestureBank[index];
+                switch (g.isSynchronous)
+                {
+                    case false:
+                        {
+                            GUILayout.Label("👌", EditorStyles.centeredGreyMiniLabel, GUILayout.Width(35f));
+                        }
+                        break;
+                    case true:
+                        {
+                            GUILayout.Label("👌👌", EditorStyles.centeredGreyMiniLabel, GUILayout.Width(35f));
+                        }
+                        break;
+                }
+            }
+        }
+
         private void ShowGestureListTotalExamples(int index)
         {
             //Sometimes on the first repaint this will still be looking at the previous gestureBank
@@ -729,7 +753,6 @@ namespace Edwon.VR.Gesture
             }
         }
 
-
         private int DisplayDialogForGestureCreation()
         {
             return EditorUtility.DisplayDialogComplex(
@@ -739,7 +762,6 @@ namespace Edwon.VR.Gesture
                 "Two Handed",
                 "cancel");
         }
-
 
         private void ShowGestureListButtons(SerializedProperty list, int index)
         {
