@@ -5,7 +5,7 @@ using System.Collections;
 namespace Edwon.VR.Gesture
 {
     [ExecuteInEditMode]
-    public class TutorialUI : MonoBehaviour
+    public class Tutorial : MonoBehaviour
     {
         VRGestureSettings gestureSettings;
         VRGestureSettings GestureSettings
@@ -35,6 +35,26 @@ namespace Edwon.VR.Gesture
 
         public int currentTutorialStep = 1;
 
+        public enum TutorialState { InitialSetup, VRSetupComplete, InVR };
+        public TutorialState tutorialState;
+
+        Camera cameraUI;
+        Camera CameraUI
+        {
+            get
+            {
+                if (cameraUI == null)
+                {
+                    cameraUI = transform.GetComponentInChildren<Camera>();
+                    return cameraUI;
+                }
+                else
+                {
+                    return cameraUI;
+                }
+            }
+        }
+
         void Start()
         {
             // start is also called when you exit play mode
@@ -48,6 +68,14 @@ namespace Edwon.VR.Gesture
             }
         }
 
+        void OnGUI()
+        {
+            if (UnityEngine.Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                OnButtonNext();
+            }
+        }
+
         void ResetPanel()
         {
             GoToTutorialStep(1);
@@ -57,6 +85,30 @@ namespace Edwon.VR.Gesture
         {
             currentTutorialStep = step;
             PanelManager.FocusPanel(step.ToString());
+        }
+
+        public void SwitchTutorialState(TutorialState state)
+        {
+            switch (state)
+            {
+                case TutorialState.InitialSetup:
+                    {
+                        Debug.Log("initial setup");
+                        CameraUI.enabled = true;
+                    }
+                    break;
+                case TutorialState.VRSetupComplete:
+                    {
+                        Debug.Log("VR SEtup complete");
+                        CameraUI.enabled = false;
+                    }
+                    break;
+                case TutorialState.InVR:
+                    {
+                        Debug.Log("in VR");
+                    }
+                    break;
+            }
         }
 
         #region BUTTONS
