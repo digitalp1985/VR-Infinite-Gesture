@@ -700,7 +700,21 @@ namespace Edwon.VR.Gesture
             // if the list is empty show the plus + button
             if (showButtons && list.arraySize == 0 && GUILayout.Button(addButtonContent, EditorStyles.miniButton))
             {
-                gestureSettings.CreateGesture("Gesture 1");
+                var option = DisplayDialogForGestureCreation();
+                switch (option)
+                {
+                    // Create Single Gesture
+                    case 0:
+                        gestureSettings.CreateGesture("Gesture 1", false);
+                        break;
+                    // Create Double Gesture
+                    case 1:
+                        gestureSettings.CreateGesture("Gesture 1", true);
+                        break;
+                    // Cancel - do nothing
+                    case 2:
+                        break;
+                }
             }
         }
 
@@ -716,9 +730,14 @@ namespace Edwon.VR.Gesture
         }
 
 
-        private void DisplayDialogForMutliCreation()
+        private int DisplayDialogForGestureCreation()
         {
-
+            return EditorUtility.DisplayDialogComplex(
+                "Create Gesture",
+                "How many hands are in this gesture.",
+                "Single Gesture",
+                "Double Gesture",
+                "cancel");
         }
 
 
@@ -734,12 +753,7 @@ namespace Edwon.VR.Gesture
                 }
                 selectedFocus = "";
 
-                var option = EditorUtility.DisplayDialogComplex(
-                "Create Gesture",
-                "How many hands are in this gesture.",
-                "Single Gesture",
-                "Double Gesture",
-                "cancel");
+                var option = DisplayDialogForGestureCreation();
                 switch (option)
                 {
                     // Create Single Gesture
