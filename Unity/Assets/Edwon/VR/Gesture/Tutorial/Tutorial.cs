@@ -106,7 +106,9 @@ namespace Edwon.VR.Gesture
                         PlayerSettings.virtualRealitySupported = false;
                         if (GestureSettings.Rig != null)
                         {
+                            #if EDWON_VR_OCULUS
                             GestureSettings.Rig.GetComponent<OVRCameraRig>().enabled = false;
+                            #endif
                             GestureSettings.Rig.head.GetComponent<Camera>().enabled = false;
                         }
                     }
@@ -125,7 +127,9 @@ namespace Edwon.VR.Gesture
                         PlayerSettings.virtualRealitySupported = true;
                         if (GestureSettings.Rig != null)
                         {
+                            #if EDWON_VR_OCULUS
                             GestureSettings.Rig.GetComponent<OVRCameraRig>().enabled = true;
+                            #endif
                             GestureSettings.Rig.head.GetComponent<Camera>().enabled = true;
                         }
                     }
@@ -140,7 +144,7 @@ namespace Edwon.VR.Gesture
             //GetComponent<StandaloneInputModule>().enabled = enabled;
         }
 
-        #region BUTTONS
+#region BUTTONS
 
         public void OnButtonNext()
         {
@@ -152,7 +156,7 @@ namespace Edwon.VR.Gesture
             GoToTutorialStep(currentTutorialStep - 1);
         }
 
-        #endregion
+#endregion
 
     }
 }
