@@ -7,37 +7,71 @@ namespace Edwon.VR.Gesture
     [ExecuteInEditMode]
     public class TutorialUI : MonoBehaviour
     {
+        VRGestureSettings gestureSettings;
+        VRGestureSettings GestureSettings
+        {
+            get
+            {
+                if (gestureSettings == null)
+                {
+                    gestureSettings = Utils.GetGestureSettings();
+                }
+                return gestureSettings;
+            }
+        }
 
         TutorialUIPanelManager panelManager;
+        TutorialUIPanelManager PanelManager
+        {
+            get
+            {
+                if (panelManager == null)
+                {
+                    panelManager = GetComponentInChildren<TutorialUIPanelManager>();
+                }
+                return panelManager;
+            }
+        }
 
         public int currentTutorialStep = 1;
 
         void Start()
         {
-            panelManager = GetComponentInChildren<TutorialUIPanelManager>();
-
-            StartCoroutine(IETutorialSequence());
+            // start is also called when you exit play mode
+            if (!EditorApplication.isPlaying)
+            {
+                ResetPanel();
+            }
+            else
+            {
+                GoToTutorialStep(2);
+            }
         }
 
-        IEnumerator IETutorialSequence()
+        void ResetPanel()
         {
-            panelManager.FocusPanel(2.ToString());
-            currentTutorialStep = 2;
-
-            yield break;
+            GoToTutorialStep(1);
         }
+
+        void GoToTutorialStep(int step)
+        {
+            currentTutorialStep = step;
+            PanelManager.FocusPanel(step.ToString());
+        }
+
+        #region BUTTONS
 
         public void OnButtonNext()
         {
-            currentTutorialStep += 1;
-            panelManager.FocusPanel(currentTutorialStep.ToString());
+            GoToTutorialStep(currentTutorialStep + 1);
         }
 
         public void OnButtonBack()
         {
-            currentTutorialStep -= 1;
-            panelManager.FocusPanel(currentTutorialStep.ToString());
+            GoToTutorialStep(currentTutorialStep - 1);
         }
+
+        #endregion
 
     }
 }
