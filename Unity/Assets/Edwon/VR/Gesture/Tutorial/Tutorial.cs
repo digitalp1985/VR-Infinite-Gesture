@@ -9,6 +9,23 @@ namespace Edwon.VR.Gesture
     [ExecuteInEditMode]
     public class Tutorial : MonoBehaviour
     {
+        TutorialSettings tutorialSettings;
+        public TutorialSettings TutorialSettings
+        {
+            get
+            {
+                if (tutorialSettings == null)
+                {
+                    tutorialSettings = TutorialSettings.CreateTutorialSettingsAsset();
+                    return tutorialSettings;
+                }
+                else
+                {
+                    return tutorialSettings;
+                }
+            }
+        }
+
         VRGestureSettings gestureSettings;
         VRGestureSettings GestureSettings
         {
@@ -34,8 +51,6 @@ namespace Edwon.VR.Gesture
                 return panelManager;
             }
         }
-
-        public int currentTutorialStep = 1;
 
         public enum TutorialState { InitialSetup, VRSetupComplete, InVR };
         public TutorialState tutorialState;
@@ -75,14 +90,6 @@ namespace Edwon.VR.Gesture
             }
         }
 
-        void OnGUI()
-        {
-            if (UnityEngine.Input.GetKeyDown(KeyCode.RightArrow))
-            {
-                OnButtonNext();
-            }
-        }
-
         void ResetPanel()
         {
             GoToTutorialStep(1);
@@ -90,7 +97,9 @@ namespace Edwon.VR.Gesture
 
         void GoToTutorialStep(int step)
         {
-            currentTutorialStep = step;
+            TutorialSettings.currentTutorialStep = step;
+            SaveTutorialSettings();
+
             PanelManager.FocusPanel(step.ToString());
         }
 
@@ -140,16 +149,23 @@ namespace Edwon.VR.Gesture
             //GetComponent<StandaloneInputModule>().enabled = enabled;
         }
 
+        public void SaveTutorialSettings()
+        {
+            AssetDatabase.Refresh();
+            EditorUtility.SetDirty(TutorialSettings);
+            AssetDatabase.SaveAssets();
+        }
+
         #region BUTTONS
 
         public void OnButtonNext()
         {
-            GoToTutorialStep(currentTutorialStep + 1);
+            GoToTutorialStep(TutorialSettings.currentTutorialStep + 1);
         }
 
         public void OnButtonBack()
         {
-            GoToTutorialStep(currentTutorialStep - 1);
+            GoToTutorialStep(TutorialSettings.currentTutorialStep - 1);
         }
 
         #endregion
