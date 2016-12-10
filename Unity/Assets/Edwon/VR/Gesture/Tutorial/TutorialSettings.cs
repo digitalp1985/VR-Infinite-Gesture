@@ -1,24 +1,11 @@
 ﻿using UnityEngine;
-using UnityEditor;
+using System;
 using System.Collections;
 
-[System.Serializable]
-public class TutorialSettings : ScriptableObject
+[Serializable]
+public class TutorialSettings
 {
-    const string SETTINGS_ASSET_PATH = @"Assets/Edwon/VR/Gesture/Settings/TutorialSettings.asset";
+    public const string TUTORIAL_SAVE_PATH = @"Assets/Edwon/VR/Gesture/Tutorial/Settings/TutorialSettings.txt";
 
-    public int currentTutorialStep;
-
-    public static TutorialSettings instance;
-
-    public static TutorialSettings CreateTutorialSettingsAsset()
-    {
-        if (instance == null)
-        {
-            instance = CreateInstance<TutorialSettings>();
-            AssetDatabase.CreateAsset(instance, SETTINGS_ASSET_PATH);
-        }
-        return instance;
-    }
-
+    public int currentTutorialStep = 1;
 }

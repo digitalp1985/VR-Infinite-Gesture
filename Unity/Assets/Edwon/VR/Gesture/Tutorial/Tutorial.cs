@@ -16,13 +16,14 @@ namespace Edwon.VR.Gesture
             {
                 if (tutorialSettings == null)
                 {
-                    tutorialSettings = TutorialSettings.CreateTutorialSettingsAsset();
+                    tutorialSettings = new TutorialSettings();
                     return tutorialSettings;
                 }
-                else
-                {
-                    return tutorialSettings;
-                }
+                return tutorialSettings;                
+            }
+            set
+            {
+                tutorialSettings = value;
             }
         }
 
@@ -74,14 +75,22 @@ namespace Edwon.VR.Gesture
 
         void Start()
         {
-            // start is also called when you exit play mode
-            if (!EditorApplication.isPlaying)
+            if (ReadTutorialSettings() == null)
             {
-                ResetPanel();
+                //if first time go to step to
+                GoToTutorialStep(2);
             }
             else
             {
-                GoToTutorialStep(2);
+                TutorialSettings = ReadTutorialSettings();
+                GoToTutorialStep(TutorialSettings.currentTutorialStep);
+            }
+
+            //// start is also called when you exit play mode
+            if (!EditorApplication.isPlaying)
+            {
+                RefreshTutorialSettings();
+                GoToTutorialStep(TutorialSettings.currentTutorialStep);
             }
 
             if (tutorialState == TutorialState.InitialSetup)
@@ -90,15 +99,10 @@ namespace Edwon.VR.Gesture
             }
         }
 
-        void ResetPanel()
-        {
-            GoToTutorialStep(1);
-        }
-
         void GoToTutorialStep(int step)
         {
             TutorialSettings.currentTutorialStep = step;
-            SaveTutorialSettings();
+            SaveTutorialSettings(TutorialSettings);
 
             PanelManager.FocusPanel(step.ToString());
         }
@@ -149,11 +153,25 @@ namespace Edwon.VR.Gesture
             //GetComponent<StandaloneInputModule>().enabled = enabled;
         }
 
-        public void SaveTutorialSettings()
+        public void SaveTutorialSettings(TutorialSettings instance)
         {
-            AssetDatabase.Refresh();
-            EditorUtility.SetDirty(TutorialSettings);
-            AssetDatabase.SaveAssets();
+            string json = JsonUtility.ToJson(instance, true);
+            System.IO.File.WriteAllText(TutorialSettings.TUTORIAL_SAVE_PATH, json);
+        }
+
+        void RefreshTutorialSettings()
+        {
+            TutorialSettings = ReadTutorialSettings();
+        }
+
+        public TutorialSettings ReadTutorialSettings()
+        {
+            if (System.IO.File.Exists(TutorialSettings.TUTORIAL_SAVE_PATH))
+            {
+                string text = System.IO.File.ReadAllText(TutorialSettings.TUTORIAL_SAVE_PATH);
+                return JsonUtility.FromJson<TutorialSettings>(text);
+            }
+            return null;
         }
 
         #region BUTTONS
