@@ -53,7 +53,7 @@ namespace Edwon.VR.Gesture
             }
         }
 
-        public enum TutorialState { InitialSetup, VRSetupComplete, InVR };
+        public enum TutorialState { SetupVR, InVR };
         public TutorialState tutorialState;
 
         Camera cameraUI;
@@ -85,10 +85,18 @@ namespace Edwon.VR.Gesture
                     GoToTutorialStep(2);
                 }
 
+                // load tutorial settings from file
                 TutorialSettings = ReadTutorialSettings();
                 if (TutorialSettings.currentTutorialStep == 1)
                 {
                     GoToTutorialStep(2);
+                }
+                // if at the VR transition step
+                else if (TutorialSettings.currentTutorialStep == 8)
+                {
+                    // enter VR
+                    SwitchTutorialState(TutorialState.InVR);
+                    GoToTutorialStep(9);
                 }
                 else
                 {
@@ -103,7 +111,7 @@ namespace Edwon.VR.Gesture
                 GoToTutorialStep(TutorialSettings.currentTutorialStep);
             }
 
-            if (tutorialState == TutorialState.InitialSetup)
+            if (tutorialState == TutorialState.SetupVR)
             {
                 GetComponent<Canvas>().worldCamera = CameraUI;
             }
@@ -132,15 +140,23 @@ namespace Edwon.VR.Gesture
             SaveTutorialSettings(TutorialSettings);
 
             PanelManager.FocusPanel(step.ToString());
+
+            if (step == 8)
+            {
+                SwitchTutorialState(TutorialState.InVR);
+            }
+            else if (step <= 7)
+            {
+                SwitchTutorialState(TutorialState.SetupVR);
+            }
         }
 
         public void SwitchTutorialState(TutorialState state)
         {
             switch (state)
             {
-                case TutorialState.InitialSetup:
+                case TutorialState.SetupVR:
                     {
-                        Debug.Log("initial setup");
                         CameraUI.enabled = true;
                         EnableTutorialUISystem(true);
                         PlayerSettings.virtualRealitySupported = false;
@@ -157,15 +173,8 @@ namespace Edwon.VR.Gesture
                         }
                     }
                     break;
-                case TutorialState.VRSetupComplete:
-                    {
-                        Debug.Log("VR SEtup complete");
-                        CameraUI.enabled = false;
-                    }
-                    break;
                 case TutorialState.InVR:
                     {
-                        Debug.Log("in VR");
                         CameraUI.enabled = false;
                         EnableTutorialUISystem(false);
                         PlayerSettings.virtualRealitySupported = true;
@@ -179,17 +188,26 @@ namespace Edwon.VR.Gesture
                             GestureSettings.Rig.head.GetComponent<Camera>().tag = "MainCamera";
                             GestureSettings.Rig.head.GetComponent<Camera>().enabled = true;
                             GestureSettings.Rig.enabled = true;
+
+                            // set the tutorial canvas UI camera to the VR ui camera
+                            if (FindObjectOfType<VRGestureUI>() != null)
+                            {
+                                VRGestureUI ui = FindObjectOfType<VRGestureUI>();
+                                LaserPointerInputModule laserPointerInput = ui.GetComponent<LaserPointerInputModule>();
+                                GetComponent<Canvas>().worldCamera = laserPointerInput.UICamera;
+                            }
                         }
                     }
                     break;
             }
+
+            tutorialState = state;
         }
 
         void EnableTutorialUISystem(bool enabled)
         {
             GetComponent<EventSystem>().enabled = enabled;
             GetComponent<Canvas>().worldCamera = CameraUI;
-            //GetComponent<StandaloneInputModule>().enabled = enabled;
         }
 
         public void SaveTutorialSettings(TutorialSettings instance)
