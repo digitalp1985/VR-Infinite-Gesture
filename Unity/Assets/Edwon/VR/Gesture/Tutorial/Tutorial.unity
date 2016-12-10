@@ -368,9 +368,9 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 60349770}
   m_Enabled: 1
-  m_Alpha: 0
-  m_Interactable: 0
-  m_BlocksRaycasts: 0
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!1 &63074409
 GameObject:
@@ -930,6 +930,11 @@ Prefab:
     - target: {fileID: 1000011736075304, guid: 94ee3f39ba9f973479a12f9e0c926513, type: 2}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012293276576, guid: 94ee3f39ba9f973479a12f9e0c926513,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnButtonBack
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 94ee3f39ba9f973479a12f9e0c926513, type: 2}
@@ -1533,7 +1538,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7806f37abda0d8642bad2a5bbfc0731a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tutorialState: 1
 --- !u!224 &298262368
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2055,13 +2059,9 @@ MonoBehaviour:
   m_Text: 'VR should be all setup and ready to go.
 
 
-    Stop the scene,
+    Restart the scene,
 
-    grab your controllers,
-
-    and put on your headset.
-
-    Hit play, and enter VR!'
+    grab your controllers, and enter VR!'
 --- !u!222 &414477457
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2963,7 +2963,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 559194294}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 1
@@ -3504,6 +3504,11 @@ Prefab:
     - target: {fileID: 1000013424679842, guid: 82afa19271b45924d89d0b6601fb9b5f, type: 2}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011756943628, guid: 82afa19271b45924d89d0b6601fb9b5f,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnButtonNext
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 82afa19271b45924d89d0b6601fb9b5f, type: 2}
@@ -4058,7 +4063,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985a936df81575743a91ec2c43452f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visible: 0
+  visible: 1
   canvasGroup: {fileID: 840153970}
 --- !u!225 &840153970
 CanvasGroup:
@@ -4172,9 +4177,9 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 851803312}
   m_Enabled: 1
-  m_Alpha: 0
-  m_Interactable: 0
-  m_BlocksRaycasts: 0
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!1 &852437260
 GameObject:
@@ -4612,7 +4617,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 946541740}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 1
@@ -4939,6 +4944,11 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114000011756943628, guid: 82afa19271b45924d89d0b6601fb9b5f,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnButtonNext
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 82afa19271b45924d89d0b6601fb9b5f, type: 2}
   m_IsPrefabParent: 0
@@ -5063,6 +5073,11 @@ Prefab:
         type: 2}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011756943628, guid: 82afa19271b45924d89d0b6601fb9b5f,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnButtonNext
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 82afa19271b45924d89d0b6601fb9b5f, type: 2}
@@ -5367,6 +5382,11 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114000011756943628, guid: 82afa19271b45924d89d0b6601fb9b5f,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnButtonNext
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 82afa19271b45924d89d0b6601fb9b5f, type: 2}
   m_IsPrefabParent: 0
@@ -5636,6 +5656,11 @@ Prefab:
     - target: {fileID: 1000011736075304, guid: 94ee3f39ba9f973479a12f9e0c926513, type: 2}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012293276576, guid: 94ee3f39ba9f973479a12f9e0c926513,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnButtonBack
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 94ee3f39ba9f973479a12f9e0c926513, type: 2}
@@ -6140,9 +6165,9 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1360114680}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!1 &1382756030
 GameObject:
@@ -6256,9 +6281,9 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1385209224}
   m_Enabled: 1
-  m_Alpha: 0
-  m_Interactable: 0
-  m_BlocksRaycasts: 0
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!1 &1385614096
 GameObject:
@@ -6298,9 +6323,9 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1385614096}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!1 &1391646712
 GameObject:
@@ -6346,9 +6371,9 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1391646712}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!1 &1403447625
 GameObject:
@@ -6711,6 +6736,11 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114000012293276576, guid: 94ee3f39ba9f973479a12f9e0c926513,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnButtonBack
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 94ee3f39ba9f973479a12f9e0c926513, type: 2}
   m_IsPrefabParent: 0
@@ -6757,9 +6787,9 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1438967932}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!1001 &1441488159
 Prefab:
@@ -6882,6 +6912,11 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114000011756943628, guid: 82afa19271b45924d89d0b6601fb9b5f,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnButtonNext
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 82afa19271b45924d89d0b6601fb9b5f, type: 2}
   m_IsPrefabParent: 0
@@ -7002,6 +7037,11 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114000011756943628, guid: 82afa19271b45924d89d0b6601fb9b5f,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnButtonNext
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 82afa19271b45924d89d0b6601fb9b5f, type: 2}
   m_IsPrefabParent: 0
@@ -7066,7 +7106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 085bd720f96807846bcb4176771bed5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentPanel: {fileID: 1768959936}
+  currentPanel: {fileID: 840153969}
   panels:
   - {fileID: 1040604068}
   - {fileID: 1757800953}
@@ -7077,6 +7117,7 @@ MonoBehaviour:
   - {fileID: 1536728482}
   - {fileID: 840153969}
   - {fileID: 1768959936}
+  - {fileID: 2047398210}
   parentCanvasGroup: {fileID: 1479191457}
   initialPanel: 1
 --- !u!225 &1479191457
@@ -7143,7 +7184,7 @@ MeshRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1480661888}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_MotionVectors: 1
@@ -7371,6 +7412,11 @@ Prefab:
     - target: {fileID: 1000011736075304, guid: 94ee3f39ba9f973479a12f9e0c926513, type: 2}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012293276576, guid: 94ee3f39ba9f973479a12f9e0c926513,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnButtonBack
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 94ee3f39ba9f973479a12f9e0c926513, type: 2}
@@ -8391,7 +8437,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985a936df81575743a91ec2c43452f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visible: 1
+  visible: 0
   canvasGroup: {fileID: 1768959937}
 --- !u!225 &1768959937
 CanvasGroup:
@@ -8608,6 +8654,11 @@ Prefab:
         type: 2}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011756943628, guid: 82afa19271b45924d89d0b6601fb9b5f,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnButtonNext
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 82afa19271b45924d89d0b6601fb9b5f, type: 2}
@@ -8842,6 +8893,11 @@ Prefab:
     - target: {fileID: 1000011736075304, guid: 94ee3f39ba9f973479a12f9e0c926513, type: 2}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012293276576, guid: 94ee3f39ba9f973479a12f9e0c926513,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnButtonBack
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 94ee3f39ba9f973479a12f9e0c926513, type: 2}
@@ -9192,6 +9248,11 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114000012293276576, guid: 94ee3f39ba9f973479a12f9e0c926513,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnButtonBack
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 94ee3f39ba9f973479a12f9e0c926513, type: 2}
   m_IsPrefabParent: 0
@@ -9410,6 +9471,11 @@ Prefab:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114000012293276576, guid: 94ee3f39ba9f973479a12f9e0c926513,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnButtonBack
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 94ee3f39ba9f973479a12f9e0c926513, type: 2}
   m_IsPrefabParent: 0
@@ -9535,6 +9601,11 @@ Prefab:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114000011756943628, guid: 82afa19271b45924d89d0b6601fb9b5f,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnButtonNext
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 82afa19271b45924d89d0b6601fb9b5f, type: 2}
   m_IsPrefabParent: 0
@@ -9587,7 +9658,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985a936df81575743a91ec2c43452f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visible: 1
+  visible: 0
   canvasGroup: {fileID: 2047398211}
 --- !u!225 &2047398211
 CanvasGroup:
@@ -9730,6 +9801,11 @@ Prefab:
     - target: {fileID: 1000011736075304, guid: 94ee3f39ba9f973479a12f9e0c926513, type: 2}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000012293276576, guid: 94ee3f39ba9f973479a12f9e0c926513,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnButtonBack
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 94ee3f39ba9f973479a12f9e0c926513, type: 2}
@@ -10020,6 +10096,11 @@ Prefab:
         type: 2}
       propertyPath: m_LocalScale.z
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114000011756943628, guid: 82afa19271b45924d89d0b6601fb9b5f,
+        type: 2}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnButtonNext
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 82afa19271b45924d89d0b6601fb9b5f, type: 2}

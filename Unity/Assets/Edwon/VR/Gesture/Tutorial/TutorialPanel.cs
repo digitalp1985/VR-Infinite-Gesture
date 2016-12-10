@@ -8,6 +8,7 @@ namespace Edwon.VR.Gesture
     {
 
         VRGestureSettings gestureSettings;
+        Tutorial tutorial;
 
         public override void Init()
         {
@@ -16,6 +17,10 @@ namespace Edwon.VR.Gesture
             if (gestureSettings == null)
             {
                 gestureSettings = Utils.GetGestureSettings();
+            }
+            if (tutorial == null)
+            {
+                tutorial = GetComponentInParent<Tutorial>();
             }
         }
 
@@ -33,6 +38,16 @@ namespace Edwon.VR.Gesture
                 ToggleEverything(canvasGroup, true);
                 visible = true;
             }
+        }
+
+        public override void SoloPanelVisibility()
+        {
+            base.SoloPanelVisibility();
+
+            int step = int.Parse(gameObject.name);
+            tutorial.TutorialSettings.currentTutorialStep = step;
+            tutorial.GoToTutorialStep(step);
+            tutorial.SaveTutorialSettings(tutorial.TutorialSettings);
         }
 
         void ToggleEverything(CanvasGroup parentCG, bool enabled)
@@ -114,5 +129,6 @@ namespace Edwon.VR.Gesture
                 Utils.ToggleCanvasGroup(cautionSignCG, enabled);
             }
         }
+
     }
 }

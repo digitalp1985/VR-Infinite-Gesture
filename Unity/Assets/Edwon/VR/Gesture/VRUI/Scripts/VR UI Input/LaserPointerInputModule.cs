@@ -64,12 +64,11 @@ namespace Edwon.VR
             UICamera.fieldOfView = .01f;
             UICamera.nearClipPlane = .001f;
 
-            // Find canvases in the scene and assign our custom
-            // UICamera to them
-            Canvas[] canvases = Resources.FindObjectsOfTypeAll<Canvas>();            
-            foreach(Canvas canvas in canvases) {
-                canvas.worldCamera = UICamera;
-            }
+            //// Find canvases in the scene and assign our custom
+            //// UICamera to them
+            Canvas canvas = GetComponent<Canvas>();
+            canvas.worldCamera = UICamera;
+
         }
 
         public void OnLevelWasLoaded()

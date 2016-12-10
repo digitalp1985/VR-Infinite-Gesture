@@ -16,17 +16,16 @@ namespace Edwon.VR.Gesture
             //DrawDefaultInspector();
             tutorial = (Tutorial)target;
 
-            SerializedProperty tutorialState = serializedObject.FindProperty("tutorialState");
-
+            EditorGUILayout.EnumPopup(tutorial.TutorialSettings.tutorialState);
             EditorGUILayout.IntField(tutorial.TutorialSettings.currentTutorialStep);
 
-            EditorGUI.BeginChangeCheck();
-            EditorGUILayout.PropertyField(tutorialState);
-            if (EditorGUI.EndChangeCheck())
-            {
-                int enumIndex = tutorialState.enumValueIndex;
-                tutorial.SwitchTutorialState((Tutorial.TutorialState)enumIndex);
-            }
+            //EditorGUI.BeginChangeCheck();
+            //EditorGUILayout.PropertyField(tutorialState);
+            //if (EditorGUI.EndChangeCheck())
+            //{
+            //    int enumIndex = tutorialState.enumValueIndex;
+            //    tutorial.SwitchTutorialState((TutorialState)enumIndex);
+            //}
 
             //if (GUILayout.Button("VR Setup Complete"))
             //{

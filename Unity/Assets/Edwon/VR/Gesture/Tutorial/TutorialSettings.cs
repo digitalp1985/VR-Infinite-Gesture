@@ -2,10 +2,14 @@
 using System;
 using System.Collections;
 
-[Serializable]
-public class TutorialSettings
+namespace Edwon.VR.Gesture
 {
-    public const string TUTORIAL_SAVE_PATH = @"Assets/Edwon/VR/Gesture/Tutorial/Settings/TutorialSettings.txt";
+    [Serializable]
+    public class TutorialSettings
+    {
+        public const string TUTORIAL_SAVE_PATH = @"Assets/Edwon/VR/Gesture/Tutorial/Settings/TutorialSettings.txt";
 
-    public int currentTutorialStep = 1;
+        public int currentTutorialStep = 1;
+        public TutorialState tutorialState = TutorialState.SetupVR;
+    }
 }

@@ -6,6 +6,8 @@ using System.Collections;
 
 namespace Edwon.VR.Gesture
 {
+    public enum TutorialState { SetupVR, InVR };
+
     [ExecuteInEditMode]
     public class Tutorial : MonoBehaviour
     {
@@ -51,10 +53,7 @@ namespace Edwon.VR.Gesture
                 }
                 return panelManager;
             }
-        }
-
-        public enum TutorialState { SetupVR, InVR };
-        public TutorialState tutorialState;
+        }       
 
         Camera cameraUI;
         public Camera CameraUI
@@ -95,8 +94,8 @@ namespace Edwon.VR.Gesture
                 else if (TutorialSettings.currentTutorialStep == 8)
                 {
                     // enter VR
-                    SwitchTutorialState(TutorialState.InVR);
                     GoToTutorialStep(9);
+                    SwitchTutorialState(TutorialState.InVR);
                 }
                 else
                 {
@@ -108,15 +107,18 @@ namespace Edwon.VR.Gesture
             if (!EditorApplication.isPlaying)
             {
                 RefreshTutorialSettings();
+
+                // if at the VR transition step
+                if (TutorialSettings.currentTutorialStep == 8)
+                {
+                    // enter VR
+                    SwitchTutorialState(TutorialState.InVR);
+                }
+
+                RefreshTutorialSettings();
                 GoToTutorialStep(TutorialSettings.currentTutorialStep);
             }
 
-            if (tutorialState == TutorialState.SetupVR)
-            {
-                GetComponent<Canvas>().worldCamera = CameraUI;
-            }
-
-            SwitchTutorialState(tutorialState);
         }
 
         void Update()
@@ -134,21 +136,18 @@ namespace Edwon.VR.Gesture
             }
         }
 
-        void GoToTutorialStep(int step)
+        public void GoToTutorialStep(int step)
         {
             TutorialSettings.currentTutorialStep = step;
             SaveTutorialSettings(TutorialSettings);
 
             PanelManager.FocusPanel(step.ToString());
 
-            if (step == 8)
-            {
-                SwitchTutorialState(TutorialState.InVR);
-            }
-            else if (step <= 7)
+            if (step < 8)
             {
                 SwitchTutorialState(TutorialState.SetupVR);
             }
+            SaveTutorialSettings(tutorialSettings);
         }
 
         public void SwitchTutorialState(TutorialState state)
@@ -158,7 +157,8 @@ namespace Edwon.VR.Gesture
                 case TutorialState.SetupVR:
                     {
                         CameraUI.enabled = true;
-                        EnableTutorialUISystem(true);
+                        GetComponent<EventSystem>().enabled = true;
+                        GetComponent<Canvas>().worldCamera = transform.GetComponentInChildren<Camera>();
                         PlayerSettings.virtualRealitySupported = false;
                         if (GestureSettings.Rig != null)
                         {
@@ -176,7 +176,14 @@ namespace Edwon.VR.Gesture
                 case TutorialState.InVR:
                     {
                         CameraUI.enabled = false;
-                        EnableTutorialUISystem(false);
+                        GetComponent<EventSystem>().enabled = false;
+                        // set the tutorial canvas UI camera to the VR ui camera
+                        if (FindObjectOfType<VRGestureUI>() != null)
+                        {
+                            VRGestureUI ui = FindObjectOfType<VRGestureUI>();
+                            LaserPointerInputModule laserPointerInput = ui.GetComponent<LaserPointerInputModule>();
+                            GetComponent<Canvas>().worldCamera = laserPointerInput.UICamera;
+                        }
                         PlayerSettings.virtualRealitySupported = true;
                         if (GestureSettings.Rig != null)
                         {
@@ -189,25 +196,13 @@ namespace Edwon.VR.Gesture
                             GestureSettings.Rig.head.GetComponent<Camera>().enabled = true;
                             GestureSettings.Rig.enabled = true;
 
-                            // set the tutorial canvas UI camera to the VR ui camera
-                            if (FindObjectOfType<VRGestureUI>() != null)
-                            {
-                                VRGestureUI ui = FindObjectOfType<VRGestureUI>();
-                                LaserPointerInputModule laserPointerInput = ui.GetComponent<LaserPointerInputModule>();
-                                GetComponent<Canvas>().worldCamera = laserPointerInput.UICamera;
-                            }
                         }
                     }
                     break;
             }
 
-            tutorialState = state;
-        }
-
-        void EnableTutorialUISystem(bool enabled)
-        {
-            GetComponent<EventSystem>().enabled = enabled;
-            GetComponent<Canvas>().worldCamera = CameraUI;
+            TutorialSettings.tutorialState = state;
+            SaveTutorialSettings(TutorialSettings);
         }
 
         public void SaveTutorialSettings(TutorialSettings instance)
