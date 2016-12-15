@@ -170,6 +170,7 @@ namespace Edwon.VR.Gesture
                         GetComponent<EventSystem>().enabled = true;
                         GetComponent<Canvas>().worldCamera = transform.GetComponentInChildren<Camera>();
                         PlayerSettings.virtualRealitySupported = false;
+                        GestureSettings.showVRUI = false;
                         if (GestureSettings.Rig != null)
                         {
                             #if EDWON_VR_OCULUS
@@ -195,6 +196,7 @@ namespace Edwon.VR.Gesture
                             GetComponent<Canvas>().worldCamera = laserPointerInput.UICamera;
                         }
                         PlayerSettings.virtualRealitySupported = true;
+                        GestureSettings.showVRUI = true;
                         if (GestureSettings.Rig != null)
                         {
                             #if EDWON_VR_OCULUS
