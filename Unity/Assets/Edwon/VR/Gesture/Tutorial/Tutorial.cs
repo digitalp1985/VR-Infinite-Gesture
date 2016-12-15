@@ -157,10 +157,6 @@ namespace Edwon.VR.Gesture
 
             PanelManager.FocusPanel(step.ToString());
 
-            if (step < 8)
-            {
-                SwitchTutorialState(TutorialState.SetupVR);
-            }
             SaveTutorialSettings(tutorialSettings);
         }
 
