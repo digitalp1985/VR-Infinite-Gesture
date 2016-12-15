@@ -91,30 +91,9 @@ namespace Edwon.VR.Gesture
                     RefreshTutorialSettings();
                 }
 
-                // set to vr setup mode
-                if (TutorialSettings.currentTutorialStep >= 1
-                    && TutorialSettings.currentTutorialStep < inVRStep)
-                {
-                    SwitchTutorialState(TutorialState.SetupVR);
-                }
 
                 // load tutorial settings from file
-                TutorialSettings = ReadTutorialSettings();
-                if (TutorialSettings.currentTutorialStep == 1)
-                {
-                    GoToTutorialStep(2);
-                }
-                // if at the VR transition step
-                else if (TutorialSettings.currentTutorialStep == inVRStep)
-                {
-                    // enter VR
-                    GoToTutorialStep(inVRStep + 1);
-                    SwitchTutorialState(TutorialState.InVR);
-                }
-                else
-                {
-                    GoToTutorialStep(TutorialSettings.currentTutorialStep);
-                }
+                TutorialStateLogic(true);
             }
 
             // start - when edit mode starts
@@ -133,6 +112,48 @@ namespace Edwon.VR.Gesture
                 GoToTutorialStep(TutorialSettings.currentTutorialStep);
             }
 
+        }
+
+        public void TutorialStateLogic(bool includeStepLogic)
+        {
+            TutorialSettings = ReadTutorialSettings();
+            if (TutorialSettings.currentTutorialStep == 1)
+            {
+                SwitchTutorialState(TutorialState.SetupVR);
+                if (includeStepLogic)
+                {
+                    GoToTutorialStep(2);
+                }
+            }
+            // set to vr setup mode
+            else if (TutorialSettings.currentTutorialStep >= 1
+                && TutorialSettings.currentTutorialStep < inVRStep)
+            {
+                SwitchTutorialState(TutorialState.SetupVR);
+                if (includeStepLogic)
+                {
+                    GoToTutorialStep(TutorialSettings.currentTutorialStep);
+                }
+            }
+
+            // if at the VR transition step
+            else if (TutorialSettings.currentTutorialStep == inVRStep)
+            {
+                // enter VR
+                SwitchTutorialState(TutorialState.InVR);
+                if (includeStepLogic)
+                {
+                    GoToTutorialStep(inVRStep + 1);
+                }
+            }
+            else if (TutorialSettings.currentTutorialStep >= inVRStep)
+            {
+                SwitchTutorialState(TutorialState.InVR);
+                if (includeStepLogic)
+                {
+                    GoToTutorialStep(TutorialSettings.currentTutorialStep);
+                }
+            }
         }
 
         void Update()

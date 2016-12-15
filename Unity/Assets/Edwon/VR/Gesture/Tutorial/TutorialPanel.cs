@@ -47,6 +47,7 @@ namespace Edwon.VR.Gesture
             int step = int.Parse(gameObject.name);
             tutorial.TutorialSettings.currentTutorialStep = step;
             tutorial.GoToTutorialStep(step);
+            tutorial.TutorialStateLogic(false);
             tutorial.SaveTutorialSettings(tutorial.TutorialSettings);
         }
 
