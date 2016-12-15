@@ -3,39 +3,28 @@ using UnityEngine.UI;
 
 namespace Edwon.VR.Gesture
 {
-    [ExecuteInEditMode]
     public class MovieLooping : MonoBehaviour
     {
 
-        Renderer movieRenderer;
         RawImage movieImage; // ui version
         MovieTexture movieTexture;
 
         void Start ()
         {
-            Init();
+            PlayMovie();
         }
-
-        void Init()
+    
+        void PlayMovie()
         {
-            if (movieRenderer == null)
+            if (movieImage == null)
             {
-                movieRenderer = GetComponent<Renderer>();
+                movieImage = GetComponent<RawImage>();
             }
-        }
-
-        void OnRenderObject()
-        {
-            #region MOVIE RENDERER VERSION
-            if (movieRenderer == null)
-            {
-                movieRenderer = GetComponent<Renderer>();
-            }
-            if (movieRenderer != null)
+            if (movieImage != null)
             {
                 if (movieTexture == null)
                 {
-                    movieTexture = (MovieTexture)movieRenderer.sharedMaterial.mainTexture;
+                    movieTexture = (MovieTexture)movieImage.texture;
                 }
                 else
                 {
@@ -46,42 +35,23 @@ namespace Edwon.VR.Gesture
                     }
                 }
             }
-            #endregion
-
-            #region RAW IMAGE (UI) VERSION
-            if (movieRenderer == null)
-            {
-                if (movieImage == null)
-                {
-                    movieImage = GetComponent<RawImage>();
-                }
-                else
-                {
-                    if (movieTexture == null)
-                    {
-                        movieTexture = (MovieTexture)movieImage.material.mainTexture;
-                    }
-                    else
-                    {
-                        if (!movieTexture.isPlaying)
-                        {
-                            movieTexture.loop = true;
-                            movieTexture.Play();
-                        }
-                    }
-                }
-            }
-            #endregion
         }
 
         public void ToggleVisibility (bool enabled)
         {
-            Init();
-
-            if (movieRenderer != null)
+            if (movieImage == null)
             {
-                movieRenderer.enabled = enabled;
+                movieImage = GetComponent<RawImage>();
             }
+            if (movieImage != null)
+            {
+                if (enabled)
+                    movieImage.color = new Color(1, 1, 1, 1);
+                else
+                    movieImage.color = new Color(1, 1, 1, 0);
+            }
+
+            PlayMovie();
         }
 
     }

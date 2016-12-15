@@ -53,7 +53,7 @@ namespace Edwon.VR.Gesture
                 }
                 return panelManager;
             }
-        }       
+        }
 
         Camera cameraUI;
         public Camera CameraUI
@@ -72,16 +72,30 @@ namespace Edwon.VR.Gesture
             }
         }
 
+        int inVRStep = 9; // starting at this step enter into VR
+
         void Start()
         {
             // start - when play mode starts
             if (EditorApplication.isPlaying)
             {
+
                 // if no file yet
                 if (ReadTutorialSettings() == null)
                 {
                     //if first time go to step to
                     GoToTutorialStep(2);
+                }
+                else
+                {
+                    RefreshTutorialSettings();
+                }
+
+                // set to vr setup mode
+                if (TutorialSettings.currentTutorialStep >= 1
+                    && TutorialSettings.currentTutorialStep < inVRStep)
+                {
+                    SwitchTutorialState(TutorialState.SetupVR);
                 }
 
                 // load tutorial settings from file
@@ -91,10 +105,10 @@ namespace Edwon.VR.Gesture
                     GoToTutorialStep(2);
                 }
                 // if at the VR transition step
-                else if (TutorialSettings.currentTutorialStep == 8)
+                else if (TutorialSettings.currentTutorialStep == inVRStep)
                 {
                     // enter VR
-                    GoToTutorialStep(9);
+                    GoToTutorialStep(inVRStep + 1);
                     SwitchTutorialState(TutorialState.InVR);
                 }
                 else
@@ -109,7 +123,7 @@ namespace Edwon.VR.Gesture
                 RefreshTutorialSettings();
 
                 // if at the VR transition step
-                if (TutorialSettings.currentTutorialStep == 8)
+                if (TutorialSettings.currentTutorialStep == inVRStep)
                 {
                     // enter VR
                     SwitchTutorialState(TutorialState.InVR);

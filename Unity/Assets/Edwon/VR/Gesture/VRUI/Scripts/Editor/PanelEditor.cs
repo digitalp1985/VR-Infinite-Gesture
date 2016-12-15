@@ -5,7 +5,6 @@ using System.Collections;
 namespace Edwon.VR.Gesture
 {
     [CustomEditor(typeof(Panel))]
-    [CanEditMultipleObjects]
     public class PanelEditor : Editor
     {
         public override void OnInspectorGUI()
