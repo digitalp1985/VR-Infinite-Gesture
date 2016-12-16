@@ -137,7 +137,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
@@ -351,7 +350,6 @@ MonoBehaviour:
   m_Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 0
@@ -379,12 +377,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 17251495}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35b7442b7f9bfcd48b1db55d4084d6e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
+  movieImage: {fileID: 17251497}
 --- !u!1 &34479885
 GameObject:
   m_ObjectHideFlags: 0
@@ -431,7 +429,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 0
@@ -658,7 +655,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
@@ -918,7 +914,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
@@ -987,7 +982,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
@@ -1198,7 +1192,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 0
@@ -1281,7 +1274,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
@@ -1357,7 +1349,6 @@ MonoBehaviour:
   m_Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 0
@@ -1385,12 +1376,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 94025400}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35b7442b7f9bfcd48b1db55d4084d6e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
+  movieImage: {fileID: 94025402}
 --- !u!1 &95457478
 GameObject:
   m_ObjectHideFlags: 0
@@ -1437,7 +1428,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -1507,7 +1497,6 @@ MonoBehaviour:
   m_Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
@@ -1535,12 +1524,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 101760186}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35b7442b7f9bfcd48b1db55d4084d6e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
+  movieImage: {fileID: 101760188}
 --- !u!1 &103325284
 GameObject:
   m_ObjectHideFlags: 0
@@ -1768,7 +1757,6 @@ MonoBehaviour:
   m_Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 0
@@ -1796,12 +1784,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 122599218}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35b7442b7f9bfcd48b1db55d4084d6e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
+  movieImage: {fileID: 122599220}
 --- !u!1 &133523703
 GameObject:
   m_ObjectHideFlags: 0
@@ -1848,7 +1836,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -2140,7 +2127,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -2251,7 +2237,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -2320,7 +2305,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 0
@@ -2403,7 +2387,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -2472,7 +2455,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
@@ -2541,7 +2523,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
@@ -2654,12 +2635,11 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 251661898}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
@@ -2687,12 +2667,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 251661898}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35b7442b7f9bfcd48b1db55d4084d6e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
+  movieImage: {fileID: 251661900}
 --- !u!1 &252786249
 GameObject:
   m_ObjectHideFlags: 0
@@ -2739,7 +2719,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -2808,7 +2787,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
@@ -2886,7 +2864,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -2955,7 +2932,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -3011,7 +2987,6 @@ MonoBehaviour:
   m_Script: {fileID: 1980459831, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_UiScaleMode: 0
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
@@ -3052,7 +3027,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7806f37abda0d8642bad2a5bbfc0731a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
 --- !u!224 &298262368
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3095,7 +3069,6 @@ MonoBehaviour:
   m_Script: {fileID: 1077351063, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_HorizontalAxis: Horizontal
   m_VerticalAxis: Vertical
   m_SubmitButton: Submit
@@ -3109,12 +3082,11 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 298262364}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -619905303, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 5
@@ -3129,7 +3101,6 @@ MonoBehaviour:
   m_Script: {fileID: 1301386320, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_IgnoreReversedGraphics: 1
   m_BlockingObjects: 0
   m_BlockingMask:
@@ -3324,7 +3295,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985a936df81575743a91ec2c43452f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   visible: 0
   canvasGroup: {fileID: 345260764}
 --- !u!225 &345260764
@@ -3385,7 +3355,6 @@ MonoBehaviour:
   m_Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 0
@@ -3413,12 +3382,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 349071755}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35b7442b7f9bfcd48b1db55d4084d6e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
+  movieImage: {fileID: 349071757}
 --- !u!1 &364513561
 GameObject:
   m_ObjectHideFlags: 0
@@ -3469,7 +3438,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985a936df81575743a91ec2c43452f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   visible: 0
   canvasGroup: {fileID: 364513564}
 --- !u!225 &364513564
@@ -3807,7 +3775,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
@@ -3885,7 +3852,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
@@ -3996,7 +3962,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -4176,7 +4141,7 @@ GameObject:
   - 92: {fileID: 393533677}
   m_Layer: 0
   m_Name: Camera
-  m_TagString: Untagged
+  m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4201,7 +4166,7 @@ Camera:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 393533675}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -4451,7 +4416,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
@@ -4533,7 +4497,6 @@ MonoBehaviour:
   m_Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 0
@@ -4561,12 +4524,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 423502232}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35b7442b7f9bfcd48b1db55d4084d6e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
+  movieImage: {fileID: 423502234}
 --- !u!1 &424996126
 GameObject:
   m_ObjectHideFlags: 0
@@ -4613,7 +4576,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
@@ -4734,7 +4696,6 @@ MonoBehaviour:
   m_Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 0
@@ -4762,12 +4723,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 433539471}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35b7442b7f9bfcd48b1db55d4084d6e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
+  movieImage: {fileID: 433539473}
 --- !u!1 &433899010
 GameObject:
   m_ObjectHideFlags: 0
@@ -4867,7 +4828,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985a936df81575743a91ec2c43452f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   visible: 0
   canvasGroup: {fileID: 444675202}
 --- !u!225 &444675202
@@ -4881,10 +4841,6 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
---- !u!4 &446338827 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 482130, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
-  m_PrefabInternal: {fileID: 1997741927}
 --- !u!1 &447797576
 GameObject:
   m_ObjectHideFlags: 0
@@ -4931,7 +4887,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
@@ -5149,7 +5104,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985a936df81575743a91ec2c43452f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   visible: 0
   canvasGroup: {fileID: 468230475}
 --- !u!225 &468230475
@@ -5396,7 +5350,6 @@ MonoBehaviour:
   m_Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 0
@@ -5424,12 +5377,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 484450944}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35b7442b7f9bfcd48b1db55d4084d6e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
+  movieImage: {fileID: 484450946}
 --- !u!1 &485155414
 GameObject:
   m_ObjectHideFlags: 0
@@ -5476,7 +5429,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -5546,7 +5498,6 @@ MonoBehaviour:
   m_Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 0
@@ -5574,12 +5525,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 489787822}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35b7442b7f9bfcd48b1db55d4084d6e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
+  movieImage: {fileID: 489787824}
 --- !u!1 &494320388
 GameObject:
   m_ObjectHideFlags: 0
@@ -5626,7 +5577,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
@@ -5708,7 +5658,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
@@ -5777,7 +5726,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
@@ -5986,7 +5934,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -6200,7 +6147,6 @@ MonoBehaviour:
   m_Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 0
@@ -6228,12 +6174,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 530109162}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35b7442b7f9bfcd48b1db55d4084d6e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
+  movieImage: {fileID: 530109164}
 --- !u!1 &532020647
 GameObject:
   m_ObjectHideFlags: 0
@@ -6326,7 +6272,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985a936df81575743a91ec2c43452f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   visible: 0
   canvasGroup: {fileID: 535504614}
 --- !u!225 &535504614
@@ -6386,7 +6331,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
@@ -6588,7 +6532,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
@@ -6669,7 +6612,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985a936df81575743a91ec2c43452f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   visible: 0
   canvasGroup: {fileID: 576853970}
 --- !u!225 &576853970
@@ -6733,7 +6675,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985a936df81575743a91ec2c43452f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   visible: 0
   canvasGroup: {fileID: 585134257}
 --- !u!225 &585134257
@@ -6835,7 +6776,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 0
@@ -6919,7 +6859,6 @@ MonoBehaviour:
   m_Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
@@ -6947,12 +6886,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 600592843}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35b7442b7f9bfcd48b1db55d4084d6e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
+  movieImage: {fileID: 600592845}
 --- !u!1 &603356719
 GameObject:
   m_ObjectHideFlags: 0
@@ -7135,7 +7074,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -7342,7 +7280,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985a936df81575743a91ec2c43452f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   visible: 0
   canvasGroup: {fileID: 648313596}
 --- !u!225 &648313596
@@ -7406,7 +7343,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985a936df81575743a91ec2c43452f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   visible: 0
   canvasGroup: {fileID: 674867035}
 --- !u!225 &674867035
@@ -7652,7 +7588,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -7869,7 +7804,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985a936df81575743a91ec2c43452f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   visible: 0
   canvasGroup: {fileID: 693300517}
 --- !u!225 &693300517
@@ -7972,7 +7906,6 @@ MonoBehaviour:
   m_Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 0
@@ -8000,12 +7933,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 708501607}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35b7442b7f9bfcd48b1db55d4084d6e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
+  movieImage: {fileID: 708501609}
 --- !u!1 &729056590
 GameObject:
   m_ObjectHideFlags: 0
@@ -8067,7 +8000,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985a936df81575743a91ec2c43452f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   visible: 0
   canvasGroup: {fileID: 729056592}
 --- !u!1001 &732630153
@@ -8513,7 +8445,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
@@ -8661,7 +8592,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
@@ -8741,7 +8671,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -8810,7 +8739,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -8879,7 +8807,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
@@ -9004,7 +8931,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
@@ -9082,7 +9008,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
@@ -9164,7 +9089,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
@@ -9441,7 +9365,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
@@ -9523,7 +9446,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 0
@@ -9606,7 +9528,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -9856,7 +9777,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985a936df81575743a91ec2c43452f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   visible: 0
   canvasGroup: {fileID: 870244928}
 --- !u!225 &870244928
@@ -9914,9 +9834,9 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 873225368}
   m_Enabled: 1
-  m_Alpha: 0
-  m_Interactable: 0
-  m_BlocksRaycasts: 0
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!1 &887965609
 GameObject:
@@ -9964,7 +9884,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -10033,7 +9952,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -10181,7 +10099,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
@@ -10250,7 +10167,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
@@ -10330,7 +10246,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
@@ -10451,7 +10366,6 @@ MonoBehaviour:
   m_Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 0
@@ -10479,12 +10393,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 976055876}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35b7442b7f9bfcd48b1db55d4084d6e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
+  movieImage: {fileID: 976055878}
 --- !u!1 &980858378
 GameObject:
   m_ObjectHideFlags: 0
@@ -10531,7 +10445,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -10600,7 +10513,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -10669,7 +10581,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
@@ -10744,7 +10655,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -10814,7 +10724,6 @@ MonoBehaviour:
   m_Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 0
@@ -10842,12 +10751,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1019489617}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35b7442b7f9bfcd48b1db55d4084d6e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
+  movieImage: {fileID: 1019489619}
 --- !u!1 &1019526000
 GameObject:
   m_ObjectHideFlags: 0
@@ -10941,7 +10850,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
@@ -10979,10 +10887,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1020360655}
---- !u!4 &1026254855 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 400002, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
-  m_PrefabInternal: {fileID: 1997741927}
 --- !u!224 &1032361650 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224000010760168752, guid: 94ee3f39ba9f973479a12f9e0c926513,
@@ -11038,7 +10942,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985a936df81575743a91ec2c43452f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   visible: 0
   canvasGroup: {fileID: 1035203120}
 --- !u!225 &1035203120
@@ -11112,7 +11015,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985a936df81575743a91ec2c43452f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   visible: 0
   canvasGroup: {fileID: 1040604067}
 --- !u!1 &1080841944
@@ -11208,7 +11110,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
@@ -11326,7 +11227,6 @@ MonoBehaviour:
   m_Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
@@ -11354,12 +11254,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1129343175}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35b7442b7f9bfcd48b1db55d4084d6e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
+  movieImage: {fileID: 1129343177}
 --- !u!1 &1143391529
 GameObject:
   m_ObjectHideFlags: 0
@@ -11404,9 +11304,9 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1143391529}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!1 &1146632635
 GameObject:
@@ -11454,7 +11354,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -11835,7 +11734,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
@@ -11958,7 +11856,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
@@ -12040,7 +11937,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985a936df81575743a91ec2c43452f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   visible: 0
   canvasGroup: {fileID: 1208074115}
 --- !u!225 &1208074115
@@ -12100,7 +11996,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
@@ -12685,7 +12580,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985a936df81575743a91ec2c43452f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   visible: 0
   canvasGroup: {fileID: 1260820296}
 --- !u!225 &1260820296
@@ -12892,7 +12786,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985a936df81575743a91ec2c43452f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   visible: 0
   canvasGroup: {fileID: 1281570802}
 --- !u!225 &1281570802
@@ -12952,7 +12845,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
@@ -13036,7 +12928,6 @@ MonoBehaviour:
   m_Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
@@ -13064,12 +12955,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1295800970}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35b7442b7f9bfcd48b1db55d4084d6e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
+  movieImage: {fileID: 1295800972}
 --- !u!1 &1304696382
 GameObject:
   m_ObjectHideFlags: 0
@@ -13082,7 +12973,7 @@ GameObject:
   - 222: {fileID: 1304696385}
   - 114: {fileID: 1304696384}
   m_Layer: 5
-  m_Name: Oculus Movie
+  m_Name: Movie Test
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -13117,7 +13008,6 @@ MonoBehaviour:
   m_Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
@@ -13150,7 +13040,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35b7442b7f9bfcd48b1db55d4084d6e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
+  movieImage: {fileID: 1304696384}
 --- !u!1 &1309592670
 GameObject:
   m_ObjectHideFlags: 0
@@ -13197,7 +13087,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -13266,7 +13155,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -13335,7 +13223,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -13404,7 +13291,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -13473,7 +13359,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -13919,9 +13804,9 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1360114680}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!1001 &1361926907
 Prefab:
@@ -14114,7 +13999,6 @@ MonoBehaviour:
   m_Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 0
@@ -14142,12 +14026,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1364580922}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35b7442b7f9bfcd48b1db55d4084d6e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
+  movieImage: {fileID: 1364580924}
 --- !u!1 &1382756030
 GameObject:
   m_ObjectHideFlags: 0
@@ -14194,7 +14078,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -14353,7 +14236,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
@@ -14441,8 +14323,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985a936df81575743a91ec2c43452f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
-  visible: 0
+  visible: 1
   canvasGroup: {fileID: 1405305047}
 --- !u!225 &1405305047
 CanvasGroup:
@@ -14696,7 +14577,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985a936df81575743a91ec2c43452f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   visible: 0
   canvasGroup: {fileID: 1421395878}
 --- !u!225 &1421395878
@@ -14748,9 +14628,9 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1438967932}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!1001 &1479063182
 Prefab:
@@ -14955,8 +14835,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 085bd720f96807846bcb4176771bed5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
-  currentPanel: {fileID: 1768959936}
+  currentPanel: {fileID: 1405305046}
   panels:
   - {fileID: 1040604068}
   - {fileID: 1757800953}
@@ -15044,7 +14923,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -15252,7 +15130,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -15275,37 +15152,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1492446805}
---- !u!1 &1504291180 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 100004, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
-  m_PrefabInternal: {fileID: 1997741927}
---- !u!114 &1504291181
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1504291180}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe16da6304c66f94d868eac6f65e2908, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
-  mainHand: 1
-  gestureButton: 5
-  uiState: 0
-  uiStateLast: 0
-  displayGestureTrail: 1
-  playerID: 0
-  head: {fileID: 1026254855}
-  handLeft: {fileID: 446338827}
-  handRight: {fileID: 1828038811}
-  leftController: {fileID: 0}
-  rightController: {fileID: 0}
-  spawnControllerModels: 1
-  useCustomControllerModels: 0
-  handLeftModel: {fileID: 0}
-  handRightModel: {fileID: 0}
 --- !u!224 &1536320405 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224000010049584042, guid: 82afa19271b45924d89d0b6601fb9b5f,
@@ -15361,7 +15207,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985a936df81575743a91ec2c43452f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   visible: 0
   canvasGroup: {fileID: 1536728483}
 --- !u!225 &1536728483
@@ -15422,7 +15267,6 @@ MonoBehaviour:
   m_Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 0
@@ -15450,12 +15294,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1551305164}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35b7442b7f9bfcd48b1db55d4084d6e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
+  movieImage: {fileID: 1551305166}
 --- !u!224 &1561146330 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224000010049584042, guid: 82afa19271b45924d89d0b6601fb9b5f,
@@ -15909,7 +15753,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
@@ -15978,7 +15821,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -16047,7 +15889,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -16116,7 +15957,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -16186,7 +16026,6 @@ MonoBehaviour:
   m_Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
@@ -16214,12 +16053,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1622003757}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35b7442b7f9bfcd48b1db55d4084d6e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
+  movieImage: {fileID: 1622003759}
 --- !u!1 &1625599909
 GameObject:
   m_ObjectHideFlags: 0
@@ -16267,7 +16106,6 @@ MonoBehaviour:
   m_Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 0
@@ -16295,12 +16133,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1625599909}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35b7442b7f9bfcd48b1db55d4084d6e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
+  movieImage: {fileID: 1625599911}
 --- !u!1 &1629557313
 GameObject:
   m_ObjectHideFlags: 0
@@ -16351,7 +16189,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985a936df81575743a91ec2c43452f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   visible: 0
   canvasGroup: {fileID: 1629557316}
 --- !u!225 &1629557316
@@ -16411,7 +16248,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
@@ -16492,7 +16328,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
@@ -16573,7 +16408,6 @@ MonoBehaviour:
   m_Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 0
@@ -16601,12 +16435,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1677155770}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35b7442b7f9bfcd48b1db55d4084d6e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
+  movieImage: {fileID: 1677155772}
 --- !u!1 &1677390476
 GameObject:
   m_ObjectHideFlags: 0
@@ -16665,9 +16499,9 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 224: {fileID: 1679714400}
-  - 114: {fileID: 1679714403}
   - 222: {fileID: 1679714402}
   - 114: {fileID: 1679714401}
+  - 114: {fileID: 1679714403}
   m_Layer: 5
   m_Name: Movie
   m_TagString: Untagged
@@ -16704,7 +16538,6 @@ MonoBehaviour:
   m_Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 0
@@ -16732,12 +16565,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1679714399}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35b7442b7f9bfcd48b1db55d4084d6e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
+  movieImage: {fileID: 1679714401}
 --- !u!1 &1699659057
 GameObject:
   m_ObjectHideFlags: 0
@@ -16820,7 +16653,6 @@ MonoBehaviour:
   m_Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
@@ -16848,12 +16680,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1702817066}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35b7442b7f9bfcd48b1db55d4084d6e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
+  movieImage: {fileID: 1702817068}
 --- !u!1 &1705220669
 GameObject:
   m_ObjectHideFlags: 0
@@ -16900,7 +16732,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -17113,7 +16944,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
@@ -17185,9 +17015,9 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1716636486}
   m_Enabled: 1
-  m_Alpha: 0
-  m_Interactable: 0
-  m_BlocksRaycasts: 0
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!1 &1729410031
 GameObject:
@@ -17227,9 +17057,9 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1729410031}
   m_Enabled: 1
-  m_Alpha: 0
-  m_Interactable: 0
-  m_BlocksRaycasts: 0
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!1 &1743053386
 GameObject:
@@ -17281,7 +17111,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985a936df81575743a91ec2c43452f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   visible: 0
   canvasGroup: {fileID: 1743053389}
 --- !u!225 &1743053389
@@ -17341,7 +17170,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -17414,7 +17242,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985a936df81575743a91ec2c43452f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   visible: 0
   canvasGroup: {fileID: 1757800954}
 --- !u!225 &1757800954
@@ -17475,7 +17302,6 @@ MonoBehaviour:
   m_Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 0
@@ -17503,12 +17329,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1762466620}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35b7442b7f9bfcd48b1db55d4084d6e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
+  movieImage: {fileID: 1762466622}
 --- !u!1 &1768959934
 GameObject:
   m_ObjectHideFlags: 0
@@ -17559,8 +17385,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985a936df81575743a91ec2c43452f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
-  visible: 1
+  visible: 0
   canvasGroup: {fileID: 1768959937}
 --- !u!225 &1768959937
 CanvasGroup:
@@ -17619,7 +17444,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -17971,8 +17795,8 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 224: {fileID: 1815643471}
-  - 114: {fileID: 1815643474}
   - 222: {fileID: 1815643473}
+  - 114: {fileID: 1815643474}
   - 114: {fileID: 1815643472}
   m_Layer: 5
   m_Name: Oculus Movie
@@ -18010,9 +17834,8 @@ MonoBehaviour:
   m_Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -18038,16 +17861,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1815643470}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35b7442b7f9bfcd48b1db55d4084d6e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
---- !u!4 &1828038811 stripped
-Transform:
-  m_PrefabParentObject: {fileID: 487254, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
-  m_PrefabInternal: {fileID: 1997741927}
+  movieImage: {fileID: 1815643472}
 --- !u!1 &1831778843
 GameObject:
   m_ObjectHideFlags: 0
@@ -18146,7 +17965,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985a936df81575743a91ec2c43452f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   visible: 0
   canvasGroup: {fileID: 1849484126}
 --- !u!225 &1849484126
@@ -18206,7 +18024,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
@@ -18415,7 +18232,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
@@ -18492,7 +18308,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
@@ -18926,7 +18741,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
@@ -19008,7 +18822,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 0
@@ -19220,7 +19033,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
@@ -19343,7 +19155,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
@@ -19576,7 +19387,6 @@ MonoBehaviour:
   m_Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 0
@@ -19604,12 +19414,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1948345496}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35b7442b7f9bfcd48b1db55d4084d6e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
+  movieImage: {fileID: 1948345498}
 --- !u!1 &1962808928
 GameObject:
   m_ObjectHideFlags: 0
@@ -19656,7 +19466,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -20007,7 +19816,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985a936df81575743a91ec2c43452f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   visible: 0
   canvasGroup: {fileID: 1997386787}
 --- !u!225 &1997386787
@@ -20021,48 +19829,6 @@ CanvasGroup:
   m_Interactable: 0
   m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
---- !u!1001 &1997741927
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 400004, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400004, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400004, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400004, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400004, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400004, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 400004, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 400004, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
-      propertyPath: m_RootOrder
-      value: 2
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 126d619cf4daa52469682f85c1378b4a, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1 &2017915294
 GameObject:
   m_ObjectHideFlags: 0
@@ -20152,7 +19918,6 @@ MonoBehaviour:
   m_Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
@@ -20180,12 +19945,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2041717143}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35b7442b7f9bfcd48b1db55d4084d6e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
+  movieImage: {fileID: 2041717145}
 --- !u!1001 &2044482611
 Prefab:
   m_ObjectHideFlags: 0
@@ -20360,7 +20125,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985a936df81575743a91ec2c43452f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   visible: 0
   canvasGroup: {fileID: 2047398211}
 --- !u!225 &2047398211
@@ -20644,12 +20408,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2079952974}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35b7442b7f9bfcd48b1db55d4084d6e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
+  movieImage: {fileID: 2079952977}
 --- !u!114 &2079952977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20661,7 +20425,6 @@ MonoBehaviour:
   m_Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 0
@@ -20730,9 +20493,8 @@ MonoBehaviour:
   m_Script: {fileID: -98529514, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -20758,12 +20520,12 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2081419247}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 35b7442b7f9bfcd48b1db55d4084d6e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
+  movieImage: {fileID: 2081419249}
 --- !u!1 &2090313546
 GameObject:
   m_ObjectHideFlags: 0
@@ -20900,7 +20662,6 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 0
@@ -20983,7 +20744,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 0.29411763, g: 0.29411763, b: 0.29411763, a: 1}
   m_RaycastTarget: 0
@@ -21325,7 +21085,6 @@ MonoBehaviour:
   m_Script: {fileID: -765806418, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_RunInEditMode: 0
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1

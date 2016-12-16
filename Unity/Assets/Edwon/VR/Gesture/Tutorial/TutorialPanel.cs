@@ -106,12 +106,20 @@ namespace Edwon.VR.Gesture
 
         void ToggleChildMovies(Transform parent, bool enabled)
         {
-            MovieLooping[] movies = parent.GetComponentsInChildren<MovieLooping>();
+            MovieLooping[] movies = parent.GetComponentsInChildren<MovieLooping>(true);
             if (movies != null)
             {
                 foreach (MovieLooping movie in movies)
                 {
                     movie.ToggleVisibility(enabled);
+                    if (enabled)
+                    {
+                        movie.PlayMovie();
+                    }
+                    else
+                    {
+                        movie.StopMovie();
+                    }
                 }
             }
 

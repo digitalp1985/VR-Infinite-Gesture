@@ -107,6 +107,10 @@ namespace Edwon.VR.Gesture
                     // enter VR
                     SwitchTutorialState(TutorialState.InVR);
                 }
+                else
+                {
+                    TutorialStateLogic(false);
+                }
 
                 RefreshTutorialSettings();
                 GoToTutorialStep(TutorialSettings.currentTutorialStep);

@@ -6,52 +6,58 @@ namespace Edwon.VR.Gesture
     public class MovieLooping : MonoBehaviour
     {
 
-        RawImage movieImage; // ui version
+        public RawImage movieImage; // ui version
         MovieTexture movieTexture;
 
-        void Start ()
+        void Start()
         {
-            PlayMovie();
+
         }
-    
-        void PlayMovie()
+
+        public void PlayMovie()
         {
-            if (movieImage == null)
+            if (movieTexture == null)
             {
-                movieImage = GetComponent<RawImage>();
+                movieTexture = (MovieTexture)movieImage.texture;
             }
-            if (movieImage != null)
+
+            if (gameObject.name == "Movie Test")
+                Debug.Log("play Movie Test");
+
+            movieTexture.Play();
+        }
+
+        public void StopMovie()
+        {
+            if (movieTexture == null)
             {
-                if (movieTexture == null)
-                {
-                    movieTexture = (MovieTexture)movieImage.texture;
-                }
-                else
-                {
-                    if (!movieTexture.isPlaying)
-                    {
-                        movieTexture.loop = true;
-                        movieTexture.Play();
-                    }
-                }
+                movieTexture = (MovieTexture)movieImage.texture;
             }
+
+            if (gameObject.name == "Movie Test")
+                Debug.Log("stop Movie Test");
+
+            movieTexture.Stop();
         }
 
         public void ToggleVisibility (bool enabled)
         {
-            if (movieImage == null)
-            {
-                movieImage = GetComponent<RawImage>();
-            }
+            if (gameObject.name == "Movie Test")
+                Debug.Log("toggle visibility of Movie Test " + enabled);
+
             if (movieImage != null)
             {
                 if (enabled)
+                {
                     movieImage.color = new Color(1, 1, 1, 1);
+                    //movieImage.enabled = true;
+                }
                 else
+                {
                     movieImage.color = new Color(1, 1, 1, 0);
+                    //movieImage.enabled = false;
+                }
             }
-
-            PlayMovie();
         }
 
     }
