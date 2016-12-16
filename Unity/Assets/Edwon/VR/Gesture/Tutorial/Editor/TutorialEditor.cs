@@ -19,6 +19,17 @@ namespace Edwon.VR.Gesture
             EditorGUILayout.EnumPopup(tutorial.TutorialSettings.tutorialState);
             EditorGUILayout.IntField(tutorial.TutorialSettings.currentTutorialStep);
 
+            if (GUILayout.Button("Next Step"))
+            {
+                tutorial.OnButtonNext();
+            }
+
+            if (GUILayout.Button("Previous Step"))
+            {
+                tutorial.OnButtonBack();
+            }
+
+
             //EditorGUI.BeginChangeCheck();
             //EditorGUILayout.PropertyField(tutorialState);
             //if (EditorGUI.EndChangeCheck())
