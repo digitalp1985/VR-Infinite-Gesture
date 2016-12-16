@@ -200,7 +200,7 @@ namespace Edwon.VR.Gesture
                             #if EDWON_VR_OCULUS
                             GestureSettings.Rig.GetComponent<OVRCameraRig>().enabled = false;
                             GestureSettings.Rig.GetComponent<OVRManager>().enabled = false;
-#endif
+                            #endif
                             CameraUI.tag = "MainCamera";
                             GestureSettings.Rig.head.GetComponent<Camera>().tag = "Untagged";
                             GestureSettings.Rig.head.GetComponent<Camera>().enabled = false;
