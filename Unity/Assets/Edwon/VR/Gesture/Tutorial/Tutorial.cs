@@ -72,7 +72,7 @@ namespace Edwon.VR.Gesture
             }
         }
 
-        int inVRStep = 9; // starting at this step enter into VR
+        int inVRStep = 8; // starting at this step enter into VR
 
         void Start()
         {
@@ -139,11 +139,14 @@ namespace Edwon.VR.Gesture
             // if at the VR transition step
             else if (TutorialSettings.currentTutorialStep == inVRStep)
             {
-                // enter VR
-                SwitchTutorialState(TutorialState.InVR);
-                if (includeStepLogic)
+                if (PlayerSettings.virtualRealitySupported == true)
                 {
-                    GoToTutorialStep(inVRStep + 1);
+                    // enter VR
+                    SwitchTutorialState(TutorialState.InVR);
+                    if (includeStepLogic)
+                    {
+                        GoToTutorialStep(inVRStep + 1);
+                    }
                 }
             }
             else if (TutorialSettings.currentTutorialStep >= inVRStep)
