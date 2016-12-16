@@ -4042,7 +4042,7 @@ GameObject:
   - 92: {fileID: 393533677}
   m_Layer: 0
   m_Name: Camera
-  m_TagString: MainCamera
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5012,7 +5012,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_RunInEditMode: 0
-  visible: 1
+  visible: 0
   canvasGroup: {fileID: 468230475}
 --- !u!225 &468230475
 CanvasGroup:
@@ -5021,9 +5021,9 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 468230472}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!1 &470452668
 GameObject:
@@ -6472,7 +6472,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Try doing a line and a circle gesture. \n\nYou must hold down the trigger
+  m_Text: "Try doing a line and a rainbow gesture. \n\nYou must hold down the trigger
     while doing the gesture for the network to be able to detect it.\n\nWhen it detects
     a gesture, the log flashes green and you can see some info about the gesture."
 --- !u!222 &571880143
@@ -8545,8 +8545,12 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Open the Oculus windows app. Setup your headset and controllers if you haven't
-    already.
+  m_Text: 'Open the Oculus windows app. Setup your headset and controllers if you
+    haven''t already.
+
+
+    ( you might need to close Unity to do the Oculus setup, don''t worry, just save
+    this scene, close Unity, and open it again when your done )'
 --- !u!222 &769352627
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10760,7 +10764,7 @@ MonoBehaviour:
 
 
     Remember that your heads orientation effects how the neural net perceives the
-    gesture. Because of this, try looking in many different direcitons while recording
+    gesture. Because of this, try looking in many different directions while recording
     to increase accuracy.'
 --- !u!222 &1020360658
 CanvasRenderer:
@@ -10882,9 +10886,9 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1040604065}
   m_Enabled: 1
-  m_Alpha: 0
-  m_Interactable: 0
-  m_BlocksRaycasts: 0
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!114 &1040604068
 MonoBehaviour:
@@ -10898,7 +10902,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_RunInEditMode: 0
-  visible: 0
+  visible: 1
   canvasGroup: {fileID: 1040604067}
 --- !u!1 &1080841944
 GameObject:
@@ -14454,7 +14458,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_RunInEditMode: 0
-  currentPanel: {fileID: 468230474}
+  currentPanel: {fileID: 1040604068}
   panels:
   - {fileID: 1040604068}
   - {fileID: 1757800953}
@@ -16041,7 +16045,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_RunInEditMode: 0
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
