@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System;
+using System.Collections;
 
 namespace Edwon.VR.Gesture
 {
@@ -9,22 +11,27 @@ namespace Edwon.VR.Gesture
         public RawImage movieImage; // ui version
         MovieTexture movieTexture;
 
-        void Start()
+        public void PlayMovie()
         {
-
+            StartCoroutine(IEPlayMovieDelay(.1f));
         }
 
-        public void PlayMovie()
+        IEnumerator IEPlayMovieDelay(float delay)
         {
             if (movieTexture == null)
             {
                 movieTexture = (MovieTexture)movieImage.texture;
             }
 
+            yield return new WaitForSeconds(delay);
+
             if (gameObject.name == "Movie Test")
                 Debug.Log("play Movie Test");
 
+            movieTexture.loop = true;
             movieTexture.Play();
+
+            yield break;
         }
 
         public void StopMovie()
