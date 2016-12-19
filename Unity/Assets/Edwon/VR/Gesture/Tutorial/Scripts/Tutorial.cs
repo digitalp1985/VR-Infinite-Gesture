@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEditor;
 using UnityEngine.UI;
 using System.Collections;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 namespace Edwon.VR.Gesture
 {
@@ -76,9 +78,11 @@ namespace Edwon.VR.Gesture
 
         void Start()
         {
+#if UNITY_EDITOR
             // start - when play mode starts
             if (EditorApplication.isPlaying)
             {
+#endif
 
                 // if no file yet
                 if (ReadTutorialSettings() == null)
@@ -94,8 +98,11 @@ namespace Edwon.VR.Gesture
 
                 // load tutorial settings from file
                 TutorialStateLogic(true);
+#if UNITY_EDITOR
             }
+#endif
 
+#if UNITY_EDITOR
             // start - when edit mode starts
             if (!EditorApplication.isPlaying)
             {
@@ -115,7 +122,7 @@ namespace Edwon.VR.Gesture
                 RefreshTutorialSettings();
                 GoToTutorialStep(TutorialSettings.currentTutorialStep);
             }
-
+#endif
         }
 
         public void TutorialStateLogic(bool includeStepLogic)

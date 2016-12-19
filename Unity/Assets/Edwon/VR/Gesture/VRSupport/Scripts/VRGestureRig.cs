@@ -4,7 +4,6 @@ using System;
 using Edwon.VR.Gesture;
 using Edwon.VR.Input;
 using System.Collections.Generic;
-using UnityEditor;
 
 namespace Edwon.VR
 {

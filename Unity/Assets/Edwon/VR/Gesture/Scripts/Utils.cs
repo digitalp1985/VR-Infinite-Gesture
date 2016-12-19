@@ -488,6 +488,7 @@ namespace Edwon.VR.Gesture
 
         public static void ChangeVRType(VRType vrType)
         {
+            #if UNITY_EDITOR
             string defines = PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone);
             List<string> definesList = defines.Split(new char[] { ';' }).ToList<string>();
 
@@ -534,7 +535,7 @@ namespace Edwon.VR.Gesture
             defines = String.Join(";", definesList.ToArray());
 
             PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Standalone, defines);
-
+            #endif
         }
 
         public static VRGestureSettings GetGestureSettings()
@@ -542,7 +543,7 @@ namespace Edwon.VR.Gesture
             return AssetDatabase.LoadAssetAtPath(Config.SETTINGS_ASSET_PATH, typeof(VRGestureSettings)) as VRGestureSettings;
         }
 
-        #region UI
+#region UI
 
         public static void ToggleCanvasGroup(CanvasGroup cg, bool on)
         {
@@ -580,7 +581,7 @@ namespace Edwon.VR.Gesture
             }
         }
 
-        #endregion
+#endregion
     }
 
 }

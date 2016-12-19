@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
 using System.Collections.Generic;
 using Edwon.VR.Input;
-using UnityEditor;
 
 namespace Edwon.VR.Gesture
 {
