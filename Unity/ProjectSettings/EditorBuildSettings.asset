@@ -6,4 +6,4 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/3DGestureTracker/Examples/Example 3/Example 3.unity
+    path: Assets/Edwon/VR/Gesture/Tutorial/Tutorial.unity
