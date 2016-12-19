@@ -16,8 +16,10 @@ namespace Edwon.VR.Gesture
             //DrawDefaultInspector();
             tutorial = (Tutorial)target;
 
-            EditorGUILayout.EnumPopup(tutorial.TutorialSettings.tutorialState);
-            EditorGUILayout.IntField(tutorial.TutorialSettings.currentTutorialStep);
+            EditorGUILayout.LabelField("current tutorial state is: " + 
+                tutorial.TutorialSettings.tutorialState.ToString());
+            EditorGUILayout.LabelField("current tutorial step is: " + 
+                tutorial.TutorialSettings.currentTutorialStep.ToString());
 
             if (GUILayout.Button("Restart Tutorial"))
             {
