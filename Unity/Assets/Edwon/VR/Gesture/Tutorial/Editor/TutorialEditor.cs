@@ -19,6 +19,11 @@ namespace Edwon.VR.Gesture
             EditorGUILayout.EnumPopup(tutorial.TutorialSettings.tutorialState);
             EditorGUILayout.IntField(tutorial.TutorialSettings.currentTutorialStep);
 
+            if (GUILayout.Button("Restart Tutorial"))
+            {
+                tutorial.OnRestartTutorial();
+            }
+
             if (GUILayout.Button("Next Step"))
             {
                 tutorial.OnButtonNext();
@@ -28,20 +33,6 @@ namespace Edwon.VR.Gesture
             {
                 tutorial.OnButtonBack();
             }
-
-
-            //EditorGUI.BeginChangeCheck();
-            //EditorGUILayout.PropertyField(tutorialState);
-            //if (EditorGUI.EndChangeCheck())
-            //{
-            //    int enumIndex = tutorialState.enumValueIndex;
-            //    tutorial.SwitchTutorialState((TutorialState)enumIndex);
-            //}
-
-            //if (GUILayout.Button("VR Setup Complete"))
-            //{
-            //    tutorial.SwitchTutorialState(Tutorial.TutorialState.VRSetupComplete);
-            //}
 
             serializedObject.ApplyModifiedProperties();
         }

@@ -72,7 +72,7 @@ namespace Edwon.VR.Gesture
             }
         }
 
-        int inVRStep = 8; // starting at this step enter into VR
+        int inVRStep = 9; // starting at this step enter into VR
 
         void Start()
         {
@@ -268,6 +268,11 @@ namespace Edwon.VR.Gesture
 
         #region BUTTONS
 
+        public void OnRestartTutorial()
+        {
+            GoToTutorialStep(1);
+        }
+
         public void OnButtonNext()
         {
             GoToTutorialStep(TutorialSettings.currentTutorialStep + 1);
@@ -276,6 +281,20 @@ namespace Edwon.VR.Gesture
         public void OnButtonBack()
         {
             GoToTutorialStep(TutorialSettings.currentTutorialStep - 1);
+        }
+
+        public void OnOculusButton()
+        {
+            GestureSettings.vrType = VRType.OculusVR;
+            Utils.ChangeVRType(VRType.OculusVR);
+            OnButtonNext();
+        }
+
+        public void OnSteamButton()
+        {
+            GestureSettings.vrType = VRType.SteamVR;
+            Utils.ChangeVRType(VRType.SteamVR);
+            OnButtonNext();
         }
 
         #endregion
