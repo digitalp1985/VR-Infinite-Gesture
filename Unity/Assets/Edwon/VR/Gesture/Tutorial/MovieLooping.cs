@@ -25,9 +25,6 @@ namespace Edwon.VR.Gesture
 
             yield return new WaitForSeconds(delay);
 
-            if (gameObject.name == "Movie Test")
-                Debug.Log("play Movie Test");
-
             movieTexture.loop = true;
             movieTexture.Play();
 
@@ -41,16 +38,11 @@ namespace Edwon.VR.Gesture
                 movieTexture = (MovieTexture)movieImage.texture;
             }
 
-            if (gameObject.name == "Movie Test")
-                Debug.Log("stop Movie Test");
-
             movieTexture.Stop();
         }
 
         public void ToggleVisibility (bool enabled)
-        {
-            if (gameObject.name == "Movie Test")
-                Debug.Log("toggle visibility of Movie Test " + enabled);
+        { 
 
             if (movieImage != null)
             {
