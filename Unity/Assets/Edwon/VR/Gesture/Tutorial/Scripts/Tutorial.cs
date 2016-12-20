@@ -150,6 +150,7 @@ namespace Edwon.VR.Gesture
             // if at the VR transition step
             else if (TutorialSettings.currentTutorialStep == inVRStep)
             {
+#if UNITY_EDITOR
                 if (PlayerSettings.virtualRealitySupported == true)
                 {
                     // enter VR
@@ -159,6 +160,7 @@ namespace Edwon.VR.Gesture
                         GoToTutorialStep(inVRStep + 1);
                     }
                 }
+#endif
             }
             else if (TutorialSettings.currentTutorialStep >= inVRStep)
             {
@@ -204,7 +206,9 @@ namespace Edwon.VR.Gesture
                         CameraUI.enabled = true;
                         GetComponent<EventSystem>().enabled = true;
                         GetComponent<Canvas>().worldCamera = transform.GetComponentInChildren<Camera>();
+#if UNITY_EDITOR
                         PlayerSettings.virtualRealitySupported = false;
+#endif
                         GestureSettings.showVRUI = false;
                         if (GestureSettings.Rig != null)
                         {
@@ -230,7 +234,9 @@ namespace Edwon.VR.Gesture
                             LaserPointerInputModule laserPointerInput = ui.GetComponent<LaserPointerInputModule>();
                             GetComponent<Canvas>().worldCamera = laserPointerInput.UICamera;
                         }
+#if UNITY_EDITOR
                         PlayerSettings.virtualRealitySupported = true;
+#endif
                         GestureSettings.showVRUI = true;
                         if (GestureSettings.Rig != null)
                         {

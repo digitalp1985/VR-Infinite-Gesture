@@ -1,6 +1,6 @@
-﻿using UnityEngine;
+﻿#if UNITY_EDITOR
+using UnityEngine;
 using UnityEditor;
-
 
 [InitializeOnLoad]
 public class TutorialInitializeOnLoad
@@ -11,4 +11,4 @@ public class TutorialInitializeOnLoad
     }
 }
 
-
+#endif

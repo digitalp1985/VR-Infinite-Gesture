@@ -114,6 +114,7 @@ namespace Edwon.VR
 
         void Init()
         {
+            Debug.Log("VRGestureRig Init");
             CreateInputHelper();
 
             if (GestureSettings.showVRUI)
@@ -305,7 +306,7 @@ namespace Edwon.VR
         /// <returns></returns>
         public void CreateInputHelper()
         {
-            #if EDWON_VR_STEAM
+#if EDWON_VR_STEAM
 
             SteamVR_ControllerManager[] steamVR_cm = FindObjectsOfType<SteamVR_ControllerManager>();
             //What happens when we get here and we ONLY have 1 controller online.
@@ -317,9 +318,10 @@ namespace Edwon.VR
             inputLeft = gameObject.AddComponent<VRControllerInputSteam>().Init(Handedness.Left, leftController);
             inputRight = gameObject.AddComponent<VRControllerInputSteam>().Init(Handedness.Right, rightController);
 
-            #endif
+#endif
 
-            #if EDWON_VR_OCULUS
+#if EDWON_VR_OCULUS
+            Debug.Log("INSIDE EDWON_VR_OCULUS in CreateInputHelper");
 
             inputLeft = handLeft.gameObject.AddComponent<VRControllerInputOculus>().Init(Handedness.Left);
             inputRight = handRight.gameObject.AddComponent<VRControllerInputOculus>().Init(Handedness.Right);

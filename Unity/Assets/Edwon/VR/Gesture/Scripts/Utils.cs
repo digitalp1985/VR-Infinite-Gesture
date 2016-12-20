@@ -540,10 +540,15 @@ namespace Edwon.VR.Gesture
 
         public static VRGestureSettings GetGestureSettings()
         {
+            #if UNITY_EDITOR
             return AssetDatabase.LoadAssetAtPath(Config.SETTINGS_ASSET_PATH, typeof(VRGestureSettings)) as VRGestureSettings;
+            #else
+            Debug.Log("GET GESTURE SETTINGS FROM RESOURCES");
+            return Resources.Load("Settings", typeof(VRGestureSettings)) as VRGestureSettings;
+            #endif
         }
 
-#region UI
+        #region UI
 
         public static void ToggleCanvasGroup(CanvasGroup cg, bool on)
         {

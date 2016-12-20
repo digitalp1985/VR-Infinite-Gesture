@@ -1,0 +1,22 @@
+{
+    "gestures": [
+        {
+            "name": "Air",
+            "hand": 2,
+            "isSynchronous": false,
+            "exampleCount": 0
+        },
+        {
+            "name": "Earth",
+            "hand": 2,
+            "isSynchronous": false,
+            "exampleCount": 0
+        },
+        {
+            "name": "Fire",
+            "hand": 2,
+            "isSynchronous": false,
+            "exampleCount": 0
+        }
+    ]
+}
