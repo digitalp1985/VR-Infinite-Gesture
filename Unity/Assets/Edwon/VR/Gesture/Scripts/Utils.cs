@@ -544,7 +544,7 @@ namespace Edwon.VR.Gesture
             return AssetDatabase.LoadAssetAtPath(Config.SETTINGS_FILE_PATH, typeof(VRGestureSettings)) as VRGestureSettings;
             #else
             Debug.Log("GET GESTURE SETTINGS FROM RESOURCES");
-            return Resources.Load("Settings", typeof(VRGestureSettings)) as VRGestureSettings;
+            return Resources.Load(Config.RESOURCES_PARENT_PATH + "Settings/Settings", typeof(VRGestureSettings)) as VRGestureSettings;
             #endif
         }
 
