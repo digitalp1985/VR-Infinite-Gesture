@@ -138,7 +138,7 @@ namespace Edwon.VR.Gesture
         public static VRGestureSettings CreateGestureSettingsAsset()
         {
             VRGestureSettings instance = CreateInstance<VRGestureSettings>();
-            AssetDatabase.CreateAsset(instance, Config.SETTINGS_ASSET_PATH);
+            AssetDatabase.CreateAsset(instance, Config.SETTINGS_FILE_PATH);
             return instance;
         }
 

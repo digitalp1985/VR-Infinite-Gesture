@@ -114,7 +114,6 @@ namespace Edwon.VR
 
         void Init()
         {
-            Debug.Log("VRGestureRig Init");
             CreateInputHelper();
 
             if (GestureSettings.showVRUI)
@@ -321,7 +320,6 @@ namespace Edwon.VR
 #endif
 
 #if EDWON_VR_OCULUS
-            Debug.Log("INSIDE EDWON_VR_OCULUS in CreateInputHelper");
 
             inputLeft = handLeft.gameObject.AddComponent<VRControllerInputOculus>().Init(Handedness.Left);
             inputRight = handRight.gameObject.AddComponent<VRControllerInputOculus>().Init(Handedness.Right);
@@ -344,7 +342,7 @@ namespace Edwon.VR
 
         public void CreateVRUI()
         {
-            Instantiate(Resources.Load("VR Gesture UI"));
+            Instantiate(Resources.Load(Config.RESOURCES_PARENT_PATH + "VRUI/VR Gesture UI"));
         }
 
         public void SpawnControllerModels ()
@@ -353,13 +351,17 @@ namespace Edwon.VR
             {
                 if (GestureSettings.vrType == VRType.OculusVR)
                 {
-                    handLeftModel = Resources.Load("VR Controller Art/Oculus_Simple_Left") as GameObject;
-                    handRightModel = Resources.Load("VR Controller Art/Oculus_Simple_Right") as GameObject;
+                    handLeftModel = Resources.Load(
+                        Config.RESOURCES_PARENT_PATH + "VR Controller Art/Oculus_Simple_Left") as GameObject;
+                    handRightModel = Resources.Load(
+                        Config.RESOURCES_PARENT_PATH + "VR Controller Art/Oculus_Simple_Right") as GameObject;
                 }
                 else if (GestureSettings.vrType == VRType.SteamVR)
                 {
-                    handLeftModel = Resources.Load("VR Controller Art/Vive_Simple") as GameObject;
-                    handRightModel = Resources.Load("VR Controller Art/Vive_Simple") as GameObject;
+                    handLeftModel = Resources.Load(
+                        Config.RESOURCES_PARENT_PATH + "VR Controller Art/Vive_Simple") as GameObject;
+                    handRightModel = Resources.Load(
+                        Config.RESOURCES_PARENT_PATH + "VR Controller Art/Vive_Simple") as GameObject;
                 }
             }
             Transform leftModel = GameObject.Instantiate(handLeftModel).transform;

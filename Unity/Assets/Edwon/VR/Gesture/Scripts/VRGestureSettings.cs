@@ -157,7 +157,7 @@ namespace Edwon.VR.Gesture
         public void RefreshNeuralNetList()
         {
             neuralNets = new List<string>();
-            string path = Config.SAVE_FILE_PATH;
+            string path = Config.GESTURE_FILE_PATH;
             foreach (string directoryPath in System.IO.Directory.GetDirectories(path))
             {
                 string directoryName = Path.GetFileName(directoryPath);

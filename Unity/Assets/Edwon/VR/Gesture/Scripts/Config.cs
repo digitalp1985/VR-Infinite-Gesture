@@ -10,10 +10,12 @@ namespace Edwon.VR.Gesture
 {
     public static class Config
     {
-        public const string SAVE_FILE_PATH = 
-            @"Assets/Edwon/VR/Gesture/Resources/VR Infinite Gesture/Neural Networks/";
-        public const string SETTINGS_ASSET_PATH = 
-            @"Assets/Edwon/VR/Gesture/Resources/VR Infinite Gesture/Settings/Settings.asset";
+        public const string RESOURCES_PATH = @"Assets/Edwon/VR/Gesture/Resources/VR Infinite Gesture/";
+        public const string RESOURCES_PARENT_PATH = @"VR Infinite Gesture/";
+        public const string GESTURE_FILE_PATH = 
+            RESOURCES_PATH + "Neural Networks/";
+        public const string SETTINGS_FILE_PATH = 
+            RESOURCES_PATH + "Settings/Settings.asset";
 
         // records raw, unmodified tracking data when recording gestures
 		// this should probably always be true
