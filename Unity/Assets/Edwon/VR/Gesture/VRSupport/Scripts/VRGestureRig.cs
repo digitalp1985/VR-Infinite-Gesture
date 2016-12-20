@@ -342,7 +342,7 @@ namespace Edwon.VR
 
         public void CreateVRUI()
         {
-            Instantiate(Resources.Load(Config.RESOURCES_PARENT_PATH + "VRUI/VR Gesture UI"));
+            Instantiate(Resources.Load(Config.PARENT_PATH + "VRUI/VR Gesture UI"));
         }
 
         public void SpawnControllerModels ()
@@ -352,16 +352,16 @@ namespace Edwon.VR
                 if (GestureSettings.vrType == VRType.OculusVR)
                 {
                     handLeftModel = Resources.Load(
-                        Config.RESOURCES_PARENT_PATH + "VR Controller Art/Oculus_Simple_Left") as GameObject;
+                        Config.PARENT_PATH + "VR Controller Art/Oculus_Simple_Left") as GameObject;
                     handRightModel = Resources.Load(
-                        Config.RESOURCES_PARENT_PATH + "VR Controller Art/Oculus_Simple_Right") as GameObject;
+                        Config.PARENT_PATH + "VR Controller Art/Oculus_Simple_Right") as GameObject;
                 }
                 else if (GestureSettings.vrType == VRType.SteamVR)
                 {
                     handLeftModel = Resources.Load(
-                        Config.RESOURCES_PARENT_PATH + "VR Controller Art/Vive_Simple") as GameObject;
+                        Config.PARENT_PATH + "VR Controller Art/Vive_Simple") as GameObject;
                     handRightModel = Resources.Load(
-                        Config.RESOURCES_PARENT_PATH + "VR Controller Art/Vive_Simple") as GameObject;
+                        Config.PARENT_PATH + "VR Controller Art/Vive_Simple") as GameObject;
                 }
             }
             Transform leftModel = GameObject.Instantiate(handLeftModel).transform;

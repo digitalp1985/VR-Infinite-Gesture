@@ -234,7 +234,7 @@ namespace Edwon.VR.Gesture
 
 		public static NeuralNetworkStub ReadNeuralNetworkStub(string networkName)
 		{
-			string path = Config.GESTURE_FILE_PATH + networkName + "/" + networkName + ".txt";
+			string path = Application.streamingAssetsPath + Config.NEURAL_NET_PATH + networkName + "/" + networkName + ".txt";
 			if (System.IO.File.Exists(path))
 			{
 				string[] lines = System.IO.File.ReadAllLines(path);
@@ -253,7 +253,7 @@ namespace Edwon.VR.Gesture
 		public static List<string> GetNetworksFromFile()
 		{
 			List<string> networkList = new List<string>();
-			string networkPath = Config.GESTURE_FILE_PATH;
+			string networkPath = Application.streamingAssetsPath + Config.NEURAL_NET_PATH;
 			//string[] files = System.IO.Directory.GetFiles(gesturesPath, "*.txt");
 			string[] files = System.IO.Directory.GetDirectories(networkPath);
 			if (files.Length == 0)
@@ -276,7 +276,7 @@ namespace Edwon.VR.Gesture
 		public static List<Gesture> GetGestureBankOld(string networkName)
 		{
 			List<Gesture> gestureBank = new List<Gesture>();
-			string gesturesPath = Config.GESTURE_FILE_PATH + networkName + "/gestures/";
+			string gesturesPath = Application.streamingAssetsPath + Config.NEURAL_NET_PATH + networkName + "/gestures/";
 			//Check if path exists
 			if (System.IO.Directory.Exists(gesturesPath))
 			{
@@ -307,7 +307,7 @@ namespace Edwon.VR.Gesture
         {
             GestureBankStub stub = new GestureBankStub();
             stub.gestures = gestureBank;
-            string filePath = Config.GESTURE_FILE_PATH + networkName + "/GestureBank.txt";
+            string filePath = Application.streamingAssetsPath + Config.NEURAL_NET_PATH + networkName + "/GestureBank.txt";
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(filePath, false))
             {
                 //file.WriteLine(dumbString);
@@ -322,8 +322,8 @@ namespace Edwon.VR.Gesture
         public static List<Gesture> GetGestureBank(string networkName)
         {
             List<Gesture> gestureBank = new List<Gesture>();
-            string gesturesPath = Config.GESTURE_FILE_PATH + networkName + "/GestureBank.txt";
-            string gesturesFolderPath = Config.GESTURE_FILE_PATH + networkName + "/Gestures/";
+            string gesturesPath = Application.streamingAssetsPath + Config.NEURAL_NET_PATH + networkName + "/GestureBank.txt";
+            string gesturesFolderPath = Application.streamingAssetsPath + Config.NEURAL_NET_PATH + networkName + "/Gestures/";
             //Check if path exists
             if (System.IO.File.Exists(gesturesPath))
             {
@@ -358,7 +358,7 @@ namespace Edwon.VR.Gesture
 
 		public static void CreateGestureFile(string gestureName, string networkName)
 		{
-			string gestureFileLocation = Config.GESTURE_FILE_PATH + networkName + "/Gestures/";
+			string gestureFileLocation = Application.streamingAssetsPath + Config.NEURAL_NET_PATH + networkName + "/Gestures/";
 			// if no gestures folder already
 			if (!System.IO.Directory.Exists(gestureFileLocation))
 			{
@@ -378,7 +378,7 @@ namespace Edwon.VR.Gesture
 
 		public static void DeleteGestureFile(string gestureName, string networkName)
 		{
-			string gestureFileLocation = Config.GESTURE_FILE_PATH + networkName + "/Gestures/" + gestureName + ".txt";
+			string gestureFileLocation = Application.streamingAssetsPath + Config.NEURAL_NET_PATH + networkName + "/Gestures/" + gestureName + ".txt";
 #if UNITY_EDITOR
 			FileUtil.DeleteFileOrDirectory(gestureFileLocation);
 			AssetDatabase.Refresh();
@@ -387,7 +387,7 @@ namespace Edwon.VR.Gesture
 
 		public static void DeleteGestureExample(string neuralNetwork, string gesture, int lineNumber)
 		{
-			string gestureFileLocation = Config.GESTURE_FILE_PATH + neuralNetwork + "/Gestures/" + gesture + ".txt"; ;
+			string gestureFileLocation = Application.streamingAssetsPath + Config.NEURAL_NET_PATH + neuralNetwork + "/Gestures/" + gesture + ".txt"; ;
 			List<string> tmpLines = new List<string>();
 			tmpLines.AddRange(System.IO.File.ReadAllLines(gestureFileLocation));
 			tmpLines.RemoveAt(lineNumber);
@@ -398,8 +398,8 @@ namespace Edwon.VR.Gesture
 
 		public static void RenameGestureFile(string gestureOldName, string gestureNewName, string networkName)
 		{
-			string oldPath = Config.GESTURE_FILE_PATH + networkName + "/Gestures/" + gestureOldName + ".txt";
-			string newPath = Config.GESTURE_FILE_PATH + networkName + "/Gestures/" + gestureNewName + ".txt";
+			string oldPath = Application.streamingAssetsPath + Config.NEURAL_NET_PATH + networkName + "/Gestures/" + gestureOldName + ".txt";
+			string newPath = Application.streamingAssetsPath + Config.NEURAL_NET_PATH + networkName + "/Gestures/" + gestureNewName + ".txt";
 			//get all them old gesture
 			string[] oldLines = System.IO.File.ReadAllLines(oldPath);
 			List<string> newLines = new List<string>();
@@ -415,10 +415,10 @@ namespace Edwon.VR.Gesture
 
 		public static void ChangeGestureName(string gestureNameOld, string gestureNameNew, string networkName)
 		{
-			string path = Config.GESTURE_FILE_PATH + networkName + "/Gestures/" + gestureNameOld + ".txt";
+			string path = Application.streamingAssetsPath + Config.NEURAL_NET_PATH + networkName + "/Gestures/" + gestureNameOld + ".txt";
 #if UNITY_EDITOR
 			AssetDatabase.RenameAsset(path, gestureNameNew);
-			string pathUpdated = Config.GESTURE_FILE_PATH + networkName + "/Gestures/" + gestureNameNew + ".txt";
+			string pathUpdated = Application.streamingAssetsPath + Config.NEURAL_NET_PATH + networkName + "/Gestures/" + gestureNameNew + ".txt";
 //			AssetDatabase.ImportAsset(pathUpdated);
 			AssetDatabase.Refresh();
 #endif
@@ -426,7 +426,7 @@ namespace Edwon.VR.Gesture
 
 		public static List<string> GetGestureFiles(string networkName)
 		{
-			string gesturesFilePath = Config.GESTURE_FILE_PATH + networkName + "/Gestures/";
+			string gesturesFilePath = Application.streamingAssetsPath + Config.NEURAL_NET_PATH + networkName + "/Gestures/";
 			string[] files = System.IO.Directory.GetFiles(gesturesFilePath, "*.txt");
 			return files.ToList<string>();
 		}
@@ -453,7 +453,7 @@ namespace Edwon.VR.Gesture
 		private static string[] GetGestureLines(string gesture, string networkName)
 		{
 			//read in the file
-			string filePath = Config.GESTURE_FILE_PATH + networkName + "/Gestures/";
+			string filePath = Application.streamingAssetsPath + Config.NEURAL_NET_PATH + networkName + "/Gestures/";
 			string fileName = gesture + ".txt";
 			string[] lines = System.IO.File.ReadAllLines(filePath + fileName);
 			return lines;
@@ -461,7 +461,7 @@ namespace Edwon.VR.Gesture
 
 		public static void DeleteNeuralNetFiles(string networkName)
 		{
-			string path = Config.GESTURE_FILE_PATH + networkName + "/";
+			string path = Application.streamingAssetsPath + Config.NEURAL_NET_PATH + networkName + "/";
 			if (System.IO.Directory.Exists(path))
 			{
 #if UNITY_EDITOR
@@ -478,7 +478,7 @@ namespace Edwon.VR.Gesture
 		// return true if successful, false if not
 		public static bool CreateFolder (string path)
 		{
-			string folderPathNew = Config.GESTURE_FILE_PATH + path;
+			string folderPathNew = Application.streamingAssetsPath + Config.NEURAL_NET_PATH + path;
 			System.IO.Directory.CreateDirectory(folderPathNew);
 #if UNITY_EDITOR
 			AssetDatabase.ImportAsset(folderPathNew);
@@ -590,8 +590,6 @@ namespace Edwon.VR.Gesture
     }
 
 }
-
-
 
 namespace Edwon.VR.Gesture
 {

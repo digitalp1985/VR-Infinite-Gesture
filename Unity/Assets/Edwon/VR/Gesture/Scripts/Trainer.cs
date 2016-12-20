@@ -102,7 +102,7 @@ namespace Edwon.VR.Gesture
         //Pass in an array for data points.
         public void AddGestureToTrainingExamples(List<Vector3> capturedLine, Handedness hand)
         {
-            string gestureFileLocation = Config.GESTURE_FILE_PATH + recognizerName + "/Gestures/";
+            string gestureFileLocation = Application.streamingAssetsPath + Config.NEURAL_NET_PATH + recognizerName + "/Gestures/";
             //we need to check if this directory exists.
             //if not we need to create the directory and file.
             System.IO.Directory.CreateDirectory(gestureFileLocation);
@@ -160,7 +160,7 @@ namespace Edwon.VR.Gesture
             //read in the file
             //technically this should only read files that are also in the gestures list.
             //@TODO - compare files in gestures folder to  ones in list.
-            string gesturesFilePath = Config.GESTURE_FILE_PATH + recognizerName + "/Gestures/";
+            string gesturesFilePath = Application.streamingAssetsPath + Config.NEURAL_NET_PATH + recognizerName + "/Gestures/";
             if (!System.IO.Directory.Exists(gesturesFilePath))
             {
                 Debug.Log("No recorded gestures. Please record some gestures in VR.");
@@ -247,7 +247,7 @@ namespace Edwon.VR.Gesture
             stub.numOutput = numOutput;
             stub.gestures = gestures;
             stub.weights = weights;
-            string filePath = Config.GESTURE_FILE_PATH + recognizerName + "/" + recognizerName+".txt";
+            string filePath = Application.streamingAssetsPath + Config.NEURAL_NET_PATH + recognizerName + "/" + recognizerName+".txt";
             using (System.IO.StreamWriter file = new System.IO.StreamWriter(filePath, false))
             {
                 //file.WriteLine(dumbString);
