@@ -33,8 +33,8 @@ namespace Edwon.VR.Gesture
 
             // set the trash icon position
             RectTransform trashTF = (RectTransform)trash.transform;
-            trashTF.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, grid.gallery.gestureDrawSize * 2);
-            trashTF.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, grid.gallery.gestureDrawSize * 2);
+            trashTF.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 20);
+            trashTF.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 25);
 
             // add the button listener function
             button.onClick.AddListener(() => grid.gallery.DeleteGestureExample(example, lineNumber));
