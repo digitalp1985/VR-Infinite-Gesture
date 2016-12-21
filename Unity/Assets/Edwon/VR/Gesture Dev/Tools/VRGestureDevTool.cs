@@ -10,15 +10,16 @@ namespace Edwon.VR.Gesture
 
     public class VRGestureDevTool : ScriptableObject
     {
+        public string GESTURE_PLUGIN_EXPORT_PATH; // absolute path, don't forget to end with a slash
+        public string GESTURE_PLUGIN_EXPORT_NAME; // the name of the plugin package when exported
+
         const string GESTURE_DEV_PATH = @"Assets/Edwon/VR/Gesture Dev/";
         const string GESTURE_PLUGIN_PATH = @"Assets/Edwon/VR/Gesture/";
-        const string GESTURE_PLUGIN_EXPORT_PATH = @"/Edwon/VR/Gesture/";
 
         const string EXAMPLES_PATH = "Examples/";
         const string INTEGRATIONS_PATH = "Integrations/";
 
-        const string PLUGIN_PACKAGE_NAME = "VR_INFINITE_GESTURE.unitypackage";
-        const string PLAYMAKER_PACKAGE_NAME = "PlaymakerIntegration.unitypackage";
+        const string PLAYMAKER_PACKAGE_NAME = "PlaymakerIntegration";
 
         public void BuildAndExportPlugin()
         {
@@ -29,34 +30,45 @@ namespace Edwon.VR.Gesture
             DeleteGeneratedPackages();
         }
 
-        public void ExportPlugin()
+        void ExportPlugin()
         {
             string fromPath = 
                 GESTURE_PLUGIN_PATH.Substring(0, GESTURE_PLUGIN_PATH.Length - 1);
-            string exportPath =
-                Application.dataPath + GESTURE_PLUGIN_EXPORT_PATH + PLUGIN_PACKAGE_NAME;
+            string exportPath = GESTURE_PLUGIN_EXPORT_PATH + GESTURE_PLUGIN_EXPORT_NAME + ".unitypackage";
             AssetDatabase.ExportPackage(fromPath, exportPath, ExportPackageOptions.Recurse);
             AssetDatabase.Refresh();
         }
 
         public void MoveExamples(MoveOption moveOption)
         {
-
+            // first move playmaker folder from dev to normal
+            // this way it will re-import to the correct spot when users re-import the package
+            string examplesDev = GESTURE_DEV_PATH + EXAMPLES_PATH;
+            string examplesPlugin = GESTURE_PLUGIN_PATH + EXAMPLES_PATH;
+            switch (moveOption)
+            {
+                case MoveOption.ToPlugin:
+                    MoveFolder(examplesDev, examplesPlugin);
+                    break;
+                case MoveOption.ToDev:
+                    MoveFolder(examplesPlugin, examplesDev);
+                    break;
+            }
         }
 
         public void MoveIntegrations(MoveOption moveOption)
         {
             // first move playmaker folder from dev to normal
             // this way it will re-import to the correct spot when users re-import the package
-            string playmakerDev = GESTURE_DEV_PATH + INTEGRATIONS_PATH + "Playmaker/";
-            string playmakerPlugin = GESTURE_PLUGIN_PATH + INTEGRATIONS_PATH + "Playmaker/";
+            string integrationsDev = GESTURE_DEV_PATH + INTEGRATIONS_PATH;
+            string integrationsPlugin = GESTURE_PLUGIN_PATH + INTEGRATIONS_PATH;
             switch (moveOption)
             {
                 case MoveOption.ToPlugin:
-                    MoveFolder(playmakerDev, playmakerPlugin);
+                    MoveFolder(integrationsDev, integrationsPlugin);
                     break;
                 case MoveOption.ToDev:
-                    MoveFolder(playmakerPlugin, playmakerDev);
+                    MoveFolder(integrationsPlugin, integrationsDev);
                     break;
             }
         }
@@ -66,15 +78,18 @@ namespace Edwon.VR.Gesture
             string fromPath = 
                 GESTURE_PLUGIN_PATH + INTEGRATIONS_PATH + "Playmaker";
 
-            string exportPath = 
-                Application.dataPath + GESTURE_PLUGIN_EXPORT_PATH + INTEGRATIONS_PATH + PLAYMAKER_PACKAGE_NAME;
+            string exportPath =
+                Application.dataPath + GESTURE_PLUGIN_PATH.Remove(0, 6)
+                + INTEGRATIONS_PATH + PLAYMAKER_PACKAGE_NAME + ".unitypackage";
 
             ExportPackage(fromPath, exportPath);
+
+            AssetDatabase.Refresh();
         }
 
         public void DeleteGeneratedPackages()
         {
-            AssetDatabase.DeleteAsset(GESTURE_PLUGIN_PATH + INTEGRATIONS_PATH + PLAYMAKER_PACKAGE_NAME);
+            AssetDatabase.DeleteAsset(GESTURE_PLUGIN_PATH + INTEGRATIONS_PATH + PLAYMAKER_PACKAGE_NAME + ".unitypackage");
             AssetDatabase.Refresh();
         }
 

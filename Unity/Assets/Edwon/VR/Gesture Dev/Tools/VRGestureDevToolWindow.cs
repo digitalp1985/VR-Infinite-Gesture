@@ -21,16 +21,17 @@ namespace Edwon.VR.Gesture
             GetSetDevTool();
             SetSerializedObject();
 
-            GUILayout.BeginVertical(GUILayout.Width(EditorGUIUtility.currentViewWidth));
+            GUILayout.BeginHorizontal(GUILayout.Width(EditorGUIUtility.currentViewWidth));
+            GUILayout.Space(20);
+            GUILayout.BeginVertical();
 
-            GUILayout.Space(5);
+            GUILayout.Space(20);
 
-            if (GUILayout.Button("BUILD AND EXPORT PLUGIN"))
-            {
-                //devTool.BuildAndExportPlugin();
-                devTool.ExportPlugin();
-            }
+            GUILayout.Label("VR Infinite Gesture Dev Tool");
 
+            GUILayout.Space(20);
+
+            #region METHOD TESTS
             if (GUILayout.Button("Move Examples To Dev"))
             {
                 devTool.MoveExamples(MoveOption.ToDev);
@@ -60,8 +61,32 @@ namespace Edwon.VR.Gesture
             {
                 devTool.DeleteGeneratedPackages();
             }
+            #endregion
+
+            GUILayout.Space(20);
+
+            #region EXPORT PLUGIN
+            GUILayout.Label("PLUGIN EXPORT PATH");
+            SerializedProperty GESTURE_PLUGIN_EXPORT_PATH = serializedObject.FindProperty("GESTURE_PLUGIN_EXPORT_PATH");
+            GESTURE_PLUGIN_EXPORT_PATH.stringValue = EditorGUILayout.TextField(GESTURE_PLUGIN_EXPORT_PATH.stringValue);
+
+            GUILayout.Space(10);
+
+            GUILayout.Label("PLUGIN PACKAGE NAME");
+            SerializedProperty GESTURE_PLUGIN_EXPORT_NAME = serializedObject.FindProperty("GESTURE_PLUGIN_EXPORT_NAME");
+            GESTURE_PLUGIN_EXPORT_NAME.stringValue = EditorGUILayout.TextField(GESTURE_PLUGIN_EXPORT_NAME.stringValue);
+
+            GUILayout.Space(10);
+
+            if (GUILayout.Button("BUILD AND EXPORT PLUGIN"))
+            {
+                devTool.BuildAndExportPlugin();
+            }
+            #endregion
 
             GUILayout.EndVertical();
+            GUILayout.Space(20);
+            GUILayout.EndHorizontal();
 
             serializedObject.ApplyModifiedProperties();
         }
