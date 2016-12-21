@@ -300,11 +300,13 @@ namespace Edwon.VR.Gesture
 					gestureBank.Add(newGesture);
 				}
 			}
-			return gestureBank;
+            Debug.Log("GetGestureBankOld: " + gestureBank.Count);
+            return gestureBank;
 		}
 
         public static void SaveGestureBank(List<Gesture> gestureBank, string networkName)
         {
+            Debug.Log("SaveGestureBank: " + gestureBank.Count);
             GestureBankStub stub = new GestureBankStub();
             stub.gestures = gestureBank;
             string filePath = Application.streamingAssetsPath + Config.NEURAL_NET_PATH + networkName + "/GestureBank.txt";
@@ -339,6 +341,7 @@ namespace Edwon.VR.Gesture
             {
                 GestureBankStub stub = new GestureBankStub();
                 stub.gestures = new List<Gesture>();
+                Debug.Log("GetGestureBank: " + stub.gestures.Count);
                 return stub.gestures;
             }
         }
@@ -544,7 +547,7 @@ namespace Edwon.VR.Gesture
             return AssetDatabase.LoadAssetAtPath(Config.SETTINGS_FILE_PATH, typeof(VRGestureSettings)) as VRGestureSettings;
             #else
             Debug.Log("GET GESTURE SETTINGS FROM RESOURCES");
-            return Resources.Load(Config.RESOURCES_PARENT_PATH + "Settings/Settings", typeof(VRGestureSettings)) as VRGestureSettings;
+            return Resources.Load(Config.PARENT_PATH + "Settings/Settings", typeof(VRGestureSettings)) as VRGestureSettings;
             #endif
         }
 

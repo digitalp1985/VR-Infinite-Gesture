@@ -7,7 +7,7 @@ public class TutorialInitializeOnLoad
 {
     static TutorialInitializeOnLoad()
     {
-        Debug.Log("Autorun!");
+        //Debug.Log("Autorun!");
     }
 }
 

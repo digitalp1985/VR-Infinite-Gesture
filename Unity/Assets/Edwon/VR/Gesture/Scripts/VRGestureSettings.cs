@@ -213,6 +213,7 @@ namespace Edwon.VR.Gesture
         {
             if (currentNeuralNet != null && currentNeuralNet != "" && gestureBank.Count > 0)
             {
+                // save last neural network before we switch to next one
                 Utils.SaveGestureBank(gestureBank, currentNeuralNet);
             }
 
