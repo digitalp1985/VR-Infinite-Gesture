@@ -374,7 +374,6 @@ namespace Edwon.VR.Gesture
 
         void GenerateGesturesMenu()
         {
-            Debug.Log("Generate Gestures Menu");
             Transform listPanelParent = gesturesMenu.Find("List Panel/Buttons Parent");
             gestureSettings.RefreshGestureBank(true);
             StartCoroutine(GenerateGestureButtons(gestureSettings.gestureBank, listPanelParent));

@@ -306,7 +306,6 @@ namespace Edwon.VR.Gesture
 
         public static void SaveGestureBank(List<Gesture> gestureBank, string networkName)
         {
-            Debug.Log("SaveGestureBank: " + gestureBank.Count);
             GestureBankStub stub = new GestureBankStub();
             stub.gestures = gestureBank;
             string filePath = Application.streamingAssetsPath + Config.NEURAL_NET_PATH + networkName + "/GestureBank.txt";
