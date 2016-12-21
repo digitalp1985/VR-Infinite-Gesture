@@ -17,8 +17,27 @@ namespace Edwon.VR.Gesture
         const string EXAMPLES_PATH = "Examples/";
         const string INTEGRATIONS_PATH = "Integrations/";
 
+        const string PLUGIN_PACKAGE_NAME = "VR_INFINITE_GESTURE.unitypackage";
         const string PLAYMAKER_PACKAGE_NAME = "PlaymakerIntegration.unitypackage";
 
+        public void BuildAndExportPlugin()
+        {
+            MoveIntegrations(MoveOption.ToPlugin);
+            ExportIntegrationsPackages();
+            MoveIntegrations(MoveOption.ToDev);
+            ExportPlugin();
+            DeleteGeneratedPackages();
+        }
+
+        public void ExportPlugin()
+        {
+            string fromPath = 
+                GESTURE_PLUGIN_PATH.Substring(0, GESTURE_PLUGIN_PATH.Length - 1);
+            string exportPath =
+                Application.dataPath + GESTURE_PLUGIN_EXPORT_PATH + PLUGIN_PACKAGE_NAME;
+            AssetDatabase.ExportPackage(fromPath, exportPath, ExportPackageOptions.Recurse);
+            AssetDatabase.Refresh();
+        }
 
         public void MoveExamples(MoveOption moveOption)
         {

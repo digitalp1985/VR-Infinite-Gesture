@@ -25,6 +25,12 @@ namespace Edwon.VR.Gesture
 
             GUILayout.Space(5);
 
+            if (GUILayout.Button("BUILD AND EXPORT PLUGIN"))
+            {
+                //devTool.BuildAndExportPlugin();
+                devTool.ExportPlugin();
+            }
+
             if (GUILayout.Button("Move Examples To Dev"))
             {
                 devTool.MoveExamples(MoveOption.ToDev);
