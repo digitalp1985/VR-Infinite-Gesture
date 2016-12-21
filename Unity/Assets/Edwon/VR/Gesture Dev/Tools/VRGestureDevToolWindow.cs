@@ -26,12 +26,29 @@ namespace Edwon.VR.Gesture
             GUILayout.Space(5);
 
             // put GUI stuff here
-
-            if (GUILayout.Button("Check Neural Net Folder"))
+            if (GUILayout.Button("Move Examples Package"))
             {
-                devTool.CheckCreateNeuralNetFolder();
+                devTool.MoveExamplesPackage();
             }
 
+            if (GUILayout.Button("Move Integrations Packages To Plugin"))
+            {
+                devTool.MoveIntegrationsPackages(MoveOption.ToPlugin);
+            }
+            if (GUILayout.Button("Move Integrations Packages To Dev"))
+            {
+                devTool.MoveIntegrationsPackages(MoveOption.ToDev);
+            }
+
+            if (GUILayout.Button("Export Integrations Packages"))
+            {
+                devTool.ExportIntegrationsPackages();
+            }
+
+            if (GUILayout.Button("Delete Generated Packages"))
+            {
+                devTool.DeleteGeneratedPackages();
+            }
 
             GUILayout.EndVertical();
 
