@@ -20,12 +20,12 @@ namespace Edwon.VR.Gesture
         const string PLAYMAKER_PACKAGE_NAME = "PlaymakerIntegration.unitypackage";
 
 
-        public void MoveExamplesPackage()
+        public void MoveExamples(MoveOption moveOption)
         {
 
         }
 
-        public void MoveIntegrationsPackages(MoveOption moveOption)
+        public void MoveIntegrations(MoveOption moveOption)
         {
             // first move playmaker folder from dev to normal
             // this way it will re-import to the correct spot when users re-import the package

@@ -25,20 +25,24 @@ namespace Edwon.VR.Gesture
 
             GUILayout.Space(5);
 
-            // put GUI stuff here
-            if (GUILayout.Button("Move Examples Package"))
+            if (GUILayout.Button("Move Examples To Dev"))
             {
-                devTool.MoveExamplesPackage();
+                devTool.MoveExamples(MoveOption.ToDev);
             }
 
-            if (GUILayout.Button("Move Integrations Packages To Dev"))
+            if (GUILayout.Button("Move Examples To Plugin"))
             {
-                devTool.MoveIntegrationsPackages(MoveOption.ToDev);
+                devTool.MoveExamples(MoveOption.ToPlugin);
             }
 
-            if (GUILayout.Button("Move Integrations Packages To Plugin"))
+            if (GUILayout.Button("Move Integrations To Dev"))
             {
-                devTool.MoveIntegrationsPackages(MoveOption.ToPlugin);
+                devTool.MoveIntegrations(MoveOption.ToDev);
+            }
+
+            if (GUILayout.Button("Move Integrations To Plugin"))
+            {
+                devTool.MoveIntegrations(MoveOption.ToPlugin);
             }
 
             if (GUILayout.Button("Export Integrations Packages"))
