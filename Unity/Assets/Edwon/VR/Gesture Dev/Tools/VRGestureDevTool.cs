@@ -17,11 +17,12 @@ namespace Edwon.VR.Gesture
         const string EXAMPLES_PATH = "Examples/";
         const string INTEGRATIONS_PATH = "Integrations/";
 
-        const string PLAYMAKER_PACKAGE_NAME = "PlaymakerPackage.unitypackage";
+        const string PLAYMAKER_PACKAGE_NAME = "PlaymakerIntegration.unitypackage";
 
 
         public void MoveExamplesPackage()
         {
+
         }
 
         public void MoveIntegrationsPackages(MoveOption moveOption)

@@ -31,13 +31,14 @@ namespace Edwon.VR.Gesture
                 devTool.MoveExamplesPackage();
             }
 
-            if (GUILayout.Button("Move Integrations Packages To Plugin"))
-            {
-                devTool.MoveIntegrationsPackages(MoveOption.ToPlugin);
-            }
             if (GUILayout.Button("Move Integrations Packages To Dev"))
             {
                 devTool.MoveIntegrationsPackages(MoveOption.ToDev);
+            }
+
+            if (GUILayout.Button("Move Integrations Packages To Plugin"))
+            {
+                devTool.MoveIntegrationsPackages(MoveOption.ToPlugin);
             }
 
             if (GUILayout.Button("Export Integrations Packages"))
