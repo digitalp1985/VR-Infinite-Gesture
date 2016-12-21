@@ -5,13 +5,40 @@ using UnityEditor;
 
 namespace Edwon.VR.Gesture
 {
-    public class VRGestureDevToolWindow : ScriptableObjectWindow
+    public class VRGestureDevToolWindow : EditorWindow
     {
 
         public VRGestureDevTool devTool;
         public SerializedObject serializedObject;
 
-        const string DEV_TOOL_PATH = Config.PARENT_PATH + "Dev/DevTool";
+        public const string RESOURCES_PATH = @"Assets/Edwon/VR/Gesture Dev/Resources/VR Infinite Gesture/";
+        const string DEV_TOOL_PATH = RESOURCES_PATH + "Dev/DevTool.asset";
+
+        void OnGUI()
+        {
+            serializedObject.Update();
+
+            GetSetDevTool();
+            SetSerializedObject();
+
+            GUILayout.BeginVertical(GUILayout.Width(EditorGUIUtility.currentViewWidth));
+
+            GUILayout.Space(5);
+
+            // put GUI stuff here
+
+            if (GUILayout.Button("Check Neural Net Folder"))
+            {
+                devTool.CheckCreateNeuralNetFolder();
+            }
+
+
+            GUILayout.EndVertical();
+
+            serializedObject.ApplyModifiedProperties();
+        }
+
+        #region SCRIPTABLE OBJECT ASSET LINK MANAGEMENT
 
         [MenuItem("Tools/VR Infinite Gesture/Dev Tool")]
         public static void Init()
@@ -29,6 +56,12 @@ namespace Edwon.VR.Gesture
                     true);
         }
 
+        void OnEnable()
+        {
+            GetSetDevTool();
+            SetSerializedObject();
+        }
+
         void GetSetDevTool()
         {
             if (GetDevTool() == null)
@@ -44,7 +77,7 @@ namespace Edwon.VR.Gesture
         VRGestureDevTool CreateDevToolAsset()
         {
             VRGestureDevTool instance = CreateInstance<VRGestureDevTool>();
-            string fullPath = Application.streamingAssetsPath + DEV_TOOL_PATH;
+            string fullPath = DEV_TOOL_PATH;
             AssetDatabase.CreateAsset(instance, fullPath);
             return instance;
         }
@@ -52,10 +85,19 @@ namespace Edwon.VR.Gesture
 
         VRGestureDevTool GetDevTool()
         {
-            string fullPath = Application.streamingAssetsPath + DEV_TOOL_PATH;
+            string fullPath = DEV_TOOL_PATH;
             return AssetDatabase.LoadAssetAtPath(fullPath, typeof(VRGestureDevTool)) as VRGestureDevTool;
         }
 
+        void SetSerializedObject()
+        {
+            if (serializedObject == null)
+            {
+                serializedObject = new SerializedObject(devTool);
+            }
+        }
+
+        #endregion
     }
 }
 

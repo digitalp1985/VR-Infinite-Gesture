@@ -488,6 +488,18 @@ namespace Edwon.VR.Gesture
 			return true;
 		}
 
+        public static void CheckCreateNeuralNetFolder()
+        {
+            string directoryPath = Application.streamingAssetsPath + Config.NEURAL_NET_PATH;
+            if (!Directory.Exists(directoryPath))
+            {
+                Directory.CreateDirectory(directoryPath);
+                #if UNITY_EDITOR
+                AssetDatabase.Refresh();
+                #endif
+            }
+        }
+
         public static void ChangeVRType(VRType vrType)
         {
             #if UNITY_EDITOR
