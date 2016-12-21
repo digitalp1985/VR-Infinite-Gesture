@@ -32,13 +32,11 @@ Unity/Assets/Edwon/VR/Gesture/Settings/Settings.asset
 
 
 Unity/Assets/EasyEditor/
-Unity/Assets/EdwonVR/
 Unity/Assets/OVR/
 Unity/Assets/OvrTouch/
 Unity/Assets/Plugins/
 Unity/Assets/SteamVR/
 Unity/Assets/EasyEditor.meta
-Unity/Assets/EdwonVR.meta
 Unity/Assets/OVR.meta
 Unity/Assets/OvrTouch.meta
 Unity/Assets/Plugins.meta
@@ -67,8 +65,6 @@ Unity/Assets/iTween.meta
 #PLUGIN SPECIFIC STUFF
 Unity/Assets/Edwon/VR/Gesture/Data/
 /Unity/Assets/SymLinker/Editor/SymLinker.dll.meta
-Unity/Assets/Edwon/VR/Gesture Dev/Data/
-Unity/Assets/Edwon/VR/Gesture Dev/Data.meta
 Unity/Assets/EditorVR/
 Unity/Assets/libs/SixenseInput/
 Unity/Assets/libs.meta
@@ -85,3 +81,4 @@ Unity/Assets/Edwon/VR/Gesture/Resources/VR Infinite Gesture/Neural Networks/
 Unity/Assets/Edwon/VR/Gesture/Resources/VR Infinite Gesture/Settings/Settings.asset
 Unity/Assets/StreamingAssets/VR Infinite Gesture/
 Unity/Assets/StreamingAssets/VR Infinite Gesture.meta
+Unity/Assets/StreamingAssets.meta
