@@ -182,6 +182,9 @@ namespace Edwon.VR.Gesture
             if (currentNeuralNet != null && currentNeuralNet != "")
             {
                 gestureBank = Utils.GetGestureBank(currentNeuralNet);
+				foreach (Gesture g in gestureBank) {
+					g.exampleCount = Utils.GetGestureExamplesTotal (g, currentNeuralNet);
+				}
 
                 gestureBankPreEdit = gestureBank.ConvertAll(gesture => gesture.Clone());
             }
