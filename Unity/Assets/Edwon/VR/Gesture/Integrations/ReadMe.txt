@@ -1,4 +1,7 @@
 
+VR Infinite Gesture
+Integrations ReadMe
+
 For Playmaker support:
 
 1. Import Playmaker from the Unity Asset Store
