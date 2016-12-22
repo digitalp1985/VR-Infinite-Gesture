@@ -1,4 +1,0 @@
-{
-    "currentTutorialStep": 2,
-    "tutorialState": 0
-}
