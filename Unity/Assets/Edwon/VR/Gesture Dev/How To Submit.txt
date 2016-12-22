@@ -1,33 +1,13 @@
 
-To Prep and Submit to the Asset Store
+TO SUBMIT TO ASSET STORE
 
-1. Prepare Examples
-- if any example scenes have been updated since the last time a package was made
-	- move all example folders from "Gesture Dev / Examples" to "Gesture / Examples"
-	- move all example data from "Gesture Dev / Data" to "Gesture / Data"
-	- select all examples in "Data"
-	- select all examples in "Examples" except Getting Started
-	- File > Export Package 
-	- export it back to "Gesture / Examples"
-	- move all examples in "Gsture / Data" to "Gesture Dev / Data" folder
-	- move all examples in "Gesture / Examples" to "Gesture Dev / Examples" folder except Getting Started
+1. Open Dev Tool from Tools > VR Infinite Gesture > Dev Tool
 
-2. Prepare Integrations
-- if integrations have changed since the last time a package was made
-	- select a top level integration folder, e.g. "Playmaker"
-	- File > Export Package
-	- export it back to "Integrations"
-	- move "Playmaker" folder to "Gesture Dev" folder
+2. Press "Build and Export Plugin"
 
-3. Delete all Test Data
-- delete everything inisde the "Data" folder except the "ReadMe.txt" file
+3. Wait (ignore couldn't find asset errors)
 
 4. Select Edwon/VR/Gesture
+
 5. upload to Asset Store Submission
 	(or File > Export Package when testing)
-
-IF TESTING DO STEPS 6 and 7
-
-6. if testing, export to BitSync/Projects/VRInfiniteGesture/Packages/ "current version number"
-
-7. make a new project, import vr support, then import the package you just built
