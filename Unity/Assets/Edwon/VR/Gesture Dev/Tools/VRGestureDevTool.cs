@@ -29,6 +29,11 @@ namespace Edwon.VR.Gesture
 
         public void BuildAndExportPlugin()
         {
+            // move examples neural nets first
+            MoveExamplesNeuralNets(MoveOption.ToPlugin);
+
+            AssetDatabase.Refresh();
+
             // export packages
             ExportIntegrationsPackages();
             ExportExamplesPackages();
@@ -39,7 +44,6 @@ namespace Edwon.VR.Gesture
             // move all the stuff that was in the packages to dev
             MoveIntegrations(MoveOption.ToDev);
             MoveExamples(MoveOption.ToDev);
-            MoveExamplesNeuralNets(MoveOption.ToDev);
             MoveTutorials(MoveOption.ToDev);
 
             AssetDatabase.Refresh();
@@ -55,9 +59,9 @@ namespace Edwon.VR.Gesture
             AssetDatabase.Refresh();
 
             // move everything back to where it was
+            MoveExamplesNeuralNets(MoveOption.ToDev);
             MoveIntegrations(MoveOption.ToPlugin);
             MoveExamples(MoveOption.ToPlugin);
-            MoveExamplesNeuralNets(MoveOption.ToPlugin);
             MoveTutorials(MoveOption.ToPlugin);
 
             AssetDatabase.Refresh();
@@ -79,8 +83,8 @@ namespace Edwon.VR.Gesture
             {
                 case MoveOption.ToPlugin:
                     MoveFolder(integrationsDev + PLAYMAKER_FOLDER_NAME, integrationsPlugin + PLAYMAKER_FOLDER_NAME);
-                    if (System.IO.Directory.Exists(integrationsDev))
-                        System.IO.Directory.Delete(integrationsDev);
+                    //if (System.IO.Directory.Exists(integrationsDev))
+                    //    System.IO.Directory.Delete(integrationsDev);
                     break;
                 case MoveOption.ToDev:
                     if (!System.IO.Directory.Exists(integrationsDev))
@@ -99,8 +103,8 @@ namespace Edwon.VR.Gesture
                 case MoveOption.ToPlugin:
                     MoveFolder(examplesDev + "Example 1/", examplesPlugin + "Example 1");
                     MoveFolder(examplesDev + "Example 2/", examplesPlugin + "Example 2");
-                    if (System.IO.Directory.Exists(examplesDev))
-                        System.IO.Directory.Delete(examplesDev);
+                    //if (System.IO.Directory.Exists(examplesDev))
+                    //    System.IO.Directory.Delete(examplesDev);
                     break;
                 case MoveOption.ToDev:
                     if (!System.IO.Directory.Exists(examplesDev))
@@ -141,8 +145,8 @@ namespace Edwon.VR.Gesture
             {
                 case MoveOption.ToPlugin:
                     MoveFolder(tutorialsDev + "Getting Started/", tutorialsPlugin + "Getting Started/");
-                    if (System.IO.Directory.Exists(tutorialsDev))
-                        System.IO.Directory.Delete(tutorialsDev);
+                    //if (System.IO.Directory.Exists(tutorialsDev))
+                    //    System.IO.Directory.Delete(tutorialsDev);
                     break;
                 case MoveOption.ToDev:
                     if (!System.IO.Directory.Exists(tutorialsDev))
