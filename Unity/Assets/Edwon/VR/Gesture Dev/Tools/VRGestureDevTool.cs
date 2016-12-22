@@ -24,11 +24,11 @@ namespace Edwon.VR.Gesture
 
         public void BuildAndExportPlugin()
         {
-            MoveIntegrations(MoveOption.ToPlugin);
             ExportIntegrationsPackages();
             MoveIntegrations(MoveOption.ToDev);
             ExportPlugin();
             DeleteGeneratedPackages();
+            MoveIntegrations(MoveOption.ToPlugin);
         }
 
         void ExportPlugin()
