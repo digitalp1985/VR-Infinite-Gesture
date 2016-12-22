@@ -73,6 +73,14 @@ namespace Edwon.VR.Gesture
             {
                 devTool.ExportIntegrationsPackages();
             }
+            if (GUILayout.Button("Export Examples Package"))
+            {
+                devTool.ExportExamplesPackages();
+            }
+            if (GUILayout.Button("Export Tutorials Package"))
+            {
+                devTool.ExportTutorialsPackages();
+            }
 
             if (GUILayout.Button("Delete Generated Packages"))
             {

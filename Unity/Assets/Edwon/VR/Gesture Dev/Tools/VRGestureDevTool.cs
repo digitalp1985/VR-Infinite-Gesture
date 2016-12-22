@@ -22,14 +22,31 @@ namespace Edwon.VR.Gesture
 
         const string PLAYMAKER_FOLDER_NAME = "Playmaker/";
         const string PLAYMAKER_PACKAGE_NAME = "PlaymakerIntegration";
+        const string EXAMPLES_PACKAGE_NAME = "Examples";
+        const string TUTORIALS_PACKAGE_NAME = "Tutorials";
 
         public void BuildAndExportPlugin()
         {
+            // export packages
             ExportIntegrationsPackages();
+            ExportExamplesPackages();
+            ExportTutorialsPackages();
+
+            // move all the stuff that was in the packages to dev
             MoveIntegrations(MoveOption.ToDev);
+            MoveExamples(MoveOption.ToDev);
+            MoveTutorials(MoveOption.ToDev);
+
+            // export the entire plugin package
             ExportPlugin();
+
+            // delete the generated packages
             DeleteGeneratedPackages();
+
+            // move everything back to where it was
             MoveIntegrations(MoveOption.ToPlugin);
+            MoveExamples(MoveOption.ToPlugin);
+            MoveTutorials(MoveOption.ToPlugin);
         }
 
         void ExportPlugin()
@@ -39,6 +56,25 @@ namespace Edwon.VR.Gesture
             string exportPath = GESTURE_PLUGIN_EXPORT_PATH + GESTURE_PLUGIN_EXPORT_NAME + ".unitypackage";
             AssetDatabase.ExportPackage(fromPath, exportPath, ExportPackageOptions.Recurse);
             AssetDatabase.Refresh();
+        }
+
+        public void MoveIntegrations(MoveOption moveOption)
+        {
+            string integrationsDev = GESTURE_DEV_PATH + INTEGRATIONS_PATH;
+            string integrationsPlugin = GESTURE_PLUGIN_PATH + INTEGRATIONS_PATH;
+            switch (moveOption)
+            {
+                case MoveOption.ToPlugin:
+                    MoveFolder(integrationsDev + PLAYMAKER_FOLDER_NAME, integrationsPlugin + PLAYMAKER_FOLDER_NAME);
+                    if (System.IO.Directory.Exists(integrationsDev))
+                        System.IO.Directory.Delete(integrationsDev);
+                    break;
+                case MoveOption.ToDev:
+                    if (!System.IO.Directory.Exists(integrationsDev))
+                        System.IO.Directory.CreateDirectory(integrationsDev);
+                    MoveFolder(integrationsPlugin + PLAYMAKER_FOLDER_NAME, integrationsDev + PLAYMAKER_FOLDER_NAME);
+                    break;
+            }
         }
 
         public void MoveExamples(MoveOption moveOption)
@@ -58,25 +94,6 @@ namespace Edwon.VR.Gesture
                         System.IO.Directory.CreateDirectory(examplesDev);
                     MoveFolder(examplesPlugin + "Example 1/", examplesDev + "Example 1");
                     MoveFolder(examplesPlugin + "Example 2/", examplesDev + "Example 2");
-                    break;
-            }
-        }
-
-        public void MoveIntegrations(MoveOption moveOption)
-        {
-            string integrationsDev = GESTURE_DEV_PATH + INTEGRATIONS_PATH;
-            string integrationsPlugin = GESTURE_PLUGIN_PATH + INTEGRATIONS_PATH;
-            switch (moveOption)
-            {
-                case MoveOption.ToPlugin:
-                    MoveFolder(integrationsDev + PLAYMAKER_FOLDER_NAME, integrationsPlugin + PLAYMAKER_FOLDER_NAME);
-                    if (System.IO.Directory.Exists(integrationsDev))
-                        System.IO.Directory.Delete(integrationsDev);
-                    break;
-                case MoveOption.ToDev:
-                    if (!System.IO.Directory.Exists(integrationsDev))
-                        System.IO.Directory.CreateDirectory(integrationsDev);
-                    MoveFolder(integrationsPlugin + PLAYMAKER_FOLDER_NAME, integrationsDev + PLAYMAKER_FOLDER_NAME);
                     break;
             }
         }
@@ -107,16 +124,40 @@ namespace Edwon.VR.Gesture
 
             string exportPath =
                 Application.dataPath + GESTURE_PLUGIN_PATH.Remove(0, 6)
-                + INTEGRATIONS_PATH + PLAYMAKER_PACKAGE_NAME + ".unitypackage";
+                + INTEGRATIONS_PATH + PLAYMAKER_PACKAGE_NAME;
 
             ExportPackage(fromPath, exportPath);
+        }
 
-            AssetDatabase.Refresh();
+        public void ExportExamplesPackages()
+        {
+            string fromPath =
+                GESTURE_PLUGIN_PATH + EXAMPLES_PATH.Substring(0, EXAMPLES_PATH.Length - 1);
+
+            string exportPath =
+                Application.dataPath + GESTURE_PLUGIN_PATH.Remove(0, 6)
+                + EXAMPLES_PATH + EXAMPLES_PACKAGE_NAME;
+
+            ExportPackage(fromPath, exportPath);
+        }
+
+        public void ExportTutorialsPackages()
+        {
+            string fromPath =
+                GESTURE_PLUGIN_PATH + TUTORIALS_PATH.Substring(0, TUTORIALS_PATH.Length - 1);
+
+            string exportPath =
+                Application.dataPath + GESTURE_PLUGIN_PATH.Remove(0, 6)
+                + TUTORIALS_PATH + TUTORIALS_PACKAGE_NAME;
+
+            ExportPackage(fromPath, exportPath);
         }
 
         public void DeleteGeneratedPackages()
         {
             AssetDatabase.DeleteAsset(GESTURE_PLUGIN_PATH + INTEGRATIONS_PATH + PLAYMAKER_PACKAGE_NAME + ".unitypackage");
+            AssetDatabase.DeleteAsset(GESTURE_PLUGIN_PATH + EXAMPLES_PATH + EXAMPLES_PACKAGE_NAME + ".unitypackage");
+            AssetDatabase.DeleteAsset(GESTURE_PLUGIN_PATH + TUTORIALS_PATH + TUTORIALS_PACKAGE_NAME + ".unitypackage");
             AssetDatabase.Refresh();
         }
 
@@ -132,7 +173,7 @@ namespace Edwon.VR.Gesture
         {
             AssetDatabase.ExportPackage(
                 fromPath,
-                exportPath,
+                exportPath + ".unitypackage",
                 ExportPackageOptions.Recurse);
             AssetDatabase.Refresh();
         }
