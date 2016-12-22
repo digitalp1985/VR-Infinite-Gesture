@@ -47,10 +47,16 @@ namespace Edwon.VR.Gesture
             switch (moveOption)
             {
                 case MoveOption.ToPlugin:
-                    MoveFolder(examplesDev, examplesPlugin);
+                    MoveFolder(examplesDev + "Example 1/", examplesPlugin + "Example 1");
+                    MoveFolder(examplesDev + "Example 2/", examplesPlugin + "Example 2");
+                    if (System.IO.Directory.Exists(examplesDev))
+                        System.IO.Directory.Delete(examplesDev);
                     break;
                 case MoveOption.ToDev:
-                    MoveFolder(examplesPlugin, examplesDev);
+                    if (!System.IO.Directory.Exists(examplesDev))
+                        System.IO.Directory.CreateDirectory(examplesDev);
+                    MoveFolder(examplesPlugin + "Example 1/", examplesDev + "Example 1");
+                    MoveFolder(examplesPlugin + "Example 2/", examplesDev + "Example 2");
                     break;
             }
         }
