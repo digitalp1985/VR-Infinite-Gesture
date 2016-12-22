@@ -34,23 +34,33 @@ namespace Edwon.VR.Gesture
             ExportExamplesPackages();
             ExportTutorialsPackages();
 
+            AssetDatabase.Refresh();
+
             // move all the stuff that was in the packages to dev
             MoveIntegrations(MoveOption.ToDev);
             MoveExamples(MoveOption.ToDev);
             MoveExamplesNeuralNets(MoveOption.ToDev);
             MoveTutorials(MoveOption.ToDev);
 
+            AssetDatabase.Refresh();
+
             // export the entire plugin package
             ExportPlugin();
 
+            AssetDatabase.Refresh();
+
             // delete the generated packages
             DeleteGeneratedPackages();
+
+            AssetDatabase.Refresh();
 
             // move everything back to where it was
             MoveIntegrations(MoveOption.ToPlugin);
             MoveExamples(MoveOption.ToPlugin);
             MoveExamplesNeuralNets(MoveOption.ToPlugin);
             MoveTutorials(MoveOption.ToPlugin);
+
+            AssetDatabase.Refresh();
         }
 
         void ExportPlugin()
@@ -59,7 +69,6 @@ namespace Edwon.VR.Gesture
                 GESTURE_PLUGIN_PATH.Substring(0, GESTURE_PLUGIN_PATH.Length - 1);
             string exportPath = GESTURE_PLUGIN_EXPORT_PATH + GESTURE_PLUGIN_EXPORT_NAME + ".unitypackage";
             AssetDatabase.ExportPackage(fromPath, exportPath, ExportPackageOptions.Recurse);
-            AssetDatabase.Refresh();
         }
 
         public void MoveIntegrations(MoveOption moveOption)
@@ -114,8 +123,6 @@ namespace Edwon.VR.Gesture
                 case MoveOption.ToPlugin:
                     MoveFolder(examplesNetsDev + "Example 1/", examplesNetsPlugin + "Example 1");
                     MoveFolder(examplesNetsDev + "Example 2/", examplesNetsPlugin + "Example 2");
-                    if (System.IO.Directory.Exists(examplesNetsDev))
-                        System.IO.Directory.Delete(examplesNetsDev);
                     break;
                 case MoveOption.ToDev:
                     if (!System.IO.Directory.Exists(examplesNetsDev))
@@ -179,7 +186,7 @@ namespace Edwon.VR.Gesture
             fromPaths,
             exportPath + ".unitypackage",
             ExportPackageOptions.Recurse);
-            AssetDatabase.Refresh();
+            //AssetDatabase.Refresh();
         }
 
         public void ExportTutorialsPackages()
@@ -199,7 +206,7 @@ namespace Edwon.VR.Gesture
             AssetDatabase.DeleteAsset(GESTURE_PLUGIN_PATH + INTEGRATIONS_PATH + PLAYMAKER_PACKAGE_NAME + ".unitypackage");
             AssetDatabase.DeleteAsset(GESTURE_PLUGIN_PATH + EXAMPLES_PATH + EXAMPLES_PACKAGE_NAME + ".unitypackage");
             AssetDatabase.DeleteAsset(GESTURE_PLUGIN_PATH + TUTORIALS_PATH + TUTORIALS_PACKAGE_NAME + ".unitypackage");
-            AssetDatabase.Refresh();
+            //AssetDatabase.Refresh();
         }
 
         #region UTILS
@@ -207,7 +214,7 @@ namespace Edwon.VR.Gesture
         void MoveFolder(string from, string to)
         {
             FileUtil.MoveFileOrDirectory(from, to);
-            AssetDatabase.Refresh();
+            //AssetDatabase.Refresh();
         }
 
         void ExportPackage(string fromPath, string exportPath)
@@ -216,7 +223,7 @@ namespace Edwon.VR.Gesture
                 fromPath,
                 exportPath + ".unitypackage",
                 ExportPackageOptions.Recurse);
-            AssetDatabase.Refresh();
+            //AssetDatabase.Refresh();
         }
 
         #endregion

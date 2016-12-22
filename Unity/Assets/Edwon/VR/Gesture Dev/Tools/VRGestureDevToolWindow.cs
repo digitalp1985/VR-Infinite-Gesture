@@ -37,11 +37,13 @@ namespace Edwon.VR.Gesture
             if (GUILayout.Button("Move Examples To Dev"))
             {
                 devTool.MoveExamples(MoveOption.ToDev);
+                AssetDatabase.Refresh();
             }
 
             if (GUILayout.Button("Move Examples To Plugin"))
             {
                 devTool.MoveExamples(MoveOption.ToPlugin);
+                AssetDatabase.Refresh();
             }
             GUILayout.EndHorizontal();
 
@@ -49,11 +51,13 @@ namespace Edwon.VR.Gesture
             if (GUILayout.Button("Move Examples Nets To Dev"))
             {
                 devTool.MoveExamplesNeuralNets(MoveOption.ToDev);
+                AssetDatabase.Refresh();
             }
 
             if (GUILayout.Button("Move Examples Nets To Plugin"))
             {
                 devTool.MoveExamplesNeuralNets(MoveOption.ToPlugin);
+                AssetDatabase.Refresh();
             }
             GUILayout.EndHorizontal();
 
@@ -61,11 +65,13 @@ namespace Edwon.VR.Gesture
             if (GUILayout.Button("Move Integrations To Dev"))
             {
                 devTool.MoveIntegrations(MoveOption.ToDev);
+                AssetDatabase.Refresh();
             }
 
             if (GUILayout.Button("Move Integrations To Plugin"))
             {
                 devTool.MoveIntegrations(MoveOption.ToPlugin);
+                AssetDatabase.Refresh();
             }
             GUILayout.EndHorizontal();
 
@@ -73,30 +79,36 @@ namespace Edwon.VR.Gesture
             if (GUILayout.Button("Move Tutorials To Dev"))
             {
                 devTool.MoveTutorials(MoveOption.ToDev);
+                AssetDatabase.Refresh();
             }
 
             if (GUILayout.Button("Move Tutorials To Plugin"))
             {
                 devTool.MoveTutorials(MoveOption.ToPlugin);
+                AssetDatabase.Refresh();
             }
             GUILayout.EndHorizontal();
 
             if (GUILayout.Button("Export Integrations Packages"))
             {
                 devTool.ExportIntegrationsPackages();
+                AssetDatabase.Refresh();
             }
             if (GUILayout.Button("Export Examples Package"))
             {
                 devTool.ExportExamplesPackages();
+                AssetDatabase.Refresh();
             }
             if (GUILayout.Button("Export Tutorials Package"))
             {
                 devTool.ExportTutorialsPackages();
+                AssetDatabase.Refresh();
             }
 
             if (GUILayout.Button("Delete Generated Packages"))
             {
                 devTool.DeleteGeneratedPackages();
+                AssetDatabase.Refresh();
             }
 
             #endregion
