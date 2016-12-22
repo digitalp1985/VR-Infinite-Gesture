@@ -46,6 +46,18 @@ namespace Edwon.VR.Gesture
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Move Examples Nets To Dev"))
+            {
+                devTool.MoveExamplesNeuralNets(MoveOption.ToDev);
+            }
+
+            if (GUILayout.Button("Move Examples Nets To Plugin"))
+            {
+                devTool.MoveExamplesNeuralNets(MoveOption.ToPlugin);
+            }
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
             if (GUILayout.Button("Move Integrations To Dev"))
             {
                 devTool.MoveIntegrations(MoveOption.ToDev);

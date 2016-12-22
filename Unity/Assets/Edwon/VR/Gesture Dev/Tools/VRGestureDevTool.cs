@@ -15,8 +15,10 @@ namespace Edwon.VR.Gesture
 
         const string GESTURE_DEV_PATH = @"Assets/Edwon/VR/Gesture Dev/";
         const string GESTURE_PLUGIN_PATH = @"Assets/Edwon/VR/Gesture/";
+        const string STREAMING_ASSETS_PATH = @"Assets/StreamingAssets";
 
         const string EXAMPLES_PATH = "Examples/";
+        const string EXAMPLES_NETS_PATH = "Example Neural Nets/";
         const string INTEGRATIONS_PATH = "Integrations/";
         const string TUTORIALS_PATH = "Tutorials/";
 
@@ -35,6 +37,7 @@ namespace Edwon.VR.Gesture
             // move all the stuff that was in the packages to dev
             MoveIntegrations(MoveOption.ToDev);
             MoveExamples(MoveOption.ToDev);
+            MoveExamplesNeuralNets(MoveOption.ToDev);
             MoveTutorials(MoveOption.ToDev);
 
             // export the entire plugin package
@@ -46,6 +49,7 @@ namespace Edwon.VR.Gesture
             // move everything back to where it was
             MoveIntegrations(MoveOption.ToPlugin);
             MoveExamples(MoveOption.ToPlugin);
+            MoveExamplesNeuralNets(MoveOption.ToPlugin);
             MoveTutorials(MoveOption.ToPlugin);
         }
 
@@ -98,6 +102,30 @@ namespace Edwon.VR.Gesture
             }
         }
 
+        public void MoveExamplesNeuralNets(MoveOption moveOption)
+        {
+            // moves the neural nets examples to the streaming assets folder 
+            // instead of the normal plugin path
+
+            string examplesNetsDev = GESTURE_DEV_PATH + EXAMPLES_NETS_PATH;
+            string examplesNetsPlugin = STREAMING_ASSETS_PATH + Config.NEURAL_NET_PATH;
+            switch (moveOption)
+            {
+                case MoveOption.ToPlugin:
+                    MoveFolder(examplesNetsDev + "Example 1/", examplesNetsPlugin + "Example 1");
+                    MoveFolder(examplesNetsDev + "Example 2/", examplesNetsPlugin + "Example 2");
+                    if (System.IO.Directory.Exists(examplesNetsDev))
+                        System.IO.Directory.Delete(examplesNetsDev);
+                    break;
+                case MoveOption.ToDev:
+                    if (!System.IO.Directory.Exists(examplesNetsDev))
+                        System.IO.Directory.CreateDirectory(examplesNetsDev);
+                    MoveFolder(examplesNetsPlugin + "Example 1/", examplesNetsDev + "Example 1");
+                    MoveFolder(examplesNetsPlugin + "Example 2/", examplesNetsDev + "Example 2");
+                    break;
+            }
+        }
+
         public void MoveTutorials(MoveOption moveOption)
         {
             string tutorialsDev = GESTURE_DEV_PATH + TUTORIALS_PATH;
@@ -131,14 +159,27 @@ namespace Edwon.VR.Gesture
 
         public void ExportExamplesPackages()
         {
-            string fromPath =
+            // export the example scenes and assets, 
+            // as well as the neural nets from the streaming assets folder
+
+            string examplesFromPath =
                 GESTURE_PLUGIN_PATH + EXAMPLES_PATH.Substring(0, EXAMPLES_PATH.Length - 1);
+
+            string streamingAssetsNetsPath = STREAMING_ASSETS_PATH + Config.NEURAL_NET_PATH;
+            string example1NetFromPath = streamingAssetsNetsPath + "Example 1";
+            string example2NetFromPath = streamingAssetsNetsPath + "Example 2";
 
             string exportPath =
                 Application.dataPath + GESTURE_PLUGIN_PATH.Remove(0, 6)
                 + EXAMPLES_PATH + EXAMPLES_PACKAGE_NAME;
 
-            ExportPackage(fromPath, exportPath);
+            string[] fromPaths = new string[] {examplesFromPath, example1NetFromPath, example2NetFromPath};
+
+            AssetDatabase.ExportPackage(
+            fromPaths,
+            exportPath + ".unitypackage",
+            ExportPackageOptions.Recurse);
+            AssetDatabase.Refresh();
         }
 
         public void ExportTutorialsPackages()
