@@ -19,6 +19,7 @@ namespace Edwon.VR.Gesture
         const string EXAMPLES_PATH = "Examples/";
         const string INTEGRATIONS_PATH = "Integrations/";
 
+        const string PLAYMAKER_FOLDER_NAME = "Playmaker/";
         const string PLAYMAKER_PACKAGE_NAME = "PlaymakerIntegration";
 
         public void BuildAndExportPlugin()
@@ -41,8 +42,6 @@ namespace Edwon.VR.Gesture
 
         public void MoveExamples(MoveOption moveOption)
         {
-            // first move playmaker folder from dev to normal
-            // this way it will re-import to the correct spot when users re-import the package
             string examplesDev = GESTURE_DEV_PATH + EXAMPLES_PATH;
             string examplesPlugin = GESTURE_PLUGIN_PATH + EXAMPLES_PATH;
             switch (moveOption)
@@ -58,17 +57,19 @@ namespace Edwon.VR.Gesture
 
         public void MoveIntegrations(MoveOption moveOption)
         {
-            // first move playmaker folder from dev to normal
-            // this way it will re-import to the correct spot when users re-import the package
             string integrationsDev = GESTURE_DEV_PATH + INTEGRATIONS_PATH;
             string integrationsPlugin = GESTURE_PLUGIN_PATH + INTEGRATIONS_PATH;
             switch (moveOption)
             {
                 case MoveOption.ToPlugin:
-                    MoveFolder(integrationsDev, integrationsPlugin);
+                    MoveFolder(integrationsDev + PLAYMAKER_FOLDER_NAME, integrationsPlugin + PLAYMAKER_FOLDER_NAME);
+                    if (System.IO.Directory.Exists(integrationsDev))
+                        System.IO.Directory.Delete(integrationsDev);
                     break;
                 case MoveOption.ToDev:
-                    MoveFolder(integrationsPlugin, integrationsDev);
+                    if (!System.IO.Directory.Exists(integrationsDev))
+                        System.IO.Directory.CreateDirectory(integrationsDev);
+                    MoveFolder(integrationsPlugin + PLAYMAKER_FOLDER_NAME, integrationsDev + PLAYMAKER_FOLDER_NAME);
                     break;
             }
         }

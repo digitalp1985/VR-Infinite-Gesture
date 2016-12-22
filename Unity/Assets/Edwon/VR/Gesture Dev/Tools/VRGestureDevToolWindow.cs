@@ -12,7 +12,7 @@ namespace Edwon.VR.Gesture
         public SerializedObject serializedObject;
 
         public const string RESOURCES_PATH = @"Assets/Edwon/VR/Gesture Dev/Resources/VR Infinite Gesture/";
-        const string DEV_TOOL_PATH = RESOURCES_PATH + "Dev/DevTool.asset";
+        const string DEV_TOOL_PATH = RESOURCES_PATH + @"Dev/DevTool.asset";
 
         void OnGUI()
         {
