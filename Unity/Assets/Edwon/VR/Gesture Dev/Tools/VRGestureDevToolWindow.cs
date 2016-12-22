@@ -32,6 +32,8 @@ namespace Edwon.VR.Gesture
             GUILayout.Space(20);
 
             #region METHOD TESTS
+
+            GUILayout.BeginHorizontal();
             if (GUILayout.Button("Move Examples To Dev"))
             {
                 devTool.MoveExamples(MoveOption.ToDev);
@@ -41,7 +43,9 @@ namespace Edwon.VR.Gesture
             {
                 devTool.MoveExamples(MoveOption.ToPlugin);
             }
+            GUILayout.EndHorizontal();
 
+            GUILayout.BeginHorizontal();
             if (GUILayout.Button("Move Integrations To Dev"))
             {
                 devTool.MoveIntegrations(MoveOption.ToDev);
@@ -51,6 +55,19 @@ namespace Edwon.VR.Gesture
             {
                 devTool.MoveIntegrations(MoveOption.ToPlugin);
             }
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button("Move Tutorials To Dev"))
+            {
+                devTool.MoveTutorials(MoveOption.ToDev);
+            }
+
+            if (GUILayout.Button("Move Tutorials To Plugin"))
+            {
+                devTool.MoveTutorials(MoveOption.ToPlugin);
+            }
+            GUILayout.EndHorizontal();
 
             if (GUILayout.Button("Export Integrations Packages"))
             {
@@ -61,6 +78,7 @@ namespace Edwon.VR.Gesture
             {
                 devTool.DeleteGeneratedPackages();
             }
+
             #endregion
 
             GUILayout.Space(20);

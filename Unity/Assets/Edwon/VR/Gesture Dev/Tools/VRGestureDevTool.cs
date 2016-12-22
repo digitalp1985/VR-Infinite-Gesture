@@ -18,6 +18,7 @@ namespace Edwon.VR.Gesture
 
         const string EXAMPLES_PATH = "Examples/";
         const string INTEGRATIONS_PATH = "Integrations/";
+        const string TUTORIALS_PATH = "Tutorials/";
 
         const string PLAYMAKER_FOLDER_NAME = "Playmaker/";
         const string PLAYMAKER_PACKAGE_NAME = "PlaymakerIntegration";
@@ -76,6 +77,25 @@ namespace Edwon.VR.Gesture
                     if (!System.IO.Directory.Exists(integrationsDev))
                         System.IO.Directory.CreateDirectory(integrationsDev);
                     MoveFolder(integrationsPlugin + PLAYMAKER_FOLDER_NAME, integrationsDev + PLAYMAKER_FOLDER_NAME);
+                    break;
+            }
+        }
+
+        public void MoveTutorials(MoveOption moveOption)
+        {
+            string tutorialsDev = GESTURE_DEV_PATH + TUTORIALS_PATH;
+            string tutorialsPlugin = GESTURE_PLUGIN_PATH + TUTORIALS_PATH;
+            switch (moveOption)
+            {
+                case MoveOption.ToPlugin:
+                    MoveFolder(tutorialsDev + "Getting Started/", tutorialsPlugin + "Getting Started/");
+                    if (System.IO.Directory.Exists(tutorialsDev))
+                        System.IO.Directory.Delete(tutorialsDev);
+                    break;
+                case MoveOption.ToDev:
+                    if (!System.IO.Directory.Exists(tutorialsDev))
+                        System.IO.Directory.CreateDirectory(tutorialsDev);
+                    MoveFolder(tutorialsPlugin + "Getting Started/", tutorialsDev + "Getting Started/");
                     break;
             }
         }
