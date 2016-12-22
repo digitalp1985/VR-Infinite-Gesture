@@ -2032,7 +2032,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: e08d26dd20e9c89449512a199b2ad6fc, type: 2}
+  - {fileID: 2100000, guid: f813c3541129b054f8244d743d95fdeb, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
@@ -4780,7 +4780,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: e08d26dd20e9c89449512a199b2ad6fc, type: 2}
+  - {fileID: 2100000, guid: f813c3541129b054f8244d743d95fdeb, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
@@ -4859,7 +4859,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: e08d26dd20e9c89449512a199b2ad6fc, type: 2}
+  - {fileID: 2100000, guid: f813c3541129b054f8244d743d95fdeb, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
@@ -7192,7 +7192,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: e08d26dd20e9c89449512a199b2ad6fc, type: 2}
+  - {fileID: 2100000, guid: f813c3541129b054f8244d743d95fdeb, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
@@ -9474,7 +9474,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: e08d26dd20e9c89449512a199b2ad6fc, type: 2}
+  - {fileID: 2100000, guid: f813c3541129b054f8244d743d95fdeb, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
@@ -11078,7 +11078,7 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: e08d26dd20e9c89449512a199b2ad6fc, type: 2}
+  - {fileID: 2100000, guid: f813c3541129b054f8244d743d95fdeb, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_ProbeAnchor: {fileID: 0}
