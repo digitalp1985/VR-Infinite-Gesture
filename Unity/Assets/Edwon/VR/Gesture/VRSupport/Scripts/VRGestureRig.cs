@@ -372,6 +372,13 @@ namespace Edwon.VR
             rightModel.localPosition = Vector3.zero;
             leftModel.localRotation = Quaternion.identity;
             rightModel.localRotation = Quaternion.identity;
+
+            // rotate because steam vr is weird
+            if (GestureSettings.vrType == VRType.SteamVR)
+            {
+                leftModel.Rotate(-300, 0, 180);
+                rightModel.Rotate(-300, 0, 180);
+            }
         }
 
 
