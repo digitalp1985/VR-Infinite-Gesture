@@ -26,62 +26,12 @@ namespace Edwon.VR
             rig = _rig;
             handType = _handType;
             input = rig.GetInput(handType);
-            selectButton = rig.gestureButton;
+            selectButton = rig.menuButton;
         }
 
         new void Update ()
         {
             base.Update();
-
-            #region EDIT MODE
-            //// IF EDIT MODE
-            //if (VREditManager.Instance.EditMode)
-            //{
-            //    // turn on laser
-
-                //laserAlwaysOn = true;
-
-            //    // cast a ray to find a VREditable
-            //    Ray ray = new Ray(transform.position, transform.forward);
-            //    RaycastHit hitInfo;
-
-            //    // if pointing at a VREditable
-            //    if (Physics.Raycast(ray, out hitInfo))
-            //    {
-            //        if (hitInfo.collider.GetComponent<VREditable>())
-            //        {
-            //            // if just started pointing at VREditable
-            //            if (editable == null)
-            //            {
-            //                GameObject editableGO = hitInfo.collider.gameObject;
-            //                editable = editableGO.GetComponent<VREditable>();
-            //                editable.OnPointerHover();
-            //            }
-
-            //            // if pointing at and select button down
-            //            if (input != null)
-            //            {
-            //                if (input.GetButtonDown(selectButton))
-            //                {
-            //                    editable.OnPointerSelect();
-            //                }
-            //            }
-            //        }
-            //    }
-            //    // if was pointing at a VREditable last frame
-            //    else if (editable != null) 
-            //    {
-            //        editable.OnPointerDeHover();
-            //        editable = null;
-            //    }
-            //}
-            //// IF NOT EDIT MODE
-            //else
-            //{
-            // turn off laser
-            //laserAlwaysOn = false;
-            //}
-            #endregion
         }
 
         public override bool ButtonDown()

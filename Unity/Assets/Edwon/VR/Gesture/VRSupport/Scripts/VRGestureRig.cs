@@ -14,6 +14,7 @@ namespace Edwon.VR
 
         public Handedness mainHand = Handedness.Right;
         public InputOptions.Button gestureButton = InputOptions.Button.Trigger1;
+        public InputOptions.Button menuButton = InputOptions.Button.Trigger1;
         public VRGestureUIState uiState = VRGestureUIState.Idle;
         public VRGestureUIState uiStateLast;
         public bool displayGestureTrail = true;

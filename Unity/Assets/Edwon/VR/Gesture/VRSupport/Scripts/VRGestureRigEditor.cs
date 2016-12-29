@@ -16,6 +16,7 @@ namespace Edwon.VR
         SerializedProperty handRightModel;
         SerializedProperty gestureHand;
         SerializedProperty gestureButton;
+        SerializedProperty menuButton;
         SerializedProperty displayGestureTrail;
         SerializedProperty useCustomControllerModels;
         SerializedProperty playerID;
@@ -36,6 +37,7 @@ namespace Edwon.VR
             handRightModel = serializedObject.FindProperty("handRightModel");
             gestureHand = serializedObject.FindProperty("mainHand");
             gestureButton = serializedObject.FindProperty("gestureButton");
+            menuButton = serializedObject.FindProperty("menuButton");
             displayGestureTrail = serializedObject.FindProperty("displayGestureTrail");
             useCustomControllerModels = serializedObject.FindProperty("useCustomControllerModels");
             playerID = serializedObject.FindProperty("playerID");
@@ -55,6 +57,7 @@ namespace Edwon.VR
 
             EditorGUILayout.PropertyField(gestureHand);
             EditorGUILayout.PropertyField(gestureButton);
+            EditorGUILayout.PropertyField(menuButton);
             EditorGUILayout.PropertyField(playerID);
 
             EditorGUILayout.PropertyField(displayGestureTrail);
