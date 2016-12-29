@@ -71,8 +71,6 @@ Unity/Assets/libs.meta
 Unity/Assets/libs/SixenseInput.meta
 Unity/Assets/EditorVR.meta
 
-Unity/Assets/Edwon/VR/Gesture/Tutorial/Settings/TutorialSettings.txt
-Unity/Assets/Edwon/VR/Gesture/Tutorial/Settings/TutorialSettings.txt.meta
 Unity/Assets/Edwon/VR/Gesture/Tutorial/Movies/Source/
 Unity/ProjectSettings/QualitySettings.asset
 Unity/Assets/Edwon/VR/Gesture/Tutorial/Movies/Gifs.meta
@@ -93,7 +91,6 @@ Unity/Assets/Edwon/VR/Gesture/Examples.meta
 Unity/Assets/Edwon/VR/Gesture/Integrations/Playmaker.meta
 Unity/Assets/Edwon/VR/Gesture/Examples/Example 1.meta
 Unity/Assets/Edwon/VR/Gesture/Examples/Example 2.meta
-Unity/Assets/Edwon/VR/Gesture/Tutorials/Getting Started.meta
 Unity/Assets/Edwon/VR/Gesture/Tutorials/Getting Started/Settings/TutorialSettings.txt
 Unity/Assets/Edwon/VR/Gesture Dev/Example Neural Nets/
 Unity/Assets/Edwon/VR/Gesture Dev/Example Neural Nets.meta
