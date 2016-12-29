@@ -9,6 +9,7 @@ namespace Edwon.VR.Gesture
     {
 
         public RawImage movieImage; // ui version
+        public MovieTexture movieFile;
         MovieTexture movieTexture;
 
         public void PlayMovie()
@@ -18,6 +19,8 @@ namespace Edwon.VR.Gesture
 
         IEnumerator IEPlayMovieDelay(float delay)
         {
+            movieImage.texture = movieFile;
+
             if (movieTexture == null)
             {
                 movieTexture = (MovieTexture)movieImage.texture;
@@ -33,6 +36,8 @@ namespace Edwon.VR.Gesture
 
         public void StopMovie()
         {
+            movieImage.texture = movieFile;
+
             if (movieTexture == null)
             {
                 movieTexture = (MovieTexture)movieImage.texture;
