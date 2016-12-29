@@ -7,14 +7,11 @@ namespace Edwon.VR.Input
     {
         public enum Button
         {
-            Button1,
-            Button2,
-            Button3,
-            Button4,
-            Directional1,
             Trigger1,
             Trigger2,
-            Platform
+            Button1,
+            Button2,
+            Directional1
         };
         public enum Touch
         {
