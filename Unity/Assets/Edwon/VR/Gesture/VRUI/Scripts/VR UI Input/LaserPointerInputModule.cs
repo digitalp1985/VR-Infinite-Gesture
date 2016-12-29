@@ -166,9 +166,6 @@ namespace Edwon.VR
                 ILaserPointer controller = _controllerData.ElementAt(i).Key;
                 ControllerData data = _controllerData.ElementAt(i).Value;
 
-                //if (controller.ButtonDown() && _controllerData.ElementAt(i).Value.currentPoint.name == "Example 1 Button")
-                //    Debug.Log("controller data count: " + _controllerData.Count);
-
                 // Test if UICamera is looking at a GUI element
                 UpdateCameraPosition(controller);
 
