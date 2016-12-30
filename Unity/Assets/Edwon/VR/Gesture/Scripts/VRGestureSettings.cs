@@ -24,7 +24,7 @@ namespace Edwon.VR.Gesture
             }
         }
         public int playerID = 0;
-        public VRType vrType;
+        public VRType vrType = VRType.SteamVR;
 
         [Tooltip("if true automatically spawn the VR Gesture UI when the scene starts")]
         public bool showVRUI = true;
