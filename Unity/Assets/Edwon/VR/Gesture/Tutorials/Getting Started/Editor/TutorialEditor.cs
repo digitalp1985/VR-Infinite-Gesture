@@ -4,17 +4,16 @@ using System.Collections;
 
 namespace Edwon.VR.Gesture
 {
-    [CustomEditor(typeof(Tutorial))]
+    [CustomEditor(typeof(GettingStartedTutorial))]
     [CanEditMultipleObjects]
-    public class TutorialEditor : Editor
+    public class GettingStartedTutorialEditor : Editor
     {
-        Tutorial tutorial;
+        GettingStartedTutorial tutorial;
 
         public override void OnInspectorGUI()
         {
             serializedObject.Update();
-            //DrawDefaultInspector();
-            tutorial = (Tutorial)target;
+            tutorial = (GettingStartedTutorial)target;
 
             EditorGUILayout.LabelField("current tutorial state is: " + 
                 tutorial.TutorialSettings.tutorialState.ToString());

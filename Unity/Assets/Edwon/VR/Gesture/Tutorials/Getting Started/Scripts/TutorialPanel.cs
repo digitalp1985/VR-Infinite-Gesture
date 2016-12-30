@@ -8,7 +8,7 @@ namespace Edwon.VR.Gesture
     {
 
         VRGestureSettings gestureSettings;
-        Tutorial tutorial;
+        GettingStartedTutorial tutorial;
 
         public override void Init()
         {
@@ -20,7 +20,7 @@ namespace Edwon.VR.Gesture
             }
             if (tutorial == null)
             {
-                tutorial = GetComponentInParent<Tutorial>();
+                tutorial = GetComponentInParent<GettingStartedTutorial>();
             }
         }
 
