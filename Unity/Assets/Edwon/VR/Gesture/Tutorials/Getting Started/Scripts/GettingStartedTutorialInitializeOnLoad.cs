@@ -13,19 +13,12 @@ public class GettingStartedTutorialInitializeOnLoad
     static GettingStartedTutorialInitializeOnLoad()
     {
         EditorApplication.update += EditorUpdate;
-        //EditorSceneManager.activeSceneChanged += ActiveSceneChanged;
     }
-
-    //static void ActiveSceneChanged(Scene previousScene, Scene newScene)
-    //{
-    //    Debug.Log("scene changed to: " + newScene.name);
-    //}
 
     static void EditorUpdate()
     {
         if (sceneName != EditorSceneManager.GetActiveScene().name)
         {
-            // New scene has been loaded
             sceneName = EditorSceneManager.GetActiveScene().name;
             if (sceneName == gettingStartedTutorialSceneName)
             {
