@@ -2,7 +2,7 @@
 namespace Edwon.VR
 {
     public enum Handedness { Left, Right };
-    public enum VRType { OculusVR, SteamVR };
+    public enum VRType { SteamVR, OculusVR };
 }
 
 namespace Edwon.VR.Gesture
