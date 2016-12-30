@@ -11,7 +11,7 @@ namespace Edwon.VR.Input
             Trigger2,
             Button1,
             Button2,
-            Directional1
+            Thumbstick
         };
         public enum Touch
         {
@@ -25,7 +25,7 @@ namespace Edwon.VR.Input
         };
         public enum Axis2D
         {
-            Directional1
+            Thumbstick
         };
     }
 

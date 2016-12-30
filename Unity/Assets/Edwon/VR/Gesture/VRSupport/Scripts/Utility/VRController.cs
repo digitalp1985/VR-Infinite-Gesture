@@ -42,7 +42,7 @@ namespace Edwon.VR.Input
                 return button1;
             if (button == InputOptions.Button.Button2)
                 return button2;
-            if (button == InputOptions.Button.Directional1)
+            if (button == InputOptions.Button.Thumbstick)
                 return directional1Button;
             if (button == InputOptions.Button.Trigger1)
                 return trigger1Button;
@@ -58,7 +58,7 @@ namespace Edwon.VR.Input
                 return button1Down;
             if (button == InputOptions.Button.Button2)
                 return button2Down;
-            if (button == InputOptions.Button.Directional1)
+            if (button == InputOptions.Button.Thumbstick)
                 return directional1ButtonDown;
             if (button == InputOptions.Button.Trigger1)
                 return trigger1ButtonDown;
@@ -105,7 +105,7 @@ namespace Edwon.VR.Input
 
         public Vector2 GetAxis2D(InputOptions.Axis2D axis2D)
         {
-            if (axis2D == InputOptions.Axis2D.Directional1)
+            if (axis2D == InputOptions.Axis2D.Thumbstick)
                 return directional1;
             return Vector2.zero;
         }

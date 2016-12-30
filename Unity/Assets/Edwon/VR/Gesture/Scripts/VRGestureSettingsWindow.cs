@@ -276,13 +276,13 @@ namespace Edwon.VR.Gesture
             EditorGUILayout.Separator();
             SerializedProperty beginInDetectMode = serializedObject.FindProperty("beginInDetectMode");
             SerializedProperty showVRUI = serializedObject.FindProperty("showVRUI");
-            SerializedProperty playerID = serializedObject.FindProperty("playerID");
+            //SerializedProperty playerID = serializedObject.FindProperty("playerID");
             SerializedProperty vrType = serializedObject.FindProperty("vrType");
             SerializedProperty confidenceThreshold = serializedObject.FindProperty("confidenceThreshold");
             SerializedProperty gestureSyncDelay = serializedObject.FindProperty("gestureSyncDelay");
             SerializedProperty minimumGestureAxisLength = serializedObject.FindProperty("minimumGestureAxisLength");
 
-            EditorGUILayout.PropertyField(playerID);
+            //EditorGUILayout.PropertyField(playerID);
 
             EditorGUI.BeginChangeCheck();
             EditorGUILayout.PropertyField(vrType);
