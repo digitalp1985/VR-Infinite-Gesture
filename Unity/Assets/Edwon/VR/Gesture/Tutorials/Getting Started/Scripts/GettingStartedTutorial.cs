@@ -208,9 +208,9 @@ namespace Edwon.VR.Gesture
                         CameraUI.enabled = true;
                         GetComponent<EventSystem>().enabled = true;
                         GetComponent<Canvas>().worldCamera = transform.GetComponentInChildren<Camera>();
-#if UNITY_EDITOR
+                        #if UNITY_EDITOR
                         PlayerSettings.virtualRealitySupported = false;
-#endif
+                        #endif
                         GestureSettings.showVRUI = false;
                         if (GestureSettings.Rig != null)
                         {
@@ -236,15 +236,19 @@ namespace Edwon.VR.Gesture
                             LaserPointerInputModule laserPointerInput = ui.GetComponent<LaserPointerInputModule>();
                             GetComponent<Canvas>().worldCamera = laserPointerInput.UICamera;
                         }
-#if UNITY_EDITOR
+                        #if UNITY_EDITOR
                         PlayerSettings.virtualRealitySupported = true;
-#endif
+                        #endif
                         GestureSettings.showVRUI = true;
                         if (GestureSettings.Rig != null)
                         {
                             #if EDWON_VR_OCULUS
                             GestureSettings.Rig.GetComponent<OVRCameraRig>().enabled = true;
                             GestureSettings.Rig.GetComponent<OVRManager>().enabled = true;
+                            #endif
+                            #if EDWON_VR_STEAM
+                            GestureSettings.Rig.transform.position = new Vector3(0, -1.25f, 1.25f);
+                            GestureSettings.Rig.transform.rotation = Quaternion.identity;
                             #endif
                             CameraUI.tag = "Untagged";
                             GestureSettings.Rig.head.GetComponent<Camera>().tag = "MainCamera";
@@ -281,7 +285,7 @@ namespace Edwon.VR.Gesture
             return null;
         }
 
-        #region BUTTONS
+#region BUTTONS
 
         public void OnRestartTutorial()
         {
@@ -312,7 +316,7 @@ namespace Edwon.VR.Gesture
             OnButtonNext();
         }
 
-        #endregion
+#endregion
 
     }
 }
