@@ -3534,7 +3534,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 298262364}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -619905303, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
   m_Name: 
@@ -4708,7 +4708,7 @@ Camera:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 393533675}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -5143,7 +5143,10 @@ MonoBehaviour:
   m_Text: 'Let''s double check our recordings of the rainbow gesture.
 
 
-    Press "BACK", then press the "EDIT" button on gesture 1.'
+    Press "BACK", then press the "EDIT" button on gesture 1.
+
+
+    Hold the grip (second trigger on Oculus) to move the gesture gallery.'
 --- !u!222 &424996129
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6044,7 +6047,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -7454,7 +7457,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985a936df81575743a91ec2c43452f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visible: 0
+  visible: 1
   canvasGroup: {fileID: 576853970}
 --- !u!225 &576853970
 CanvasGroup:
@@ -7463,9 +7466,9 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 576853967}
   m_Enabled: 1
-  m_Alpha: 0
-  m_Interactable: 0
-  m_BlocksRaycasts: 0
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!1 &585134254
 GameObject:
@@ -9817,8 +9820,8 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "All of the \"Gesture 1\" rainbow recordings are now visible. \n\nIf you
-    accidentally recorded a bad example, delete it by clicking on it.\n\nYou can move
-    the gestures UI by holding the grip and moving your hand around."
+    accidentally recorded a bad example, delete it by clicking on it.\n\nHold the
+    grip (second trigger on Oculus) to move the gesture gallery."
 --- !u!222 &785505910
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11574,7 +11577,7 @@ RectTransform:
   m_RootOrder: 1
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.9, y: -16.1}
+  m_AnchoredPosition: {x: 0, y: 71.4}
   m_SizeDelta: {x: 141.2, y: 71.2}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &980858380
@@ -12143,9 +12146,9 @@ CanvasGroup:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1040604065}
   m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Alpha: 0
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!114 &1040604068
 MonoBehaviour:
@@ -12158,7 +12161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 985a936df81575743a91ec2c43452f01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  visible: 1
+  visible: 0
   canvasGroup: {fileID: 1040604067}
 --- !u!1 &1080841944
 GameObject:
@@ -16302,7 +16305,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 085bd720f96807846bcb4176771bed5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentPanel: {fileID: 1040604068}
+  currentPanel: {fileID: 576853969}
   panels:
   - {fileID: 1040604068}
   - {fileID: 1757800953}
@@ -22846,7 +22849,7 @@ RectTransform:
   m_RootOrder: 0
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 58.5}
+  m_AnchoredPosition: {x: 0, y: -8.7}
   m_SizeDelta: {x: 220, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2145653589
