@@ -3419,6 +3419,7 @@ GameObject:
   - 114: {fileID: 298262372}
   - 114: {fileID: 298262371}
   - 114: {fileID: 298262370}
+  - 114: {fileID: 298262373}
   - 114: {fileID: 298262367}
   m_Layer: 5
   m_Name: Tutorial
@@ -3557,6 +3558,17 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &298262373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 298262364}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 82718ff200640384b84f126d2442cc68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &319598354 stripped
 RectTransform:
   m_PrefabParentObject: {fileID: 224000010049584042, guid: 82afa19271b45924d89d0b6601fb9b5f,
