@@ -29,9 +29,12 @@ public class GettingStartedTutorialInitializeOnLoad
             sceneName = EditorSceneManager.GetActiveScene().name;
             if (sceneName == gettingStartedTutorialSceneName)
             {
-                Debug.Log("PRESS PLAY TO BEGIN THE TUTORIAL!");
-                Debug.Log("if the scene starts in VR, reset the scene until it's 2D");
-                Debug.Log("make sure the 'Game' window is big enough to see the back and next buttons");
+                if (!EditorApplication.isPlaying)
+                {
+                    Debug.Log("PRESS PLAY TO BEGIN THE TUTORIAL!");
+                    Debug.Log("if the scene starts in VR, reset the scene until it's 2D");
+                    Debug.Log("make sure the 'Game' window is big enough to see the back and next buttons");
+                }
             }
         }
     }
