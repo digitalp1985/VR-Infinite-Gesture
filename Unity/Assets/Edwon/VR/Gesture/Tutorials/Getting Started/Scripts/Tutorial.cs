@@ -78,6 +78,14 @@ namespace Edwon.VR.Gesture
 
         void Start()
         {
+
+#if UNITY_STANDALONE
+            TutorialSettings.TUTORIAL_SAVE_PATH = Application.persistentDataPath + "TutorialSettings.txt";
+            GoToTutorialStep(inVRStep+1);
+            RefreshTutorialSettings();
+            TutorialStateLogic(true);
+#endif
+
 #if UNITY_EDITOR
             // start - when play mode starts
             if (EditorApplication.isPlaying)
