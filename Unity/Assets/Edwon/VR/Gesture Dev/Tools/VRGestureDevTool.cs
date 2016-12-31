@@ -107,7 +107,6 @@ namespace Edwon.VR.Gesture
                 case MoveOption.ToPlugin:
                     MoveFolder(examplesDev + EXAMPLE_1_NAME + "/", examplesPlugin + EXAMPLE_1_NAME);
                     MoveFolder(examplesDev + EXAMPLE_2_NAME + "/", examplesPlugin + EXAMPLE_2_NAME);
-                    MoveFolder(examplesDev + EXAMPLE_3_NAME + "/", examplesPlugin + EXAMPLE_3_NAME);
                     //if (System.IO.Directory.Exists(examplesDev))
                     //    System.IO.Directory.Delete(examplesDev);
                     break;
@@ -116,7 +115,6 @@ namespace Edwon.VR.Gesture
                         System.IO.Directory.CreateDirectory(examplesDev);
                     MoveFolder(examplesPlugin + EXAMPLE_1_NAME + "/", examplesDev + EXAMPLE_1_NAME);
                     MoveFolder(examplesPlugin + EXAMPLE_2_NAME + "/", examplesDev + EXAMPLE_2_NAME);
-                    MoveFolder(examplesPlugin + EXAMPLE_3_NAME + "/", examplesDev + EXAMPLE_3_NAME);
                     break;
             }
         }
@@ -133,14 +131,12 @@ namespace Edwon.VR.Gesture
                 case MoveOption.ToPlugin:
                     MoveFolder(examplesNetsDev + EXAMPLE_1_NAME + "/", examplesNetsPlugin + EXAMPLE_1_NAME);
                     MoveFolder(examplesNetsDev + EXAMPLE_2_NAME + "/", examplesNetsPlugin + EXAMPLE_2_NAME);
-                    MoveFolder(examplesNetsDev + EXAMPLE_3_NAME + "/", examplesNetsPlugin + EXAMPLE_3_NAME);
                     break;
                 case MoveOption.ToDev:
                     if (!System.IO.Directory.Exists(examplesNetsDev))
                         System.IO.Directory.CreateDirectory(examplesNetsDev);
                     MoveFolder(examplesNetsPlugin + EXAMPLE_1_NAME + "/", examplesNetsDev + EXAMPLE_1_NAME);
                     MoveFolder(examplesNetsPlugin + EXAMPLE_2_NAME + "/", examplesNetsDev + EXAMPLE_2_NAME);
-                    MoveFolder(examplesNetsPlugin + EXAMPLE_3_NAME + "/", examplesNetsDev + EXAMPLE_3_NAME);
                     break;
             }
         }
