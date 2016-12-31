@@ -27,6 +27,10 @@ namespace Edwon.VR.Gesture
         const string EXAMPLES_PACKAGE_NAME = "Examples";
         const string TUTORIALS_PACKAGE_NAME = "Tutorials";
 
+        const string EXAMPLE_1_NAME = "Example 1 - Basics";
+        const string EXAMPLE_2_NAME = "Example 2 - Powers";
+        const string EXAMPLE_3_NAME = "Example 3 - Custom Trail";
+
         public void BuildAndExportPlugin()
         {
             // move examples neural nets first
@@ -101,16 +105,18 @@ namespace Edwon.VR.Gesture
             switch (moveOption)
             {
                 case MoveOption.ToPlugin:
-                    MoveFolder(examplesDev + "Example 1/", examplesPlugin + "Example 1");
-                    MoveFolder(examplesDev + "Example 2/", examplesPlugin + "Example 2");
+                    MoveFolder(examplesDev + EXAMPLE_1_NAME + "/", examplesPlugin + EXAMPLE_1_NAME);
+                    MoveFolder(examplesDev + EXAMPLE_2_NAME + "/", examplesPlugin + EXAMPLE_2_NAME);
+                    MoveFolder(examplesDev + EXAMPLE_3_NAME + "/", examplesPlugin + EXAMPLE_3_NAME);
                     //if (System.IO.Directory.Exists(examplesDev))
                     //    System.IO.Directory.Delete(examplesDev);
                     break;
                 case MoveOption.ToDev:
                     if (!System.IO.Directory.Exists(examplesDev))
                         System.IO.Directory.CreateDirectory(examplesDev);
-                    MoveFolder(examplesPlugin + "Example 1/", examplesDev + "Example 1");
-                    MoveFolder(examplesPlugin + "Example 2/", examplesDev + "Example 2");
+                    MoveFolder(examplesPlugin + EXAMPLE_1_NAME + "/", examplesDev + EXAMPLE_1_NAME);
+                    MoveFolder(examplesPlugin + EXAMPLE_2_NAME + "/", examplesDev + EXAMPLE_2_NAME);
+                    MoveFolder(examplesPlugin + EXAMPLE_3_NAME + "/", examplesDev + EXAMPLE_3_NAME);
                     break;
             }
         }
@@ -125,14 +131,16 @@ namespace Edwon.VR.Gesture
             switch (moveOption)
             {
                 case MoveOption.ToPlugin:
-                    MoveFolder(examplesNetsDev + "Example 1/", examplesNetsPlugin + "Example 1");
-                    MoveFolder(examplesNetsDev + "Example 2/", examplesNetsPlugin + "Example 2");
+                    MoveFolder(examplesNetsDev + EXAMPLE_1_NAME + "/", examplesNetsPlugin + EXAMPLE_1_NAME);
+                    MoveFolder(examplesNetsDev + EXAMPLE_2_NAME + "/", examplesNetsPlugin + EXAMPLE_2_NAME);
+                    MoveFolder(examplesNetsDev + EXAMPLE_3_NAME + "/", examplesNetsPlugin + EXAMPLE_3_NAME);
                     break;
                 case MoveOption.ToDev:
                     if (!System.IO.Directory.Exists(examplesNetsDev))
                         System.IO.Directory.CreateDirectory(examplesNetsDev);
-                    MoveFolder(examplesNetsPlugin + "Example 1/", examplesNetsDev + "Example 1");
-                    MoveFolder(examplesNetsPlugin + "Example 2/", examplesNetsDev + "Example 2");
+                    MoveFolder(examplesNetsPlugin + EXAMPLE_1_NAME + "/", examplesNetsDev + EXAMPLE_1_NAME);
+                    MoveFolder(examplesNetsPlugin + EXAMPLE_2_NAME + "/", examplesNetsDev + EXAMPLE_2_NAME);
+                    MoveFolder(examplesNetsPlugin + EXAMPLE_3_NAME + "/", examplesNetsDev + EXAMPLE_3_NAME);
                     break;
             }
         }
