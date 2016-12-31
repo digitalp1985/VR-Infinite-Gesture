@@ -45,8 +45,6 @@ namespace Edwon.VR.Gesture
             {
                 UnsubscribeFromEvents();
             }
-
-            
         }
 
         void UnsubscribeFromEvents()
@@ -136,10 +134,5 @@ namespace Edwon.VR.Gesture
 
         }
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
     }
 }
