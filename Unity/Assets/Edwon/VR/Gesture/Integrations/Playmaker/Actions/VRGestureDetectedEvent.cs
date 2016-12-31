@@ -7,7 +7,7 @@ using Edwon.VR;
 namespace HutongGames.PlayMaker.Actions
 {
 
-    [ActionCategory("VRGestureTracker")]
+    [ActionCategory("VR Infinite Gesture")]
     [Tooltip ("Listens for gestures detected with the Edwon VR Gesture Tracker plugin")]
     public class VRGestureDetectedEvent : FsmStateAction
     {
