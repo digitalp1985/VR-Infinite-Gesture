@@ -33,6 +33,23 @@ namespace Edwon.VR.Gesture
 
         public void BuildAndExportPlugin()
         {
+            PrepForSubmission();
+
+            ExportPlugin();
+
+            ResetAfterSubmission();
+        }
+
+        void ExportPlugin()
+        {
+            string fromPath = 
+                GESTURE_PLUGIN_PATH.Substring(0, GESTURE_PLUGIN_PATH.Length - 1);
+            string exportPath = GESTURE_PLUGIN_EXPORT_PATH + GESTURE_PLUGIN_EXPORT_NAME + ".unitypackage";
+            AssetDatabase.ExportPackage(fromPath, exportPath, ExportPackageOptions.Recurse);
+        }
+
+        public void PrepForSubmission()
+        {
             // move examples neural nets first
             MoveExamplesNeuralNets(MoveOption.ToPlugin);
 
@@ -51,10 +68,10 @@ namespace Edwon.VR.Gesture
             MoveTutorials(MoveOption.ToDev);
 
             AssetDatabase.Refresh();
+        }
 
-            // export the entire plugin package
-            ExportPlugin();
-
+        public void ResetAfterSubmission()
+        {
             AssetDatabase.Refresh();
 
             // delete the generated packages
@@ -69,14 +86,6 @@ namespace Edwon.VR.Gesture
             MoveTutorials(MoveOption.ToPlugin);
 
             AssetDatabase.Refresh();
-        }
-
-        void ExportPlugin()
-        {
-            string fromPath = 
-                GESTURE_PLUGIN_PATH.Substring(0, GESTURE_PLUGIN_PATH.Length - 1);
-            string exportPath = GESTURE_PLUGIN_EXPORT_PATH + GESTURE_PLUGIN_EXPORT_NAME + ".unitypackage";
-            AssetDatabase.ExportPackage(fromPath, exportPath, ExportPackageOptions.Recurse);
         }
 
         public void MoveIntegrations(MoveOption moveOption)

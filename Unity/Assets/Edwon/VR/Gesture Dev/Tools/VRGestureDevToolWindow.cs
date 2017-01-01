@@ -115,7 +115,22 @@ namespace Edwon.VR.Gesture
 
             GUILayout.Space(20);
 
-            #region EXPORT PLUGIN
+            #region UNITY ASSET STORE SUBMIT PREP
+
+            if (GUILayout.Button("PREP FOR SUBMISSION"))
+            {
+                devTool.PrepForSubmission();
+            }
+            EditorGUILayout.Separator();
+            if (GUILayout.Button("RESET AFTER SUBMISSION"))
+            {
+                devTool.ResetAfterSubmission();
+            }
+            #endregion
+
+            GUILayout.Space(20);
+
+            #region EXPORT PACKAGE
             GUILayout.Label("PLUGIN EXPORT PATH");
             SerializedProperty GESTURE_PLUGIN_EXPORT_PATH = serializedObject.FindProperty("GESTURE_PLUGIN_EXPORT_PATH");
             GESTURE_PLUGIN_EXPORT_PATH.stringValue = EditorGUILayout.TextField(GESTURE_PLUGIN_EXPORT_PATH.stringValue);
@@ -128,7 +143,7 @@ namespace Edwon.VR.Gesture
 
             GUILayout.Space(10);
 
-            if (GUILayout.Button("BUILD AND EXPORT PLUGIN"))
+            if (GUILayout.Button("BUILD AND EXPORT PACKAGE"))
             {
                 devTool.BuildAndExportPlugin();
             }
