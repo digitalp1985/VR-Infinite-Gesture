@@ -190,8 +190,8 @@ namespace Edwon.VR.Gesture
                 GESTURE_PLUGIN_PATH + EXAMPLES_PATH.Substring(0, EXAMPLES_PATH.Length - 1);
 
             string streamingAssetsNetsPath = STREAMING_ASSETS_PATH + Config.NEURAL_NET_PATH;
-            string example1NetFromPath = streamingAssetsNetsPath + "Example 1";
-            string example2NetFromPath = streamingAssetsNetsPath + "Example 2";
+            string example1NetFromPath = streamingAssetsNetsPath + "Example 1 - Basics";
+            string example2NetFromPath = streamingAssetsNetsPath + "Example 2 - Powers";
 
             string exportPath =
                 Application.dataPath + GESTURE_PLUGIN_PATH.Remove(0, 6)
