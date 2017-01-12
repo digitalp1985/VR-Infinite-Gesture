@@ -36,7 +36,7 @@ namespace Edwon.VR.Gesture
         public int gestureSyncDelay = 500;
         [Tooltip("Your gesture must have one axis longer than this length in world size")]
         public float minimumGestureAxisLength = 0.10f;
-        [Tooltip("use this option for builds when you don't want users to see the VR UI from this plugin")]
+        [Tooltip("Begin detecting gestures immediately in-game without bringing up the VR Infinite Gesture UI (i.e.when you do standalone builds)")]
         public bool beginInDetectMode = false;
         // whether to track when pressing trigger or all the time
         // continious mode is not supported yet
