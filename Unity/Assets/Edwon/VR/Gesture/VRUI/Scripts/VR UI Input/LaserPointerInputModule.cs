@@ -21,7 +21,25 @@ namespace Edwon.VR
         };
 
         [HideInInspector]
-        public Camera UICamera;
+        public Camera _UICamera;
+        public Camera UICamera
+        {
+            get
+            {
+                if (_UICamera == null)
+                {
+                    // Create a new camera that will be used for raycasts
+                    _UICamera = new GameObject("UI Camera").AddComponent<Camera>();
+                    _UICamera.transform.parent = transform;
+                    _UICamera.clearFlags = CameraClearFlags.Nothing;
+                    _UICamera.cullingMask = 0;
+                    _UICamera.fieldOfView = .01f;
+                    _UICamera.nearClipPlane = .001f;
+                    return _UICamera;
+                }
+                return _UICamera;
+            }
+        }
         private HashSet<ILaserPointer> _controllers;
         [HideInInspector]
         public HashSet<ILaserPointer> _Controllers
@@ -56,14 +74,6 @@ namespace Edwon.VR
         {
             base.Start();
             
-            // Create a new camera that will be used for raycasts
-            UICamera = new GameObject("UI Camera").AddComponent<Camera>();
-            UICamera.transform.parent = transform;
-            UICamera.clearFlags = CameraClearFlags.Nothing;
-            UICamera.cullingMask = 0;
-            UICamera.fieldOfView = .01f;
-            UICamera.nearClipPlane = .001f;
-
             //// Find canvases in the scene and assign our custom
             //// UICamera to them
             Canvas canvas = GetComponent<Canvas>();

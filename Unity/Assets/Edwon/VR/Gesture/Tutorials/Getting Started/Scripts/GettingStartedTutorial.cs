@@ -73,12 +73,26 @@ namespace Edwon.VR.Gesture
                 }
             }
         }
+        Canvas _canvas;
+        Canvas Canvas
+        {
+            get
+            {
+                if (_canvas == null)
+                {
+                    _canvas = GetComponent<Canvas>();
+                    return _canvas;
+                }
+                return _canvas;
+            }
+        }
 
         int inVRStep = 9; // starting at this step enter into VR
 
+        public bool demoBuildMode; 
+
         void Start()
         {
-
 #if UNITY_EDITOR
             // start - when play mode starts
             if (EditorApplication.isPlaying)
@@ -207,7 +221,7 @@ namespace Edwon.VR.Gesture
                     {
                         CameraUI.enabled = true;
                         GetComponent<EventSystem>().enabled = true;
-                        GetComponent<Canvas>().worldCamera = transform.GetComponentInChildren<Camera>();
+                        Canvas.worldCamera = transform.GetComponentInChildren<Camera>();
                         #if UNITY_EDITOR
                         PlayerSettings.virtualRealitySupported = false;
                         #endif
@@ -234,7 +248,7 @@ namespace Edwon.VR.Gesture
                         {
                             VRGestureUI ui = FindObjectOfType<VRGestureUI>();
                             LaserPointerInputModule laserPointerInput = ui.GetComponent<LaserPointerInputModule>();
-                            GetComponent<Canvas>().worldCamera = laserPointerInput.UICamera;
+                            Canvas.worldCamera = laserPointerInput.UICamera;
                         }
                         #if UNITY_EDITOR
                         PlayerSettings.virtualRealitySupported = true;
@@ -289,7 +303,14 @@ namespace Edwon.VR.Gesture
 
         public void OnRestartTutorial()
         {
-            GoToTutorialStep(1);
+            if (demoBuildMode)
+            {
+                GoToTutorialStep(inVRStep + 1);
+            }
+            else
+            {
+                GoToTutorialStep(1);
+            }
         }
 
         public void OnButtonNext()

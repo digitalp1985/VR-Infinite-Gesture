@@ -20,6 +20,9 @@ namespace Edwon.VR.Gesture
             EditorGUILayout.LabelField("current tutorial step is: " + 
                 tutorial.TutorialSettings.currentTutorialStep.ToString());
 
+            SerializedProperty demoBuildMode = serializedObject.FindProperty("demoBuildMode");
+            EditorGUILayout.PropertyField(demoBuildMode);
+
             if (GUILayout.Button("Restart Tutorial"))
             {
                 tutorial.OnRestartTutorial();
