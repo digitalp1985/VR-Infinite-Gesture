@@ -111,7 +111,14 @@ namespace Edwon.VR.Gesture
             GenerateGesturesMenu();
             StartCoroutine (GenerateNeuralNetMenuButtons());
 
-            panelManager.FocusPanel("Select Neural Net Menu");
+            if (!gestureSettings.beginInDetectMode)
+            {
+                panelManager.FocusPanel("Select Neural Net Menu");
+            }
+            else
+            {
+                panelManager.FocusPanel("Detect Menu");
+            }
         }
 
         void Update()

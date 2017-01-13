@@ -117,7 +117,16 @@ namespace Edwon.VR
         {
             CreateInputHelper();
 
-            if (GestureSettings.showVRUI)
+            if (GestureSettings.beginInDetectMode)
+            {
+                BeginDetect();
+
+                if (GestureSettings.showVRUI)
+                {
+                    CreateVRUI();
+                }
+            }
+            else if (GestureSettings.showVRUI)
             {
                 CreateVRUI();
             }

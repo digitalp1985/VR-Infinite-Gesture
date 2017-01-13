@@ -290,10 +290,6 @@ namespace Edwon.VR.Gesture
             {
                 Utils.ChangeVRType((VRType)vrType.enumValueIndex);
             }
-            //if (GUILayout.Button("Set VR Type"))
-            //{
-            //    Utils.ChangeVRType((VRType)vrType.enumValueIndex);
-            //}
 
             EditorGUILayout.PropertyField(beginInDetectMode);
             if (beginInDetectMode.boolValue == true)

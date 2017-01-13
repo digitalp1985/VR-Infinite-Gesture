@@ -91,9 +91,6 @@ namespace Edwon.VR.Gesture
                 return false;
             }
         }
-        //Drop Down list of NeuralNetworks.
-        //List of Processed Gestures
-        //List of New Gestures sitting in data.
 
         #region NEURAL NETWORK ACTIVE METHODS
         //This should be called directly from UIController via instance
