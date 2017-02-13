@@ -8,6 +8,8 @@ TagManager:
   - Head
   - Pain
   - Fire
+  - VRPlayer
+  - ShowInMiniWorld
   layers:
   - Default
   - TransparentFX
