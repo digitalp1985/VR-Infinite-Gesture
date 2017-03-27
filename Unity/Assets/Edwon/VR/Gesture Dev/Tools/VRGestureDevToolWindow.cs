@@ -133,6 +133,7 @@ namespace Edwon.VR.Gesture
 
             #region EXPORT PACKAGE
             GUILayout.Label("PLUGIN EXPORT PATH");
+            GUILayout.Label("full windows path with a slash at the end");
             SerializedProperty GESTURE_PLUGIN_EXPORT_PATH = serializedObject.FindProperty("GESTURE_PLUGIN_EXPORT_PATH");
             GESTURE_PLUGIN_EXPORT_PATH.stringValue = EditorGUILayout.TextField(GESTURE_PLUGIN_EXPORT_PATH.stringValue);
 
