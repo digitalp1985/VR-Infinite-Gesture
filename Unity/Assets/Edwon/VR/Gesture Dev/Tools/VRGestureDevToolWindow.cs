@@ -2,6 +2,7 @@
 
 using UnityEngine;
 using UnityEditor;
+using System.IO;
 
 namespace Edwon.VR.Gesture
 {
@@ -195,16 +196,21 @@ namespace Edwon.VR.Gesture
         VRGestureDevTool CreateDevToolAsset()
         {
             VRGestureDevTool instance = CreateInstance<VRGestureDevTool>();
-            string fullPath = DEV_TOOL_PATH;
-            AssetDatabase.CreateAsset(instance, fullPath);
+            string parentPath = Application.dataPath + RESOURCES_PATH.Substring(RESOURCES_PATH.IndexOf('/'));
+            //Debug.Log("parentPath: " + parentPath);
+            string devToolDirectoryPath = parentPath + "Dev/";
+            Debug.Log(devToolDirectoryPath);
+            if (!Directory.Exists(devToolDirectoryPath))
+            {
+                Directory.CreateDirectory(devToolDirectoryPath);
+            }
+            AssetDatabase.CreateAsset(instance, DEV_TOOL_PATH);
             return instance;
         }
 
-
         VRGestureDevTool GetDevTool()
         {
-            string fullPath = DEV_TOOL_PATH;
-            return AssetDatabase.LoadAssetAtPath(fullPath, typeof(VRGestureDevTool)) as VRGestureDevTool;
+            return AssetDatabase.LoadAssetAtPath(DEV_TOOL_PATH, typeof(VRGestureDevTool)) as VRGestureDevTool;
         }
 
         void SetSerializedObject()
