@@ -75,16 +75,8 @@ namespace Edwon.VR.Gesture
             lineRenderer.SetColors(c1, c2);
             lineRenderer.SetWidth(0.01F, 0.05F);
             lineRenderer.SetVertexCount(0);
+            lineRenderer.useWorldSpace = false;
             return lineRenderer;
-        }
-
-        public void RenderTrail(LineRenderer lineRenderer, List<Vector3> capturedLine)
-        {
-            if (capturedLine.Count == lengthOfLineRenderer)
-            {
-                lineRenderer.SetVertexCount(lengthOfLineRenderer);
-                lineRenderer.SetPositions(capturedLine.ToArray());
-            }
         }
 
         public void StartTrail()
@@ -94,20 +86,12 @@ namespace Edwon.VR.Gesture
             listening = true;
         }
 
-        public void CapturePoint(Vector3 rightHandPoint)
+        public void CapturePoint(Vector3 handPoint)
         {
-            displayLine.Add(rightHandPoint);
+            //display line appears to be made up of World Points instead of localized ones.
+            displayLine.Add(handPoint);
             currentRenderer.SetVertexCount(displayLine.Count);
             currentRenderer.SetPositions(displayLine.ToArray());
-        }
-
-        public void CapturePoint(Vector3 myVector, List<Vector3> capturedLine, int maxLineLength)
-        {
-            if (capturedLine.Count >= maxLineLength)
-            {
-                capturedLine.RemoveAt(0);
-            }
-            capturedLine.Add(myVector);
         }
 
         public void StopTrail()

@@ -181,11 +181,13 @@ namespace Edwon.VR.Gesture
 
         void CapturePoint()
         {
-            Vector3 rightHandPoint = playerHand.position;
-            Vector3 localizedPoint = GetLocalizedPoint(rightHandPoint);
+            Vector3 handPosition = playerHand.position;
+            Vector3 localizedPoint = GetLocalizedPoint(handPosition);
             currentCapturedLine.Add(localizedPoint);
             if (ContinueCaptureEvent != null)
-                ContinueCaptureEvent(rightHandPoint);
+            {
+                ContinueCaptureEvent(playerHand.localPosition);
+            }
         }
 
         void StopRecording()
@@ -197,7 +199,9 @@ namespace Edwon.VR.Gesture
                 currentCapturedLine.Clear();
 
                 if (StopCaptureEvent != null)
+                {
                     StopCaptureEvent();
+                }
             }
 
         }
