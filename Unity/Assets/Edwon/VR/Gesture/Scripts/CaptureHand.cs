@@ -104,7 +104,7 @@ namespace Edwon.VR.Gesture
         }
 
         //This will get points in relation to a users head.
-        public Vector3 getLocalizedPoint(Vector3 myDumbPoint)
+        public Vector3 GetLocalizedPoint(Vector3 myDumbPoint)
         {
             perpTransform.position = playerHead.position;
             perpTransform.rotation = Quaternion.Euler(0, playerHead.eulerAngles.y, 0);
@@ -182,7 +182,7 @@ namespace Edwon.VR.Gesture
         void CapturePoint()
         {
             Vector3 rightHandPoint = playerHand.position;
-            Vector3 localizedPoint = getLocalizedPoint(rightHandPoint);
+            Vector3 localizedPoint = GetLocalizedPoint(rightHandPoint);
             currentCapturedLine.Add(localizedPoint);
             if (ContinueCaptureEvent != null)
                 ContinueCaptureEvent(rightHandPoint);
