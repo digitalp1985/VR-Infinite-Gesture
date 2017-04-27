@@ -80,7 +80,9 @@ namespace Edwon.VR.Gesture
             if (IsGestureBigEnough(capturedLine))
             {
                 //Detect if the captured line meets minimum gesture size requirements
-                double[] networkInput = Utils.FormatLine(capturedLine, hand);
+                NeuralNetworkOptions o = new NeuralNetworkOptions();
+                o.USE_CENTROID = true;
+                double[] networkInput = Utils.FormatLine(capturedLine, hand, o);
                 string gesture = GetGesture(networkInput);
                 string confidenceValue = currentConfidenceValue.ToString("N3");
 

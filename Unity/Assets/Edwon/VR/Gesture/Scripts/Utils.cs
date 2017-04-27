@@ -28,7 +28,35 @@ namespace Edwon.VR.Gesture
 
     public class Utils
 	{
-		public static float FindMaxAxis(List<Vector3> capturedLine)
+        /**
+         * Code Provided by David Lynman 
+         */
+        public static Vector3 GetCentroid(List<Vector3> line)
+        {
+            Vector3 centroid = Vector3.zero;
+            for (int i = 0; i < line.Count; i++)
+            {
+                centroid += line[i];
+            }
+            return centroid / line.Count;
+        }
+
+        /**
+         * Code Provided by David Lynman 
+         */
+        public static float GetLineLength(List<Vector3> line)
+        {
+            float length = 0f;
+
+            for (int i = 0; i < line.Count - 1; i++)
+            {
+                length += Vector3.Distance(line[i], line[i + 1]);
+            }
+
+            return length;
+        }
+
+        public static float FindMaxAxis(List<Vector3> capturedLine)
 		{
 			//find min and max for X,Y,Z
 			float minX, maxX, minY, maxY, minZ, maxZ;
@@ -209,20 +237,34 @@ namespace Edwon.VR.Gesture
 		//Run formatting on them during training.
 		//Allow users to changes and train different formats on
 		//the same data set.
-		public static double[] FormatLine(List<Vector3> capturedLine, Handedness hand)
+		public static double[] FormatLine(List<Vector3> capturedLine, Handedness hand, NeuralNetworkOptions o=null)
 		{
 			capturedLine = SubDivideLine(capturedLine);
-			if (Config.USE_RAW_DATA)
+			if (Config.USE_RAW_DATA && Config.USE_FORMATTING)
 			{
 				capturedLine = DownScaleLine(capturedLine);
 			}
 			else
 			{
-				capturedLine = DownResLine(capturedLine);
+				//capturedLine = DownResLine(capturedLine);
 			}
 			
 			List<double> tmpLine = new List<double>();
 			tmpLine.Add((int)hand);
+            if (Config.USE_CENTROID)
+            {
+                //TODO Add x,y,x for CENTROID;
+                Vector3 centroid = GetCentroid(capturedLine);
+                tmpLine.Add(centroid.x);
+                tmpLine.Add(centroid.y);
+                tmpLine.Add(centroid.z);
+            }
+            if (Config.USE_LINE_LENGTH)
+            {
+                float lineLength = GetLineLength(capturedLine);
+                tmpLine.Add(lineLength);
+            }
+
 			foreach (Vector3 cVector in capturedLine)
 			{
 				tmpLine.Add(cVector.x);
@@ -668,6 +710,13 @@ namespace Edwon.VR.Gesture
 		//confidenceThreshold
 		//minimumGestureLength
 	}
+
+    [Serializable]
+    public class NeuralNetworkOptions
+    {
+        public bool USE_CENTROID = false;
+        public bool USE_LINE_LENGTH = false;
+    }
 }
 
 

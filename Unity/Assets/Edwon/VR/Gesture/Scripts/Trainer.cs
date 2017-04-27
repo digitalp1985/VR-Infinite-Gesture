@@ -134,6 +134,16 @@ namespace Edwon.VR.Gesture
         public void TrainRecognizer()
         {
             //Based on out list of outputs
+            if (Config.USE_CENTROID)
+            {
+                numInput += 3;
+            }
+
+            if (Config.USE_LINE_LENGTH)
+            {
+                numInput += 1;
+            }
+
             numOutput = outputs.Count;
             int seed = 1; // gives nice demo
 
@@ -185,7 +195,10 @@ namespace Edwon.VR.Gesture
                 if (Config.USE_RAW_DATA)
                 {
                     myObject.data = Utils.SubDivideLine(myObject.data);
-                    myObject.data = Utils.DownScaleLine(myObject.data);
+                    if (Config.USE_FORMATTING)
+                    {
+                        myObject.data = Utils.DownScaleLine(myObject.data);
+                    }
                 }
 
                 List<double> tmpLine = new List<double>();

@@ -22,6 +22,28 @@ namespace Edwon.VR.Gesture
 
         private System.Random rnd;
 
+
+        public NeuralNetwork(NeuralNetworkStub stub)
+        {
+            this.numInput = stub.numInput;
+            this.numHidden = stub.numHidden;
+            this.numOutput = stub.numOutput;
+
+            this.inputs = new double[numInput];
+
+            this.ihWeights = MakeMatrix(numInput, numHidden, 0.0);
+            this.hBiases = new double[numHidden];
+            this.hOutputs = new double[numHidden];
+
+            this.hoWeights = MakeMatrix(numHidden, numOutput, 0.0);
+            this.oBiases = new double[numOutput];
+            this.outputs = new double[numOutput];
+
+            this.rnd = new System.Random(0);
+            this.InitializeWeights(); // all weights and biases
+        }
+
+
         public NeuralNetwork(int numInput, int numHidden, int numOutput)
         {
             this.numInput = numInput;

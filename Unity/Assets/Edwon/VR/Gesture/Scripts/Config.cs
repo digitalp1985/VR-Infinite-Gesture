@@ -25,6 +25,12 @@ namespace Edwon.VR.Gesture
         public const int FIDELITY = 11; 
 
         // how many points captured per second
-        public const int CAPTURE_RATE = 30;  
+        public const int CAPTURE_RATE = 30;
+
+        public const bool USE_CENTROID = false;
+
+        public const bool USE_LINE_LENGTH = false;
+
+        public const bool USE_FORMATTING = false;
     }
 }
