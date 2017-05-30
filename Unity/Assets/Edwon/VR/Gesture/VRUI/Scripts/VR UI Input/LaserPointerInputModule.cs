@@ -35,6 +35,7 @@ namespace Edwon.VR
                     _UICamera.cullingMask = 0;
                     _UICamera.fieldOfView = .01f;
                     _UICamera.nearClipPlane = .001f;
+                    _UICamera.stereoTargetEye = StereoTargetEyeMask.None;
                     return _UICamera;
                 }
                 return _UICamera;
