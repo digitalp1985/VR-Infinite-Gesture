@@ -769,11 +769,11 @@ namespace Edwon.VR.Gesture
             Transform currentPanelParent = vrHandUIPanel.Find(panelManager.currentPanel.name);
             if (currentPanelParent == null)
                 return null;
-            Transform currentNeuralNetworkTitle = currentPanelParent.FindChild("Top Panel/Current Neural Network");
+            Transform currentNeuralNetworkTitle = currentPanelParent.Find("Top Panel/Current Neural Network");
             if (currentNeuralNetworkTitle == null)
                 return null;
 
-            Text title = currentNeuralNetworkTitle.FindChild("neural network name").GetComponent<Text>();
+            Text title = currentNeuralNetworkTitle.Find("neural network name").GetComponent<Text>();
             return title;
         }
     }
