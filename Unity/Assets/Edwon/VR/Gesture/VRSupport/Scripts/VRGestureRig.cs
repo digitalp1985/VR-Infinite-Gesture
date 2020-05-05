@@ -51,6 +51,10 @@ namespace Edwon.VR
         [SerializeField]
         public bool useCustomControllerModels = false;
 
+        //Hand offset added - Digitalp2k
+        [SerializeField]
+        public Vector3 handOffset;
+
         [SerializeField]
         public GameObject handLeftModel;
         [SerializeField]
@@ -68,6 +72,7 @@ namespace Edwon.VR
         public GestureRecognizer currentRecognizer;
         public Trainer currentTrainer;
         //current Trainer?
+
 
         public static VRGestureRig GetPlayerRig(int _playerID = -1)
         {
@@ -146,6 +151,8 @@ namespace Edwon.VR
             {
                 leftTrail = gameObject.AddComponent<GestureTrail>();
                 rightTrail = gameObject.AddComponent<GestureTrail>();
+                leftTrail.setOffset(handOffset);
+                rightTrail.setOffset(handOffset);
             }
             leftCapture = new CaptureHand(this, perpTransform, Handedness.Left, leftTrail);
             rightCapture = new CaptureHand(this, perpTransform, Handedness.Right, rightTrail);

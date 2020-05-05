@@ -20,6 +20,7 @@ namespace Edwon.VR
         SerializedProperty displayGestureTrail;
         SerializedProperty useCustomControllerModels;
         SerializedProperty playerID;
+        SerializedProperty handOset;
 
         void OnEnable()
         {
@@ -40,6 +41,9 @@ namespace Edwon.VR
             menuButton = serializedObject.FindProperty("menuButton");
             displayGestureTrail = serializedObject.FindProperty("displayGestureTrail");
             useCustomControllerModels = serializedObject.FindProperty("useCustomControllerModels");
+            
+            //Hand offset property update - Digitalp2k
+            handOset = serializedObject.FindProperty("handOffset");
             //playerID = serializedObject.FindProperty("playerID");
 
             VRGestureRig vrGestureRig = (VRGestureRig)target;
@@ -68,6 +72,10 @@ namespace Edwon.VR
                 "button to use for clicking on the VRUI menu, see documentation for button mappings on Oculus vs. Vive"));
             //EditorGUILayout.PropertyField(playerID, new GUIContent("Player ID", 
             //    "Used for multiplayer support, coming soon, for now this should always be zero"));
+
+            //Adding Hand Offset to VR rig.
+            EditorGUILayout.PropertyField(handOset, new GUIContent("Hand Offset",
+                "Draw distance for gesture"));
 
             EditorGUILayout.PropertyField(displayGestureTrail, new GUIContent("Display Gesture Trail",
                 "toggle this to turn off the default line that is drawn while recording/capturing gestures, see documentation for instructions on creating a custom trail"));

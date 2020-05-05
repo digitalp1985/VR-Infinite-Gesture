@@ -4,13 +4,15 @@ using System.Collections.Generic;
 
 namespace Edwon.VR.Gesture
 {
-    
+
     public class GestureTrail : MonoBehaviour
     {
         CaptureHand registeredHand;
         int lengthOfLineRenderer = 50;
         List<Vector3> displayLine;
         LineRenderer currentRenderer;
+
+        Vector3 Hoffset;
 
         public bool listening = false;
 
@@ -26,7 +28,7 @@ namespace Edwon.VR.Gesture
 
         void OnEnable()
         {
-            if(registeredHand != null)
+            if (registeredHand != null)
             {
                 SubscribeToEvents();
             }
@@ -56,7 +58,7 @@ namespace Edwon.VR.Gesture
 
         void UnsubscribeAll()
         {
-            
+
         }
 
         void OnDestroy()
@@ -64,12 +66,22 @@ namespace Edwon.VR.Gesture
             currentlyInUse = false;
         }
 
+        public void setOffset(Vector3 input)
+        {
+            Hoffset = input;
+        }
+
         LineRenderer CreateLineRenderer(Color c1, Color c2)
         {
             GameObject myGo = new GameObject("Trail Renderer");
             myGo.transform.parent = transform;
-            myGo.transform.localPosition = Vector3.zero;
 
+            //Modified to add h-offset- digitalp2k
+            if (Hoffset == null)
+            {
+                myGo.transform.localPosition = Vector3.zero;
+            }
+            else { myGo.transform.localPosition = Hoffset; }
             LineRenderer lineRenderer = myGo.AddComponent<LineRenderer>();
             lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
             lineRenderer.SetColors(c1, c2);
