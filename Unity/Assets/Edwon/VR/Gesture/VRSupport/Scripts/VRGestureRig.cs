@@ -151,6 +151,7 @@ namespace Edwon.VR
             {
                 leftTrail = gameObject.AddComponent<GestureTrail>();
                 rightTrail = gameObject.AddComponent<GestureTrail>();
+                //Modification to add offset -digitalp2k
                 leftTrail.setOffset(handOffset);
                 rightTrail.setOffset(handOffset);
             }
