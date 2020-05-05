@@ -30,7 +30,10 @@ sysinfo.txt
 
 Unity/Assets/Edwon/VR/Gesture/Settings/Settings.asset
 Unity/Assets/Development/
+Unity/Assets/Resources/OVRPlatformToolSettings.asset
+Unity/Assets/Resources/OVRPlatformToolSettings.asset.meta
 Unity/Assets/Oculus/
+Unity/Assets/Oculus.meta
 Unity/Assets/EasyEditor/
 Unity/Assets/OVR/
 Unity/Assets/OvrTouch/
