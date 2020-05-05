@@ -555,7 +555,7 @@ namespace Edwon.VR.Gesture
             if (GUILayout.Button("PROCESS \n" + gestureSettings.currentNeuralNet, GUILayout.Height(40f)))
             {
                 EventType eventType = Event.current.type;
-                if (eventType == EventType.used)
+                if (eventType == EventType.Used)
                 {
                     gestureSettings.BeginTraining(OnFinishedTraining);
                 }
@@ -570,7 +570,7 @@ namespace Edwon.VR.Gesture
             if (GUILayout.Button("QUIT TRAINING"))
             {
                 EventType eventType = Event.current.type;
-                if (eventType == EventType.used)
+                if (eventType == EventType.Used)
                 {
                     gestureSettings.EndTraining(OnQuitTraining);
                 }
