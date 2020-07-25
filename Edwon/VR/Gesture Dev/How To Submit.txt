@@ -1,0 +1,13 @@
+
+TO SUBMIT TO ASSET STORE
+
+1. Open Dev Tool from Tools > VR Infinite Gesture > Dev Tool
+
+2. Press "Build and Export Plugin"
+
+3. Wait (ignore couldn't find asset errors)
+
+4. Select Edwon/VR/Gesture
+
+5. upload to Asset Store Submission
+	(or File > Export Package when testing)

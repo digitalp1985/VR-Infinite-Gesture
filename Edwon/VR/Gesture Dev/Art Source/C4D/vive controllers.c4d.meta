@@ -1,0 +1,146 @@
+fileFormatVersion: 2
+guid: 042828b69cdddc04faea2ec16cac667e
+ModelImporter:
+  serializedVersion: 23
+  fileIDToRecycleName:
+    100000: cage
+    100002: Capsule
+    100004: Capsule_1
+    100006: Capsule_1_2
+    100008: CINEMA_4D_Editor
+    100010: generators
+    100012: handle_1
+    100014: Lathe_1
+    100016: original_1
+    100018: separate
+    100020: top_1
+    100022: //RootNode
+    100024: vive_simple
+    400000: cage
+    400002: Capsule
+    400004: Capsule_1
+    400006: Capsule_1_2
+    400008: CINEMA_4D_Editor
+    400010: generators
+    400012: handle_1
+    400014: Lathe_1
+    400016: original_1
+    400018: separate
+    400020: top_1
+    400022: //RootNode
+    400024: vive_simple
+    2300000: cage
+    2300002: Capsule
+    2300004: Capsule_1
+    2300006: Capsule_1_2
+    2300008: handle_1
+    2300010: Lathe_1
+    2300012: original_1
+    2300014: top_1
+    2300016: vive_simple
+    3300000: cage
+    3300002: Capsule
+    3300004: Capsule_1
+    3300006: Capsule_1_2
+    3300008: handle_1
+    3300010: Lathe_1
+    3300012: original_1
+    3300014: top_1
+    3300016: vive_simple
+    4300000: original_1
+    4300002: top_1
+    4300004: handle_1
+    4300006: cage
+    4300008: Capsule
+    4300010: Capsule_1
+    4300012: Capsule_1_2
+    4300014: Lathe_1
+    4300016: vive_simple
+    9500000: //RootNode
+    2186277476908879412: ImportLogs
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    importConstraints: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    useSRGBMaterialColor: 1
+    importVisibility: 0
+    importBlendShapes: 1
+    importCameras: 0
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+    previousCalculatedGlobalScale: 1
+    hasPreviousCalculatedGlobalScale: 0
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 0
+    legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 1
+    blendShapeNormalImportMode: 1
+    normalSmoothingSource: 0
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
