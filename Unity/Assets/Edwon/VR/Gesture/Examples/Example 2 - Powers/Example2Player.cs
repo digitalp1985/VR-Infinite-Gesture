@@ -50,7 +50,7 @@ namespace Edwon.VR.Gesture
 
         void OnGestureDetected(string gestureName, double confidence, Handedness hand, bool isDouble)
         {
-            string confidenceString = confidence.ToString().Substring(0, 4);
+            //string confidenceString = confidence.ToString().Substring(0, 4);
             //Debug.Log("detected gesture: " + gestureName + " with confidence: " + confidenceString);
 
             switch (gestureName)
