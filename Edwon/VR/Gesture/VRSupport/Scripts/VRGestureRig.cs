@@ -19,6 +19,9 @@ namespace Edwon.VR
         public VRGestureUIState uiStateLast;
         public bool displayGestureTrail = true;
         public int playerID = 0;
+        
+        //adding variable for external manipulation - DP2K
+        GestureTrail gtl, gtr;
 
         VRGestureSettings gestureSettings;
         VRGestureSettings GestureSettings
@@ -115,11 +118,12 @@ namespace Edwon.VR
 
         void Awake()
         {
-            Init();
+            //Removed Init from this so that it can be called manually after AutoSetup - DP2K
         }
 
-        void Init()
+        public void Init()
         {
+            //Made Init public so that it can be called externally - DP2K
             CreateInputHelper();
 
             if (GestureSettings.beginInDetectMode)
@@ -151,6 +155,8 @@ namespace Edwon.VR
             {
                 leftTrail = gameObject.AddComponent<GestureTrail>();
                 rightTrail = gameObject.AddComponent<GestureTrail>();
+                gtl = leftTrail;
+                gtr = rightTrail;
                 //Modification to add offset -digitalp2k
                 leftTrail.setOffset(handOffset);
                 rightTrail.setOffset(handOffset);
@@ -424,6 +430,15 @@ namespace Edwon.VR
 
 
         #endregion
+
+        //Added function to clear out trails after completion/disabling
+        public void ClearTrails()
+        {
+            gtl.StopTrail();
+            gtr.StopTrail();
+            gtl.ClearTrail();
+            gtr.ClearTrail();
+        }
     }
 
 

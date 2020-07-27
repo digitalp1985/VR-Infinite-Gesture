@@ -14,42 +14,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerID: 0
   vrType: 1
-  showVRUI: 0
+  showVRUI: 1
   gestureButton: 0
   confidenceThreshold: 0.9800000190734863
   gestureSyncDelay: 500
   minimumGestureAxisLength: 0.1
-  beginInDetectMode: 1
+  beginInDetectMode: 0
   vrGestureDetectType: 0
   currentNeuralNet: WOTDevNN
   lastNeuralNet: WOTDevNN
   neuralNets:
   - WOTDevNN
   gestureBank:
-  - name: Fire
-    hand: 1
-    isSynchronous: 0
-    exampleCount: 9
-  - name: Air
-    hand: 1
-    isSynchronous: 0
-    exampleCount: 0
   - name: Ice
     hand: 1
     isSynchronous: 0
     exampleCount: 14
   gestureBankPreEdit:
-  - name: Fire
-    hand: 1
-    isSynchronous: 0
-    exampleCount: 9
-  - name: Air
-    hand: 1
-    isSynchronous: 0
-    exampleCount: 0
   - name: Ice
     hand: 1
     isSynchronous: 0
     exampleCount: 14
   state: 0
-  stateInitial: 8
+  stateInitial: 0
