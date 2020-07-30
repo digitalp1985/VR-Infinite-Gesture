@@ -109,11 +109,14 @@ namespace Edwon.VR.Gesture
 
             if (capturedLine.Count >= 11)
             {
+                /*
+                 * Removed unreachable code -DP2K
                 if (!Config.USE_RAW_DATA)
                 {
                     capturedLine = Utils.SubDivideLine(capturedLine);
                     capturedLine = Utils.DownResLine(capturedLine);
                 }
+                */
 
                 GestureExample saveMe = new GestureExample();
                 saveMe.name = CurrentGesture.name;

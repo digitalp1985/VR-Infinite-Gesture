@@ -84,16 +84,23 @@ namespace Edwon.VR.Gesture
             else { myGo.transform.localPosition = Hoffset; }
             LineRenderer lineRenderer = myGo.AddComponent<LineRenderer>();
             lineRenderer.material = new Material(Shader.Find("Particles/Additive"));
-            lineRenderer.SetColors(c1, c2);
-            lineRenderer.SetWidth(0.01F, 0.05F);
-            lineRenderer.SetVertexCount(0);
+            //lineRenderer.SetColors(c1, c2); -original code revised due to obsolete method -DP2K
+            lineRenderer.startColor = c1;
+            lineRenderer.endColor = c2;
+            //lineRenderer.SetWidth(0.01F, 0.05F); -original code revised due to obsolete method -DP2K
+            lineRenderer.startWidth = 0.01f;
+            lineRenderer.endWidth = 0.05f;
+            //lineRenderer.SetVertexCount(0); -original code revised due to obsolete method -DP2K
+            lineRenderer.positionCount = 0;
             lineRenderer.useWorldSpace = false;
             return lineRenderer;
         }
 
         public void StartTrail()
         {
-            currentRenderer.SetColors(Color.magenta, Color.magenta);
+            //currentRenderer.SetColors(Color.magenta, Color.magenta); -original code revised due to obsolete method -DP2K
+            currentRenderer.startColor = Color.magenta;
+            currentRenderer.endColor = Color.magenta;
             displayLine.Clear();
             listening = true;
         }
@@ -102,19 +109,23 @@ namespace Edwon.VR.Gesture
         {
             //display line appears to be made up of World Points instead of localized ones.
             displayLine.Add(handPoint);
-            currentRenderer.SetVertexCount(displayLine.Count);
+            //currentRenderer.SetVertexCount(displayLine.Count); -original code revised due to obsolete method -DP2K
+            currentRenderer.positionCount = displayLine.Count;
             currentRenderer.SetPositions(displayLine.ToArray());
         }
 
         public void StopTrail()
         {
-            currentRenderer.SetColors(Color.blue, Color.cyan);
+            //currentRenderer.SetColors(Color.blue, Color.cyan); -original code revised due to obsolete method -DP2K
+            currentRenderer.startColor = Color.blue;
+            currentRenderer.endColor = Color.cyan;
             listening = false;
         }
 
         public void ClearTrail()
         {
-            currentRenderer.SetVertexCount(0);
+            //currentRenderer.SetVertexCount(0); -original code revised due to obsolete method -DP2K
+            currentRenderer.positionCount = 0;
         }
 
         public bool UseCheck()
