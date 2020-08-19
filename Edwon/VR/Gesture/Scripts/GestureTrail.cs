@@ -141,5 +141,21 @@ namespace Edwon.VR.Gesture
 
         }
 
+        //adding external hooks into trail so that there is a visual queue when a gesture is detected.
+
+        public void SuccessIndicator()
+        {
+            Debug.Log("Indicator Initiated");
+            currentRenderer.startColor = Color.yellow;
+            currentRenderer.endColor = Color.yellow;
+        }
+
+        public void FailureIndicator()
+        {
+            currentRenderer.startColor = Color.red;
+            currentRenderer.endColor = Color.red;
+
+        }
+
     }
 }

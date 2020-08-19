@@ -439,6 +439,19 @@ namespace Edwon.VR
             gtl.ClearTrail();
             gtr.ClearTrail();
         }
+
+        //VR Rig hooks into Gesture Trail that should show success or failure.
+        public void DetectSuccessful()
+        {
+            gtl.SuccessIndicator();
+            gtr.SuccessIndicator();
+        }
+
+        public void DetectFailure()
+        {
+            gtl.FailureIndicator();
+            gtr.FailureIndicator();
+        }
     }
 
 
