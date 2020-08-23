@@ -2,6 +2,7 @@
 using UnityEngine.EventSystems;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 namespace Edwon.VR
 {
@@ -82,7 +83,19 @@ namespace Edwon.VR
 
         }
 
-        public void OnLevelWasLoaded()
+        // Old Code -DP2k
+        //public void OnLevelWasLoaded()
+        //{
+        //  Start();
+        //}
+
+        protected override void OnEnable()
+        {
+            SceneManager.sceneLoaded += newWakeup;
+        }
+
+        
+        void newWakeup(Scene scene, LoadSceneMode lm)
         {
             Start();
         }
@@ -297,6 +310,7 @@ namespace Edwon.VR
         {
             //Instance = null;
             base.OnDisable();
+            SceneManager.sceneLoaded -= newWakeup;
 
         }
     }
