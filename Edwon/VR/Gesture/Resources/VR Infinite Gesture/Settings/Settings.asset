@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerID: 0
   vrType: 1
-  showVRUI: 0
+  showVRUI: 1
   gestureButton: 0
   confidenceThreshold: 0.9800000190734863
   gestureSyncDelay: 500
   minimumGestureAxisLength: 0.1
-  beginInDetectMode: 1
+  beginInDetectMode: 0
   vrGestureDetectType: 0
   currentNeuralNet: WOTDevNN
   lastNeuralNet: WOTDevNN
@@ -36,4 +36,4 @@ MonoBehaviour:
     isSynchronous: 0
     exampleCount: 45
   state: 0
-  stateInitial: 8
+  stateInitial: 0

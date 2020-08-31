@@ -86,19 +86,10 @@ namespace Edwon.VR
         // Old Code -DP2k
         //public void OnLevelWasLoaded()
         //{
-        //  Start();
+          //Start();
         //}
 
-        protected override void OnEnable()
-        {
-            SceneManager.sceneLoaded += newWakeup;
-        }
-
         
-        void newWakeup(Scene scene, LoadSceneMode lm)
-        {
-            Start();
-        }
 
         public void AddController(ILaserPointer controller)
         {
@@ -305,13 +296,8 @@ namespace Edwon.VR
                 }
             }
         }
-
-        protected override void OnDisable()
-        {
-            //Instance = null;
-            base.OnDisable();
-            SceneManager.sceneLoaded -= newWakeup;
-
-        }
+        
+        
+        
     }
 }
